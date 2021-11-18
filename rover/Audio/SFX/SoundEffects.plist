@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>MainMenuScene</key>
+	<array/>
+	<key>Planet1</key>
+	<array>
+		<string>tornado.mp3</string>
+		<string>WATER.mp3</string>
+		<string>whachuuuu.mp3</string>
+		<string>score.mp3</string>
+		<string>peon_dizzy.mp3</string>
+		<string>mothership.mp3</string>
+	</array>
+	<key>Planet2</key>
+	<array>
+		<string>whachuuuu.mp3</string>
+		<string>tornado.mp3</string>
+		<string>score.mp3</string>
+		<string>peon_dizzy.mp3</string>
+		<string>mothership.mp3</string>
+	</array>
+	<key>Planet3</key>
+	<array>
+		<string>whachuuuu.mp3</string>
+		<string>tornado.mp3</string>
+		<string>score.mp3</string>
+		<string>peon_dizzy.mp3</string>
+		<string>mothership.mp3</string>
+	</array>
+</dict>
+</plist>

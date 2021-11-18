@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="15" tilewidth="1280" tileheight="1280">
+ <properties>
+  <property name="Time" value="77"/>
+ </properties>
+ <tileset firstgid="1" name="fRock1" tilewidth="1016" tileheight="444">
+  <image source="fRock1.png" width="1016" height="444"/>
+ </tileset>
+ <tileset firstgid="2" name="fRock2" tilewidth="756" tileheight="314">
+  <image source="fRock2.png" width="756" height="314"/>
+ </tileset>
+ <tileset firstgid="3" name="fRock3" tilewidth="1258" tileheight="338">
+  <image source="fRock3.png" width="1258" height="338"/>
+ </tileset>
+ <tileset firstgid="4" name="fRock4" tilewidth="1174" tileheight="524">
+  <image source="fRock4.png" width="1174" height="524"/>
+ </tileset>
+ <tileset firstgid="5" name="fRock5" tilewidth="2974" tileheight="550">
+  <image source="fRock5.png" width="2974" height="550"/>
+ </tileset>
+ <tileset firstgid="6" name="fRock6" tilewidth="3258" tileheight="670">
+  <image source="fRock6.png" width="3258" height="670"/>
+ </tileset>
+ <tileset firstgid="7" name="fRock7" tilewidth="2078" tileheight="526">
+  <image source="fRock7.png" width="2078" height="526"/>
+ </tileset>
+ <tileset firstgid="8" name="fRock8" tilewidth="1712" tileheight="842">
+  <image source="fRock8.png" width="1712" height="842"/>
+ </tileset>
+ <tileset firstgid="9" name="fRock9" tilewidth="1244" tileheight="484">
+  <image source="fRock9.png" width="1244" height="484"/>
+ </tileset>
+ <tileset firstgid="10" name="P1L8_P2_14" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P2_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="11" name="P1L8_P2_15" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P2_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="12" name="P1L8_P2_16" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P2_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="13" name="P1L8_P3_14" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P3_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="14" name="P1L8_P3_15" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P3_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="15" name="P1L8_P3_16" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P3_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="16" name="P1L8_P3_17" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P3_17.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="17" name="P1L8_P4_14" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P4_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="18" name="P1L8_P4_15" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P4_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="19" name="P1L8_P4_16" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P4_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="20" name="P1L8_P4_17" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P4_17.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="21" name="P1L8_P4_18" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P4_18.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="22" name="P1L8_P5_01" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P5_01.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="23" name="P1L8_P5_14" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P5_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="24" name="P1L8_P5_15" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P5_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="25" name="P1L8_P5_16" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P5_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="26" name="P1L8_P5_17" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P5_17.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="27" name="P1L8_P5_18" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P5_18.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="28" name="P1L8_P8_01" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P8_01.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="29" name="P1L8_P8_14" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P8_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="30" name="P1L8_P8_15" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P8_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="31" name="P1L8_P8_16" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P8_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="32" name="P1L8_P8_17" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P8_17.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="33" name="P1L8_P8_18" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P8_18.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="34" name="P1L8_P8_19" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P8_19.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="35" name="P1L8_P8_20" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P8_20.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="36" name="P1L8_P3_18" tilewidth="1280" tileheight="1280">
+  <image source="P1L8_P3_18.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="37" name="podForeground" tilewidth="2022" tileheight="2490">
+  <image source="../../TextureAtlasImages/LargeSprites/podForeground.png" width="2022" height="2490"/>
+ </tileset>
+ <objectgroup name="Parallax0" width="50" height="15">
+  <properties>
+   <property name="Scale" value="4"/>
+  </properties>
+  <object name="P2_skybox" type="LayerPlaceholder" x="0" y="19008" width="256" height="192">
+   <properties>
+    <property name="" value=""/>
+    <property name="ParallaxRatioX" value="0"/>
+    <property name="ParallaxRatioY" value="0"/>
+    <property name="Texture" value="P1L2_P0.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax1" width="50" height="15">
+  <properties>
+   <property name="MotionX" value="-40"/>
+   <property name="MotionY" value=""/>
+   <property name="ParallaxRatioX" value=".05"/>
+   <property name="ParallaxRatioY" value=".05"/>
+   <property name="Scale" value="4"/>
+  </properties>
+  <object name="P1_skybox" type="LayerPlaceholder" x="0" y="18432" width="1536" height="768">
+   <properties>
+    <property name="ParallaxRatioX" value="0.05"/>
+    <property name="ParallaxRatioY" value="0.05"/>
+    <property name="Texture" value="P1L1_P1.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax2" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".4"/>
+   <property name="ParallaxRatioY" value=".4"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="10" x="0" y="19200"/>
+  <object gid="11" x="1280" y="19200"/>
+  <object gid="12" x="2560" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax3" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".6"/>
+   <property name="ParallaxRatioY" value=".6"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="13" x="0" y="19200"/>
+  <object gid="14" x="1280" y="19200"/>
+  <object gid="15" x="2560" y="19200"/>
+  <object gid="16" x="3840" y="19200"/>
+  <object gid="36" x="5120" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax4" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".675"/>
+   <property name="ParallaxRatioY" value=".675"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="17" x="0" y="19200"/>
+  <object gid="18" x="1280" y="19200"/>
+  <object gid="19" x="2560" y="19200"/>
+  <object gid="20" x="3840" y="19200"/>
+  <object gid="21" x="5120" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax5" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".75"/>
+   <property name="ParallaxRatioY" value=".75"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="22" x="0" y="17920"/>
+  <object gid="23" x="0" y="19200"/>
+  <object gid="24" x="1280" y="19200"/>
+  <object gid="25" x="2560" y="19200"/>
+  <object gid="26" x="3840" y="19200"/>
+  <object gid="27" x="5120" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax5Sprites" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".75"/>
+   <property name="ParallaxRatioY" value=".75"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object name="leaf2" type="Emitter" x="1176" y="18125" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf2"/>
+   </properties>
+  </object>
+  <object name="leaf1" type="Emitter" x="1177" y="18127" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf1"/>
+   </properties>
+  </object>
+  <object name="leaf4" type="Emitter" x="1264" y="18053" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf4"/>
+   </properties>
+  </object>
+  <object name="leaf3" type="Emitter" x="1263" y="18055" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf3"/>
+   </properties>
+  </object>
+  <object name="leaf2" type="Emitter" x="1522" y="18155" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf2"/>
+   </properties>
+  </object>
+  <object name="leaf1" type="Emitter" x="1523" y="18157" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf1"/>
+   </properties>
+  </object>
+  <object name="leaf4" type="Emitter" x="1804" y="18275" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf4"/>
+   </properties>
+  </object>
+  <object name="leaf3" type="Emitter" x="1803" y="18278" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf3"/>
+   </properties>
+  </object>
+  <object name="leaf2" type="Emitter" x="4704" y="18901" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf2"/>
+   </properties>
+  </object>
+  <object name="leaf1" type="Emitter" x="4705" y="18903" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf1"/>
+   </properties>
+  </object>
+  <object name="leaf4" type="Emitter" x="4956" y="18843" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf4"/>
+   </properties>
+  </object>
+  <object name="leaf3" type="Emitter" x="4955" y="18845" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf3"/>
+   </properties>
+  </object>
+  <object name="leaf1" type="Emitter" x="89" y="17996" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf1"/>
+   </properties>
+  </object>
+  <object name="leaf2" type="Emitter" x="88" y="17994" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf2"/>
+   </properties>
+  </object>
+  <object name="leaf1" type="Emitter" x="329" y="17968" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf1"/>
+   </properties>
+  </object>
+  <object name="leaf2" type="Emitter" x="328" y="17967" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf2"/>
+   </properties>
+  </object>
+  <object name="leaf1" type="Emitter" x="647" y="18043" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf1"/>
+   </properties>
+  </object>
+  <object name="leaf2" type="Emitter" x="646" y="18040" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf2"/>
+   </properties>
+  </object>
+  <object name="leaf3" type="Emitter" x="893" y="18144" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf3"/>
+   </properties>
+  </object>
+  <object name="leaf4" type="Emitter" x="894" y="18140" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf4"/>
+   </properties>
+  </object>
+  <object name="leaf1" type="Emitter" x="2033" y="18383" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf1"/>
+   </properties>
+  </object>
+  <object name="leaf2" type="Emitter" x="2032" y="18380" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf2"/>
+   </properties>
+  </object>
+  <object name="leaf3" type="Emitter" x="2249" y="18465" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf3"/>
+   </properties>
+  </object>
+  <object name="leaf4" type="Emitter" x="2250" y="18463" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf4"/>
+   </properties>
+  </object>
+  <object name="leaf1" type="Emitter" x="2787" y="18638" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf1"/>
+   </properties>
+  </object>
+  <object name="leaf2" type="Emitter" x="2786" y="18637" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf2"/>
+   </properties>
+  </object>
+  <object name="leaf3" type="Emitter" x="2937" y="18650" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf3"/>
+   </properties>
+  </object>
+  <object name="leaf4" type="Emitter" x="2938" y="18647" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf4"/>
+   </properties>
+  </object>
+  <object name="leaf1" type="Emitter" x="3169" y="18646" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf1"/>
+   </properties>
+  </object>
+  <object name="leaf2" type="Emitter" x="3168" y="18644" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf2"/>
+   </properties>
+  </object>
+  <object name="leaf3" type="Emitter" x="3375" y="18628" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf3"/>
+   </properties>
+  </object>
+  <object name="leaf4" type="Emitter" x="3376" y="18625" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf4"/>
+   </properties>
+  </object>
+  <object name="leaf1" type="Emitter" x="3527" y="18607" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf1"/>
+   </properties>
+  </object>
+  <object name="leaf2" type="Emitter" x="3526" y="18605" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf2"/>
+   </properties>
+  </object>
+  <object name="leaf3" type="Emitter" x="3925" y="18682" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf3"/>
+   </properties>
+  </object>
+  <object name="leaf4" type="Emitter" x="3926" y="18678" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf4"/>
+   </properties>
+  </object>
+  <object name="leaf1" type="Emitter" x="4125" y="18693" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf1"/>
+   </properties>
+  </object>
+  <object name="leaf2" type="Emitter" x="4124" y="18690" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf2"/>
+   </properties>
+  </object>
+  <object name="leaf3" type="Emitter" x="4339" y="18735" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf3"/>
+   </properties>
+  </object>
+  <object name="leaf4" type="Emitter" x="4340" y="18733" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf4"/>
+   </properties>
+  </object>
+  <object name="leaf1" type="Emitter" x="5413" y="18943" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf1"/>
+   </properties>
+  </object>
+  <object name="leaf2" type="Emitter" x="5412" y="18940" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf2"/>
+   </properties>
+  </object>
+  <object name="leaf3" type="Emitter" x="5637" y="18954" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf3"/>
+   </properties>
+  </object>
+  <object name="leaf4" type="Emitter" x="5638" y="18950" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf4"/>
+   </properties>
+  </object>
+  <object name="leaf1" type="Emitter" x="5835" y="18953" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf1"/>
+   </properties>
+  </object>
+  <object name="leaf2" type="Emitter" x="5834" y="18950" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf2"/>
+   </properties>
+  </object>
+  <object name="leaf3" type="Emitter" x="6061" y="18945" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf3"/>
+   </properties>
+  </object>
+  <object name="leaf4" type="Emitter" x="6062" y="18943" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf4"/>
+   </properties>
+  </object>
+  <object name="Deer" type="AnimatedSprite" x="3078" y="18761" width="74" height="73">
+   <properties>
+    <property name="AnimationToRun" value="run"/>
+    <property name="FlipX" value="0"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveDelay" value=".7"/>
+    <property name="MoveX" value="2850"/>
+    <property name="MoveY" value="670"/>
+    <property name="Repeat" value="0"/>
+    <property name="Rotation" value="-10"/>
+    <property name="SpriteName" value="Deer"/>
+    <property name="TimeToMove" value="2.85"/>
+    <property name="TriggerID" value="2"/>
+   </properties>
+  </object>
+  <object name="Deer" type="AnimatedSprite" x="380" y="18079" width="74" height="73">
+   <properties>
+    <property name="AnimationToRun" value="run2"/>
+    <property name="FlipX" value="1"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveDelay" value="0"/>
+    <property name="MoveX" value="-8000"/>
+    <property name="MoveY" value="0"/>
+    <property name="Repeat" value="0"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="Deer"/>
+    <property name="TimeToMove" value="8"/>
+    <property name="TriggerID" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax6" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="8"/>
+  </properties>
+ </objectgroup>
+ <objectgroup name="Parallax6Sprites" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object name="WhiteBird" type="AnimatedSprite" x="792" y="17811">
+   <properties>
+    <property name="AnimationToRun" value="flap"/>
+    <property name="FlipX" value="1"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="-8000"/>
+    <property name="MoveY" value="1000"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="-30"/>
+    <property name="SpriteName" value="WhiteBird"/>
+    <property name="TimeToMove" value="4"/>
+    <property name="TriggerID" value="1"/>
+   </properties>
+  </object>
+  <object name="WhiteBird" type="AnimatedSprite" x="822" y="17750">
+   <properties>
+    <property name="AnimationToRun" value="flap"/>
+    <property name="FlipX" value="1"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="-8000"/>
+    <property name="MoveY" value="0"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="-40"/>
+    <property name="SpriteName" value="WhiteBird"/>
+    <property name="TimeToMove" value="5"/>
+    <property name="TriggerID" value="1"/>
+   </properties>
+  </object>
+  <object name="WhiteBird" type="AnimatedSprite" x="4191" y="18623">
+   <properties>
+    <property name="AnimationToRun" value="flap"/>
+    <property name="FlipX" value="1"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="-8000"/>
+    <property name="MoveY" value="2000"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="-20"/>
+    <property name="SpriteName" value="WhiteBird"/>
+    <property name="TimeToMove" value="7"/>
+    <property name="TriggerID" value="2"/>
+   </properties>
+  </object>
+  <object name="WhiteBird" type="AnimatedSprite" x="4215" y="18536">
+   <properties>
+    <property name="AnimationToRun" value="flap"/>
+    <property name="FlipX" value="1"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="-8000"/>
+    <property name="MoveY" value="0"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="-35"/>
+    <property name="SpriteName" value="WhiteBird"/>
+    <property name="TimeToMove" value="6"/>
+    <property name="TriggerID" value="2"/>
+   </properties>
+  </object>
+  <object name="WhiteBird" type="AnimatedSprite" x="4183" y="18578">
+   <properties>
+    <property name="AnimationToRun" value="flap"/>
+    <property name="FlipX" value="1"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="-8000"/>
+    <property name="MoveY" value="500"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="-30"/>
+    <property name="SpriteName" value="WhiteBird"/>
+    <property name="TimeToMove" value="5"/>
+    <property name="TriggerID" value="2"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="ObjectGroupCollisions" width="50" height="15">
+  <object name="rightClip" type="PlayerClip" x="64000" y="19200">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="topClip" type="PlayerClip" x="64000" y="0">
+   <polyline points="0,0 -64000,0"/>
+  </object>
+  <object name="leftClip" type="PlayerClip" x="0" y="19200">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="ground" type="TexturedGround" x="0" y="19200">
+   <properties>
+    <property name="Dust_1" value="Texture01_2"/>
+    <property name="Dust_2" value="Texture01"/>
+    <property name="Texture1" value="Texture01.png"/>
+   </properties>
+   <polygon points="0,0 3,-10900 1727,-10900 1735,-10903 1823,-10906 1884,-10906 1986,-10903 2031,-10892 2127,-10866 2164,-10858 2233,-10860 2297,-10866 2345,-10871 2423,-10879 2495,-10882 2537,-10876 2692,-10836 2857,-10906 2926,-10914 2966,-10914 3020,-10916 3054,-10919 3102,-10922 3145,-10927 3180,-10932 3206,-10935 3233,-10935 3260,-10935 3281,-10938 3305,-10943 3318,-10946 3334,-10948 3353,-10951 3380,-10951 3404,-10951 3428,-10954 3467,-10951 3521,-10951 3582,-10954 3638,-10956 3681,-10954 3731,-10954 3774,-10948 3814,-10948 3857,-10943 3883,-10940 3929,-10935 3979,-10927 4035,-10922 4083,-10916 4131,-10914 4171,-10914 4208,-10911 4246,-10911 4283,-10914 4315,-10914 4344,-10919 4376,-10924 4408,-10930 4443,-10930 4472,-10927 4523,-10927 4566,-10922 4606,-10919 4686,-10906 4765,-10898 4827,-10890 4971,-10860 5016,-10823 5053,-10788 5115,-10741 5112,-10645 5107,-10613 5107,-10511 5115,-10439 5107,-10335 5117,-10314 5147,-10237 5173,-10170 5192,-10136 5259,-10077 5304,-10042 5336,-10016 5418,-10037 5474,-10045 5514,-10053 5549,-10066 5600,-10061 5653,-10050 5714,-10045 5760,-10040 5829,-10037 5880,-10040 5912,-10048 5957,-10061 5994,-10066 6026,-10066 6071,-10058 6149,-10048 6194,-10045 6245,-10050 6290,-10056 6338,-10061 6389,-10066 6450,-10077 6503,-10088 6559,-10096 6607,-10106 6652,-10112 6687,-10112 6759,-10093 6836,-10080 6914,-10061 7018,-10037 7052,-10034 7111,-10021 7162,-9989 7201,-9968 7236,-9944 7265,-9928 7273,-9914 7260,-9893 7236,-9861 7225,-9829 7215,-9805 7201,-9770 7196,-9738 7193,-9693 7191,-9645 7193,-9594 7212,-9549 7224,-9540 7275,-9540 7382,-9476 7399,-9467 7405,-9480 7433,-9486 7489,-9501 7544,-9502 7576,-9502 7604,-9488 7625,-9470 7649,-9447 7673,-9415 7753,-9419 7808,-9381 7877,-9369 7928,-9344 7934,-9303 7942,-9297 7948,-9285 7985,-9200 8007,-9214 8065,-9214 8083,-9204 8108,-9200 8201,-9181 8326,-9160 8406,-9152 8513,-9139 8635,-9128 8747,-9123 8851,-9109 8953,-9104 9059,-9112 9179,-9123 9286,-9128 9395,-9133 9523,-9131 9595,-9136 9701,-9147 9805,-9155 9923,-9160 10043,-9168 10152,-9171 10264,-9176 10362,-9195 10458,-9211 10586,-9232 10661,-9251 10754,-9277 10762,-9320 10768,-9357 10770,-9395 10778,-9419 10808,-9435 10858,-9464 10909,-9488 10970,-9517 11018,-9517 11071,-9517 11135,-9514 11170,-9517 11213,-9530 11274,-9544 11338,-9560 11389,-9576 11437,-9592 11482,-9602 11519,-9616 11543,-9637 11578,-9672 11618,-9712 11639,-9757 11655,-9792 11687,-9848 11698,-9861 11727,-9877 11764,-9901 11802,-9925 11839,-9930 11898,-9930 11954,-9938 12007,-9941 12071,-9952 12119,-9965 12191,-9984 12228,-9994 12271,-9997 12348,-9994 12391,-9994 12428,-10002 12473,-10012 12533,-10025 12613,-10044 12673,-10058 12828,-10092 13154,-10128 13398,-10142 13747,-10159 14059,-10177 14073,-10164 14158,-10091 14152,-10069 14142,-10040 14101,-9966 14170,-9954 14176,-9928 14190,-9861 14158,-9829 14155,-9736 14171,-9704 14187,-9629 14203,-9584 14203,-9541 14211,-9376 14214,-9269 14222,-9171 14230,-9083 14288,-9088 14392,-9099 14472,-9104 14523,-9083 14576,-9051 14662,-9013 14752,-9011 14867,-9003 14965,-9008 15048,-9008 15120,-8995 15200,-8981 15277,-8971 15344,-8963 15442,-8976 15584,-8984 15656,-8973 15802,-8960 15922,-8944 16071,-8931 16173,-8933 16311,-8936 16389,-8947 16517,-8957 16615,-8957 16703,-8957 16788,-8957 16871,-8952 16980,-8939 16994,-8939 17058,-8856 17095,-8800 17138,-8742 17114,-8672 17087,-8566 17082,-8515 17084,-8422 17140,-8371 17207,-8331 17329,-8251 17417,-8185 17513,-8129 17633,-8057 17716,-8014 17743,-8001 17905,-7995 18110,-8001 18206,-7998 18396,-7998 18478,-7998 18545,-7987 18761,-7974 18902,-7977 19054,-7985 19163,-8001 19235,-8006 19336,-8001 19456,-7987 19563,-7982 19643,-7969 19781,-7923 19893,-7891 19925,-7881 19936,-7830 19963,-7761 19965,-7726 19936,-7662 19915,-7596 19899,-7548 19912,-7508 19941,-7449 19971,-7390 19995,-7353 20008,-7350 20021,-7358 20053,-7361 20103,-7357 20151,-7352 20200,-7333 20219,-7356 20253,-7364 20280,-7369 20318,-7359 20336,-7334 20353,-7308 20362,-7283 20402,-7282 20431,-7288 20476,-7296 20535,-7307 20560,-7289 20612,-7248 20646,-7170 20712,-7158 20853,-7121 20959,-7094 21095,-7065 21202,-7049 21253,-7041 21522,-6927 21631,-6873 21815,-6780 21914,-6732 22076,-6631 22220,-6537 22383,-6444 22479,-6396 22633,-6314 22817,-6226 22945,-6170 23089,-6108 23292,-6020 23475,-5943 23657,-5884 23835,-5834 23955,-5802 24057,-5788 24190,-5780 24355,-5764 24544,-5754 24757,-5741 24979,-5725 25141,-5706 25275,-5682 25432,-5658 25541,-5645 25672,-5637 25749,-5629 25800,-5487 25754,-5394 25728,-5293 25778,-5170 25874,-5101 25951,-5048 26082,-5002 26165,-4973 26373,-4973 26410,-4978 26636,-4976 26804,-4978 26876,-4970 27002,-4954 27047,-4877 27095,-4786 27087,-4757 27060,-4682 27047,-4642 27039,-4578 27036,-4504 27044,-4456 27170,-4392 27271,-4344 27375,-4301 27415,-4285 27535,-4283 27687,-4283 27788,-4283 27929,-4280 27990,-4272 28081,-4253 28228,-4219 28297,-4213 28662,-4216 28763,-4211 28881,-4203 29078,-4192 29195,-4189 29323,-4205 29475,-4216 29643,-4232 29712,-4237 29837,-4224 29949,-4211 30099,-4195 30168,-4189 30229,-4112 30275,-4061 30283,-4043 30299,-3981 30309,-3904 30314,-3846 30336,-3766 30352,-3688 30357,-3664 30509,-3606 30600,-3566 30677,-3539 30736,-3534 30802,-3536 30859,-3542 30890,-3553 30973,-3581 31086,-3617 31143,-3614 31199,-3612 31243,-3589 31249,-3622 31274,-3668 31295,-3683 31309,-3683 31398,-3683 31451,-3650 31478,-3637 31507,-3643 31558,-3665 31610,-3679 31655,-3720 31682,-3736 31741,-3745 31788,-3745 31820,-3739 31979,-3673 32032,-3681 32086,-3690 32206,-3684 32220,-3678 32239,-3664 32278,-3687 32282,-3694 32295,-3699 32312,-3702 32336,-3701 32423,-3693 32551,-3646 32591,-3641 32612,-3636 32624,-3629 32624,-3558 32623,-3515 32677,-3475 32678,-3484 32758,-3511 32837,-3484 32836,-3507 32880,-3570 32949,-3588 33017,-3545 33074,-3582 33165,-3556 33298,-3468 33334,-3398 33412,-3491 33462,-3547 33507,-3606 33558,-3675 33593,-3731 33614,-3736 33710,-3731 33777,-3747 33811,-3758 33987,-3755 34054,-3758 34139,-3771 34219,-3779 34344,-3779 34438,-3782 34512,-3795 34592,-3814 34696,-3835 34803,-3862 34899,-3875 34933,-3888 35011,-3928 35088,-3928 35149,-3925 35179,-3936 35224,-3968 35277,-3995 35338,-4011 35408,-4027 35472,-4043 35530,-4045 35608,-4043 35656,-4059 35754,-4096 35810,-4109 35850,-4128 35943,-4197 36023,-4245 36093,-4283 36154,-4312 36210,-4333 36266,-4339 36367,-4360 36455,-4376 36549,-4400 36578,-4405 36695,-4384 36778,-4357 36858,-4336 36983,-4344 37052,-4355 37114,-4360 37188,-4357 37244,-4355 37297,-4371 37377,-4392 37433,-4408 37596,-4408 37708,-4405 37828,-4403 37902,-4397 38006,-4384 38062,-4381 38161,-4341 38222,-4325 38316,-4323 38563,-4309 38691,-4285 38825,-4245 38913,-4213 39070,-4147 39203,-4093 39310,-4048 39454,-3971 39526,-3933 39638,-3843 39707,-3792 39888,-3734 40029,-3683 40200,-3632 40344,-3587 40482,-3550 40602,-3531 40914,-3470 41045,-3448 41098,-3440 41231,-3438 41442,-3432 41575,-3427 41740,-3424 41895,-3424 42063,-3419 42212,-3422 42345,-3432 42465,-3456 42593,-3486 42695,-3518 42825,-3544 42977,-3579 43076,-3606 43156,-3624 43326,-3688 43422,-3712 43558,-3747 43686,-3774 43851,-3814 44006,-3851 44099,-3870 44187,-3878 44221,-3876 44261,-3889 44375,-3901 44431,-3928 44483,-3952 44558,-3957 44613,-3961 44720,-3979 44785,-3929 44773,-3872 44764,-3832 44755,-3781 44720,-3748 44670,-3729 44636,-3717 44610,-3708 44585,-3658 44559,-3654 44568,-3632 44648,-3528 44733,-3419 44832,-3387 44928,-3350 45043,-3315 45168,-3294 45293,-3270 45413,-3249 45528,-3241 45672,-3230 45794,-3217 45890,-3209 45983,-3201 46127,-3203 46314,-3206 46495,-3203 46628,-3201 46708,-3187 46834,-3161 46898,-3153 47068,-3155 47154,-3150 47236,-3137 47391,-3113 47513,-3091 47615,-3081 47708,-3067 47783,-3057 47897,-2987 47894,-2958 47884,-2913 47876,-2875 47889,-2835 47953,-2721 47982,-2667 48036,-2612 48084,-2569 48105,-2553 48185,-2524 48214,-2505 48214,-2452 48209,-2393 48217,-2350 48206,-2294 48188,-2230 48185,-2188 48212,-2102 48228,-2049 48278,-2070 48319,-2060 48369,-2052 48369,-2017 48383,-1997 48412,-2004 48469,-1982 48466,-1992 48495,-2040 48568,-2040 48623,-2050 48705,-2065 48780,-2007 48822,-1915 48823,-1893 48884,-1871 48899,-1870 48923,-1867 48942,-1862 48954,-1856 48956,-1838 48991,-1880 49086,-1882 49167,-1834 49210,-1810 49213,-1825 49280,-1879 49311,-1887 49345,-1891 49380,-1892 49420,-1887 49480,-1863 49562,-1828 49585,-1818 49653,-1829 49690,-1836 49774,-1832 49812,-1831 49890,-1784 49894,-1798 49899,-1810 49925,-1817 49975,-1828 50007,-1834 50008,-1841 50032,-1888 50054,-1905 50128,-1904 50155,-1905 50207,-1874 50245,-1856 50287,-1874 50317,-1886 50363,-1900 50437,-1921 50499,-1880 50507,-1905 50515,-1929 50519,-1945 50544,-1975 50560,-1995 50617,-1995 50657,-1995 50752,-1940 50777,-1926 50816,-1860 50847,-1861 50983,-1887 51018,-1859 51061,-1923 51113,-1945 51158,-1961 51171,-1961 51308,-1910 51381,-1832 51414,-1852 51433,-1864 51510,-1865 51592,-1905 51687,-1860 51717,-1846 51740,-1821 51771,-1892 51866,-1926 51999,-1967 52060,-1964 52112,-1962 52128,-1954 52199,-1915 52259,-1890 52285,-1880 52343,-1953 52404,-2025 52439,-2041 52527,-2089 52639,-2142 52737,-2148 52881,-2148 52977,-2140 53097,-2126 53185,-2110 53217,-2105 53308,-2110 53417,-2121 53475,-2124 53694,-2129 53769,-2121 53929,-2105 54038,-2097 54136,-2089 54238,-2084 54323,-2078 54352,-2078 54438,-2052 54550,-2012 54624,-1977 54691,-1809 54670,-1716 54875,-1561 54939,-1519 55016,-1473 55056,-1449 55293,-1455 55432,-1460 55525,-1465 55690,-1468 55848,-1476 55986,-1479 56082,-1500 56213,-1521 56357,-1537 56509,-1564 56620,-1580 56743,-1601 56895,-1617 57087,-1628 57252,-1641 57401,-1641 57676,-1647 57886,-1644 58121,-1500 58100,-1393 58092,-1332 58086,-1276 58092,-1267 58204,-1233 58323,-1098 58354,-1064 58557,-966 58772,-842 58882,-790 58951,-755 59120,-726 59274,-699 59367,-682 59397,-704 59429,-730 59494,-716 59506,-710 59566,-676 59580,-660 59607,-674 59660,-694 59719,-691 59765,-661 59832,-621 59867,-634 59895,-639 59922,-628 59973,-609 59990,-644 60015,-693 60113,-735 60170,-751 60216,-764 60243,-791 60325,-852 60354,-988 60381,-1071 60448,-1082 60544,-1090 60573,-1095 60629,-1090 60760,-1079 60848,-1066 60898,-1074 60954,-1076 61162,-1084 61285,-1092 61482,-1103 61676,-1114 61876,-1132 62074,-1138 62356,-1122 62652,-1111 62956,-1116 63190,-1116 63428,-1127 63657,-1127 63835,-1127 63995,-1130 64000,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="ObjectGroupSprites" width="50" height="15">
+  <object name="cartPlayer" type="CartPlayerSprite" x="334" y="7532" width="1024" height="768">
+   <properties>
+    <property name="OffsetY" value="-127.19"/>
+   </properties>
+  </object>
+  <object name="wormhole" type="WormholeSprite" x="846" y="7276">
+   <properties>
+    <property name="PeonCount" value="10"/>
+   </properties>
+  </object>
+  <object name="TriggerSprite" type="TriggerSprite" x="1607" y="620">
+   <properties>
+    <property name="TriggerID" value="1"/>
+   </properties>
+   <polygon points="0,0 0,7680 112,7680 112,0"/>
+  </object>
+  <object name="TriggerSprite" type="TriggerSprite" x="31110" y="7916">
+   <properties>
+    <property name="TriggerID" value="2"/>
+   </properties>
+   <polygon points="0,0 0,7680 112,7680 112,0"/>
+  </object>
+  <object name="pod" type="PodSprite" gid="37" x="61861" y="18073">
+   <properties>
+    <property name="height" value="2490"/>
+    <property name="width" value="2022"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax7" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="1"/>
+  </properties>
+  <object gid="1" x="7094" y="10103"/>
+  <object gid="2" x="19900" y="12143"/>
+  <object gid="8" x="57903" y="18765"/>
+  <object gid="3" x="59266" y="18766"/>
+  <object gid="6" x="49106" y="17873"/>
+  <object gid="4" x="48085" y="17653"/>
+  <object gid="5" x="30361" y="16003"/>
+  <object gid="7" x="12115" y="9548"/>
+  <object gid="9" x="43544" y="15704"/>
+ </objectgroup>
+ <objectgroup name="Parallax8" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="28" x="0" y="17920"/>
+  <object gid="29" x="0" y="19200"/>
+  <object gid="30" x="1280" y="19200"/>
+  <object gid="31" x="2560" y="19200"/>
+  <object gid="32" x="3840" y="19200"/>
+  <object gid="33" x="5120" y="19200"/>
+  <object gid="34" x="6400" y="19200"/>
+  <object gid="35" x="7680" y="19200"/>
+ </objectgroup>
+ <objectgroup name="MockupObjects" width="50" height="15" visible="0">
+  <object x="3117" y="18748" width="365" height="86"/>
+ </objectgroup>
+</map>

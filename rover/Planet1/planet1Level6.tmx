@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="15" tilewidth="1280" tileheight="1280">
+ <properties>
+  <property name="Time" value="115"/>
+ </properties>
+ <tileset firstgid="1" name="mRock11" tilewidth="2119" tileheight="729">
+  <image source="mRock11.png" width="2119" height="729"/>
+ </tileset>
+ <tileset firstgid="2" name="mRock15" tilewidth="1703" tileheight="705">
+  <image source="mRock15.png" width="1703" height="705"/>
+ </tileset>
+ <tileset firstgid="3" name="mRock3" tilewidth="1219" tileheight="587">
+  <image source="mRock3.png" width="1219" height="587"/>
+ </tileset>
+ <tileset firstgid="4" name="mRock18" tilewidth="1016" tileheight="444">
+  <image source="mRock18.png" width="1016" height="444"/>
+ </tileset>
+ <tileset firstgid="5" name="mRock13" tilewidth="2594" tileheight="750">
+  <image source="mRock13.png" width="2594" height="750"/>
+ </tileset>
+ <tileset firstgid="6" name="mRock2" tilewidth="1770" tileheight="719">
+  <image source="mRock2.png" width="1770" height="719"/>
+ </tileset>
+ <tileset firstgid="7" name="mRock1" tilewidth="3019" tileheight="644">
+  <image source="mRock1.png" width="3019" height="644"/>
+ </tileset>
+ <tileset firstgid="8" name="P1L6_P2_14" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P2_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="9" name="P1L6_P2_15" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P2_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="10" name="P1L6_P2_16" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P2_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="11" name="P1L6_P3_01" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P3_01.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="12" name="P1L6_P3_02" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P3_02.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="13" name="P1L6_P3_03" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P3_03.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="14" name="P1L6_P3_14" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P3_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="15" name="P1L6_P3_15" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P3_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="16" name="P1L6_P3_16" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P3_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="17" name="P1L6_P3_17" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P3_17.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="18" name="P1L6_P4_01" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P4_01.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="19" name="P1L6_P4_02" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P4_02.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="20" name="P1L6_P4_03" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P4_03.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="21" name="P1L6_P4_14" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P4_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="22" name="P1L6_P4_15" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P4_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="23" name="P1L6_P4_16" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P4_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="24" name="P1L6_P5_01" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P5_01.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="25" name="P1L6_P5_02" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P5_02.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="26" name="P1L6_P5_03" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P5_03.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="27" name="P1L6_P5_14" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P5_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="28" name="P1L6_P5_15" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P5_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="29" name="P1L6_P5_16" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P5_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="30" name="P1L6_P5_17" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P5_17.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="31" name="P1L6_P5_18" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P5_18.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="32" name="P1L6_P6_14" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P6_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="33" name="P1L6_P6_15" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P6_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="34" name="P1L6_P6_16" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P6_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="35" name="P1L6_P6_17" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P6_17.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="36" name="P1L6_P6_18" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P6_18.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="37" name="P1L6_P6_19" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P6_19.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="38" name="P1L6_P3_18" tilewidth="1280" tileheight="1280">
+  <image source="P1L6_P3_18.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="39" name="podForeground" tilewidth="2022" tileheight="2490">
+  <image source="../../TextureAtlasImages/LargeSprites/podForeground.png" width="2022" height="2490"/>
+ </tileset>
+ <objectgroup name="Parallax0" width="50" height="15">
+  <properties>
+   <property name="Scale" value="4"/>
+  </properties>
+  <object name="P2_skybox" type="LayerPlaceholder" x="0" y="19008" width="256" height="192">
+   <properties>
+    <property name="" value=""/>
+    <property name="ParallaxRatioX" value="0"/>
+    <property name="ParallaxRatioY" value="0"/>
+    <property name="Texture" value="P1L1_P0.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax1" width="50" height="15">
+  <properties>
+   <property name="MotionX" value="-40"/>
+   <property name="MotionY" value=""/>
+   <property name="ParallaxRatioX" value=".05"/>
+   <property name="ParallaxRatioY" value=".05"/>
+   <property name="Scale" value="4"/>
+  </properties>
+  <object name="P1_skybox" type="LayerPlaceholder" x="0" y="18432" width="1536" height="768">
+   <properties>
+    <property name="ParallaxRatioX" value="0.05"/>
+    <property name="ParallaxRatioY" value="0.05"/>
+    <property name="Texture" value="P1L1_P1.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax2" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".4"/>
+   <property name="ParallaxRatioY" value=".4"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="8" x="0" y="19200"/>
+  <object gid="9" x="1280" y="19200"/>
+  <object gid="10" x="2560" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax3" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".6"/>
+   <property name="ParallaxRatioY" value=".6"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="11" x="0" y="17920"/>
+  <object gid="12" x="1280" y="17920"/>
+  <object gid="13" x="2560" y="17920"/>
+  <object gid="14" x="0" y="19200"/>
+  <object gid="15" x="1280" y="19200"/>
+  <object gid="16" x="2560" y="19200"/>
+  <object gid="17" x="3840" y="19200"/>
+  <object gid="38" x="5120" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax4" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".675"/>
+   <property name="ParallaxRatioY" value=".675"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="18" x="0" y="17920"/>
+  <object gid="19" x="1280" y="17920"/>
+  <object gid="20" x="2560" y="17920"/>
+  <object gid="21" x="0" y="19200"/>
+  <object gid="22" x="1280" y="19200"/>
+  <object gid="23" x="2560" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax5" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".75"/>
+   <property name="ParallaxRatioY" value=".75"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="24" x="0" y="17920"/>
+  <object gid="25" x="1280" y="17920"/>
+  <object gid="26" x="2560" y="17920"/>
+  <object gid="27" x="0" y="19200"/>
+  <object gid="28" x="1280" y="19200"/>
+  <object gid="29" x="2560" y="19200"/>
+  <object gid="30" x="3840" y="19200"/>
+  <object gid="31" x="5120" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax5Sprites" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".75"/>
+   <property name="ParallaxRatioY" value=".75"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object name="leaf4" type="Emitter" x="4509" y="18208" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf4"/>
+   </properties>
+  </object>
+  <object name="leaf2" type="Emitter" x="4509" y="18208" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="leaf2"/>
+   </properties>
+  </object>
+  <object name="waterdrop" type="Emitter" x="1293" y="18391" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="waterdrop"/>
+   </properties>
+  </object>
+  <object name="waterdrop" type="Emitter" x="1363" y="18479" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="waterdrop"/>
+   </properties>
+  </object>
+  <object name="waterdrop" type="Emitter" x="1435" y="18516" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="waterdrop"/>
+   </properties>
+  </object>
+  <object name="waterdrop" type="Emitter" x="1545" y="18547" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="waterdrop"/>
+   </properties>
+  </object>
+  <object name="waterdrop" type="Emitter" x="1738" y="18529" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="waterdrop"/>
+   </properties>
+  </object>
+  <object name="waterdrop" type="Emitter" x="1832" y="18505" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="waterdrop"/>
+   </properties>
+  </object>
+  <object name="waterdrop" type="Emitter" x="2033" y="18417" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="waterdrop"/>
+   </properties>
+  </object>
+  <object name="waterdrop" type="Emitter" x="2197" y="18439" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="waterdrop"/>
+   </properties>
+  </object>
+  <object name="waterdrop" type="Emitter" x="2245" y="18456" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="waterdrop"/>
+   </properties>
+  </object>
+  <object name="waterdrop" type="Emitter" x="2319" y="18520" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="waterdrop"/>
+   </properties>
+  </object>
+  <object name="waterdrop" type="Emitter" x="2456" y="18565" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="waterdrop"/>
+   </properties>
+  </object>
+  <object name="waterdrop" type="Emitter" x="2407" y="18540" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="waterdrop"/>
+   </properties>
+  </object>
+  <object name="waterdrop" type="Emitter" x="2681" y="18645" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="waterdrop"/>
+   </properties>
+  </object>
+  <object name="waterdrop" type="Emitter" x="2782" y="18619" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="waterdrop"/>
+   </properties>
+  </object>
+  <object name="waterdrop" type="Emitter" x="2842" y="18586" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="waterdrop"/>
+   </properties>
+  </object>
+  <object name="waterdrop" type="Emitter" x="2599" y="18638" width="24" height="24">
+   <properties>
+    <property name="EmitterType" value="waterdrop"/>
+   </properties>
+  </object>
+  <object name="bat" type="AnimatedSprite" x="2305" y="18511">
+   <properties>
+    <property name="AnimationToRun" value="flap"/>
+    <property name="FlipX" value="1"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="-4000"/>
+    <property name="MoveY" value="100"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="Bat"/>
+    <property name="TimeToMove" value="4"/>
+    <property name="TriggerID" value="2"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax6" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="32" x="0" y="19200"/>
+  <object gid="33" x="1280" y="19200"/>
+  <object gid="34" x="2560" y="19200"/>
+  <object gid="35" x="3840" y="19200"/>
+  <object gid="36" x="5120" y="19200"/>
+  <object gid="37" x="6400" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax6Sprites" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object name="WhiteBird" type="AnimatedSprite" x="935" y="18205">
+   <properties>
+    <property name="AnimationToRun" value="flap"/>
+    <property name="FlipX" value="1"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="-8000"/>
+    <property name="MoveY" value="0"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="-30"/>
+    <property name="SpriteName" value="WhiteBird"/>
+    <property name="TimeToMove" value="7"/>
+    <property name="TriggerID" value="1"/>
+   </properties>
+  </object>
+  <object name="WhiteBird" type="AnimatedSprite" x="963" y="18238">
+   <properties>
+    <property name="AnimationToRun" value="flap"/>
+    <property name="FlipX" value="1"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="-8000"/>
+    <property name="MoveY" value="100"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="-20"/>
+    <property name="SpriteName" value="WhiteBird"/>
+    <property name="TimeToMove" value="5"/>
+    <property name="TriggerID" value="1"/>
+   </properties>
+  </object>
+  <object name="WhiteBird" type="AnimatedSprite" x="920" y="18433">
+   <properties>
+    <property name="AnimationToRun" value="flap"/>
+    <property name="FlipX" value="1"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="-8000"/>
+    <property name="MoveY" value="5000"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="-5"/>
+    <property name="SpriteName" value="WhiteBird"/>
+    <property name="TimeToMove" value="7"/>
+    <property name="TriggerID" value="1"/>
+   </properties>
+  </object>
+  <object name="WhiteBird" type="AnimatedSprite" x="5435" y="18752">
+   <properties>
+    <property name="AnimationToRun" value="flap"/>
+    <property name="FlipX" value="0"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="8000"/>
+    <property name="MoveY" value="8000"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="WhiteBird"/>
+    <property name="TimeToMove" value="8"/>
+    <property name="TriggerID" value="3"/>
+   </properties>
+  </object>
+  <object name="WhiteBird" type="AnimatedSprite" x="933" y="18460">
+   <properties>
+    <property name="AnimationToRun" value="flap"/>
+    <property name="FlipX" value="1"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="-8000"/>
+    <property name="MoveY" value="8000"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="WhiteBird"/>
+    <property name="TimeToMove" value="8"/>
+    <property name="TriggerID" value="1"/>
+   </properties>
+  </object>
+  <object name="WhiteBird" type="AnimatedSprite" x="5380" y="18738">
+   <properties>
+    <property name="AnimationToRun" value="flap"/>
+    <property name="FlipX" value="0"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="8000"/>
+    <property name="MoveY" value="8000"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="WhiteBird"/>
+    <property name="TimeToMove" value="5"/>
+    <property name="TriggerID" value="3"/>
+   </properties>
+  </object>
+  <object name="WhiteBird" type="AnimatedSprite" x="5371" y="18691">
+   <properties>
+    <property name="AnimationToRun" value="flap"/>
+    <property name="FlipX" value="0"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="8000"/>
+    <property name="MoveY" value="8000"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="WhiteBird"/>
+    <property name="TimeToMove" value="6"/>
+    <property name="TriggerID" value="3"/>
+   </properties>
+  </object>
+  <object name="WhiteBird" type="AnimatedSprite" x="5453" y="18621">
+   <properties>
+    <property name="AnimationToRun" value="flap"/>
+    <property name="FlipX" value="0"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="8000"/>
+    <property name="MoveY" value="8000"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="WhiteBird"/>
+    <property name="TimeToMove" value="6"/>
+    <property name="TriggerID" value="3"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="ObjectGroupCollisions" width="50" height="15">
+  <object name="rightClip" type="PlayerClip" x="64000" y="19200">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="topClip" type="PlayerClip" x="64000" y="0">
+   <polyline points="0,0 -64000,0"/>
+  </object>
+  <object name="leftClip" type="PlayerClip" x="0" y="19200">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="ceiling" type="TexturedGround" x="10287" y="-46">
+   <properties>
+    <property name="Dust_1" value="Texture03"/>
+    <property name="Texture1" value="Texture03.png"/>
+   </properties>
+   <polygon points="-52,46 64,496 224,1056 608,1312 704,1968 784,2512 672,2880 816,3552 992,4032 1024,4688 1088,5744 1328,6192 1488,6896 1536,7600 1776,8464 2144,8960 2368,9168 2736,9952 3280,10416 3984,11296 4464,11792 4976,11968 5536,12272 5872,12496 6240,12496 6508,12651 6967,12638 7476,12562 7902,12613 8272,12240 8928,12144 9152,11600 9584,11200 10304,11152 10688,11296 11952,10768 12576,10832 12992,10864 13008,10864 13888,11536 14256,11776 14400,11984 14928,12288 15840,12368 16145,12480 16352,12774 16606,13377 16844,13633 17296,13472 17872,13616 18304,13648 19799,13638 20104,13548 20359,13218 20840,13047 21501,12318 21712,11168 22256,10704 22528,10368 23024,9264 23200,8896 23440,8656 23472,8144 23488,7648 23744,7136 23904,6928 24160,6464 24096,5696 24640,5008 24896,4592 25376,4128 25456,3152 26192,1808 26416,928 26828,46"/>
+  </object>
+  <object name="ground" type="TexturedGround" x="0" y="19200">
+   <properties>
+    <property name="Dust_1" value="Texture03"/>
+    <property name="Texture1" value="Texture03.png"/>
+   </properties>
+   <polygon points="0,0 0,-7056 2021,-7059 2112,-7056 2267,-7042 2362,-6999 2475,-6952 2518,-6938 2589,-6905 2631,-6857 2676,-6825 2711,-6836 2850,-6881 3066,-6847 3111,-6858 3216,-6883 3292,-6901 3489,-6911 3704,-6874 3834,-6750 3926,-6719 3978,-6702 4008,-6692 4077,-6667 4117,-6620 4181,-6606 4253,-6566 4306,-6507 4252,-6430 4194,-6409 4259,-6308 4236,-6039 4340,-5802 4401,-5139 4473,-4683 4378,-4344 4413,-3987 4465,-3717 4465,-3203 4691,-2699 4830,-2107 5300,-1724 5544,-1802 6110,-1846 6292,-1663 6667,-1733 7111,-1959 7328,-2377 7598,-2629 7833,-2925 7833,-3282 8050,-3621 8198,-4022 8164,-4492 8207,-4970 8198,-5344 8077,-6041 8085,-6476 8416,-6686 8714,-6714 8906,-6707 9126,-6700 9250,-6693 9250,-6733 9321,-6804 9419,-6815 9550,-6853 9637,-6871 9747,-6906 9845,-6938 9966,-6975 10077,-6986 10187,-7037 10316,-7046 10423,-7064 10482,-7020 10932,-7091 11423,-7241 11612,-7268 11761,-7289 12088,-7183 12358,-7076 12528,-6991 12791,-6885 13068,-6764 13224,-6771 13459,-6778 13707,-6686 13916,-6607 14013,-6224 14134,-5997 14126,-5606 14197,-5109 14272,-4832 14304,-4384 14544,-3904 14752,-3440 15136,-3264 15360,-2928 16128,-2864 16432,-3072 16992,-2864 17344,-2992 17808,-3536 18416,-3424 18704,-3792 19232,-3904 19408,-4384 19664,-4848 19744,-5136 19808,-5344 20240,-5968 20176,-6352 20816,-6960 21233,-6951 21449,-6955 21615,-6990 21774,-6974 22030,-6974 22045,-6985 22104,-7017 22177,-7046 22221,-7035 22268,-7029 22267,-6994 22281,-6974 22302,-6979 22314,-6980 22369,-6959 22365,-6969 22394,-7017 22465,-7016 22604,-7042 22676,-6986 22681,-6982 22722,-6889 22721,-6870 22779,-6849 22823,-6844 22846,-6836 22853,-6831 22852,-6814 22891,-6858 22986,-6858 23072,-6808 23234,-6816 23362,-6831 23570,-6673 23690,-6538 23821,-6480 23988,-6341 24010,-6305 24102,-6327 24182,-6327 24199,-6318 24219,-6308 24244,-6285 24266,-6259 24280,-6239 24360,-6243 24412,-6209 24483,-6195 24535,-6168 24540,-6126 24548,-6124 24579,-6053 24590,-6025 24615,-6040 24670,-6040 24696,-6025 24713,-5987 24745,-5950 24799,-5850 24853,-5792 24923,-5688 25019,-5549 25082,-5122 25169,-4796 25169,-4244 25521,-3591 26474,-3290 26876,-2851 27666,-2638 28821,-2814 29297,-3002 29837,-2864 30402,-3203 30853,-3704 31317,-3893 31433,-4615 31637,-5129 31543,-5357 31676,-5583 31834,-5709 32150,-5822 32372,-5877 32604,-5982 32790,-6077 33011,-6126 33363,-6126 33714,-6302 33952,-6377 34166,-6440 34341,-6440 34806,-6427 35182,-6427 35307,-6440 35558,-6578 35671,-6628 35822,-6804 35960,-6891 36386,-6979 36600,-7029 36801,-7218 36926,-7280 37014,-7368 37327,-7418 37516,-7418 37625,-7427 37630,-7440 37712,-7510 37996,-7573 38283,-7638 38617,-7673 38993,-7694 39519,-7721 39614,-7637 39599,-7585 39558,-7514 39623,-7501 39646,-7501 39773,-7451 39968,-7394 39968,-7251 39936,-7222 40113,-7105 40138,-6904 40263,-6515 40314,-5888 40276,-5474 40251,-4871 40138,-4332 40226,-3704 40389,-3115 40590,-2575 41205,-2249 41757,-2299 42221,-2161 42861,-2412 43350,-2500 44015,-2726 44228,-3115 44655,-3617 44856,-4144 44918,-4796 44931,-5147 44893,-5486 45031,-6226 44906,-6766 44743,-7117 44906,-7268 45056,-7431 45098,-7511 45184,-7609 45358,-7782 45596,-7757 45684,-7782 45812,-7820 45812,-7835 45939,-7913 46015,-7912 46060,-7935 46049,-7947 46049,-7954 46052,-7970 46073,-8039 46139,-8093 46173,-8101 46213,-8105 46251,-8104 46285,-8098 46319,-8085 46349,-8071 46350,-8088 46398,-8201 46528,-8245 46625,-8275 46739,-8271 46831,-8221 46972,-8165 47012,-8196 47019,-8223 47051,-8287 47063,-8296 47081,-8308 47091,-8311 47220,-8310 47294,-8265 47378,-8246 47666,-8259 47930,-8297 48331,-8322 48984,-7983 49322,-7080 49360,-6389 49322,-6013 49210,-5273 49097,-4846 49109,-4219 49561,-3717 50326,-3253 51393,-3579 52472,-3315 54053,-4219 54856,-4144 55307,-3780 55847,-4407 55872,-5285 56336,-5649 56487,-6665 56650,-7406 56713,-7669 56675,-7820 56838,-8246 57302,-8422 57905,-8548 58218,-8610 58304,-8641 58337,-8663 58415,-8663 58498,-8703 58595,-8658 58620,-8722 58730,-8760 58847,-8797 58964,-8792 59005,-8769 59012,-8803 59035,-8848 59058,-8863 59160,-8862 59238,-8818 59273,-8824 59322,-8845 59374,-8860 59438,-8915 59473,-8922 59508,-8925 59545,-8926 59570,-8922 59594,-8914 59742,-8853 59856,-8871 59972,-8865 60003,-8845 60040,-8868 60045,-8874 60055,-8879 60079,-8882 60187,-8873 60286,-8836 60414,-8874 60615,-8962 60816,-9024 61205,-9213 61317,-9225 61543,-9325 61832,-9376 63999,-9376 64000,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="ObjectGroupSprites" width="50" height="15">
+  <object name="bridge" type="BridgeSprite" x="3984" y="12752" width="4208" height="305">
+   <properties>
+    <property name="Slack" value="50"/>
+    <property name="Texture" value="plank.png"/>
+   </properties>
+  </object>
+  <object name="bridge" type="BridgeSprite" x="13775" y="12612" width="6650" height="319">
+   <properties>
+    <property name="Slack" value="0"/>
+    <property name="Texture" value="plank.png"/>
+   </properties>
+  </object>
+  <object name="bridge" type="BridgeSprite" x="24938" y="13608" width="6785" height="316">
+   <properties>
+    <property name="Slack" value="0"/>
+    <property name="Texture" value="plank.png"/>
+   </properties>
+  </object>
+  <object name="bridge" type="BridgeSprite" x="39595" y="11711" width="5541" height="486">
+   <properties>
+    <property name="Slack" value="50"/>
+    <property name="Texture" value="plank.png"/>
+   </properties>
+  </object>
+  <object name="bridge" type="BridgeSprite" x="48979" y="11230" width="7764" height="406">
+   <properties>
+    <property name="Slack" value="50"/>
+    <property name="Texture" value="plank.png"/>
+   </properties>
+  </object>
+  <object name="cartPlayer" type="CartPlayerSprite" x="276" y="11374" width="1024" height="768">
+   <properties>
+    <property name="OffsetY" value="-127.19"/>
+   </properties>
+  </object>
+  <object name="wormhole" type="WormholeSprite" x="788" y="11118">
+   <properties>
+    <property name="PeonCount" value="10"/>
+   </properties>
+  </object>
+  <object name="TriggerSprite" type="TriggerSprite" x="3550" y="4661">
+   <properties>
+    <property name="TriggerID" value="1"/>
+   </properties>
+   <polygon points="0,0 0,7680 112,7680 112,0"/>
+  </object>
+  <object name="TriggerSprite" type="TriggerSprite" x="20846" y="6670">
+   <properties>
+    <property name="TriggerID" value="2"/>
+   </properties>
+   <polygon points="0,0 0,7680 112,7680 112,0"/>
+  </object>
+  <object name="TriggerSprite" type="TriggerSprite" x="43601" y="5052">
+   <properties>
+    <property name="TriggerID" value="3"/>
+   </properties>
+   <polygon points="0,0 0,7680 112,7680 112,0"/>
+  </object>
+  <object name="pod" type="PodSprite" gid="39" x="61933" y="9828">
+   <properties>
+    <property name="height" value="2490"/>
+    <property name="width" value="2022"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax7" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="1"/>
+  </properties>
+  <object gid="1" x="2189" y="12956"/>
+  <object gid="2" x="9197" y="12784"/>
+  <object gid="3" x="21967" y="12693"/>
+  <object gid="4" x="23700" y="13278"/>
+  <object gid="5" x="37471" y="12167"/>
+  <object gid="6" x="45755" y="11543"/>
+  <object gid="7" x="58091" y="10866"/>
+ </objectgroup>
+ <objectgroup name="Parallax8" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="8"/>
+  </properties>
+ </objectgroup>
+ <objectgroup name="MockupObjects" width="50" height="15" visible="0"/>
+</map>

@@ -1,0 +1,1363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="15" tilewidth="1280" tileheight="1280" backgroundcolor="#ffffff">
+ <properties>
+  <property name="GravityX" value="0"/>
+  <property name="GravityY" value="-3.711"/>
+  <property name="Time" value="330"/>
+ </properties>
+ <tileset firstgid="1" name="pistonBase1" tilewidth="896" tileheight="632">
+  <image source="pistonBase1.png" width="896" height="632"/>
+ </tileset>
+ <tileset firstgid="2" name="pistonBase2" tilewidth="896" tileheight="632">
+  <image source="pistonBase2.png" width="896" height="632"/>
+ </tileset>
+ <tileset firstgid="3" name="p3rock1" tilewidth="952" tileheight="408">
+  <image source="p3rock1.png" width="952" height="408"/>
+ </tileset>
+ <tileset firstgid="4" name="p3rock2" tilewidth="2182" tileheight="500">
+  <image source="p3rock2.png" width="2182" height="500"/>
+ </tileset>
+ <tileset firstgid="5" name="p3rock3" tilewidth="2266" tileheight="850">
+  <image source="p3rock3.png" width="2266" height="850"/>
+ </tileset>
+ <tileset firstgid="6" name="p3rock4" tilewidth="3004" tileheight="418">
+  <image source="p3rock4.png" width="3004" height="418"/>
+ </tileset>
+ <tileset firstgid="7" name="p3rock5" tilewidth="1376" tileheight="540">
+  <image source="p3rock5.png" width="1376" height="540"/>
+ </tileset>
+ <tileset firstgid="8" name="p3rock6" tilewidth="1816" tileheight="648">
+  <image source="p3rock6.png" width="1816" height="648"/>
+ </tileset>
+ <tileset firstgid="9" name="p3rock7" tilewidth="860" tileheight="364">
+  <image source="p3rock7.png" width="860" height="364"/>
+ </tileset>
+ <tileset firstgid="10" name="p3rock8" tilewidth="2674" tileheight="460">
+  <image source="p3rock8.png" width="2674" height="460"/>
+ </tileset>
+ <tileset firstgid="11" name="p3rock9" tilewidth="1606" tileheight="452">
+  <image source="p3rock9.png" width="1606" height="452"/>
+ </tileset>
+ <tileset firstgid="12" name="p3rock10" tilewidth="2100" tileheight="578">
+  <image source="p3rock10.png" width="2100" height="578"/>
+ </tileset>
+ <tileset firstgid="13" name="p3rock11" tilewidth="1220" tileheight="478">
+  <image source="p3rock11.png" width="1220" height="478"/>
+ </tileset>
+ <tileset firstgid="14" name="p3rock12" tilewidth="2150" tileheight="556">
+  <image source="p3rock12.png" width="2150" height="556"/>
+ </tileset>
+ <tileset firstgid="15" name="p3rock13" tilewidth="2070" tileheight="1066">
+  <image source="p3rock13.png" width="2070" height="1066"/>
+ </tileset>
+ <tileset firstgid="16" name="p3rock14" tilewidth="1957" tileheight="1010">
+  <image source="p3rock14.png" width="1957" height="1010"/>
+ </tileset>
+ <tileset firstgid="17" name="P3L8_P2_14" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P2_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="18" name="P3L8_P2_15" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P2_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="19" name="P3L8_P2_16" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P2_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="20" name="P3L8_P3_14" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P3_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="21" name="P3L8_P3_15" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P3_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="22" name="P3L8_P3_16" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P3_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="23" name="P3L8_P3_17" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P3_17.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="24" name="P3L8_P3_18" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P3_18.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="25" name="P3L8_P4_01" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P4_01.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="26" name="P3L8_P4_04" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P4_04.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="27" name="P3L8_P4_14" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P4_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="28" name="P3L8_P4_15" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P4_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="29" name="P3L8_P4_16" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P4_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="30" name="P3L8_P4_17" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P4_17.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="31" name="P3L8_P4_18" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P4_18.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="32" name="P3L8_P5_01" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P5_01.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="33" name="P3L8_P5_02" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P5_02.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="34" name="P3L8_P5_03" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P5_03.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="35" name="P3L8_P5_04" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P5_04.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="36" name="P3L8_P5_05" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P5_05.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="37" name="P3L8_P5_14" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P5_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="38" name="P3L8_P5_15" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P5_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="39" name="P3L8_P5_16" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P5_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="40" name="P3L8_P5_17" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P5_17.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="41" name="P3L8_P5_18" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P5_18.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="42" name="P3L8_P8_01" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P8_01.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="43" name="P3L8_P8_02" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P8_02.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="44" name="P3L8_P8_03" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P8_03.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="45" name="P3L8_P8_05" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P8_05.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="46" name="P3L8_P8_06" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P8_06.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="47" name="P3L8_P8_14" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P8_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="48" name="P3L8_P8_15" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P8_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="49" name="P3L8_P8_16" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P8_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="50" name="P3L8_P8_17" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P8_17.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="51" name="P3L8_P8_18" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P8_18.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="52" name="P3L8_P8_19" tilewidth="1280" tileheight="1280">
+  <image source="P3L8_P8_19.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="53" name="podForeground" tilewidth="2022" tileheight="2490">
+  <image source="../../TextureAtlasImages/LargeSprites/podForeground.png" width="2022" height="2490"/>
+ </tileset>
+ <objectgroup name="Parallax0" width="50" height="15">
+  <properties>
+   <property name="Scale" value="4"/>
+  </properties>
+  <object name="P3_skybox" type="LayerPlaceholder" x="0" y="19008" width="256" height="192">
+   <properties>
+    <property name="ParallaxRatioX" value="0"/>
+    <property name="ParallaxRatioY" value="0"/>
+    <property name="Texture" value="P3L1_P0.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax1" width="50" height="15">
+  <properties>
+   <property name="MotionX" value="-20"/>
+   <property name="MotionY" value=""/>
+   <property name="ParallaxRatioX" value=".05"/>
+   <property name="ParallaxRatioY" value=".05"/>
+   <property name="Scale" value="4"/>
+  </properties>
+  <object name="P3_skybox" type="LayerPlaceholder" x="0" y="18432" width="1536" height="768">
+   <properties>
+    <property name="ParallaxRatioX" value="0.05"/>
+    <property name="ParallaxRatioY" value="0.05"/>
+    <property name="Texture" value="P3L1_P1.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax2" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".4"/>
+   <property name="ParallaxRatioY" value=".4"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="17" x="0" y="19200"/>
+  <object gid="18" x="1280" y="19200"/>
+  <object gid="19" x="2560" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax3" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".6"/>
+   <property name="ParallaxRatioY" value=".6"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="20" x="0" y="19200"/>
+  <object gid="21" x="1280" y="19200"/>
+  <object gid="22" x="2560" y="19200"/>
+  <object gid="23" x="3840" y="19200"/>
+  <object gid="24" x="5120" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax3Sprites" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".6"/>
+   <property name="ParallaxRatioY" value=".6"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object name="P3Gear" type="AnimatedSprite" x="1348" y="19062">
+   <properties>
+    <property name="AnimationToRun" value="CW"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="P3Gear"/>
+   </properties>
+  </object>
+  <object name="P3Gear" type="AnimatedSprite" x="1375" y="18887">
+   <properties>
+    <property name="AnimationToRun" value="CCW"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="P3Gear"/>
+   </properties>
+  </object>
+  <object name="P3Gear" type="AnimatedSprite" x="2633" y="18936">
+   <properties>
+    <property name="AnimationToRun" value="CCW"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="P3Gear"/>
+   </properties>
+  </object>
+  <object name="P3Gear" type="AnimatedSprite" x="2458" y="18966">
+   <properties>
+    <property name="AnimationToRun" value="CW"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="P3Gear"/>
+   </properties>
+  </object>
+  <object name="P3Gear" type="AnimatedSprite" x="3835" y="18933">
+   <properties>
+    <property name="AnimationToRun" value="CW"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="P3Gear"/>
+   </properties>
+  </object>
+  <object name="P3Gear" type="AnimatedSprite" x="3919" y="18774">
+   <properties>
+    <property name="AnimationToRun" value="CCW"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="P3Gear"/>
+   </properties>
+  </object>
+  <object name="drill" type="AnimatedSprite" x="4077" y="17913" width="100" height="200">
+   <properties>
+    <property name="AnimationToRun" value="drill"/>
+    <property name="FlipX" value="0"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="0"/>
+    <property name="MoveY" value="0"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="Drill"/>
+    <property name="TimeToMove" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax4" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".675"/>
+   <property name="ParallaxRatioY" value=".675"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="25" x="0" y="17920"/>
+  <object gid="26" x="3840" y="17920"/>
+  <object gid="27" x="0" y="19200"/>
+  <object gid="28" x="1280" y="19200"/>
+  <object gid="29" x="2560" y="19200"/>
+  <object gid="30" x="3840" y="19200"/>
+  <object gid="31" x="5120" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax4Sprites" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".675"/>
+   <property name="ParallaxRatioY" value=".675"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object name="P4Gear" type="AnimatedSprite" x="1994" y="18858">
+   <properties>
+    <property name="AnimationToRun" value="CW"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="P4Gear"/>
+   </properties>
+  </object>
+  <object name="P4Gear" type="AnimatedSprite" x="645" y="19048">
+   <properties>
+    <property name="AnimationToRun" value="CW"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="P4Gear"/>
+   </properties>
+  </object>
+  <object name="P4Gear" type="AnimatedSprite" x="802" y="18890">
+   <properties>
+    <property name="AnimationToRun" value="CCW"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="P4Gear"/>
+   </properties>
+  </object>
+  <object name="P4Gear" type="AnimatedSprite" x="2374" y="18981">
+   <properties>
+    <property name="AnimationToRun" value="CW"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="P4Gear"/>
+   </properties>
+  </object>
+  <object name="P4Gear" type="AnimatedSprite" x="2154" y="19016">
+   <properties>
+    <property name="AnimationToRun" value="CCW"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="P4Gear"/>
+   </properties>
+  </object>
+  <object name="P4Gear" type="AnimatedSprite" x="3114" y="19046">
+   <properties>
+    <property name="AnimationToRun" value="CW"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="P4Gear"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax5" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".75"/>
+   <property name="ParallaxRatioY" value=".75"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="32" x="0" y="17920"/>
+  <object gid="33" x="1280" y="17920"/>
+  <object gid="34" x="2560" y="17920"/>
+  <object gid="35" x="3840" y="17920"/>
+  <object gid="36" x="5120" y="17920"/>
+  <object gid="37" x="0" y="19200"/>
+  <object gid="38" x="1280" y="19200"/>
+  <object gid="39" x="2560" y="19200"/>
+  <object gid="40" x="3840" y="19200"/>
+  <object gid="41" x="5120" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax5Sprites" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".75"/>
+   <property name="ParallaxRatioY" value=".75"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object name="P5Gear" type="AnimatedSprite" x="498" y="18830">
+   <properties>
+    <property name="AnimationToRun" value="CCW"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="P5Gear"/>
+   </properties>
+  </object>
+  <object name="P5Gear" type="AnimatedSprite" x="225" y="18874">
+   <properties>
+    <property name="AnimationToRun" value="CW"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="P5Gear"/>
+   </properties>
+  </object>
+  <object name="P5Gear" type="AnimatedSprite" x="1983" y="19080">
+   <properties>
+    <property name="AnimationToRun" value="CW"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="P5Gear"/>
+   </properties>
+  </object>
+  <object name="P5Gear" type="AnimatedSprite" x="5175" y="18807">
+   <properties>
+    <property name="AnimationToRun" value="CCW"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="P5Gear"/>
+   </properties>
+  </object>
+  <object name="P5Gear" type="AnimatedSprite" x="5368" y="19004">
+   <properties>
+    <property name="AnimationToRun" value="CW"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="P5Gear"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax6" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="8"/>
+  </properties>
+ </objectgroup>
+ <objectgroup name="ObjectGroupSprites" width="50" height="15">
+  <object name="cartPlayer" type="CartPlayerSprite" x="335" y="11266" width="1024" height="768">
+   <properties>
+    <property name="OffsetY" value="-127.19"/>
+   </properties>
+  </object>
+  <object name="wormhole" type="WormholeSprite" x="863" y="11010">
+   <properties>
+    <property name="PeonCount" value="10"/>
+   </properties>
+  </object>
+  <object name="piston" type="ElevatorSprite" x="5454" y="13189" width="640" height="3840">
+   <properties>
+    <property name="Direction" value="Vertical"/>
+    <property name="StopTime1" value="0"/>
+    <property name="StopTime2" value="2"/>
+    <property name="Texture" value="piston.png"/>
+    <property name="Time" value="1"/>
+   </properties>
+  </object>
+  <object name="piston" type="ElevatorSprite" x="22761" y="16753" width="640" height="3840">
+   <properties>
+    <property name="Direction" value="Vertical"/>
+    <property name="StopTime1" value="2"/>
+    <property name="StopTime2" value="0"/>
+    <property name="Texture" value="piston.png"/>
+    <property name="Time" value="1"/>
+   </properties>
+  </object>
+  <object name="elevator" type="ElevatorSprite" x="2698" y="6068" width="1920" height="11776">
+   <properties>
+    <property name="Direction" value="Vertical"/>
+    <property name="StopTime1" value="3"/>
+    <property name="StopTime2" value="3"/>
+    <property name="Texture" value="elevator.png"/>
+    <property name="Time" value="9"/>
+   </properties>
+  </object>
+  <object name="piston" type="ElevatorSprite" x="18118" y="16655" width="640" height="3840">
+   <properties>
+    <property name="Direction" value="Vertical"/>
+    <property name="StopTime1" value="2"/>
+    <property name="StopTime2" value="0"/>
+    <property name="Texture" value="piston.png"/>
+    <property name="Time" value="1"/>
+   </properties>
+  </object>
+  <object name="piston" type="ElevatorSprite" x="7176" y="13021" width="640" height="3840">
+   <properties>
+    <property name="Direction" value="Vertical"/>
+    <property name="StopTime1" value="0"/>
+    <property name="StopTime2" value="2"/>
+    <property name="Texture" value="piston.png"/>
+    <property name="Time" value="1"/>
+   </properties>
+  </object>
+  <object name="piston" type="ElevatorSprite" x="23730" y="13148" width="640" height="3840">
+   <properties>
+    <property name="Direction" value="Vertical"/>
+    <property name="StopTime1" value="0"/>
+    <property name="StopTime2" value="2"/>
+    <property name="Texture" value="piston.png"/>
+    <property name="Time" value="1"/>
+   </properties>
+  </object>
+  <object name="piston" type="ElevatorSprite" x="33242" y="17560" width="640" height="3840">
+   <properties>
+    <property name="Direction" value="Vertical"/>
+    <property name="StopTime1" value="2"/>
+    <property name="StopTime2" value="0"/>
+    <property name="Texture" value="piston.png"/>
+    <property name="Time" value="1"/>
+   </properties>
+  </object>
+  <object name="piston" type="ElevatorSprite" x="35608" y="13592" width="640" height="3840">
+   <properties>
+    <property name="Direction" value="Vertical"/>
+    <property name="StopTime1" value="0"/>
+    <property name="StopTime2" value="2"/>
+    <property name="Texture" value="piston.png"/>
+    <property name="Time" value="1"/>
+   </properties>
+  </object>
+  <object name="piston" type="ElevatorSprite" x="49930" y="11574" width="640" height="3840">
+   <properties>
+    <property name="Direction" value="Vertical"/>
+    <property name="StopTime1" value="0"/>
+    <property name="StopTime2" value="2"/>
+    <property name="Texture" value="piston.png"/>
+    <property name="Time" value="1"/>
+   </properties>
+  </object>
+  <object name="piston" type="ElevatorSprite" x="50892" y="11574" width="640" height="3840">
+   <properties>
+    <property name="Direction" value="Vertical"/>
+    <property name="StopTime1" value="0"/>
+    <property name="StopTime2" value="2"/>
+    <property name="Texture" value="piston.png"/>
+    <property name="Time" value="1"/>
+   </properties>
+  </object>
+  <object name="elevator" type="ElevatorSprite" x="11117" y="5669" width="1920" height="12173">
+   <properties>
+    <property name="Direction" value="Vertical"/>
+    <property name="StopTime1" value="3"/>
+    <property name="StopTime2" value="3"/>
+    <property name="Texture" value="elevator.png"/>
+    <property name="Time" value="9"/>
+   </properties>
+  </object>
+  <object name="elevator" type="ElevatorSprite" x="15549" y="5665" width="1920" height="11789">
+   <properties>
+    <property name="Direction" value="Vertical"/>
+    <property name="StopTime1" value="3"/>
+    <property name="StopTime2" value="3"/>
+    <property name="Texture" value="elevator.png"/>
+    <property name="Time" value="9"/>
+   </properties>
+  </object>
+  <object name="elevator" type="ElevatorSprite" x="28602" y="5517" width="1920" height="11571">
+   <properties>
+    <property name="Direction" value="Vertical"/>
+    <property name="StopTime1" value="3"/>
+    <property name="StopTime2" value="3"/>
+    <property name="Texture" value="elevator.png"/>
+    <property name="Time" value="9"/>
+   </properties>
+  </object>
+  <object name="elevator" type="ElevatorSprite" x="37997" y="6506" width="1920" height="11328">
+   <properties>
+    <property name="Direction" value="Vertical"/>
+    <property name="StopTime1" value="3"/>
+    <property name="StopTime2" value="3"/>
+    <property name="Texture" value="elevator.png"/>
+    <property name="Time" value="9"/>
+   </properties>
+  </object>
+  <object name="elevator" type="ElevatorSprite" x="46429" y="5609" width="1920" height="11840">
+   <properties>
+    <property name="Direction" value="Vertical"/>
+    <property name="StopTime1" value="3"/>
+    <property name="StopTime2" value="3"/>
+    <property name="Texture" value="elevator.png"/>
+    <property name="Time" value="9"/>
+   </properties>
+  </object>
+  <object name="elevator" type="ElevatorSprite" x="53161" y="15677" width="1920" height="1728">
+   <properties>
+    <property name="Direction" value="Vertical"/>
+    <property name="StopTime1" value="2"/>
+    <property name="StopTime2" value="2"/>
+    <property name="Texture" value="elevator.png"/>
+    <property name="Time" value="2"/>
+   </properties>
+  </object>
+  <object name="elevator" type="ElevatorSprite" x="57669" y="5201" width="1920" height="12864">
+   <properties>
+    <property name="Direction" value="Vertical"/>
+    <property name="StopTime1" value="3"/>
+    <property name="StopTime2" value="3"/>
+    <property name="Texture" value="elevator.png"/>
+    <property name="Time" value="9"/>
+   </properties>
+  </object>
+  <object name="pod" type="PodSprite" gid="53" x="61476" y="11513">
+   <properties>
+    <property name="height" value="2490"/>
+    <property name="width" value="2022"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="ObjectGroupCollisions" width="50" height="15">
+  <object name="rightClip" type="PlayerClip" x="64000" y="19200">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="topClip" type="PlayerClip" x="64000" y="-19200">
+   <polyline points="0,0 -64000,0"/>
+  </object>
+  <object name="leftClip" type="PlayerClip" x="0" y="19200">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="rightClip2" type="PlayerClip" x="64000" y="0">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="leftClip2" type="PlayerClip" x="0" y="0">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="ground" type="TexturedGround" x="0" y="19200">
+   <properties>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="0,0 0,-7169 1378,-7166 1420,-7160 1518,-7133 1574,-7120 1616,-7114 1796,-7117 1845,-7130 1910,-7153 2008,-7182 2067,-7192 2246,-7205 2416,-7215 2530,-7114 2579,-6960 2543,-6866 2501,-6719 2501,-6608 2524,-6428 2556,-6258 2566,-6154 2527,-6023 2484,-5867 2481,-5811 2524,-5694 2553,-5579 2566,-5410 2553,-5259 2465,-5047 2481,-4966 2527,-4668 2553,-4476 2560,-4270 2560,-4100 2507,-3906 2493,-3759 2537,-3457 2566,-3229 2551,-3038 2581,-2678 2610,-2553 2618,-2303 2603,-2038 2551,-1671 2618,-1376 2691,-1325 2868,-1325 3140,-1332 3441,-1318 3765,-1310 4022,-1303 4213,-1332 4566,-1332 4706,-1340 4809,-1479 4868,-1494 5029,-1538 5125,-1575 5228,-1568 5353,-1590 5522,-1626 5684,-1619 5846,-1568 5949,-1472 6081,-1494 6169,-1516 6324,-1590 6515,-1546 6676,-1501 6904,-1568 7103,-1641 7206,-1649 7338,-1715 7596,-1796 7750,-1854 7941,-1832 8118,-1729 8228,-1626 8390,-1553 8625,-1560 8743,-1546 8860,-1472 9059,-1524 9257,-1590 9515,-1678 9618,-1663 9831,-1641 9985,-1649 10154,-1685 10338,-1700 10647,-1700 10757,-1663 10934,-1582 11015,-1531 11059,-1479 11029,-1421 11059,-1347 11147,-1310 11294,-1303 11551,-1303 11684,-1318 11824,-1296 11926,-1288 12088,-1310 12257,-1288 12544,-1318 12728,-1325 12912,-1303 13059,-1318 13088,-1406 13140,-1457 13206,-1472 13257,-1524 13566,-1553 13728,-1671 13985,-1744 14154,-1693 14309,-1663 14515,-1685 14824,-1744 15037,-1796 15199,-1847 15426,-1810 15529,-1700 15684,-1671 15809,-1693 16051,-1693 16206,-1678 16316,-1656 16478,-1678 16669,-1707 16838,-1693 16985,-1663 17184,-1678 17338,-1693 17456,-1678 17507,-1729 17544,-1744 17581,-1840 17699,-1854 17801,-1913 17882,-1921 18032,-1881 18068,-1911 18072,-1911 18072,-1922 18080,-1931 18796,-1931 18804,-1923 18805,-1912 18812,-1911 18831,-1893 18873,-1932 18908,-1960 18955,-1999 19114,-2082 19326,-2094 19414,-2046 19476,-2020 19616,-1942 19758,-1890 19920,-1904 20006,-1890 20096,-1864 20222,-1794 20313,-1700 20350,-1702 20419,-1657 20509,-1640 20519,-1635 20568,-1630 20652,-1596 20669,-1647 20792,-1675 20877,-1675 20925,-1647 20937,-1622 20965,-1565 20947,-1525 21078,-1556 21206,-1551 21320,-1506 21365,-1483 21386,-1501 21430,-1500 21485,-1521 21602,-1510 21644,-1561 21721,-1578 21771,-1566 21781,-1551 21842,-1571 21917,-1554 21989,-1564 22008,-1558 22041,-1610 22114,-1667 22124,-1690 22266,-1758 22592,-1730 22657,-1715 22662,-1778 22709,-1816 22713,-1817 22713,-1828 22722,-1837 23437,-1837 23445,-1828 23446,-1817 23453,-1817 23481,-1792 23578,-1830 23646,-1852 23790,-1852 23910,-1850 24160,-1978 24180,-1982 24304,-2092 24744,-2014 24932,-1922 25114,-1942 25264,-2008 25384,-2044 25496,-2174 25584,-2242 26006,-2508 26178,-2474 26234,-2474 26384,-2520 26598,-2752 26822,-2900 27186,-2952 27472,-2950 27590,-3040 27754,-3134 27820,-3144 27938,-3162 28112,-3212 28252,-3180 28446,-3046 28494,-2970 28468,-2876 28508,-2600 28480,-2446 28540,-2230 28522,-2156 28584,-2056 28684,-2032 28788,-2062 28928,-2036 29180,-2060 29452,-2060 29516,-2052 29640,-2022 29808,-2052 30020,-2048 30182,-2014 30386,-1992 30472,-2010 30562,-2046 30608,-2142 30618,-2218 30698,-2222 30846,-2250 31016,-2228 31128,-2176 31232,-1950 31266,-1836 31298,-1712 31612,-1628 31762,-1480 31898,-1354 32036,-1196 32408,-1084 32890,-1098 33182,-999 33191,-1008 33196,-1009 33196,-1020 33206,-1029 33920,-1029 33928,-1021 33928,-1009 33936,-1009 33948,-998 34046,-1030 34224,-1080 34368,-1120 34728,-1068 34936,-1044 35124,-1024 35350,-912 35498,-976 35762,-1084 35904,-1292 36208,-1422 36498,-1514 36746,-1594 36916,-1650 37142,-1848 37226,-1912 37378,-2124 37504,-2100 37728,-2068 37786,-1878 37816,-1692 37768,-1442 37942,-1326 38148,-1316 38342,-1312 38420,-1280 38596,-1292 38762,-1260 38818,-1238 39028,-1252 39118,-1290 39322,-1324 39600,-1302 39754,-1290 39856,-1322 39972,-1300 40004,-1396 40014,-1504 40114,-1776 40074,-1934 40104,-2150 40106,-2278 40070,-2380 40096,-2488 40138,-2586 40186,-2654 40194,-2750 40266,-2820 40350,-2836 40442,-2852 40652,-2806 40790,-2828 41060,-2880 41230,-2862 41342,-2832 41438,-2780 41472,-2698 41596,-2674 41734,-2746 41908,-2822 42000,-2972 42118,-3054 42296,-3094 42450,-3228 42536,-3322 42658,-3486 42730,-3550 42780,-3582 42974,-3678 43216,-3680 43474,-3376 43516,-3214 43694,-2974 43786,-2770 44056,-2520 44196,-2274 44670,-2158 45032,-2094 45232,-2044 45456,-1886 45720,-1796 45968,-1818 46220,-1860 46346,-1776 46490,-1720 46706,-1732 46966,-1692 47432,-1718 47744,-1692 48196,-1702 48352,-1720 48424,-1832 48442,-1912 48428,-1976 48490,-2134 48480,-2228 48432,-2428 48486,-2536 48460,-2722 48450,-2882 48466,-2940 48432,-3032 48498,-3244 48610,-3298 48770,-3330 48950,-3330 49034,-3340 49246,-3388 49490,-3280 49742,-3194 49994,-3182 50278,-3200 50402,-3212 50736,-3134 50894,-3184 51080,-3246 51270,-3340 51406,-3366 51576,-3408 51890,-3296 52050,-3240 52428,-3204 52590,-3200 52736,-3232 52894,-3260 53040,-3274 53102,-3134 53058,-2974 53078,-2870 53120,-2668 53136,-2478 53140,-2322 53132,-2080 53102,-1808 53218,-1710 53466,-1724 53662,-1736 53976,-1740 54276,-1756 54508,-1720 54634,-1710 54894,-1730 55184,-1760 55390,-1788 55484,-1781 55526,-1776 55583,-1820 55696,-1835 55947,-1866 56027,-1877 56149,-1918 56276,-1962 56412,-2032 56509,-2081 56593,-2139 56684,-2203 56825,-2330 56962,-2453 57002,-2491 57124,-2578 57174,-2614 57411,-2676 57483,-2690 57576,-2707 57593,-2694 57559,-2605 57506,-2573 57388,-2440 57325,-2050 57361,-1920 57456,-1838 57412,-1690 57426,-1620 57422,-1498 57404,-1330 57482,-1220 57618,-1142 57682,-1118 57796,-1116 57870,-1126 58098,-1100 58302,-1084 58572,-1098 58866,-1116 59004,-1082 59110,-1062 59406,-1068 59544,-1084 59588,-1086 59664,-1136 59726,-1260 59682,-1470 59744,-1644 59706,-1788 59744,-1962 59805,-2197 59816,-2465 59749,-2777 59710,-3055 59760,-3345 59666,-3696 59682,-3863 59710,-4169 59733,-4303 59738,-4582 59727,-4860 59749,-5033 59794,-5401 59816,-5629 59721,-5830 59705,-6019 59694,-6192 59733,-6353 59772,-6453 59772,-6788 59744,-7161 59744,-7278 59905,-7551 60067,-7685 60217,-7690 60446,-7696 60596,-7674 60747,-7696 61008,-7724 61367,-7685 62077,-7688 62208,-7701 62513,-7729 62758,-7685 62860,-7691 63551,-7691 63811,-7746 63999,-7724 64000,-7680 64000,0"/>
+  </object>
+  <object name="ground" type="TexturedGround" x="4936" y="16051">
+   <properties>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="0,0 -50,-85 -78,-419 -78,-767 -156,-987 -156,-1378 -121,-1584 -78,-1946 -92,-2472 -28,-2756 -142,-2983 -107,-3587 -28,-3835 -114,-4041 -156,-4624 -199,-5142 -199,-5483 -78,-5817 -92,-6115 -213,-6371 -156,-6570 -263,-7237 -185,-7386 -107,-7479 -213,-7805 -213,-8189 -142,-8707 -142,-8991 -199,-9396 -142,-9666 -78,-9915 165,-10054 177,-10087 262,-10106 324,-10106 356,-10088 384,-10035 360,-9987 384,-9980 418,-9961 445,-9967 483,-9957 514,-9912 519,-9897 614,-9884 678,-9861 704,-9877 739,-9892 798,-9910 882,-9944 950,-9925 982,-9900 1115,-9923 1179,-9909 1199,-9917 1244,-9939 1334,-9925 1365,-9929 1365,-9963 1417,-9976 1486,-9993 1560,-9993 1610,-10030 1662,-10058 1724,-10083 1759,-10074 1759,-10119 1816,-10200 1905,-10224 1979,-10179 2247,-10183 2418,-10170 2527,-10156 2761,-10054 2989,-10100 3263,-10191 3359,-10227 3669,-10151 3811,-10176 3962,-10210 4035,-10339 4148,-10393 4207,-10421 4359,-10528 4562,-10551 4857,-10585 4892,-10593 4949,-10607 5249,-10677 5294,-10659 5695,-10708 5948,-10681 5945,-10493 6054,-10421 6025,-10330 6068,-9973 6124,-9699 5962,-9506 5952,-9319 5952,-9217 6018,-9070 6104,-8974 6018,-8700 6013,-8649 6058,-8547 6043,-8284 6033,-8162 5932,-7852 5972,-7715 6043,-7497 6079,-7441 6018,-7289 5987,-7172 5997,-6954 6053,-6716 6003,-6594 5942,-6482 5921,-6427 5957,-6259 5997,-6077 6074,-5879 6028,-5579 5957,-5371 5906,-5239 5982,-5113 6074,-4884 6119,-4732 6063,-4529 6008,-4311 5977,-4189 6038,-4017 6074,-3849 6053,-3672 6013,-3443 5932,-3205 5840,-2992 5774,-2758 5835,-2657 5932,-2535 6028,-2292 6008,-2008 6013,-1520 6038,-1262 5982,-1044 5942,-790 5871,-556 5805,-394 5901,-140 5718,113 5241,134 5028,7 4983,-14 4744,-80 4430,139 4135,63 3740,12 3379,-54 3151,113 2976,124 2975,142 2929,181 2923,182 2923,193 2915,202 2200,201 2192,194 2191,183 2184,181 2140,143 2007,94 1849,4 1762,-55 1505,-127 1356,-16 1283,35 1255,308 1209,347 1205,349 1204,360 1195,368 481,368 472,360 472,348 464,348 421,309 407,147 318,90"/>
+  </object>
+  <object name="ground" type="TexturedGround" x="18103" y="16243">
+   <properties>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="0,0 -241,-235 -395,-551 -473,-815 -484,-972 -424,-1129 -484,-1697 -360,-2034 -450,-2704 -447,-3081 -395,-3461 -380,-3710 -395,-3980 -406,-4169 -337,-4442 -299,-4671 -308,-5213 -337,-5538 -380,-5880 -206,-6165 41,-6307 183,-6290 385,-6259 385,-6298 438,-6391 543,-6418 690,-6453 817,-6449 912,-6412 931,-6438 1002,-6483 1060,-6443 1163,-6429 1172,-6453 1217,-6462 1279,-6477 1366,-6477 1387,-6464 1433,-6480 1513,-6468 1535,-6461 1647,-6489 1738,-6489 1763,-6469 1771,-6475 1816,-6499 1882,-6526 1924,-6516 1963,-6511 2009,-6484 1988,-6435 1980,-6423 2015,-6444 2085,-6444 2159,-6480 2167,-6477 2208,-6493 2235,-6499 2338,-6526 2510,-6424 2527,-6424 2582,-6445 2665,-6438 2755,-6431 2762,-6417 2773,-6403 2803,-6412 2859,-6399 2878,-6395 2939,-6405 2943,-6410 3011,-6462 3100,-6440 3155,-6438 3205,-6438 3337,-6362 3391,-6385 3484,-6407 3602,-6432 3651,-6442 3706,-6430 3706,-6473 3743,-6494 3819,-6541 3893,-6543 3965,-6579 3993,-6565 3996,-6570 4046,-6582 4124,-6652 4200,-6652 4230,-6696 4268,-6739 4298,-6749 4344,-6763 4427,-6751 4493,-6732 4544,-6719 4600,-6706 4627,-6692 4616,-6584 4643,-6592 4744,-6526 4759,-6550 4921,-6558 4992,-6512 5081,-6495 5092,-6490 5139,-6485 5223,-6452 5242,-6502 5312,-6518 5365,-6530 5450,-6530 5496,-6502 5536,-6421 5519,-6380 5651,-6411 5729,-6409 5778,-6407 5891,-6362 5937,-6339 5957,-6357 6004,-6356 6022,-6363 6058,-6376 6173,-6366 6217,-6417 6293,-6434 6342,-6422 6352,-6407 6413,-6426 6490,-6410 6561,-6420 6580,-6414 6612,-6465 6705,-6538 6763,-6525 6806,-6500 6822,-6523 6890,-6540 6904,-6532 6924,-6554 6985,-6572 7044,-6564 7062,-6559 7148,-6609 7184,-6621 7197,-6639 7224,-6656 7252,-6673 7294,-6644 7405,-6627 7465,-6606 7515,-6581 7566,-6593 7625,-6572 7711,-6577 7725,-6609 7761,-6632 7786,-6643 7821,-6653 7901,-6685 7955,-6670 7991,-6640 7982,-6603 7999,-6609 8075,-6575 8087,-6568 8100,-6589 8124,-6632 8151,-6639 8233,-6661 8315,-6680 8415,-6677 8498,-6643 8559,-6612 8596,-6643 8613,-6641 8630,-6642 8672,-6658 8789,-6648 8819,-6707 8863,-6707 8901,-6714 8954,-6715 9009,-6713 9079,-6685 9090,-6661 9088,-6655 9182,-6683 9350,-6573 9353,-6565 9371,-6567 9422,-6529 9449,-6468 9449,-6451 9754,-6293 9944,-6298 10091,-6305 10401,-6234 10408,-6120 10434,-5949 10365,-5720 10304,-5587 10337,-5322 10349,-5253 10432,-4979 10398,-4583 10401,-4384 10424,-4216 10398,-3849 10379,-3551 10342,-3345 10332,-3120 10320,-3056 10368,-2646 10403,-2580 10394,-2487 10356,-2289 10306,-2059 10301,-1959 10334,-1765 10254,-1675 10162,-1569 9813,-1566 9596,-1588 9472,-1370 9184,-1235 8888,-1204 8490,-1199 8011,-922 7505,-508 6816,-276 6702,-193 6453,-53 6370,5 6363,74 6317,113 6313,114 6312,124 6304,134 5589,133 5580,125 5580,114 5572,114 5529,74 5524,9 5201,-67 4853,94 4628,224 4194,295 3598,352 3129,245 2726,210 2274,229 2058,221 1684,129 1121,-8 952,75 844,113 443,-11"/>
+  </object>
+  <object name="ground" type="TexturedGround" x="31252" y="15711">
+   <properties>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="0,0 -128,-85 -274,-267 -317,-325 -529,-448 -545,-954 -533,-1159 -468,-1287 -413,-1484 -533,-1611 -568,-2179 -533,-2268 -560,-2597 -545,-2674 -537,-2998 -468,-3103 -529,-3277 -564,-3698 -545,-3794 -560,-4204 -549,-4312 -514,-4478 -483,-4598 -549,-4822 -572,-4919 -549,-5170 -564,-5475 -638,-5746 -676,-5850 -657,-6105 -668,-6321 -680,-6538 -634,-6673 -560,-6747 -363,-6828 -232,-6874 263,-6874 649,-6994 1028,-6909 1122,-6899 1127,-6914 1296,-6986 1395,-7085 1467,-7149 1666,-7133 1686,-7084 1859,-6986 1969,-6855 2030,-6828 2208,-6748 2563,-6701 2666,-6580 3023,-6458 3196,-6333 3257,-5912 3443,-5715 3551,-5591 3764,-5506 3876,-5437 4096,-5425 4393,-5193 4432,-5124 4560,-4923 4637,-4845 4672,-4830 4675,-4803 4805,-4750 4828,-4756 4844,-4761 4902,-4812 4925,-4813 5019,-4836 5054,-4836 5080,-4888 5093,-4898 5108,-4906 5169,-4906 5195,-4956 5233,-4955 5274,-4962 5316,-4964 5383,-4962 5454,-4933 5465,-4909 5457,-4861 5538,-4809 5539,-4804 5549,-4805 5608,-4782 5651,-4738 5650,-4726 5850,-4648 5931,-4447 6623,-4250 6689,-4046 6658,-3783 6557,-3451 6511,-3145 6607,-2879 6685,-2558 6619,-2005 6627,-1619 6491,-1372 6611,-1012 6561,-653 6565,-344 6368,-313 6198,-39 6163,-4 6105,112 5811,367 5576,402 5359,487 5263,742 5106,923 5094,1050 5049,1090 5044,1091 5044,1100 5036,1110 4320,1110 4312,1102 4311,1091 4303,1090 4267,1056 3833,1206 3288,1179 3165,1182 2898,1221 2543,1329 2299,1476 1727,1321 1557,1352 1314,1364 1256,1252 1121,1051 1005,692 993,394 943,228 661,43 452,19 205,-46"/>
+  </object>
+  <object name="ground" type="TexturedGround" x="48617" y="14534">
+   <properties>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="0,0 -146,-143 -167,-410 -167,-1003 -141,-1304 -48,-1796 -167,-2324 -144,-2651 -45,-3034 74,-3312 34,-3616 -119,-3888 -94,-4180 -20,-4519 -32,-4857 -62,-5464 -46,-5969 31,-6472 -1,-6540 -88,-6848 -120,-6960 -192,-7459 -95,-7876 -71,-8068 -167,-8421 -118,-8738 14,-8798 604,-8806 818,-8788 845,-8830 897,-8870 896,-8920 1004,-8983 1079,-9006 1067,-9015 1063,-9074 1102,-9151 1159,-9151 1184,-9155 1178,-9162 1223,-9227 1266,-9245 1281,-9250 1288,-9249 1366,-9220 1420,-9162 1420,-9137 1479,-9244 1643,-9252 1714,-9206 1803,-9190 1817,-9182 1819,-9190 1867,-9220 1902,-9234 1955,-9250 2050,-9289 2074,-9284 2067,-9306 2093,-9347 2139,-9380 2246,-9400 2305,-9389 2369,-9374 2406,-9356 2428,-9366 2576,-9399 2689,-9423 2731,-9412 2783,-9426 2861,-9494 2945,-9494 2986,-9461 3003,-9403 3254,-9315 3582,-9305 4228,-9292 4971,-9460 5146,-9449 5449,-9405 5554,-9375 5583,-9428 5602,-9497 5689,-9520 5871,-9566 6006,-9545 6268,-9503 6304,-9497 6739,-9487 6907,-9508 6966,-9516 7096,-9549 7278,-9596 7304,-9555 7353,-9475 7448,-9447 7545,-9419 7579,-9387 7904,-9439 8169,-9493 8365,-9523 8482,-9562 8556,-9586 8859,-9366 8889,-8915 8855,-8655 8855,-8337 8855,-8200 8933,-7705 8859,-7215 8825,-6955 8835,-6607 8830,-6407 8727,-6034 8815,-5745 8855,-5412 8708,-4956 8810,-4755 8904,-4324 8908,-3981 8879,-3648 8835,-3437 8830,-3212 8879,-2815 8639,-2212 8737,-1977 8835,-1791 8830,-1473 8806,-1203 8869,-929 8889,-654 8698,-321 8737,-140 8771,134 8786,272 8752,482 8497,781 8213,864 7497,899 7076,1124 6459,1041 5523,1119 5268,909 5229,624 5004,497 4832,360 4401,-3 4048,-8 3583,316 3225,242 2986,223 2963,242 2959,242 2958,253 2950,263 2234,263 2227,254 2226,243 2218,242 2199,225 2018,231 2005,242 2000,242 1999,253 1992,262 1276,263 1268,254 1267,243 1260,243 1216,203 1211,136 1078,91 787,70 269,64"/>
+  </object>
+  <object name="ground" type="TexturedGround" x="26984" y="6019">
+   <properties>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="0,0 -31,-70 -49,-157 -203,-242 -232,-263 -324,-350 -404,-397 -435,-528 -281,-582 -224,-587 -180,-582 -93,-574 -38,-570 8,-620 110,-645 180,-663 330,-680 368,-684 498,-679 690,-673 779,-689 951,-722 1248,-680 1449,-599 1450,-577 1491,-572 1530,-549 1597,-497 1550,-350 1545,-301 1568,-129 1540,-62 1586,31 1555,136 1486,198 1373,209 1329,201 1164,95 943,160 783,240 755,247 605,219 494,191 314,106 240,77"/>
+  </object>
+  <object name="ground" type="TexturedGround" x="36417" y="7428">
+   <properties>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="0,0 -161,-114 -232,-170 -514,-272 -519,-305 -573,-597 -573,-625 -528,-803 -329,-914 -88,-931 99,-871 133,-871 346,-907 409,-951 632,-1035 659,-1034 818,-1023 920,-967 1105,-978 1155,-930 1490,-885 1500,-819 1423,-791 1405,-752 1330,-734 1279,-666 1272,-583 1236,-552 1182,-336 1184,-178 1037,-38 637,78"/>
+  </object>
+  <object name="ground" type="TexturedGround" x="44888" y="6235">
+   <properties>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="0,0 -4,-159 2,-211 29,-354 33,-499 128,-574 186,-593 275,-636 329,-632 586,-655 824,-673 1121,-621 1150,-615 1485,-588 1494,-408 1456,-276 1374,95 1148,180 901,220 584,319 563,319 356,226 228,139"/>
+  </object>
+  <object name="ground" type="TexturedGround" x="45119" y="12051">
+   <properties>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="0,0 -559,-228 -910,-358 -1048,-617 -967,-841 -754,-941 -717,-949 -479,-974 -186,-1023 -64,-1061 102,-1112 288,-1142 423,-1166 713,-1318 953,-1067 1040,-820 897,-667 804,-505 377,-317"/>
+  </object>
+  <object name="break" type="BreakGround" x="10302" y="17130">
+   <properties>
+    <property name="BreakID" value="6"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="364,-36 359,-98 359,-158 409,-209 523,-172 609,-139 561,-37 487,-8"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="10764" y="17025">
+   <properties>
+    <property name="BreakID" value="6"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="50"/>
+    <property name="YVariance" value="50"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="10697" y="17418">
+   <properties>
+    <property name="BreakID" value="8"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="50"/>
+    <property name="YVariance" value="50"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="10729" y="17210">
+   <properties>
+    <property name="BreakID" value="7"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="50"/>
+    <property name="YVariance" value="50"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="10235" y="17523">
+   <properties>
+    <property name="BreakID" value="8"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="352,-71 337,-140 411,-213 490,-199 565,-126 553,-4 458,-18 395,-39"/>
+  </object>
+  <object name="break" type="BreakGround" x="10267" y="17315">
+   <properties>
+    <property name="BreakID" value="7"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="430,-9 355,-70 359,-111 391,-210 528,-186 567,-120 541,-3 514,17"/>
+  </object>
+  <object name="break" type="BreakGround" x="27907" y="15661">
+   <properties>
+    <property name="BreakID" value="19"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="382,-36 374,-104 389,-165 443,-194 571,-160 592,-87 570,-33 510,-7"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="28369" y="15558">
+   <properties>
+    <property name="BreakID" value="19"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="50"/>
+    <property name="YVariance" value="50"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="28352" y="15732">
+   <properties>
+    <property name="BreakID" value="20"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="50"/>
+    <property name="YVariance" value="50"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="28316" y="15930">
+   <properties>
+    <property name="BreakID" value="21"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="50"/>
+    <property name="YVariance" value="50"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="27890" y="15837">
+   <properties>
+    <property name="BreakID" value="20"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="407,6 355,-70 360,-134 390,-206 546,-172 567,-99 549,-14 493,19"/>
+  </object>
+  <object name="break" type="BreakGround" x="27854" y="16035">
+   <properties>
+    <property name="BreakID" value="21"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="353,-69 336,-123 409,-188 497,-180 567,-110 559,14 465,13 404,-18"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="31357" y="16946">
+   <properties>
+    <property name="BreakID" value="28"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="50"/>
+    <property name="YVariance" value="50"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="30908" y="16852">
+   <properties>
+    <property name="BreakID" value="27"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="434,-12 355,-70 385,-175 492,-184 556,-146 563,-78 536,-36 496,-13"/>
+  </object>
+  <object name="break" type="BreakGround" x="30822" y="17253">
+   <properties>
+    <property name="BreakID" value="29"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="409,-22 383,-88 385,-154 446,-222 546,-183 577,-100 549,-33 492,-4"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="31284" y="17148">
+   <properties>
+    <property name="BreakID" value="29"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="50"/>
+    <property name="YVariance" value="50"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="31370" y="16747">
+   <properties>
+    <property name="BreakID" value="27"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="50"/>
+    <property name="YVariance" value="50"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="30895" y="17050">
+   <properties>
+    <property name="BreakID" value="28"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="361,-72 367,-120 394,-201 508,-206 572,-137 566,-66 521,14 390,-23"/>
+  </object>
+  <object name="break" type="BreakGround" x="36984" y="16874">
+   <properties>
+    <property name="BreakID" value="44"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="411,3 366,-50 392,-167 459,-204 561,-191 572,-91 553,-35 523,5"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="37446" y="16770">
+   <properties>
+    <property name="BreakID" value="44"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="50"/>
+    <property name="YVariance" value="50"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="36959" y="17082">
+   <properties>
+    <property name="BreakID" value="45"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="375,-19 361,-128 417,-198 540,-199 558,-124 562,-50 523,-18 496,1"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="37419" y="16978">
+   <properties>
+    <property name="BreakID" value="45"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="50"/>
+    <property name="YVariance" value="50"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="13499" y="5830">
+   <properties>
+    <property name="BreakID" value="73"/>
+    <property name="Delay" value="3"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-456,8 -347,-141 255,-128 497,23 136,93 -342,95"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="14355" y="5731">
+   <properties>
+    <property name="BreakID" value="74"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="14473" y="5795">
+   <properties>
+    <property name="BreakID" value="74"/>
+    <property name="Delay" value="3"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-430,58 -570,-28 -162,-102 323,-71 228,35 -145,80"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="15101" y="5772">
+   <properties>
+    <property name="BreakID" value="75"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="15309" y="5763">
+   <properties>
+    <property name="BreakID" value="75"/>
+    <property name="Delay" value="3"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-575,50 -482,-25 -205,-42 104,-66 217,97 -61,128 -414,129"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="13440" y="5743">
+   <properties>
+    <property name="BreakID" value="73"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="19063" y="5682">
+   <properties>
+    <property name="BreakID" value="77"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="17943" y="5669">
+   <properties>
+    <property name="BreakID" value="76"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="18890" y="5708">
+   <properties>
+    <property name="BreakID" value="77"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-198,143 -334,110 -349,-22 -117,-83 627,-71 702,92 -9,170"/>
+  </object>
+  <object name="break" type="BreakGround" x="17976" y="5608">
+   <properties>
+    <property name="BreakID" value="76"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="130,231 -450,212 -472,89 4,-47 303,-23 613,32 419,151"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="26001" y="5531">
+   <properties>
+    <property name="BreakID" value="84"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="25153" y="5563">
+   <properties>
+    <property name="BreakID" value="83"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-809,8 -608,-37 -217,-65 314,-52 184,104 -208,255 -507,188"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="20023" y="5664">
+   <properties>
+    <property name="BreakID" value="78"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="24945" y="5572">
+   <properties>
+    <property name="BreakID" value="83"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="20582" y="5668">
+   <properties>
+    <property name="BreakID" value="79"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-58,19 1,-73 258,-107 907,-66 812,46 606,95 154,134"/>
+  </object>
+  <object name="break" type="BreakGround" x="22875" y="5710">
+   <properties>
+    <property name="BreakID" value="81"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-607,14 -507,-101 -293,-148 17,-135 410,-76 352,56 -284,76"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="20998" y="5620">
+   <properties>
+    <property name="BreakID" value="79"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="21510" y="5765">
+   <properties>
+    <property name="BreakID" value="80"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-78,-36 -17,-153 116,-222 626,-210 804,-129 660,-7 317,39"/>
+  </object>
+  <object name="break" type="BreakGround" x="26033" y="5471">
+   <properties>
+    <property name="BreakID" value="84"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-445,170 -549,56 -288,6 63,10 467,24 482,151 58,185"/>
+  </object>
+  <object name="break" type="BreakGround" x="19515" y="5812">
+   <properties>
+    <property name="BreakID" value="78"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="88,-37 40,-174 200,-214 709,-211 924,-187 1045,-73 729,5 334,-3"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="23826" y="5591">
+   <properties>
+    <property name="BreakID" value="82"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="21875" y="5599">
+   <properties>
+    <property name="BreakID" value="80"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="23945" y="5655">
+   <properties>
+    <property name="BreakID" value="82"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-53,95 -633,47 -641,-53 -476,-110 -16,-105 369,-84 296,26"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="22816" y="5624">
+   <properties>
+    <property name="BreakID" value="81"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="34307" y="5522">
+   <properties>
+    <property name="BreakID" value="88"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-700,-8 -544,-92 -312,-116 135,-113 402,-32 264,69 -321,104"/>
+  </object>
+  <object name="break" type="BreakGround" x="30856" y="5504">
+   <properties>
+    <property name="BreakID" value="85"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-303,182 -267,-3 -35,-102 587,-77 824,130 536,187 32,220"/>
+  </object>
+  <object name="break" type="BreakGround" x="35273" y="6028">
+   <properties>
+    <property name="BreakID" value="89"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-787,51 -549,-55 -240,-35 443,-38 780,85 408,284 -91,346"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="32102" y="5455">
+   <properties>
+    <property name="BreakID" value="86"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="32955" y="5353">
+   <properties>
+    <property name="BreakID" value="87"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-312,97 -26,-1 501,-1 719,103 503,240 203,261 -278,234"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="33138" y="5422">
+   <properties>
+    <property name="BreakID" value="87"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="32004" y="5512">
+   <properties>
+    <property name="BreakID" value="86"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-142,131 -396,17 -258,-111 18,-132 618,-64 464,120 211,124"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="35240" y="6089">
+   <properties>
+    <property name="BreakID" value="89"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="31030" y="5478">
+   <properties>
+    <property name="BreakID" value="85"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="34134" y="5462">
+   <properties>
+    <property name="BreakID" value="88"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="43613" y="6250">
+   <properties>
+    <property name="BreakID" value="93"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-625,244 -265,-78 18,-184 258,-206 283,-17 -46,173 -582,376"/>
+  </object>
+  <object name="break" type="BreakGround" x="42321" y="6568">
+   <properties>
+    <property name="BreakID" value="92"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-249,215 54,52 351,-85 640,-70 637,107 355,312 -105,416"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="40531" y="7183">
+   <properties>
+    <property name="BreakID" value="90"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="40358" y="7210">
+   <properties>
+    <property name="BreakID" value="90"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-382,173 -228,-8 103,-74 483,-102 791,-63 562,104 -61,189"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="43439" y="6200">
+   <properties>
+    <property name="BreakID" value="93"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="42504" y="6636">
+   <properties>
+    <property name="BreakID" value="92"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="41542" y="7087">
+   <properties>
+    <property name="BreakID" value="91"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-344,283 -422,101 -118,-42 496,-299 611,-135 515,27 -18,245"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="41641" y="7031">
+   <properties>
+    <property name="BreakID" value="91"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="44370" y="5860">
+   <properties>
+    <property name="BreakID" value="94"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="44489" y="5924">
+   <properties>
+    <property name="BreakID" value="94"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-557,286 -603,110 -380,-71 -80,-190 346,-190 401,-89 308,71 -24,196"/>
+  </object>
+  <object name="break" type="BreakGround" x="40904" y="11384">
+   <properties>
+    <property name="BreakID" value="95"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-887,174 -808,54 -608,-25 -136,-88 279,-98 530,59 166,275 -550,348"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="40696" y="11393">
+   <properties>
+    <property name="BreakID" value="95"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="42040" y="11388">
+   <properties>
+    <property name="BreakID" value="96"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="42072" y="11328">
+   <properties>
+    <property name="BreakID" value="96"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-641,281 -594,82 -407,-41 279,-1 685,245 457,373 -422,396"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="43397" y="11319">
+   <properties>
+    <property name="BreakID" value="97"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="43304" y="11168">
+   <properties>
+    <property name="BreakID" value="97"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-546,371 -454,225 0,87 824,27 707,245 347,387 -229,439"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax7" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="1"/>
+  </properties>
+  <object gid="2" x="5327" y="16421"/>
+  <object gid="2" x="7046" y="16255"/>
+  <object gid="1" x="17990" y="17900"/>
+  <object gid="1" x="22632" y="17994"/>
+  <object gid="2" x="23601" y="16379"/>
+  <object gid="1" x="33115" y="18802"/>
+  <object gid="2" x="35482" y="16823"/>
+  <object gid="2" x="49803" y="14799"/>
+  <object gid="2" x="50762" y="14799"/>
+  <object gid="3" x="4982" y="6352"/>
+  <object gid="4" x="22792" y="10184"/>
+  <object gid="4" x="20117" y="17997"/>
+  <object gid="5" x="49414" y="5889"/>
+  <object gid="6" x="18486" y="10134"/>
+  <object gid="7" x="5552" y="6366"/>
+  <object gid="8" x="21410" y="10127"/>
+  <object gid="9" x="36044" y="11110"/>
+  <object gid="10" x="24880" y="9987"/>
+  <object gid="11" x="26844" y="5748"/>
+  <object gid="12" x="8892" y="5919"/>
+  <object gid="13" x="36700" y="6869"/>
+  <object gid="14" x="54133" y="5493"/>
+  <object gid="15" x="55524" y="17559"/>
+  <object gid="16" x="32334" y="9571"/>
+ </objectgroup>
+ <objectgroup name="Parallax8" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="42" x="0" y="17920"/>
+  <object gid="43" x="1280" y="17920"/>
+  <object gid="44" x="2560" y="17920"/>
+  <object gid="45" x="5120" y="17920"/>
+  <object gid="46" x="6400" y="17920"/>
+  <object gid="47" x="0" y="19200"/>
+  <object gid="48" x="1280" y="19200"/>
+  <object gid="49" x="2560" y="19200"/>
+  <object gid="50" x="3840" y="19200"/>
+  <object gid="51" x="5120" y="19200"/>
+  <object gid="52" x="6400" y="19200"/>
+ </objectgroup>
+ <objectgroup name="MockupObjects" width="50" height="15" visible="0"/>
+</map>

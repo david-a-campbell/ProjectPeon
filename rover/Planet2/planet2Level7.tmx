@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="15" tilewidth="1280" tileheight="1280">
+ <properties>
+  <property name="GravityX" value="0"/>
+  <property name="GravityY" value="-1.622"/>
+  <property name="Time" value="262"/>
+ </properties>
+ <tileset firstgid="1" name="p2rock9" tilewidth="2398" tileheight="420">
+  <image source="p2rock9.png" width="2398" height="420"/>
+ </tileset>
+ <tileset firstgid="2" name="p2rock2" tilewidth="2124" tileheight="692">
+  <image source="p2rock2.png" width="2124" height="692"/>
+ </tileset>
+ <tileset firstgid="3" name="p2rock1" tilewidth="1510" tileheight="724">
+  <image source="p2rock1.png" width="1510" height="724"/>
+ </tileset>
+ <tileset firstgid="4" name="p2rock8" tilewidth="1800" tileheight="1080">
+  <image source="p2rock8.png" width="1800" height="1080"/>
+ </tileset>
+ <tileset firstgid="5" name="p2rock7" tilewidth="1708" tileheight="1256">
+  <image source="p2rock7.png" width="1708" height="1256"/>
+ </tileset>
+ <tileset firstgid="6" name="P2L7_P2_14" tilewidth="1280" tileheight="1280">
+  <image source="P2L7_P2_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="7" name="P2L7_P2_15" tilewidth="1280" tileheight="1280">
+  <image source="P2L7_P2_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="8" name="P2L7_P2_16" tilewidth="1280" tileheight="1280">
+  <image source="P2L7_P2_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="9" name="P2L7_P3_14" tilewidth="1280" tileheight="1280">
+  <image source="P2L7_P3_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="10" name="P2L7_P3_15" tilewidth="1280" tileheight="1280">
+  <image source="P2L7_P3_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="11" name="P2L7_P3_16" tilewidth="1280" tileheight="1280">
+  <image source="P2L7_P3_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="12" name="P2L7_P3_17" tilewidth="1280" tileheight="1280">
+  <image source="P2L7_P3_17.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="13" name="P2L7_P3_18" tilewidth="1280" tileheight="1280">
+  <image source="P2L7_P3_18.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="14" name="P2L7_P5_14" tilewidth="1280" tileheight="1280">
+  <image source="P2L7_P5_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="15" name="P2L7_P5_15" tilewidth="1280" tileheight="1280">
+  <image source="P2L7_P5_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="16" name="P2L7_P5_16" tilewidth="1280" tileheight="1280">
+  <image source="P2L7_P5_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="17" name="P2L7_P5_17" tilewidth="1280" tileheight="1280">
+  <image source="P2L7_P5_17.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="18" name="P2L7_P5_18" tilewidth="1280" tileheight="1280">
+  <image source="P2L7_P5_18.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="19" name="podForeground" tilewidth="2022" tileheight="2490">
+  <image source="../../TextureAtlasImages/LargeSprites/podForeground.png" width="2022" height="2490"/>
+ </tileset>
+ <objectgroup name="Parallax0" width="50" height="15">
+  <properties>
+   <property name="Scale" value="4"/>
+  </properties>
+  <object name="P2_skybox" type="LayerPlaceholder" x="0" y="19008" width="256" height="192">
+   <properties>
+    <property name="" value=""/>
+    <property name="ParallaxRatioX" value="0"/>
+    <property name="ParallaxRatioY" value="0"/>
+    <property name="Texture" value="P2L1_P0.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax1" width="50" height="15">
+  <properties>
+   <property name="MotionX" value="-10"/>
+   <property name="MotionY" value=""/>
+   <property name="ParallaxRatioX" value=".05"/>
+   <property name="ParallaxRatioY" value=".05"/>
+   <property name="Scale" value="4"/>
+  </properties>
+  <object name="P1_skybox" type="LayerPlaceholder" x="0" y="18432" width="1536" height="768">
+   <properties>
+    <property name="ParallaxRatioX" value="0.05"/>
+    <property name="ParallaxRatioY" value="0.05"/>
+    <property name="Texture" value="P2L2_P1.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax2" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".4"/>
+   <property name="ParallaxRatioY" value=".4"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="7" x="1280" y="19200"/>
+  <object gid="8" x="2560" y="19200"/>
+  <object gid="6" x="0" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax3" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".6"/>
+   <property name="ParallaxRatioY" value=".6"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="10" x="1280" y="19200"/>
+  <object gid="11" x="2560" y="19200"/>
+  <object gid="12" x="3840" y="19200"/>
+  <object gid="13" x="5120" y="19200"/>
+  <object gid="9" x="0" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax3Sprites" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".6"/>
+   <property name="ParallaxRatioY" value=".6"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object name="dish1" type="AnimatedSprite" x="4008" y="18090" width="192" height="163">
+   <properties>
+    <property name="AnimationToRun" value="light1"/>
+    <property name="FlipX" value="0"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="0"/>
+    <property name="MoveY" value="0"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="Dish"/>
+    <property name="TimeToMove" value="0"/>
+   </properties>
+  </object>
+  <object name="dish2" type="AnimatedSprite" x="1884" y="18249" width="192" height="151">
+   <properties>
+    <property name="AnimationToRun" value="light2"/>
+    <property name="FlipX" value="0"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="0"/>
+    <property name="MoveY" value="0"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="Dish"/>
+    <property name="TimeToMove" value="0"/>
+   </properties>
+  </object>
+  <object name="tower1" type="AnimatedSprite" x="4708" y="17822" width="123" height="419">
+   <properties>
+    <property name="AnimationToRun" value="light1"/>
+    <property name="FlipX" value="0"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="0"/>
+    <property name="MoveY" value="0"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="Tower"/>
+    <property name="TimeToMove" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax4" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".675"/>
+   <property name="ParallaxRatioY" value=".675"/>
+   <property name="Scale" value="8"/>
+  </properties>
+ </objectgroup>
+ <objectgroup name="Parallax5" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".75"/>
+   <property name="ParallaxRatioY" value=".75"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="15" x="1280" y="19200"/>
+  <object gid="16" x="2560" y="19200"/>
+  <object gid="17" x="3840" y="19200"/>
+  <object gid="18" x="5120" y="19200"/>
+  <object gid="14" x="0" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax6" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="8"/>
+  </properties>
+ </objectgroup>
+ <objectgroup name="ObjectGroupCollisions" width="50" height="15">
+  <object name="rightClip" type="PlayerClip" x="64000" y="19200">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="topClip" type="PlayerClip" x="64000" y="-19200">
+   <polyline points="0,0 -64000,0"/>
+  </object>
+  <object name="leftClip" type="PlayerClip" x="0" y="19200">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="rightClip2" type="PlayerClip" x="64000" y="0">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="leftClip2" type="PlayerClip" x="0" y="0">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="ground" type="TexturedGround" x="-5" y="19200">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="0,0 0,-650 1519,-651 1574,-674 1615,-687 1656,-702 1715,-730 1798,-764 1901,-826 1988,-875 2011,-885 2080,-920 2171,-932 2262,-923 2314,-937 2360,-971 2395,-987 2540,-1094 2687,-1102 2797,-1067 2875,-1026 2931,-1069 3021,-1047 3045,-1047 3053,-1081 3088,-1151 3105,-1164 3122,-1173 3167,-1174 3273,-1174 3296,-1161 3342,-1133 3357,-1133 3461,-1133 3521,-1098 3557,-1078 3617,-1095 3714,-1123 3812,-1113 3865,-1107 3913,-1061 3959,-1028 3991,-1023 4043,-1016 4099,-1008 4141,-994 4182,-981 4183,-992 4197,-1054 4248,-1067 4280,-1096 4297,-1111 4325,-1136 4407,-1135 4422,-1124 4448,-1102 4477,-1011 4485,-1013 4567,-985 4595,-1017 4675,-1042 4755,-1030 4785,-1021 4804,-1015 4869,-1043 4944,-1064 4972,-1071 5013,-1045 5143,-1144 5379,-1190 5506,-1066 5583,-997 5607,-950 5672,-858 6032,-757 6233,-753 6337,-761 6596,-862 6789,-947 6901,-1151 6986,-1279 7025,-1422 7060,-1511 7079,-1611 7133,-1746 7145,-1866 7175,-2106 7233,-2311 7272,-2492 7295,-3222 7299,-3636 7423,-3957 7695,-4065 7785,-4094 8074,-4122 8225,-4108 8467,-4094 8708,-4094 9035,-4127 9347,-4004 9678,-3876 9882,-3862 10189,-3843 10393,-3857 10691,-3895 10904,-3937 11093,-3999 11216,-4079 11287,-4117 11496,-4018 11505,-3952 11585,-3739 11690,-3582 11794,-3455 12082,-3275 12385,-3152 12679,-3010 12892,-2962 13176,-2906 13450,-2825 13909,-2868 14217,-2967 14520,-3062 14690,-3185 14799,-3374 14931,-3720 15045,-3994 15220,-4165 15513,-4075 15826,-3942 16115,-3909 16304,-3919 16320,-3933 16342,-3944 16394,-3944 16460,-3944 16488,-3984 16530,-4001 16549,-4007 16630,-3977 16641,-3963 16687,-3966 16740,-3964 16827,-4031 16883,-4019 16945,-3984 16989,-3936 17095,-3897 17156,-4005 17319,-4013 17387,-3967 17477,-3951 17523,-3927 17554,-3940 17603,-3955 17704,-3995 17711,-3996 17752,-4055 17740,-4096 17765,-4135 17804,-4127 17871,-4179 17918,-4188 17975,-4178 18043,-4163 18083,-4143 18098,-4204 18149,-4218 18226,-4286 18334,-4411 18391,-4510 18434,-4567 18438,-4581 18452,-4723 18486,-4822 18585,-5073 18770,-5527 18822,-5731 18930,-6043 19049,-6412 19082,-6550 19096,-6943 19115,-7340 19162,-7714 19205,-8206 19252,-8670 19304,-9120 19352,-9545 19418,-10000 19465,-10303 19995,-10359 20421,-10222 20648,-10199 20786,-10170 21443,-10199 21661,-10222 21888,-10246 22333,-10260 22480,-10241 22702,-10307 22925,-10374 23109,-10464 23521,-10719 23668,-10785 23753,-10724 23852,-10610 24061,-10251 24221,-9919 24406,-9593 24747,-9347 25050,-9115 25362,-8807 25693,-8765 26110,-8845 26545,-8902 26706,-8921 27165,-8826 27520,-8722 27927,-8755 28126,-8850 28386,-8954 28571,-9053 28755,-9205 28992,-9503 29243,-9853 29503,-10194 29664,-10430 29858,-10743 30170,-10696 30440,-10501 30842,-10412 30951,-10369 31022,-10374 31072,-10367 31194,-10396 31213,-10395 31250,-10422 31254,-10427 31267,-10433 31280,-10435 31313,-10434 31392,-10426 31524,-10375 31546,-10373 31570,-10369 31584,-10364 31595,-10355 31594,-10337 31628,-10315 31717,-10298 31781,-10264 31784,-10245 31792,-10255 31882,-10325 31942,-10313 32001,-10280 32047,-10230 32073,-10241 32105,-10251 32185,-10221 32219,-10186 32302,-10153 32317,-10120 32304,-10040 32299,-10032 32368,-10011 32422,-9981 32426,-9944 32478,-9931 32521,-9868 32542,-9796 33171,-9181 33318,-8821 33483,-8443 33583,-8206 33654,-7922 33871,-7704 34009,-7624 34203,-7421 34359,-7279 34515,-7094 34638,-6952 34770,-6777 34856,-6597 35083,-6483 35296,-6332 35523,-6091 35731,-5972 35916,-5788 36058,-5617 36192,-5466 36248,-5362 36391,-5246 36597,-5130 36636,-5096 36743,-5007 36866,-4877 37008,-4728 37231,-4639 37376,-4616 37494,-4556 37542,-4547 37861,-4415 37993,-4387 38187,-4411 38381,-4434 38670,-4269 38926,-4160 39285,-4127 39584,-4117 39891,-4136 40180,-4254 40440,-4359 40563,-4505 40894,-4453 41188,-4306 41680,-4174 42016,-4079 42201,-4041 42314,-3989 42579,-3980 43090,-3923 43441,-3923 43606,-3928 44046,-4089 44316,-4150 44714,-4231 44912,-3980 45064,-3791 45267,-3644 45319,-3611 45646,-3601 46001,-3563 46266,-3530 46550,-3478 46763,-3403 47118,-3289 47369,-3190 47577,-3175 47856,-3190 47924,-3221 48006,-3364 48320,-3435 48443,-3478 48667,-3559 48743,-3676 49000,-3913 49039,-4089 49203,-4292 49343,-4354 49555,-4647 49655,-4874 49806,-5206 49920,-5532 49976,-5740 50062,-6147 50161,-6578 50251,-7028 50279,-7094 50525,-7227 50681,-7283 51079,-7345 51221,-7643 51420,-8074 51604,-8523 51784,-8959 51888,-9337 52059,-9735 52243,-10137 52272,-10203 52371,-10776 52466,-11330 52518,-11571 52816,-11931 52920,-12035 53564,-12120 54136,-11978 54359,-11935 55040,-11902 55211,-11893 55679,-11935 56010,-12101 56223,-12257 56593,-12134 56952,-11978 57307,-11907 57496,-11869 57937,-11860 58348,-11988 58751,-12096 58982,-12158 59205,-12447 59621,-12309 59905,-12224 60658,-12115 61798,-12129 63389,-12125 64004,-12125 64000,0"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="12998" y="16234">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="0,0 -14,-85 38,-180 118,-208 218,-180 213,-85 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="13903" y="16060">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="0,0 -95,128 33,232 123,194 185,137 161,62 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="14272" y="16165">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="39,-39 25,-80 38,-180 121,-175 179,-121 195,-36 148,-12 84,-17"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="13660" y="16145">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="-59,39 -95,128 -19,160 61,189 185,137 122,18 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="12596" y="16195">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="39,-39 25,-80 38,-180 121,-175 179,-121 195,-36 148,-12 84,-17"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="14203" y="16082">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="0,0 -104,43 -109,118 9,137 95,57 66,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="13466" y="16189">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="-52,-41 -83,40 -109,118 -6,173 95,57 25,-15"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="13190" y="16283">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="0,0 25,-80 38,-180 118,-208 192,-131 169,-41 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="28613" y="9949">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="-47,2 -83,40 -95,151 -4,154 95,57 25,-15"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="27741" y="10452">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="39,-39 25,-80 38,-180 121,-175 179,-121 195,-36 148,-12 84,-17"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="25934" y="10360">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="39,-39 25,-80 38,-180 121,-175 179,-121 195,-36 148,-12 84,-17"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="26652" y="10081">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="-59,39 -95,128 -19,160 61,189 185,137 122,18 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="27933" y="10346">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="0,0 25,-80 38,-180 118,-208 192,-131 169,-41 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="27348" y="10290">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="-52,-41 -83,40 -43,120 51,137 114,45 25,-15"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="28236" y="10153">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="0,0 -104,43 -81,139 9,137 62,59 40,14"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="25770" y="10176">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="0,0 -95,128 33,232 123,194 185,137 161,62 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="28296" y="10188">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="0,0 -14,-85 38,-180 118,-208 218,-180 213,-85 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="25507" y="10220">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="5,52 -46,123 33,188 113,145 157,109 161,62 111,10"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="26196" y="10127">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="-41,44 -71,126 10,204 133,169 121,82 91,22 24,19"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="27488" y="10304">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="-10,44 -56,87 -46,144 52,130 56,80 42,47"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="27663" y="10316">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="0,0 -104,43 -109,118 9,137 95,57 66,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="27060" y="10307">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="0,0 3,-85 43,-144 110,-169 174,-141 213,-85 203,2 111,62"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="26975" y="10140">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="-44,-2 -119,76 -109,118 4,191 95,57 82,16"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="26371" y="10271">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="0,0 -46,-73 38,-180 118,-208 192,-131 169,-41 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="25407" y="10202">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="-44,-2 -119,76 -109,118 4,191 95,57 82,16"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="25251" y="10115">
+   <properties>
+    <property name="Dust_1" value="Texture04"/>
+    <property name="Texture1" value="Texture04.png"/>
+   </properties>
+   <polygon points="-10,42 -65,66 -49,113 9,137 56,80 32,47"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="ObjectGroupSprites" width="50" height="15">
+  <object name="cartPlayer" type="CartPlayerSprite" x="367" y="17781" width="1024" height="768">
+   <properties>
+    <property name="OffsetY" value="-127.19"/>
+   </properties>
+  </object>
+  <object name="wormhole" type="WormholeSprite" x="879" y="17525">
+   <properties>
+    <property name="PeonCount" value="10"/>
+   </properties>
+  </object>
+  <object name="moonDust" type="ForceSprite" x="0" y="0">
+   <properties>
+    <property name="EmitterFollowsScreen" value="1"/>
+    <property name="ForceAmount" value="0"/>
+    <property name="ForceID" value="1"/>
+    <property name="ForceX" value="0"/>
+    <property name="ForceY" value="0"/>
+    <property name="IsLiquid" value="0"/>
+    <property name="StopTime" value="0"/>
+    <property name="Time" value="1000000"/>
+   </properties>
+   <polygon points="0,0 64000,0 64000,19200 0,19200"/>
+  </object>
+  <object name="moonDustEmitter" type="Emitter" x="6400" y="10240">
+   <properties>
+    <property name="EmitterType" value="Texture04_Moon"/>
+    <property name="ForceID" value="1"/>
+   </properties>
+  </object>
+  <object name="moonDust" type="ForceSprite" x="0" y="0">
+   <properties>
+    <property name="EmitterFollowsScreen" value="2"/>
+    <property name="ForceAmount" value="0"/>
+    <property name="ForceID" value="1"/>
+    <property name="ForceX" value="0"/>
+    <property name="ForceY" value="0"/>
+    <property name="IsLiquid" value="0"/>
+    <property name="StopTime" value="0"/>
+    <property name="Time" value="1000000"/>
+   </properties>
+   <polygon points="0,6400 64000,6400 64000,19200 0,19200"/>
+  </object>
+  <object name="moonDustEmitter" type="Emitter" x="6400" y="10240">
+   <properties>
+    <property name="EmitterType" value="Texture04_Moon"/>
+    <property name="ForceID" value="2"/>
+   </properties>
+  </object>
+  <object name="moonDust" type="ForceSprite" x="0" y="0">
+   <properties>
+    <property name="EmitterFollowsScreen" value="1"/>
+    <property name="ForceAmount" value="0"/>
+    <property name="ForceID" value="3"/>
+    <property name="ForceX" value="0"/>
+    <property name="ForceY" value="0"/>
+    <property name="IsLiquid" value="0"/>
+    <property name="StopTime" value="0"/>
+    <property name="Time" value="1000000"/>
+   </properties>
+   <polygon points="0,12800 64000,12800 64000,19200 0,19200"/>
+  </object>
+  <object name="moonDustEmitter" type="Emitter" x="6400" y="10240">
+   <properties>
+    <property name="EmitterType" value="Texture04_Moon"/>
+    <property name="ForceID" value="3"/>
+   </properties>
+  </object>
+  <object name="pod" type="PodSprite" gid="19" x="61692" y="7075">
+   <properties>
+    <property name="height" value="2490"/>
+    <property name="width" value="2022"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax7" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="1"/>
+  </properties>
+  <object gid="1" x="2819" y="18445"/>
+  <object gid="2" x="16250" y="15605"/>
+  <object gid="3" x="31034" y="9488"/>
+  <object gid="4" x="35691" y="14812"/>
+  <object gid="5" x="47917" y="16100"/>
+ </objectgroup>
+ <objectgroup name="Parallax8" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="8"/>
+  </properties>
+ </objectgroup>
+ <objectgroup name="MockupObjects" width="50" height="15" visible="0"/>
+</map>

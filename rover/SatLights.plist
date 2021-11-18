@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>RedCenter</key>
+	<dict>
+		<key>animationFrames</key>
+		<string>1,2,3,4,2</string>
+		<key>delay</key>
+		<real>0.05</real>
+		<key>filenamePrefix</key>
+		<string>LightRedCenter_</string>
+	</dict>
+	<key>RedAngle</key>
+	<dict>
+		<key>animationFrames</key>
+		<string>1,2,3,4,2</string>
+		<key>delay</key>
+		<real>0.1</real>
+		<key>filenamePrefix</key>
+		<string>LightRedAngle_</string>
+	</dict>
+	<key>GreenCenter</key>
+	<dict>
+		<key>animationFrames</key>
+		<string>1,2,3,4,2</string>
+		<key>delay</key>
+		<real>0.05</real>
+		<key>filenamePrefix</key>
+		<string>LightGreenCenter_</string>
+	</dict>
+	<key>GreenAngle</key>
+	<dict>
+		<key>animationFrames</key>
+		<string>1,2,3,4,2</string>
+		<key>delay</key>
+		<real>0.1</real>
+		<key>filenamePrefix</key>
+		<string>LightGreenAngle_</string>
+	</dict>
+</dict>
+</plist>

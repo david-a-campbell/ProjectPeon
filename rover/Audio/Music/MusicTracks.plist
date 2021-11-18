@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>TitleScene</key>
+	<array>
+		<string>MT-4-02.mp3</string>
+	</array>
+	<key>MainMenuScene</key>
+	<array>
+		<string>jamaica space base riddim.mp3</string>
+		<string>electrik candy puke th5 revision.mp3</string>
+		<string>MT-4-02.mp3</string>
+	</array>
+	<key>Planet1</key>
+	<array>
+		<string>MT-10-02.mp3</string>
+		<string>MT-20-02.mp3</string>
+		<string>jamaica space base riddim.mp3</string>
+		<string>electrik candy puke th5 revision.mp3</string>
+		<string>MT-15-02.mp3</string>
+	</array>
+	<key>Planet2</key>
+	<array>
+		<string>MT-20-02.mp3</string>
+		<string>MT-10-02.mp3</string>
+		<string>space tech 1-337.mp3</string>
+		<string>jamaica space base riddim.mp3</string>
+		<string>electrik candy puke th5 revision.mp3</string>
+		<string>MT-15-02.mp3</string>
+	</array>
+	<key>Planet3</key>
+	<array>
+		<string>sampledTrack.mp3</string>
+		<string>MT-10-02.mp3</string>
+		<string>MT-20-02.mp3</string>
+		<string>jamaica space base riddim.mp3</string>
+		<string>electrik candy puke th5 revision.mp3</string>
+		<string>MT-15-02.mp3</string>
+	</array>
+</dict>
+</plist>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="11G63b" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="CartSave" representedClassName="CartSave" syncable="YES">
+        <attribute name="image" optional="YES" attributeType="Transformable" valueTransformerName="ImageToDataTransformer" storedInTruthFile="YES" syncable="YES"/>
+        <relationship name="cartParts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PartSave" inverseName="cart" inverseEntity="PartSave" syncable="YES"/>
+    </entity>
+    <entity name="Levels" representedClassName="Levels" syncable="YES">
+        <attribute name="isUnlocked" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="levelNumber" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="percentScore" attributeType="Integer 32" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="timeScore" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="planet" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Planets" inverseName="levels" inverseEntity="Planets" syncable="YES"/>
+    </entity>
+    <entity name="PartSave" representedClassName="PartSave" syncable="YES">
+        <attribute name="end" optional="YES" attributeType="String" valueTransformerName="PointToDataTransformer" syncable="YES"/>
+        <attribute name="index" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="modifier" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="start" optional="YES" attributeType="String" valueTransformerName="PointToDataTransformer" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="cart" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="CartSave" inverseName="cartParts" inverseEntity="CartSave" syncable="YES"/>
+    </entity>
+    <entity name="Planets" representedClassName="Planets" syncable="YES">
+        <attribute name="isUnlocked" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="planetNumber" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="levels" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Levels" inverseName="planet" inverseEntity="Levels" syncable="YES"/>
+        <relationship name="progress" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Progress" inverseName="planets" inverseEntity="Progress" syncable="YES"/>
+    </entity>
+    <entity name="PlayerSettings" representedClassName="PlayerSettings" syncable="YES">
+        <attribute name="isRetinaEnabled" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="musicVolume" attributeType="Float" defaultValueString="0.75" syncable="YES"/>
+        <attribute name="sfxVolume" attributeType="Float" defaultValueString="0.75" syncable="YES"/>
+        <attribute name="showToolTips" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <attribute name="useTouchControl" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+    </entity>
+    <entity name="Progress" representedClassName="Progress" syncable="YES">
+        <relationship name="planets" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Planets" inverseName="progress" inverseEntity="Planets" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="CartSave" positionX="-6912" positionY="-3102" width="128" height="75"/>
+        <element name="Levels" positionX="-6795" positionY="-3552" width="128" height="120"/>
+        <element name="PartSave" positionX="-6689" positionY="-3150" width="128" height="135"/>
+        <element name="Planets" positionX="-6887" positionY="-3321" width="128" height="105"/>
+        <element name="PlayerSettings" positionX="-7085" positionY="-3501" width="128" height="120"/>
+        <element name="Progress" positionX="-7092" positionY="-3339" width="128" height="60"/>
+    </elements>
+</model>

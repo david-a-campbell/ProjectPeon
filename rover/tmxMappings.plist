@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>planet1Level1</key>
+	<string>1 3</string>
+	<key>planet1Level2</key>
+	<string>1 2</string>
+	<key>planet1Level3</key>
+	<string>1 7</string>
+	<key>planet1Level4</key>
+	<string>1 1</string>
+	<key>planet1Level5</key>
+	<string>1 4</string>
+	<key>planet1Level6</key>
+	<string>1 6</string>
+	<key>planet1Level7</key>
+	<string>1 11</string>
+	<key>planet1Level8</key>
+	<string>1 8</string>
+	<key>planet1Level9</key>
+	<string>1 10</string>
+	<key>planet1Level10</key>
+	<string>1 9</string>
+	<key>planet1Level11</key>
+	<string>1 5</string>
+	<key>planet1Level12</key>
+	<string>1 12</string>
+	<key>planet2Level1</key>
+	<string>2 4</string>
+	<key>planet2Level2</key>
+	<string>2 6</string>
+	<key>planet2Level3</key>
+	<string>2 2</string>
+	<key>planet2Level4</key>
+	<string>2 11</string>
+	<key>planet2Level5</key>
+	<string>2 12</string>
+	<key>planet2Level6</key>
+	<string>2 1</string>
+	<key>planet2Level7</key>
+	<string>2 5</string>
+	<key>planet2Level8</key>
+	<string>2 7</string>
+	<key>planet2Level9</key>
+	<string>2 10</string>
+	<key>planet2Level10</key>
+	<string>2 9</string>
+	<key>planet2Level11</key>
+	<string>2 8</string>
+	<key>planet2Level12</key>
+	<string>2 3</string>
+	<key>planet3Level1</key>
+	<string>3 3</string>
+	<key>planet3Level2</key>
+	<string>3 7</string>
+	<key>planet3Level3</key>
+	<string>3 4</string>
+	<key>planet3Level4</key>
+	<string>3 2</string>
+	<key>planet3Level5</key>
+	<string>3 6</string>
+	<key>planet3Level6</key>
+	<string>3 5</string>
+	<key>planet3Level7</key>
+	<string>3 1</string>
+	<key>planet3Level8</key>
+	<string>3 8</string>
+	<key>planet3Level9</key>
+	<string>3 9</string>
+	<key>planet3Level10</key>
+	<string>3 10</string>
+	<key>planet3Level11</key>
+	<string>3 11</string>
+	<key>planet3Level12</key>
+	<string>3 12</string>
+</dict>
+</plist>

@@ -1,0 +1,1045 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="15" tilewidth="1280" tileheight="1280">
+ <properties>
+  <property name="GravityX" value="0"/>
+  <property name="GravityY" value="-1.622"/>
+  <property name="Time" value="120"/>
+ </properties>
+ <tileset firstgid="1" name="p2brock6" tilewidth="1500" tileheight="770">
+  <image source="p2brock6.png" width="1500" height="770"/>
+ </tileset>
+ <tileset firstgid="2" name="p2brock5" tilewidth="4096" tileheight="920">
+  <image source="p2brock5.png" width="4096" height="920"/>
+ </tileset>
+ <tileset firstgid="3" name="p2brock7" tilewidth="1656" tileheight="672">
+  <image source="p2brock7.png" width="1656" height="672"/>
+ </tileset>
+ <tileset firstgid="4" name="p2brock4" tilewidth="1996" tileheight="618">
+  <image source="p2brock4.png" width="1996" height="618"/>
+ </tileset>
+ <tileset firstgid="5" name="p2brock2" tilewidth="1510" tileheight="724">
+  <image source="p2brock2.png" width="1510" height="724"/>
+ </tileset>
+ <tileset firstgid="6" name="p2brock3" tilewidth="2124" tileheight="692">
+  <image source="p2brock3.png" width="2124" height="692"/>
+ </tileset>
+ <tileset firstgid="7" name="p2brock1" tilewidth="2398" tileheight="420">
+  <image source="p2brock1.png" width="2398" height="420"/>
+ </tileset>
+ <tileset firstgid="8" name="P2L3_P2_14" tilewidth="1280" tileheight="1280">
+  <image source="P2L3_P2_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="9" name="P2L3_P2_15" tilewidth="1280" tileheight="1280">
+  <image source="P2L3_P2_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="10" name="P2L3_P2_16" tilewidth="1280" tileheight="1280">
+  <image source="P2L3_P2_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="11" name="P2L3_P3_14" tilewidth="1280" tileheight="1280">
+  <image source="P2L3_P3_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="12" name="P2L3_P3_15" tilewidth="1280" tileheight="1280">
+  <image source="P2L3_P3_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="13" name="P2L3_P3_16" tilewidth="1280" tileheight="1280">
+  <image source="P2L3_P3_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="14" name="P2L3_P3_17" tilewidth="1280" tileheight="1280">
+  <image source="P2L3_P3_17.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="15" name="P2L3_P5_14" tilewidth="1280" tileheight="1280">
+  <image source="P2L3_P5_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="16" name="P2L3_P5_15" tilewidth="1280" tileheight="1280">
+  <image source="P2L3_P5_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="17" name="P2L3_P5_16" tilewidth="1280" tileheight="1280">
+  <image source="P2L3_P5_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="18" name="P2L3_P5_17" tilewidth="1280" tileheight="1280">
+  <image source="P2L3_P5_17.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="19" name="P2L3_P5_18" tilewidth="1280" tileheight="1280">
+  <image source="P2L3_P5_18.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="20" name="P2L3_P3_18" tilewidth="1280" tileheight="1280">
+  <image source="P2L3_P3_18.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="21" name="podForeground" tilewidth="2022" tileheight="2490">
+  <image source="../../TextureAtlasImages/LargeSprites/podForeground.png" width="2022" height="2490"/>
+ </tileset>
+ <objectgroup name="Parallax0" width="50" height="15">
+  <properties>
+   <property name="Scale" value="4"/>
+  </properties>
+  <object name="P2_skybox" type="LayerPlaceholder" x="0" y="19008" width="256" height="192">
+   <properties>
+    <property name="" value=""/>
+    <property name="ParallaxRatioX" value="0"/>
+    <property name="ParallaxRatioY" value="0"/>
+    <property name="Texture" value="P2L3_P0.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax1" width="50" height="15">
+  <properties>
+   <property name="MotionX" value="-10"/>
+   <property name="MotionY" value=""/>
+   <property name="ParallaxRatioX" value=".05"/>
+   <property name="ParallaxRatioY" value=".05"/>
+   <property name="Scale" value="4"/>
+  </properties>
+  <object name="P1_skybox" type="LayerPlaceholder" x="0" y="18432" width="1536" height="768">
+   <properties>
+    <property name="ParallaxRatioX" value="0.05"/>
+    <property name="ParallaxRatioY" value="0.05"/>
+    <property name="Texture" value="P2L2_P1.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax2" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".4"/>
+   <property name="ParallaxRatioY" value=".4"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="8" x="0" y="19200"/>
+  <object gid="9" x="1280" y="19200"/>
+  <object gid="10" x="2560" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax3" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".6"/>
+   <property name="ParallaxRatioY" value=".6"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="11" x="0" y="19200"/>
+  <object gid="12" x="1280" y="19200"/>
+  <object gid="13" x="2560" y="19200"/>
+  <object gid="14" x="3840" y="19200"/>
+  <object gid="20" x="5120" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax3Sprites" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".6"/>
+   <property name="ParallaxRatioY" value=".6"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object name="tower2" type="AnimatedSprite" x="2658" y="17957" width="143" height="419">
+   <properties>
+    <property name="AnimationToRun" value="dark2"/>
+    <property name="FlipX" value="0"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="0"/>
+    <property name="MoveY" value="0"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="Tower"/>
+    <property name="TimeToMove" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax4" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".675"/>
+   <property name="ParallaxRatioY" value=".675"/>
+   <property name="Scale" value="8"/>
+  </properties>
+ </objectgroup>
+ <objectgroup name="Parallax5" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".75"/>
+   <property name="ParallaxRatioY" value=".75"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="15" x="0" y="19200"/>
+  <object gid="16" x="1280" y="19200"/>
+  <object gid="17" x="2560" y="19200"/>
+  <object gid="18" x="3840" y="19200"/>
+  <object gid="19" x="5120" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax6" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="8"/>
+  </properties>
+ </objectgroup>
+ <objectgroup name="ObjectGroupCollisions" width="50" height="15">
+  <object name="rightClip" type="PlayerClip" x="64000" y="19200">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="topClip" type="PlayerClip" x="64000" y="-19200">
+   <polyline points="0,0 -64000,0"/>
+  </object>
+  <object name="leftClip" type="PlayerClip" x="0" y="19200">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="ground" type="TexturedGround" x="0" y="19200">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 5,-10923 1920,-10923 2555,-10565 2885,-10235 3163,-10123 3733,-10005 4236,-10045 4285,-10136 4460,-10191 4676,-10092 4885,-9975 5034,-9974 5208,-10031 5357,-10084 5517,-10170 5676,-10084 5739,-10023 5804,-9828 5845,-9803 5882,-9327 5716,-8533 6000,-8210 6157,-7710 6108,-7151 6157,-6582 6353,-6004 6657,-5886 7118,-5563 7863,-4729 8382,-4700 8843,-5102 8961,-5210 8990,-5602 9382,-6004 9588,-6367 9686,-7122 9667,-7651 9765,-8092 9667,-8425 9784,-8837 9931,-9131 10314,-9459 10315,-9491 10373,-9573 10460,-9595 10545,-9543 10545,-9491 10538,-9479 10583,-9467 10627,-9404 10634,-9375 10672,-9382 10755,-9382 10797,-9359 10824,-9309 10857,-9309 10934,-9280 10934,-9234 10948,-9241 11104,-9286 11255,-9270 11354,-9177 11351,-9169 11406,-9162 11489,-9133 11519,-9086 11591,-9104 11701,-9130 11784,-9128 11830,-9127 11944,-9083 12050,-9029 12216,-9015 12253,-8959 12263,-8949 12269,-8949 12304,-8927 12311,-8928 12308,-8943 12383,-8975 12515,-9016 12591,-9000 12662,-9010 12748,-8984 12785,-8964 12861,-8982 12909,-8983 12942,-9049 12961,-9064 12978,-9074 13046,-9074 13069,-9109 13100,-9122 13127,-9131 13135,-9130 13211,-9102 13237,-9076 13252,-9079 13329,-9148 13412,-9148 13448,-9118 13520,-9162 13591,-9162 13639,-9187 13662,-9226 13731,-9226 13751,-9231 13746,-9246 13783,-9323 13820,-9373 13847,-9401 13924,-9424 13958,-9419 13969,-9443 14057,-9479 14160,-9508 14225,-9612 14422,-9661 14725,-9759 15373,-10102 15824,-10308 16216,-10543 16556,-10668 16692,-10777 16862,-10896 17295,-11067 17657,-11216 17734,-11216 17934,-11122 17931,-10889 18009,-10732 18011,-10620 18059,-10563 18118,-10200 18088,-9886 18108,-9631 18216,-9367 18314,-9210 18225,-8906 18235,-8641 18333,-8239 18569,-7837 18686,-7543 18735,-7318 18873,-7014 18961,-6739 19010,-6465 19402,-6073 19765,-5739 20029,-5553 20373,-5288 20627,-5043 20725,-4955 20755,-4573 20863,-4318 21098,-4122 21569,-3886 21873,-3661 22422,-3367 23029,-3778 23441,-4043 23588,-4004 24069,-4445 24392,-4837 24500,-5504 24578,-6122 24853,-6622 24843,-7053 25098,-7347 25275,-7563 25392,-8033 25500,-8396 26392,-8435 26941,-8435 27255,-8425 27297,-8448 27355,-8466 27374,-8515 27488,-8540 27563,-8540 27563,-8580 27686,-8609 27778,-8609 27802,-8592 27821,-8572 27852,-8565 27878,-8596 27954,-8613 28004,-8601 28013,-8589 28067,-8622 28137,-8622 28213,-8660 28328,-8606 28388,-8581 28399,-8586 28397,-8601 28432,-8711 28483,-8775 28608,-8774 28684,-8730 28759,-8686 28787,-8530 28855,-8516 28925,-8526 29013,-8500 29065,-8469 29070,-8432 29111,-8430 29190,-8402 29190,-8331 29155,-8266 29324,-8278 29559,-8043 29598,-7602 29745,-7269 29892,-7112 30216,-7004 30598,-6847 30725,-6573 30922,-6171 31108,-5955 31520,-5955 31667,-5916 31775,-5935 31833,-6053 32000,-6269 32127,-6406 32235,-6622 32490,-6788 32618,-6965 32804,-7612 32824,-7827 32843,-8347 32843,-8651 32941,-8935 33039,-9298 33078,-9955 33147,-10308 33343,-10445 33569,-10543 33804,-10533 34343,-10425 34510,-10396 35235,-10582 36059,-10710 36559,-10759 36941,-10710 37010,-10690 37108,-10337 37176,-10122 37255,-9710 37382,-9484 37598,-9190 38412,-8759 38765,-8916 39598,-8102 39667,-7680 39696,-7465 40010,-6945 40010,-6416 40088,-5827 40549,-4896 41078,-4612 41363,-4406 41637,-4563 41814,-4651 41882,-5367 42353,-5749 42412,-6043 42510,-6455 42657,-6749 42686,-6827 43108,-6935 43539,-7063 43674,-7159 43675,-7185 43707,-7276 43826,-7303 43848,-7303 43885,-7330 43889,-7336 43904,-7341 43923,-7343 43944,-7342 44027,-7335 44159,-7283 44192,-7279 44219,-7272 44229,-7264 44229,-7245 44264,-7223 44352,-7206 44416,-7172 44419,-7152 44426,-7163 44518,-7234 44577,-7221 44638,-7186 44681,-7137 44723,-7155 44741,-7159 44820,-7129 44853,-7095 44937,-7061 44952,-7028 44939,-6949 44934,-6940 45003,-6920 45056,-6889 45061,-6852 45113,-6839 45156,-6778 45216,-6724 45225,-6151 45176,-5935 45216,-5602 45304,-5092 45520,-4798 45676,-4582 45814,-3945 46069,-3475 46294,-3043 46578,-2857 46971,-2612 47088,-2543 47196,-2563 47333,-2798 47451,-2925 47402,-3308 47353,-3671 47382,-3867 47480,-4259 47804,-4729 47794,-5220 47735,-5445 47882,-5827 48078,-6239 48049,-6651 48098,-6847 48176,-7043 48461,-7298 48696,-7759 48725,-7935 48941,-8102 49039,-8327 49108,-8808 49108,-9151 49794,-9210 50304,-9161 50725,-9190 50951,-8886 50980,-8406 50912,-7818 51235,-7406 51167,-6935 51196,-6357 51392,-5955 51461,-5857 51451,-5229 51490,-4847 51569,-4543 51510,-3925 51745,-3435 52539,-2955 52951,-2582 53225,-1975 53490,-1680 53971,-1778 54353,-1798 55186,-2229 55471,-2896 55441,-3524 55353,-4210 55716,-4582 55735,-5671 55784,-5994 55824,-6602 56069,-7200 56294,-7651 56333,-8465 56324,-8945 56265,-9347 56284,-9524 56588,-9602 56745,-10073 56741,-10110 56745,-10142 56753,-10173 56789,-10247 56811,-10263 56826,-10270 56944,-10270 56972,-10310 57010,-10326 57031,-10332 57037,-10332 57115,-10302 57126,-10290 57174,-10292 57225,-10290 57311,-10357 57368,-10345 57429,-10310 57474,-10262 57579,-10223 57640,-10331 57802,-10339 57874,-10293 57960,-10277 58008,-10252 58039,-10265 58091,-10281 58188,-10321 58195,-10322 58236,-10381 58223,-10421 58249,-10461 58288,-10452 58356,-10505 58403,-10514 58464,-10503 58526,-10489 58567,-10469 58582,-10530 58633,-10544 58711,-10612 58793,-10612 58834,-10578 58862,-10492 58861,-10479 58949,-10458 58973,-10458 58981,-10492 59017,-10562 59034,-10576 59051,-10585 59202,-10585 59270,-10544 59390,-10544 59485,-10489 59645,-10535 59793,-10517 59844,-10471 59887,-10439 60030,-10419 60110,-10391 60111,-10407 60125,-10465 60175,-10477 60254,-10547 60336,-10547 60378,-10513 60406,-10422 60413,-10425 60495,-10396 60524,-10427 60606,-10452 60684,-10440 60733,-10426 60797,-10454 60900,-10483 61124,-10337 61255,-10298 61741,-10322 62845,-10318 63622,-10319 63990,-10337 64000,0"/>
+  </object>
+  <object name="rightClip2" type="PlayerClip" x="64000" y="0">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="leftClip2" type="PlayerClip" x="0" y="0">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="22940" y="15203">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -95,128 33,232 123,194 185,137 161,62 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="8108" y="14341">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -104,43 -109,118 9,137 95,57 66,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="22063" y="15443">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -14,-85 38,-180 118,-208 191,-153 213,-85 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="22686" y="15258">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-59,39 -95,128 -19,160 61,189 185,137 122,18 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="22348" y="15531">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 25,-80 38,-180 118,-208 192,-131 169,-41 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="7893" y="13948">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-52,-41 -83,40 -109,118 -6,173 95,57 25,-15"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="21971" y="15641">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="39,-39 25,-80 38,-180 121,-175 179,-121 195,-36 148,-12 84,-17"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="22561" y="15184">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-44,-2 -119,76 -109,118 4,191 95,57 82,16"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="22155" y="15654">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 43,-85 43,-144 110,-169 174,-141 213,-85 151,14 66,60"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="22291" y="15152">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="5,52 -40,123 33,188 130,174 144,115 134,64 111,10"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="8105" y="13889">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-41,44 -95,128 -9,183 107,197 152,80 122,31 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="22832" y="15401">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-10,23 -65,66 -55,113 9,137 56,80 51,26"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="7901" y="14207">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 43,-85 43,-144 110,-169 174,-141 213,-85 151,14 66,60"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="8193" y="14459">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 25,-80 38,-180 118,-208 192,-131 169,-41 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="7740" y="14084">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-41,44 -95,128 -9,183 107,197 152,80 122,31 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="7641" y="14043">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-10,23 -65,66 -55,113 9,137 56,80 51,26"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="7926" y="14294">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-52,-41 -83,40 -109,118 -6,173 95,57 25,-15"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="8522" y="14214">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -14,-85 38,-180 118,-208 218,-180 213,-85 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="8468" y="13821">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -95,128 33,232 123,194 185,137 161,62 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="8305" y="13983">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-59,39 -95,128 -19,160 61,189 185,137 122,18 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="8362" y="14362">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="39,-39 25,-80 38,-180 121,-175 179,-121 195,-36 148,-12 84,-17"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="8857" y="13929">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -104,43 -109,118 9,137 95,57 66,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="8187" y="14136">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-44,-2 -119,76 -109,118 4,191 95,57 82,16"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="22631" y="15023">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="5,52 -46,123 33,188 113,145 157,109 161,62 111,10"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="21661" y="15360">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 43,-85 43,-144 110,-169 174,-141 213,-85 151,14 66,60"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="23287" y="15135">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 25,-80 38,-180 118,-208 192,-131 169,-41 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="21867" y="15327">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-41,44 -95,128 -9,183 107,197 152,80 122,31 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="22313" y="15360">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-10,23 -65,66 -55,113 9,137 56,80 51,26"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="23585" y="15011">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-52,-41 -83,40 -109,118 -6,173 95,57 25,-15"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="22325" y="15774">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -14,-85 38,-180 118,-208 218,-180 213,-85 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="22599" y="15427">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -95,128 33,232 123,194 185,137 161,62 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="23138" y="15082">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-59,39 -95,128 -19,160 61,189 185,137 122,18 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="22869" y="15160">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="39,-39 25,-80 38,-180 121,-175 179,-121 195,-36 148,-12 84,-17"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="23167" y="14934">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -104,43 -109,118 9,137 95,57 66,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="22848" y="15127">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-44,-2 -119,76 -109,118 -2,136 95,57 82,16"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="21928" y="15146">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="5,52 -46,123 33,188 113,145 157,109 161,62 111,10"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="31276" y="12823">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-10,23 -65,66 -55,113 9,137 56,80 51,26"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="31580" y="12939">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-10,23 -65,66 -55,113 9,137 56,80 51,26"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="31313" y="12668">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="5,52 -46,123 33,188 113,145 157,109 161,62 111,10"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="31242" y="12757">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-41,17 -65,43 -59,86 -9,103 16,56 7,13"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="31033" y="12561">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-44,-2 -119,76 -109,118 4,164 86,152 73,79"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="31329" y="12859">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="5,52 -46,123 33,188 113,145 157,109 161,62 111,10"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="31006" y="12719">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="5,52 -46,123 33,188 113,145 157,109 161,62 111,10"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="30958" y="12864">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-10,23 -65,66 -55,113 9,137 56,80 51,26"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="31575" y="13033">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="69,-51 58,-90 75,-148 125,-136 167,-111 171,-48 148,-12 84,-17"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="30783" y="12841">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="39,-39 25,-80 38,-180 121,-175 179,-121 195,-36 148,-12 84,-17"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="31523" y="12724">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-41,44 -95,128 -9,183 107,197 152,80 122,31 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="31856" y="12958">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-52,-41 -110,43 -109,118 -5,124 50,85 25,-15"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="31101" y="12776">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="39,-39 25,-80 38,-180 121,-175 179,-121 195,-36 148,-12 84,-17"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="31626" y="13044">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -95,128 33,232 123,194 185,137 161,62 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="31166" y="13179">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 43,-85 43,-144 110,-169 174,-141 213,-85 151,14 66,60"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="32003" y="12602">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-41,44 -95,128 -9,183 107,197 152,80 122,31 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="31355" y="13216">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 25,-80 38,-180 118,-208 192,-131 169,-41 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="30995" y="13101">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -14,-85 38,-180 118,-208 218,-180 213,-85 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="31695" y="12636">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-41,44 -43,110 -9,183 95,147 128,84 122,31 58,26"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="31837" y="12755">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-59,39 -95,128 -19,160 61,189 185,137 122,18 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="41001" y="14361">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -14,-85 38,-180 118,-208 218,-180 213,-85 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="41660" y="14012">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-59,39 -95,128 -19,160 61,189 185,137 122,18 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="40923" y="14551">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="52,-33 43,-85 43,-144 110,-169 174,-141 213,-85 151,14 97,-7"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="41200" y="14033">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -71,58 -86,105 9,137 74,65 51,26"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="41178" y="14416">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 43,-85 43,-144 110,-169 174,-141 213,-85 151,14 66,60"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="41213" y="14480">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-44,-2 -119,76 -109,118 4,191 95,57 82,16"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="41778" y="14246">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-31,3 -83,40 -68,87 -6,124 31,54 17,11"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="41741" y="14414">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -52,40 -45,92 37,116 72,60 66,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="41492" y="14610">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 25,-80 38,-180 118,-208 192,-131 169,-41 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="40686" y="14185">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-52,-41 -83,40 -109,118 -6,173 95,57 25,-15"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="41322" y="14546">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -95,128 33,232 123,194 185,137 161,62 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="40811" y="14250">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-59,39 -95,128 -19,160 61,189 185,137 122,18 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="40848" y="14224">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 25,-80 38,-180 118,-208 192,-131 169,-41 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="41424" y="14403">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -104,43 -109,118 9,137 95,57 66,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="41465" y="14376">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -14,-85 38,-180 118,-208 218,-180 213,-85 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="41325" y="14042">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -95,128 33,232 123,194 185,137 161,62 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="46742" y="15985">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-52,-41 -83,40 -109,118 -6,173 95,57 25,-15"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="54188" y="17167">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="5,9 43,-85 43,-144 110,-169 174,-141 187,-73 151,14 66,60"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="53588" y="17088">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-41,44 -71,126 10,204 133,169 121,82 91,22 24,19"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="54640" y="17103">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -104,43 -81,139 9,137 62,59 40,14"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="54042" y="17063">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-41,44 -95,128 -9,183 107,197 152,80 122,31 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="46545" y="16296">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 43,-85 43,-144 110,-169 174,-141 213,-85 151,14 66,60"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="53850" y="17164">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-44,-2 -119,76 -109,118 4,191 95,57 82,16"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="54152" y="17409">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="39,-39 25,-80 38,-180 121,-175 179,-121 195,-36 148,-12 84,-17"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="53846" y="16931">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -95,128 33,232 123,194 185,137 161,62 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="53194" y="17120">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -46,-73 38,-180 118,-208 192,-131 169,-41 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="54690" y="17127">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -14,-85 38,-180 118,-208 218,-180 213,-85 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="46887" y="16522">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -14,-85 38,-180 118,-208 218,-180 213,-85 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="54074" y="17271">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -104,43 -109,118 9,137 95,57 66,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="46385" y="16208">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -14,-85 38,-180 118,-208 218,-180 213,-85 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="46787" y="15982">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 25,-80 38,-180 118,-208 192,-131 169,-41 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="53731" y="17316">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-52,-41 -83,40 -43,120 51,137 114,45 25,-15"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="53349" y="17122">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-59,39 -95,128 -19,160 61,189 185,137 122,18 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="47222" y="15871">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-59,39 -95,128 -19,160 61,189 185,137 122,18 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="53426" y="16923">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-35,64 -22,182 76,202 113,145 145,107 147,31 61,10"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="46868" y="16082">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-3,-7 -83,27 -109,118 -4,142 100,111 82,16"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="47195" y="16205">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -95,128 33,232 123,194 185,137 161,62 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="47176" y="16440">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-44,-2 -119,76 -109,118 4,191 95,57 82,16"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="47042" y="16084">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="5,52 -46,123 33,188 113,145 157,109 161,62 111,10"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="54340" y="17301">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 25,-80 38,-180 118,-208 192,-131 169,-41 151,14 66,24"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="54475" y="16925">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-59,39 -95,128 -19,160 61,189 185,137 122,18 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="53427" y="17440">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 3,-85 43,-144 110,-169 174,-141 213,-85 203,2 111,62"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="55007" y="16905">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-47,2 -83,40 -95,151 -4,154 95,57 25,-15"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="53553" y="17113">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="39,-39 25,-80 38,-180 121,-175 179,-121 195,-36 148,-12 84,-17"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="46941" y="16188">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-10,23 -65,66 -55,113 9,137 56,80 51,26"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="54019" y="16833">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="5,52 -46,123 33,188 113,145 157,109 161,62 111,10"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="54168" y="16946">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-10,23 -65,66 -55,113 9,137 56,80 51,26"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="46958" y="15936">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-18,67 -41,138 66,201 131,173 185,127 161,62 57,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="47111" y="15803">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="0,0 -104,43 -109,118 9,137 95,57 66,-5"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="53901" y="17288">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-10,44 -56,87 -46,144 52,130 56,80 42,47"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="47241" y="16250">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="39,-39 25,-80 38,-180 121,-175 179,-121 195,-36 148,-12 84,-17"/>
+  </object>
+  <object name="rock" type="TexturedRock" x="46753" y="16258">
+   <properties>
+    <property name="Dust_1" value="Texture05"/>
+    <property name="Texture1" value="Texture05.png"/>
+   </properties>
+   <polygon points="-41,44 -95,128 -9,183 107,197 152,80 122,31 57,-5"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="ObjectGroupSprites" width="50" height="15">
+  <object name="cartPlayer" type="CartPlayerSprite" x="352" y="7509" width="1024" height="768">
+   <properties>
+    <property name="OffsetY" value="-127.19"/>
+   </properties>
+  </object>
+  <object name="wormhole" type="WormholeSprite" x="864" y="7253">
+   <properties>
+    <property name="PeonCount" value="10"/>
+   </properties>
+  </object>
+  <object name="moonDust" type="ForceSprite" x="0" y="-1280">
+   <properties>
+    <property name="EmitterFollowsScreen" value="1"/>
+    <property name="ForceAmount" value="0"/>
+    <property name="ForceID" value="1"/>
+    <property name="ForceX" value="0"/>
+    <property name="ForceY" value="0"/>
+    <property name="IsLiquid" value="0"/>
+    <property name="StopTime" value="0"/>
+    <property name="Time" value="1000000"/>
+   </properties>
+   <polygon points="0,0 64000,0 64000,19200 0,19200"/>
+  </object>
+  <object name="moonDustEmitter" type="Emitter" x="6400" y="8960">
+   <properties>
+    <property name="EmitterType" value="Texture04_Moon"/>
+    <property name="ForceID" value="1"/>
+   </properties>
+  </object>
+  <object name="moonDust" type="ForceSprite" x="0" y="-1280">
+   <properties>
+    <property name="EmitterFollowsScreen" value="2"/>
+    <property name="ForceAmount" value="0"/>
+    <property name="ForceID" value="1"/>
+    <property name="ForceX" value="0"/>
+    <property name="ForceY" value="0"/>
+    <property name="IsLiquid" value="0"/>
+    <property name="StopTime" value="0"/>
+    <property name="Time" value="1000000"/>
+   </properties>
+   <polygon points="0,6400 64000,6400 64000,19200 0,19200"/>
+  </object>
+  <object name="moonDustEmitter" type="Emitter" x="6400" y="8960">
+   <properties>
+    <property name="EmitterType" value="Texture04_Moon"/>
+    <property name="ForceID" value="2"/>
+   </properties>
+  </object>
+  <object name="moonDust" type="ForceSprite" x="0" y="-1280">
+   <properties>
+    <property name="EmitterFollowsScreen" value="1"/>
+    <property name="ForceAmount" value="0"/>
+    <property name="ForceID" value="3"/>
+    <property name="ForceX" value="0"/>
+    <property name="ForceY" value="0"/>
+    <property name="IsLiquid" value="0"/>
+    <property name="StopTime" value="0"/>
+    <property name="Time" value="1000000"/>
+   </properties>
+   <polygon points="0,12800 64000,12800 64000,19200 0,19200"/>
+  </object>
+  <object name="moonDustEmitter" type="Emitter" x="6400" y="8960">
+   <properties>
+    <property name="EmitterType" value="Texture04_Moon"/>
+    <property name="ForceID" value="3"/>
+   </properties>
+  </object>
+  <object name="pod" type="PodSprite" gid="21" x="61641" y="8884">
+   <properties>
+    <property name="height" value="2490"/>
+    <property name="width" value="2022"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax7" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="1"/>
+  </properties>
+  <object gid="1" x="16514" y="8753"/>
+  <object gid="2" x="10313" y="10523"/>
+  <object gid="3" x="4164" y="9680"/>
+  <object gid="4" x="27197" y="11042"/>
+  <object gid="5" x="43673" y="12580"/>
+  <object gid="6" x="56739" y="9279"/>
+  <object gid="7" x="58752" y="9034"/>
+ </objectgroup>
+ <objectgroup name="Parallax8" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="8"/>
+  </properties>
+ </objectgroup>
+ <objectgroup name="MockupObjects" width="50" height="15" visible="0"/>
+</map>

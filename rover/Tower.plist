@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>light1</key>
+	<dict>
+		<key>animationFrames</key>
+		<string>1,1,2,2,3,3,4,4,5,5,4,3,2,1</string>
+		<key>delay</key>
+		<real>0.04</real>
+		<key>filenamePrefix</key>
+		<string>Tower1_</string>
+	</dict>
+	
+	<key>light2</key>
+	<dict>
+		<key>animationFrames</key>
+		<string>1,1,2,2,3,3,4,4,5,5,4,3,2,1</string>
+		<key>delay</key>
+		<real>0.04</real>
+		<key>filenamePrefix</key>
+		<string>Tower2_</string>
+	</dict>
+	
+	<key>dark1</key>
+	<dict>
+		<key>animationFrames</key>
+		<string>1,1,2,2,3,3,4,4,5,5,4,3,2,1</string>
+		<key>delay</key>
+		<real>0.04</real>
+		<key>filenamePrefix</key>
+		<string>TowerDark1_</string>
+	</dict>
+	
+	<key>dark2</key>
+	<dict>
+		<key>animationFrames</key>
+		<string>1,1,2,2,3,3,4,4,5,5,4,3,2,1</string>
+		<key>delay</key>
+		<real>0.04</real>
+		<key>filenamePrefix</key>
+		<string>TowerDark2_</string>
+	</dict>
+</dict>
+</plist>

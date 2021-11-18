@@ -1,0 +1,1088 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="15" tilewidth="1280" tileheight="1280" backgroundcolor="#ffffff">
+ <properties>
+  <property name="GravityX" value="0"/>
+  <property name="GravityY" value="-3.711"/>
+  <property name="Time" value="147"/>
+ </properties>
+ <tileset firstgid="1" name="p3rock3" tilewidth="2266" tileheight="850">
+  <image source="p3rock3.png" width="2266" height="850"/>
+ </tileset>
+ <tileset firstgid="2" name="p3rock11" tilewidth="1220" tileheight="478">
+  <image source="p3rock11.png" width="1220" height="478"/>
+ </tileset>
+ <tileset firstgid="3" name="p3rock1" tilewidth="952" tileheight="408">
+  <image source="p3rock1.png" width="952" height="408"/>
+ </tileset>
+ <tileset firstgid="4" name="p3rock2" tilewidth="2182" tileheight="500">
+  <image source="p3rock2.png" width="2182" height="500"/>
+ </tileset>
+ <tileset firstgid="5" name="p3rock8" tilewidth="2674" tileheight="460">
+  <image source="p3rock8.png" width="2674" height="460"/>
+ </tileset>
+ <tileset firstgid="6" name="P3L10_P2_14" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P2_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="7" name="P3L10_P2_15" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P2_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="8" name="P3L10_P2_16" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P2_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="9" name="P3L10_P3_14" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P3_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="10" name="P3L10_P3_15" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P3_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="11" name="P3L10_P3_16" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P3_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="12" name="P3L10_P3_17" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P3_17.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="13" name="P3L10_P3_18" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P3_18.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="14" name="P3L10_P4_14" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P4_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="15" name="P3L10_P4_15" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P4_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="16" name="P3L10_P4_16" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P4_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="17" name="P3L10_P4_17" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P4_17.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="18" name="P3L10_P4_18" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P4_18.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="19" name="P3L10_P5_14" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P5_14.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="20" name="P3L10_P5_15" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P5_15.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="21" name="P3L10_P5_16" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P5_16.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="22" name="P3L10_P5_17" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P5_17.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="23" name="P3L10_P5_18" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P5_18.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="24" name="P3L10_P8_07" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P8_07.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="25" name="P3L10_P8_20" tilewidth="1280" tileheight="1280">
+  <image source="P3L10_P8_20.png" width="1280" height="1280"/>
+ </tileset>
+ <tileset firstgid="26" name="podForeground" tilewidth="2022" tileheight="2490">
+  <image source="../../TextureAtlasImages/LargeSprites/podForeground.png" width="2022" height="2490"/>
+ </tileset>
+ <objectgroup name="Parallax0" width="50" height="15">
+  <properties>
+   <property name="Scale" value="4"/>
+  </properties>
+  <object name="P3_skybox" type="LayerPlaceholder" x="0" y="19008" width="256" height="192">
+   <properties>
+    <property name="ParallaxRatioX" value="0"/>
+    <property name="ParallaxRatioY" value="0"/>
+    <property name="Texture" value="P3L1_P0.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax1" width="50" height="15">
+  <properties>
+   <property name="MotionX" value="-20"/>
+   <property name="MotionY" value=""/>
+   <property name="ParallaxRatioX" value=".05"/>
+   <property name="ParallaxRatioY" value=".05"/>
+   <property name="Scale" value="4"/>
+  </properties>
+  <object name="P3_skybox" type="LayerPlaceholder" x="0" y="18432" width="1536" height="768">
+   <properties>
+    <property name="ParallaxRatioX" value="0.05"/>
+    <property name="ParallaxRatioY" value="0.05"/>
+    <property name="Texture" value="P3L1_P1.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax2" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".4"/>
+   <property name="ParallaxRatioY" value=".4"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="6" x="0" y="19200"/>
+  <object gid="7" x="1280" y="19200"/>
+  <object gid="8" x="2560" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax3" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".6"/>
+   <property name="ParallaxRatioY" value=".6"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="9" x="0" y="19200"/>
+  <object gid="10" x="1280" y="19200"/>
+  <object gid="11" x="2560" y="19200"/>
+  <object gid="12" x="3840" y="19200"/>
+  <object gid="13" x="5120" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax3Sprites" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".6"/>
+   <property name="ParallaxRatioY" value=".6"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object name="digger" type="AnimatedSprite" x="370" y="18793" width="205" height="133">
+   <properties>
+    <property name="AnimationToRun" value="dig"/>
+    <property name="FlipX" value="0"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="0"/>
+    <property name="MoveY" value="0"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="Digger"/>
+    <property name="TimeToMove" value="0"/>
+   </properties>
+  </object>
+  <object name="drill" type="AnimatedSprite" x="3074" y="18552" width="100" height="200">
+   <properties>
+    <property name="AnimationToRun" value="drill"/>
+    <property name="FlipX" value="0"/>
+    <property name="FlipY" value="0"/>
+    <property name="MoveX" value="0"/>
+    <property name="MoveY" value="0"/>
+    <property name="Repeat" value="1"/>
+    <property name="Rotation" value="0"/>
+    <property name="SpriteName" value="Drill"/>
+    <property name="TimeToMove" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax4" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".675"/>
+   <property name="ParallaxRatioY" value=".675"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="14" x="0" y="19200"/>
+  <object gid="15" x="1280" y="19200"/>
+  <object gid="16" x="2560" y="19200"/>
+  <object gid="17" x="3840" y="19200"/>
+  <object gid="18" x="5120" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax4Sprites" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".675"/>
+   <property name="ParallaxRatioY" value=".675"/>
+   <property name="Scale" value="8"/>
+  </properties>
+ </objectgroup>
+ <objectgroup name="Parallax5" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".75"/>
+   <property name="ParallaxRatioY" value=".75"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="19" x="0" y="19200"/>
+  <object gid="20" x="1280" y="19200"/>
+  <object gid="21" x="2560" y="19200"/>
+  <object gid="22" x="3840" y="19200"/>
+  <object gid="23" x="5120" y="19200"/>
+ </objectgroup>
+ <objectgroup name="Parallax5Sprites" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value=".75"/>
+   <property name="ParallaxRatioY" value=".75"/>
+   <property name="Scale" value="8"/>
+  </properties>
+ </objectgroup>
+ <objectgroup name="Parallax6" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="8"/>
+  </properties>
+ </objectgroup>
+ <objectgroup name="ObjectGroupSprites" width="50" height="15">
+  <object name="cartPlayer" type="CartPlayerSprite" x="450" y="15191" width="1024" height="768">
+   <properties>
+    <property name="OffsetY" value="-127.19"/>
+   </properties>
+  </object>
+  <object name="wormhole" type="WormholeSprite" x="978" y="14935">
+   <properties>
+    <property name="PeonCount" value="10"/>
+   </properties>
+  </object>
+  <object name="pod" type="PodSprite" gid="26" x="61637" y="15022">
+   <properties>
+    <property name="height" value="2490"/>
+    <property name="width" value="2022"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="ObjectGroupCollisions" width="50" height="15">
+  <object name="rightClip" type="PlayerClip" x="64000" y="19200">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="topClip" type="PlayerClip" x="64000" y="-19200">
+   <polyline points="0,0 -64000,0"/>
+  </object>
+  <object name="leftClip" type="PlayerClip" x="0" y="19200">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="rightClip2" type="PlayerClip" x="64000" y="0">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="leftClip2" type="PlayerClip" x="0" y="0">
+   <polyline points="0,0 0,-19200"/>
+  </object>
+  <object name="ground" type="TexturedGround" x="0" y="19200">
+   <properties>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="0,0 -1,-3241 1566,-3241 1725,-3181 1828,-3102 1769,-2950 1594,-2769 1620,-2548 1792,-2386 2104,-2332 2174,-2339 2307,-2368 2493,-2296 2673,-2278 2745,-2272 3065,-2301 3343,-2303 3703,-2347 4267,-2334 4612,-2267 4939,-2280 5174,-2296 5957,-2350 6266,-2257 6526,-2262 6753,-2272 7131,-2316 7425,-2401 7914,-2363 8403,-2363 8774,-2478 8942,-2489 9209,-2509 9593,-2411 9946,-2409 10512,-2525 10958,-2525 11283,-2475 11458,-2475 11765,-2494 12082,-2536 12191,-2650 12286,-2650 12508,-2626 12764,-2607 13090,-2593 13142,-2593 13284,-2669 13365,-2825 13284,-2943 13270,-3081 13336,-3119 13445,-3119 13488,-3189 13541,-3228 13541,-3278 13647,-3341 13724,-3364 13711,-3373 13706,-3431 13746,-3508 13803,-3509 13828,-3513 13822,-3521 13868,-3586 13907,-3603 13925,-3607 13933,-3608 14009,-3579 14065,-3521 14064,-3497 14123,-3602 14287,-3611 14359,-3565 14447,-3549 14459,-3542 14463,-3549 14510,-3579 14545,-3593 14592,-3606 14693,-3648 14719,-3641 14711,-3665 14737,-3705 14784,-3737 14812,-3743 14890,-3757 14949,-3747 15012,-3732 15050,-3715 15072,-3724 15173,-3748 15333,-3781 15375,-3771 15428,-3784 15505,-3853 15588,-3853 15630,-3819 15655,-3736 15655,-3703 15717,-3695 15697,-3527 15715,-3499 15688,-3455 15696,-3361 15701,-3296 15640,-3178 15648,-3153 15669,-3060 15735,-2918 15786,-2810 15864,-2708 15912,-2636 15933,-2576 15942,-2525 16143,-2522 16348,-2576 16531,-2630 16681,-2687 17101,-2654 17305,-2660 17608,-2681 17863,-2681 18019,-2684 18367,-3009 18703,-3036 19322,-3030 19550,-3111 19817,-3165 20009,-3315 20168,-3393 20408,-3642 20963,-3708 21264,-3726 21591,-3708 21735,-3777 21942,-3942 22053,-4122 22140,-4350 22308,-4557 22434,-4764 22893,-4893 23250,-4866 23403,-4866 23676,-5025 23742,-5205 23682,-5394 23559,-5497 23655,-5695 23776,-5788 24076,-5758 24463,-5740 24919,-5755 25246,-5758 26095,-5851 26519,-5881 26975,-5827 27323,-5788 27920,-5884 28298,-5719 28902,-5686 29007,-5728 29868,-5950 30150,-5983 30399,-6169 30372,-6532 30216,-6646 30216,-6814 30483,-6916 30543,-6915 30658,-6993 30731,-7021 30879,-7077 31065,-7065 31168,-7009 31352,-7019 31401,-6971 31736,-6927 31747,-6859 31670,-6832 31651,-6791 31679,-6791 31713,-6772 31740,-6720 31716,-6672 31739,-6665 31773,-6645 31801,-6652 31838,-6643 31870,-6596 31874,-6582 31970,-6568 32034,-6546 32060,-6563 32098,-6578 32146,-6592 32238,-6629 32306,-6610 32351,-6572 32326,-6456 32578,-6262 32938,-5983 33058,-5791 32905,-5689 32770,-5500 32932,-5151 32803,-4824 32764,-4791 32764,-4461 33028,-4368 33226,-4323 33550,-4473 33884,-4602 34541,-4608 34760,-4599 35246,-4680 35543,-4731 36149,-4794 36390,-4863 36639,-4632 36678,-4482 37440,-4575 37998,-4683 38721,-4788 39175,-4824 39454,-4701 39589,-4572 40057,-4344 40297,-4317 40837,-4476 41309,-4569 41687,-4569 41945,-4503 42332,-4290 42566,-4164 43208,-4173 43995,-4344 44637,-4461 44823,-4473 45219,-4380 45408,-4482 45594,-4734 45573,-4926 45474,-5118 45381,-5241 45584,-5357 45609,-5403 45773,-5411 45842,-5365 45932,-5349 45942,-5344 45991,-5339 46074,-5305 46093,-5356 46179,-5376 46214,-5384 46301,-5384 46347,-5356 46387,-5274 46369,-5234 46500,-5265 46629,-5261 46741,-5216 46788,-5193 46808,-5210 46853,-5209 46907,-5230 47024,-5220 47067,-5271 47144,-5288 47194,-5275 47203,-5261 47265,-5280 47338,-5264 47413,-5274 47431,-5268 47462,-5318 47556,-5391 47613,-5379 47664,-5350 47719,-5376 48180,-5420 48612,-5468 48741,-5274 48642,-4992 48680,-4824 48764,-4674 48900,-4532 48964,-4448 49312,-4444 49628,-4378 50080,-4378 50404,-4320 50782,-4188 51006,-3744 51384,-3706 51562,-3708 51858,-3462 52090,-3226 52302,-3132 52536,-3024 52648,-2976 53210,-3158 53436,-3204 53720,-3296 54122,-3264 54394,-3200 54640,-3266 54916,-3358 55122,-3424 55644,-3412 56252,-3390 56652,-3250 56970,-3244 57144,-3250 57488,-3212 57838,-3244 58108,-3232 58402,-3392 58616,-3800 58594,-3983 58583,-3988 58584,-4034 58627,-4096 58695,-4115 58709,-4106 58728,-4128 58789,-4147 58852,-4137 58868,-4132 58953,-4183 58988,-4193 59002,-4213 59057,-4248 59101,-4217 59209,-4202 59270,-4180 59320,-4155 59371,-4167 59429,-4146 59518,-4152 59531,-4183 59569,-4207 59594,-4217 59626,-4227 59706,-4259 59760,-4245 59796,-4214 59788,-4176 59804,-4184 59893,-4142 59929,-4207 60034,-4234 60120,-4254 60219,-4251 60309,-4215 60364,-4187 60401,-4217 60435,-4216 60475,-4232 60581,-4223 60595,-4223 60625,-4282 60666,-4281 60706,-4288 60752,-4289 60814,-4287 60884,-4259 60895,-4236 60896,-4230 60911,-4236 60987,-4257 61156,-4147 61159,-4140 61176,-4142 61226,-4104 61558,-4180 61712,-4180 62178,-4180 62724,-4208 63045,-4182 63685,-4186 63998,-4150 64000,0"/>
+  </object>
+  <object name="break" type="BreakGround" x="3660" y="16241">
+   <properties>
+    <property name="BreakID" value="3"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-47,-113 45,-188 303,-208 664,-227 778,-75 492,-27 124,-34"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="5981" y="16052">
+   <properties>
+    <property name="BreakID" value="5"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="7174" y="16028">
+   <properties>
+    <property name="BreakID" value="6"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-636,121 -684,-32 -528,-70 -78,-62 195,-42 316,67 2,148"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="2282" y="16065">
+   <properties>
+    <property name="BreakID" value="1"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="6099" y="16116">
+   <properties>
+    <property name="BreakID" value="5"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-603,62 -627,-72 -390,-134 358,-122 431,45 -322,125"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="6967" y="16037">
+   <properties>
+    <property name="BreakID" value="6"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="7962" y="15939">
+   <properties>
+    <property name="BreakID" value="7"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-501,112 -445,14 -193,-19 458,28 374,134 177,184 -288,222"/>
+  </object>
+  <object name="break" type="BreakGround" x="2705" y="16150">
+   <properties>
+    <property name="BreakID" value="2"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="158,10 21,-99 466,-218 955,-160 996,-121 846,-4 285,26"/>
+  </object>
+  <object name="break" type="BreakGround" x="5005" y="16095">
+   <properties>
+    <property name="BreakID" value="4"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-533,77 -559,-41 -89,-173 530,-102 340,12 52,100 -293,102"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="4024" y="16074">
+   <properties>
+    <property name="BreakID" value="3"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="7929" y="15999">
+   <properties>
+    <property name="BreakID" value="7"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="8660" y="16005">
+   <properties>
+    <property name="BreakID" value="8"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-294,81 -239,-28 -96,-99 417,-84 596,-6 445,118 96,158"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="4946" y="16009">
+   <properties>
+    <property name="BreakID" value="4"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="1774" y="16214">
+   <properties>
+    <property name="BreakID" value="1"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="192,17 74,-59 184,-208 794,-203 1075,-50 682,22"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="8833" y="15980">
+   <properties>
+    <property name="BreakID" value="8"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="3184" y="16000">
+   <properties>
+    <property name="BreakID" value="2"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="9676" y="15994">
+   <properties>
+    <property name="BreakID" value="9"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="10323" y="16014">
+   <properties>
+    <property name="BreakID" value="10"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-105,54 -82,-57 82,-108 731,-95 921,-79 848,22 502,102"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="12949" y="15898">
+   <properties>
+    <property name="BreakID" value="12"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="11880" y="15937">
+   <properties>
+    <property name="BreakID" value="11"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="11515" y="16102">
+   <properties>
+    <property name="BreakID" value="11"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-191,-99 -231,-169 295,-242 892,-227 842,-125 646,-6 187,31"/>
+  </object>
+  <object name="break" type="BreakGround" x="9167" y="16143">
+   <properties>
+    <property name="BreakID" value="9"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="27,-62 135,-178 351,-223 666,-213 1052,-149 999,-21 790,-2 346,10"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="10739" y="15966">
+   <properties>
+    <property name="BreakID" value="10"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="13007" y="15985">
+   <properties>
+    <property name="BreakID" value="12"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-607,-49 -577,-106 -275,-156 434,-134 444,-5 -41,55 -483,19"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="16482" y="15376">
+   <properties>
+    <property name="BreakID" value="13"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="23241" y="13274">
+   <properties>
+    <property name="BreakID" value="19"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-392,56 -233,-120 34,-262 270,-315 316,-139 5,98 -484,370 -547,254"/>
+  </object>
+  <object name="break" type="BreakGround" x="21318" y="14291">
+   <properties>
+    <property name="BreakID" value="17"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="70,258 -277,340 -368,175 -71,-23 480,-339 619,-189 547,-16"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="26173" y="12476">
+   <properties>
+    <property name="BreakID" value="22"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="18057" y="15100">
+   <properties>
+    <property name="BreakID" value="14"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-818,251 -752,45 -560,-43 102,-155 468,-130 383,80 -558,322"/>
+  </object>
+  <object name="break" type="BreakGround" x="16602" y="15439">
+   <properties>
+    <property name="BreakID" value="13"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="389,69 -321,319 -777,246 -816,95 -210,-130 492,-318 638,-140"/>
+  </object>
+  <object name="break" type="BreakGround" x="26075" y="12532">
+   <properties>
+    <property name="BreakID" value="22"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-96,134 -362,21 -224,-108 29,-130 368,-102 681,-50 505,120"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="25087" y="12563">
+   <properties>
+    <property name="BreakID" value="21"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="23068" y="13213">
+   <properties>
+    <property name="BreakID" value="19"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="27073" y="12387">
+   <properties>
+    <property name="BreakID" value="23"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-289,79 11,-27 297,-16 534,-22 739,91 521,226 -247,228"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="20365" y="14551">
+   <properties>
+    <property name="BreakID" value="16"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="21417" y="14234">
+   <properties>
+    <property name="BreakID" value="17"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="27256" y="12455">
+   <properties>
+    <property name="BreakID" value="23"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="19089" y="14780">
+   <properties>
+    <property name="BreakID" value="15"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="24026" y="12640">
+   <properties>
+    <property name="BreakID" value="20"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-437,468 -497,306 -307,80 -44,-59 491,-153 450,51 102,298"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="17849" y="15109">
+   <properties>
+    <property name="BreakID" value="14"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="23991" y="12702">
+   <properties>
+    <property name="BreakID" value="20"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="22186" y="13737">
+   <properties>
+    <property name="BreakID" value="18"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="28242" y="12505">
+   <properties>
+    <property name="BreakID" value="24"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="22003" y="13668">
+   <properties>
+    <property name="BreakID" value="18"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-172,276 92,66 381,-114 665,-135 690,30 430,274 -16,445"/>
+  </object>
+  <object name="break" type="BreakGround" x="28416" y="12554">
+   <properties>
+    <property name="BreakID" value="24"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-661,-21 -516,-110 -107,-133 161,-129 435,-47 300,46 -245,87"/>
+  </object>
+  <object name="break" type="BreakGround" x="19121" y="14720">
+   <properties>
+    <property name="BreakID" value="15"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-652,440 -562,196 -19,-42 435,-120 760,-15 384,264 -317,445"/>
+  </object>
+  <object name="break" type="BreakGround" x="24914" y="12589">
+   <properties>
+    <property name="BreakID" value="21"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-376,139 -336,-45 -76,-131 476,-120 928,65 733,144 -1,195"/>
+  </object>
+  <object name="break" type="BreakGround" x="20192" y="14575">
+   <properties>
+    <property name="BreakID" value="16"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-33,225 -348,242 -231,50 28,-44 473,-145 776,-147 572,46"/>
+  </object>
+  <object name="break" type="BreakGround" x="29623" y="12527">
+   <properties>
+    <property name="BreakID" value="25"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-798,-65 -591,-161 -297,-165 528,-203 556,-39 211,125 -214,161"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="29504" y="12464">
+   <properties>
+    <property name="BreakID" value="25"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="35606" y="13100">
+   <properties>
+    <property name="BreakID" value="28"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-261,109 -334,17 96,-80 495,-135 665,-108 684,-5 104,137"/>
+  </object>
+  <object name="break" type="BreakGround" x="33809" y="13350">
+   <properties>
+    <property name="BreakID" value="26"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-712,149 -709,20 -40,-113 295,-103 218,32 136,60 -419,176"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="34680" y="13207">
+   <properties>
+    <property name="BreakID" value="27"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="34712" y="13147">
+   <properties>
+    <property name="BreakID" value="27"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-455,227 -598,94 -50,-14 281,-19 539,-23 407,134 -11,306"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="35779" y="13074">
+   <properties>
+    <property name="BreakID" value="28"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="33600" y="13360">
+   <properties>
+    <property name="BreakID" value="26"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="40079" y="13784">
+   <properties>
+    <property name="BreakID" value="32"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-347,225 -592,128 8,-30 297,-2 501,29 488,159 -40,262"/>
+  </object>
+  <object name="break" type="BreakGround" x="36814" y="13610">
+   <properties>
+    <property name="BreakID" value="29"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-165,114 -340,19 -182,-88 333,-177 479,-126 548,-16 156,110"/>
+  </object>
+  <object name="break" type="BreakGround" x="41714" y="13660">
+   <properties>
+    <property name="BreakID" value="34"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-255,116 -376,-25 98,-157 556,-106 422,37 110,93 -124,113"/>
+  </object>
+  <object name="break" type="BreakGround" x="37578" y="13388">
+   <properties>
+    <property name="BreakID" value="30"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-188,183 -273,91 353,-55 607,-51 667,42 490,171 120,198"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="38723" y="13348">
+   <properties>
+    <property name="BreakID" value="31"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="40981" y="13771">
+   <properties>
+    <property name="BreakID" value="33"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="40046" y="13844">
+   <properties>
+    <property name="BreakID" value="32"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="37761" y="13456">
+   <properties>
+    <property name="BreakID" value="30"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="40809" y="13795">
+   <properties>
+    <property name="BreakID" value="33"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-207,122 -130,-45 202,-72 506,-91 600,-31 446,74 78,131"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="36912" y="13553">
+   <properties>
+    <property name="BreakID" value="29"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="41812" y="13603">
+   <properties>
+    <property name="BreakID" value="34"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="38895" y="13408">
+   <properties>
+    <property name="BreakID" value="31"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-577,82 -664,58 -561,-66 144,-194 315,-172 282,-27 -327,101"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="43840" y="14120">
+   <properties>
+    <property name="BreakID" value="36"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="42855" y="14165">
+   <properties>
+    <property name="BreakID" value="35"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="44012" y="14179">
+   <properties>
+    <property name="BreakID" value="36"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-582,-6 -246,-139 162,-174 296,-51 196,50 -311,129 -687,103"/>
+  </object>
+  <object name="break" type="BreakGround" x="42671" y="14095">
+   <properties>
+    <property name="BreakID" value="35"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-283,59 -3,9 466,-65 696,-40 713,100 427,200 -325,240"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="44748" y="13947">
+   <properties>
+    <property name="BreakID" value="37"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="44239" y="14095">
+   <properties>
+    <property name="BreakID" value="37"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="87,46 15,-71 395,-198 701,-255 935,-247 1060,-141 731,-29 383,34"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="53275" y="14827">
+   <properties>
+    <property name="BreakID" value="42"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="49999" y="14284">
+   <properties>
+    <property name="BreakID" value="39"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-147,-148 -138,-319 112,-319 398,-234 788,56 756,178 196,25"/>
+  </object>
+  <object name="break" type="BreakGround" x="51343" y="14533">
+   <properties>
+    <property name="BreakID" value="40"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-524,-34 -527,-195 -248,-233 86,-124 383,18 257,218 -229,152"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="51285" y="14446">
+   <properties>
+    <property name="BreakID" value="40"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="57074" y="14778">
+   <properties>
+    <property name="BreakID" value="45"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-285,208 -583,45 -472,-137 278,-114 901,-37 891,124 477,277"/>
+  </object>
+  <object name="break" type="BreakGround" x="48845" y="13972">
+   <properties>
+    <property name="BreakID" value="38"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-1,-53 -71,-248 473,-264 766,-184 998,-14 979,159 431,122"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="49325" y="13824">
+   <properties>
+    <property name="BreakID" value="38"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="54537" y="14777">
+   <properties>
+    <property name="BreakID" value="43"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="55873" y="14803">
+   <properties>
+    <property name="BreakID" value="44"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="break" type="BreakGround" x="52285" y="14835">
+   <properties>
+    <property name="BreakID" value="41"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-529,36 -630,-117 -527,-287 421,28 359,205 31,206"/>
+  </object>
+  <object name="break" type="BreakGround" x="53484" y="14819">
+   <properties>
+    <property name="BreakID" value="42"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-762,22 -498,-61 -116,-65 394,-35 300,118 83,200 -796,148"/>
+  </object>
+  <object name="break" type="BreakGround" x="54570" y="14715">
+   <properties>
+    <property name="BreakID" value="43"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-766,211 -615,38 -36,-61 523,-9 692,133 386,340 -356,323"/>
+  </object>
+  <object name="break" type="BreakGround" x="55700" y="14828">
+   <properties>
+    <property name="BreakID" value="44"/>
+    <property name="Delay" value="0"/>
+    <property name="Dust_1" value="Texture06"/>
+    <property name="IgnoreRocks" value="1"/>
+    <property name="Texture1" value="Texture06.png"/>
+   </properties>
+   <polygon points="-330,250 -554,151 -183,-132 503,-166 704,-115 774,72 531,214"/>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="52166" y="14771">
+   <properties>
+    <property name="BreakID" value="41"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="50317" y="14133">
+   <properties>
+    <property name="BreakID" value="39"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+  <object name="breakEmitter" type="Emitter" x="57248" y="14752">
+   <properties>
+    <property name="BreakID" value="45"/>
+    <property name="EmitterType" value="Texture06_Break"/>
+    <property name="XVariance" value="260"/>
+    <property name="YVariance" value="80"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Parallax7" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="1"/>
+  </properties>
+  <object gid="1" x="13441" y="16196"/>
+  <object gid="2" x="30530" y="12600"/>
+  <object gid="3" x="31402" y="12816"/>
+  <object gid="4" x="45540" y="14288"/>
+  <object gid="5" x="58582" y="15370"/>
+ </objectgroup>
+ <objectgroup name="Parallax8" width="50" height="15">
+  <properties>
+   <property name="ParallaxRatioX" value="1"/>
+   <property name="ParallaxRatioY" value="1"/>
+   <property name="Scale" value="8"/>
+  </properties>
+  <object gid="24" x="7680" y="17920"/>
+  <object gid="25" x="7680" y="19200"/>
+ </objectgroup>
+ <objectgroup name="MockupObjects" width="50" height="15" visible="0"/>
+</map>
