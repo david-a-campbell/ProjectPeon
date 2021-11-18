@@ -1184,7 +1184,6 @@
 		A17EE55A17F60AF10050BE09 /* rock15.png in Resources */ = {isa = PBXBuildFile; fileRef = A17EE3FF17F60AF10050BE09 /* rock15.png */; };
 		A17EE55B17F60AF10050BE09 /* waterBody.png in Resources */ = {isa = PBXBuildFile; fileRef = A17EE40017F60AF10050BE09 /* waterBody.png */; };
 		A17EE57C17F62D9D0050BE09 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = A17EE57B17F62D9D0050BE09 /* Reachability.m */; };
-		A17EE57D17F62EC00050BE09 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1818D661777A631005A5034 /* iAd.framework */; };
 		A17F34FC15BB64EF00300DBC /* Pod.mm in Sources */ = {isa = PBXBuildFile; fileRef = A17F34FB15BB64EF00300DBC /* Pod.mm */; };
 		A18444CD15CB776C009FFB5E /* NodeData.m in Sources */ = {isa = PBXBuildFile; fileRef = A18444CC15CB776B009FFB5E /* NodeData.m */; };
 		A184D83D152956CF003FC084 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A184D7DB152956CF003FC084 /* b2BroadPhase.cpp */; };
@@ -1412,10 +1411,6 @@
 		A1EAE1951797B15D00C027A3 /* spriteAtlas2.png in Resources */ = {isa = PBXBuildFile; fileRef = A1EAE1911797B15D00C027A3 /* spriteAtlas2.png */; };
 		A1EAE1981797B45900C027A3 /* boosterUpgrade.plist in Resources */ = {isa = PBXBuildFile; fileRef = A1EAE1961797B45900C027A3 /* boosterUpgrade.plist */; };
 		A1EAE1991797B45900C027A3 /* wheelUpgrade.plist in Resources */ = {isa = PBXBuildFile; fileRef = A1EAE1971797B45900C027A3 /* wheelUpgrade.plist */; };
-		A1F19E3A183409B600D10EBF /* iPadExperienceStoryboard.storyboardc in Resources */ = {isa = PBXBuildFile; fileRef = A1F19E35183409B600D10EBF /* iPadExperienceStoryboard.storyboardc */; };
-		A1F19E3B183409B600D10EBF /* iPhoneExperienceStoryboard.storyboardc in Resources */ = {isa = PBXBuildFile; fileRef = A1F19E36183409B600D10EBF /* iPhoneExperienceStoryboard.storyboardc */; };
-		A1F19E3C183409B600D10EBF /* Kamcord.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A1F19E37183409B600D10EBF /* Kamcord.bundle */; };
-		A1F19E3D183409B600D10EBF /* KC_GTMOAuth2ViewTouch.nib in Resources */ = {isa = PBXBuildFile; fileRef = A1F19E38183409B600D10EBF /* KC_GTMOAuth2ViewTouch.nib */; };
 		A1F19E3F18340A6900D10EBF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F19E3E18340A6900D10EBF /* CoreMedia.framework */; };
 		A1F19E4118340A7400D10EBF /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F19E4018340A7400D10EBF /* CoreVideo.framework */; };
 		A1F19E4318340A9500D10EBF /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F19E4218340A9500D10EBF /* MessageUI.framework */; };
@@ -2834,7 +2829,6 @@
 		A17EE57B17F62D9D0050BE09 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		A17F34FA15BB64EF00300DBC /* Pod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pod.h; sourceTree = "<group>"; };
 		A17F34FB15BB64EF00300DBC /* Pod.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Pod.mm; sourceTree = "<group>"; };
-		A1818D661777A631005A5034 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		A184182D15170C6D003E8CE6 /* DeletePartQueryCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeletePartQueryCallback.h; sourceTree = "<group>"; };
 		A18444CB15CB776B009FFB5E /* NodeData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeData.h; sourceTree = "<group>"; };
 		A18444CC15CB776B009FFB5E /* NodeData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodeData.m; sourceTree = "<group>"; };
@@ -3181,11 +3175,6 @@
 		A1EAE1911797B15D00C027A3 /* spriteAtlas2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spriteAtlas2.png; sourceTree = "<group>"; };
 		A1EAE1961797B45900C027A3 /* boosterUpgrade.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = boosterUpgrade.plist; sourceTree = "<group>"; };
 		A1EAE1971797B45900C027A3 /* wheelUpgrade.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = wheelUpgrade.plist; sourceTree = "<group>"; };
-		A1F19E33183409B600D10EBF /* Kamcord.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Kamcord.framework; sourceTree = "<group>"; };
-		A1F19E35183409B600D10EBF /* iPadExperienceStoryboard.storyboardc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.storyboardc; path = iPadExperienceStoryboard.storyboardc; sourceTree = "<group>"; };
-		A1F19E36183409B600D10EBF /* iPhoneExperienceStoryboard.storyboardc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.storyboardc; path = iPhoneExperienceStoryboard.storyboardc; sourceTree = "<group>"; };
-		A1F19E37183409B600D10EBF /* Kamcord.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Kamcord.bundle; sourceTree = "<group>"; };
-		A1F19E38183409B600D10EBF /* KC_GTMOAuth2ViewTouch.nib */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = KC_GTMOAuth2ViewTouch.nib; sourceTree = "<group>"; };
 		A1F19E3E18340A6900D10EBF /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		A1F19E4018340A7400D10EBF /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		A1F19E4218340A9500D10EBF /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -3237,7 +3226,6 @@
 				A147B59A15027DAE005C0284 /* AudioToolbox.framework in Frameworks */,
 				A19A022C1800E4DC002B9D87 /* MediaPlayer.framework in Frameworks */,
 				A19A01B817F62F51002B9D87 /* SystemConfiguration.framework in Frameworks */,
-				A17EE57D17F62EC00050BE09 /* iAd.framework in Frameworks */,
 				A1EAE17D17963C8C00C027A3 /* StoreKit.framework in Frameworks */,
 				A174E61115AFD06700F49180 /* GameKit.framework in Frameworks */,
 				A1F29BFD1575BD660086D982 /* CoreData.framework in Frameworks */,
@@ -3374,11 +3362,9 @@
 				A1F19E4218340A9500D10EBF /* MessageUI.framework */,
 				A1F19E4018340A7400D10EBF /* CoreVideo.framework */,
 				A1F19E3E18340A6900D10EBF /* CoreMedia.framework */,
-				A1F19E32183409B600D10EBF /* Kamcord.embeddedframework */,
 				A19A022B1800E4DB002B9D87 /* MediaPlayer.framework */,
 				A17EE57817F62D0F0050BE09 /* SystemConfiguration.framework */,
 				A1EAE17B17963C7700C027A3 /* StoreKit.framework */,
-				A1818D661777A631005A5034 /* iAd.framework */,
 				A174E61015AFD06600F49180 /* GameKit.framework */,
 				A1F29BFC1575BD660086D982 /* CoreData.framework */,
 				A147B59315027DAE005C0284 /* QuartzCore.framework */,
@@ -5748,27 +5734,6 @@
 			path = ToolTipMenu;
 			sourceTree = "<group>";
 		};
-		A1F19E32183409B600D10EBF /* Kamcord.embeddedframework */ = {
-			isa = PBXGroup;
-			children = (
-				A1F19E33183409B600D10EBF /* Kamcord.framework */,
-				A1F19E34183409B600D10EBF /* Resources */,
-			);
-			name = Kamcord.embeddedframework;
-			path = rover/libs/Kamcord.embeddedframework;
-			sourceTree = "<group>";
-		};
-		A1F19E34183409B600D10EBF /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				A1F19E35183409B600D10EBF /* iPadExperienceStoryboard.storyboardc */,
-				A1F19E36183409B600D10EBF /* iPhoneExperienceStoryboard.storyboardc */,
-				A1F19E37183409B600D10EBF /* Kamcord.bundle */,
-				A1F19E38183409B600D10EBF /* KC_GTMOAuth2ViewTouch.nib */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		A1F29C581575D5ED0086D982 /* Database */ = {
 			isa = PBXGroup;
 			children = (
@@ -6207,7 +6172,6 @@
 				A127A86917B6DB5C00F4D06C /* P2L7_P5_18.png in Resources */,
 				A127A86A17B6DB5C00F4D06C /* P2L8_P2_14.png in Resources */,
 				A127A86B17B6DB5C00F4D06C /* P2L8_P2_15.png in Resources */,
-				A1F19E3A183409B600D10EBF /* iPadExperienceStoryboard.storyboardc in Resources */,
 				A127A86C17B6DB5C00F4D06C /* P2L8_P2_16.png in Resources */,
 				A127A86D17B6DB5C00F4D06C /* P2L8_P3_14.png in Resources */,
 				A127A86E17B6DB5C00F4D06C /* P2L8_P3_15.png in Resources */,
@@ -6362,7 +6326,6 @@
 				A127AA5B17B6DB9500F4D06C /* P3L4_P3_17.png in Resources */,
 				A127AA5C17B6DB9500F4D06C /* P3L4_P3_18.png in Resources */,
 				A127AA5D17B6DB9500F4D06C /* P3L4_P4_14.png in Resources */,
-				A1F19E3C183409B600D10EBF /* Kamcord.bundle in Resources */,
 				A127AA5E17B6DB9500F4D06C /* P3L4_P4_15.png in Resources */,
 				A127AA5F17B6DB9500F4D06C /* P3L4_P4_16.png in Resources */,
 				A127AA6017B6DB9500F4D06C /* P3L4_P4_17.png in Resources */,
@@ -6582,7 +6545,6 @@
 				A127AB3617B6DB9500F4D06C /* P3L12_P4_16.png in Resources */,
 				A127AB3717B6DB9500F4D06C /* P3L12_P4_17.png in Resources */,
 				A127AB3817B6DB9500F4D06C /* P3L12_P4_18.png in Resources */,
-				A1F19E3B183409B600D10EBF /* iPhoneExperienceStoryboard.storyboardc in Resources */,
 				A127AB3917B6DB9500F4D06C /* P3L12_P5_04.png in Resources */,
 				A127AB3A17B6DB9500F4D06C /* P3L12_P5_05.png in Resources */,
 				A127AB3B17B6DB9500F4D06C /* P3L12_P5_14.png in Resources */,
@@ -7058,7 +7020,6 @@
 				A1DE07FD180FB2D500FD6077 /* mothership.mp3 in Resources */,
 				A1DE0800180FB4A500FD6077 /* peon_dizzy.mp3 in Resources */,
 				A1DE0801180FB4A500FD6077 /* tornado.mp3 in Resources */,
-				A1F19E3D183409B600D10EBF /* KC_GTMOAuth2ViewTouch.nib in Resources */,
 				A1DE0804180FB99300FD6077 /* Icon-Small-50.png in Resources */,
 				A1DE0805180FB99300FD6077 /* Icon-Small-50@2x.png in Resources */,
 				A1DE080818101F2300FD6077 /* Icon-76.png in Resources */,
