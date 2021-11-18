@@ -1416,7 +1416,6 @@
 		A1F19E4318340A9500D10EBF /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F19E4218340A9500D10EBF /* MessageUI.framework */; };
 		A1F19E4518340AA400D10EBF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F19E4418340AA400D10EBF /* Security.framework */; };
 		A1F19E4718340B0B00D10EBF /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F19E4618340B0B00D10EBF /* Accounts.framework */; };
-		A1F19E4918340B1300D10EBF /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F19E4818340B1300D10EBF /* AdSupport.framework */; };
 		A1F19E4B18340B2000D10EBF /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F19E4A18340B1F00D10EBF /* CoreImage.framework */; };
 		A1F19E4D18340B3100D10EBF /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F19E4C18340B3100D10EBF /* Social.framework */; };
 		A1F19E4F18340B3800D10EBF /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F19E4E18340B3800D10EBF /* Twitter.framework */; };
@@ -3180,7 +3179,6 @@
 		A1F19E4218340A9500D10EBF /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		A1F19E4418340AA400D10EBF /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A1F19E4618340B0B00D10EBF /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
-		A1F19E4818340B1300D10EBF /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		A1F19E4A18340B1F00D10EBF /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		A1F19E4C18340B3100D10EBF /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		A1F19E4E18340B3800D10EBF /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
@@ -3217,7 +3215,6 @@
 				A1F19E4F18340B3800D10EBF /* Twitter.framework in Frameworks */,
 				A1F19E4D18340B3100D10EBF /* Social.framework in Frameworks */,
 				A1F19E4B18340B2000D10EBF /* CoreImage.framework in Frameworks */,
-				A1F19E4918340B1300D10EBF /* AdSupport.framework in Frameworks */,
 				A1F19E4718340B0B00D10EBF /* Accounts.framework in Frameworks */,
 				A1F19E4518340AA400D10EBF /* Security.framework in Frameworks */,
 				A1F19E4318340A9500D10EBF /* MessageUI.framework in Frameworks */,
@@ -3356,7 +3353,6 @@
 				A1F19E4E18340B3800D10EBF /* Twitter.framework */,
 				A1F19E4C18340B3100D10EBF /* Social.framework */,
 				A1F19E4A18340B1F00D10EBF /* CoreImage.framework */,
-				A1F19E4818340B1300D10EBF /* AdSupport.framework */,
 				A1F19E4618340B0B00D10EBF /* Accounts.framework */,
 				A1F19E4418340AA400D10EBF /* Security.framework */,
 				A1F19E4218340A9500D10EBF /* MessageUI.framework */,
