@@ -1,5 +1,6 @@
 #ifdef PROJECTPEON_MAC
 #import "PeonRecorder.h"
+#import "PeonInspection.h"
 #endif
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
@@ -298,7 +299,12 @@
 			kmGLLoadIdentity();
 
 			kmMat4 orthoMatrix;
-			kmMat4OrthographicProjection(&orthoMatrix, 0, size.width, 0, size.height, -1024, 1024);
+			#ifdef PROJECTPEON_MAC
+            CGFloat extra=PeonPresentationSize(size).width-size.width;
+            kmMat4OrthographicProjection(&orthoMatrix, -extra/2, size.width+extra/2, 0, size.height, -1024, 1024);
+#else
+            kmMat4OrthographicProjection(&orthoMatrix, 0, size.width, 0, size.height, -1024, 1024);
+#endif
 			kmGLMultMatrix( &orthoMatrix );
 
 			kmGLMatrixMode(KM_GL_MODELVIEW);
@@ -540,6 +546,14 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 //
 - (void) drawScene
 {
+#ifdef PROJECTPEON_MAC
+    // A synchronous AppKit resize can drain main-queue display callbacks while
+    // an action is still executing. Never tick or render a second frame inside it.
+    static BOOL drawingFrame = NO;
+    if (drawingFrame) return;
+    drawingFrame = YES;
+    @try {
+#endif
 	/* calculate "global" dt */
 	[self calculateDeltaTime];
 
@@ -556,7 +570,7 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 #ifdef PROJECTPEON_MAC
     // AppKit may update the drawable during fullscreen transitions or display changes.
     // Reapply the aspect-fit viewport using its current bounds each frame.
-    [self setViewport];
+    [self setProjection:kCCDirectorProjection2D];
 #endif
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -598,7 +612,7 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
         [performanceLabel setString:[NSString stringWithFormat:@"FPS %.0f",performanceFrames/(now-performanceStart)]];
         performanceFrames=0; performanceStart=now;
     }
-    performanceLabel.position=ccp(_originalWinSize.width-12,12);
+    performanceLabel.position=ccp(_originalWinSize.width+(PeonPresentationSize(_originalWinSize).width-_originalWinSize.width)/2-12,12);
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonHideFPS"])
         [performanceOverlay visit];
 #endif
@@ -607,6 +621,7 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 	_totalFrames++;
 	
 
+	PeonCaptureRequestedScreenshot();
 	[[PeonRecorder sharedRecorder] captureFrame];
 	// flush buffer
 	[self.view.openGLContext flushBuffer];	
@@ -615,6 +630,11 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 
 	if( _displayStats )
 		[self calculateMPF];
+#ifdef PROJECTPEON_MAC
+    } @finally {
+        drawingFrame = NO;
+    }
+#endif
 }
 
 // set the event dispatcher

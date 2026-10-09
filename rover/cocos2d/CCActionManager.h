@@ -59,6 +59,7 @@ typedef struct _hashElement
 	tHashElement	*targets;
 	tHashElement	*currentTarget;
 	BOOL			currentTargetSalvaged;
+	BOOL            updatingActions;
 }
 
 

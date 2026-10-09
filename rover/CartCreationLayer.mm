@@ -1,4 +1,8 @@
 #ifdef PROJECTPEON_MAC
+#import "PeonWideScreen.h"
+#import "PeonViewport.h"
+#endif
+#ifdef PROJECTPEON_MAC
 #import "PeonRecorder.h"
 #endif
 //
@@ -785,6 +789,7 @@
     [self hideToolMenu];
     [fuelGauge fadeIn];
 #ifdef PROJECTPEON_MAC
+    [[PeonWideScreen sharedPresentation] setDriving:YES];
     [[PeonRecorder sharedRecorder] beginGameplay];
 #endif
     [cartCreationDelegate startAction];
@@ -858,6 +863,7 @@
 -(void)relaunch
 {
 #ifdef PROJECTPEON_MAC
+    [[PeonWideScreen sharedPresentation] setDriving:YES];
     [[PeonRecorder sharedRecorder] beginGameplay];
 #endif
     [timer resetTimer];
@@ -875,6 +881,7 @@
 -(void)endGameplay
 {
 #ifdef PROJECTPEON_MAC
+    [[PeonWideScreen sharedPresentation] setDriving:NO];
     [[PeonRecorder sharedRecorder] discard];
 #endif
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
@@ -2020,5 +2027,15 @@
     CGPoint output = ccp(point.x+diff.x, point.y+diff.y);
     return output;
 }
+
+#ifdef PROJECTPEON_MAC
+-(void)visit {
+    CGFloat inset=(PeonPresentationSize(CGSizeMake(1024,768)).width-1024)/2;
+    timer.position=ccp(40-inset,728);
+    fuelGauge.position=ccp(40-inset,728);
+    tabMenu.position=ccp(966.5+inset,735.5);
+    [super visit];
+}
+#endif
 
 @end

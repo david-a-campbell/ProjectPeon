@@ -1,3 +1,4 @@
+#import "PeonWideScreen.h"
 #import "PeonMac.h"
 #import "PeonViewport.h"
 #import <objc/runtime.h>
@@ -43,6 +44,20 @@ int main(void) {
    if(viewport.origin.y>0) NSCAssert([director convertToLogicalCoordinates:CGPointMake(512,0)].y<0,@"Bottom bar maps into game");
    printf("%.0f x %.0f at %.0fx: aspect and pointer alignment PASS\n",size.sizeValue.width,size.sizeValue.height,view.backingScale);
   }
+  [[PeonWideScreen sharedPresentation] setDriving:YES];
+  [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.55]];
+  CGRect wide=PeonGameViewport(CGRectMake(0,0,1920,1080),game);
+  NSCAssert(fabs(wide.size.width/wide.size.height-16.0/9)<0.001,@"Driving did not expand to 16:9");
+  CGPoint center=PeonGamePoint(CGPointMake(960,540),wide,game);
+  NSCAssert(fabs(center.x-512)<0.01 && fabs(center.y-384)<0.01,@"Widescreen pointer center moved");
+  CGPoint edge=PeonGamePoint(CGPointMake(0,540),wide,game);
+  NSCAssert(edge.x<0,@"Widescreen did not reveal additional world space");
+  [[PeonWideScreen sharedPresentation] setPaused:YES];
+  [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.55]];
+  NSCAssert(PeonWideScreenAmount()==0,@"Menu did not collapse to 4:3");
+  [[PeonWideScreen sharedPresentation] setDriving:NO];
+  [[PeonWideScreen sharedPresentation] setPaused:NO];
+  puts("Immediate widescreen expansion, pointer alignment and menu collapse: PASS");
  }
  return 0;
 }

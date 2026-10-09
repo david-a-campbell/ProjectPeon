@@ -290,6 +290,11 @@
 
 -(void) update: (ccTime) dt
 {
+    // Callbacks may synchronously enter an AppKit event loop. A nested update
+    // must not overwrite currentTarget while its action is still on the stack.
+    if (updatingActions) return;
+    updatingActions = YES;
+    @try {
 	for(tHashElement *elt = targets; elt != NULL; ) {
 
 		currentTarget = elt;
@@ -334,5 +339,8 @@
 
 	// issue #635
 	currentTarget = nil;
+    } @finally {
+        updatingActions = NO;
+    }
 }
 @end

@@ -27,6 +27,9 @@
 #import "SpriteTrigger.h"
 #import "CompositeSprite.h"
 #import "SplashZone.h"
+#ifdef PROJECTPEON_MAC
+#import "PeonSkybox.h"
+#endif
 
 @implementation BaseParallaxLayer
 
@@ -182,6 +185,17 @@
         [CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_RGBA8888];
     }
     
+    BOOL extendTerrainEdges=NO;
+    CGFloat firstTileX=CGFLOAT_MAX,lastTileX=-CGFLOAT_MAX;
+#ifdef PROJECTPEON_MAC
+    extendTerrainEdges=groupXRatio>0 && groupXRatio<1 &&
+        [@[@"Parallax2",@"Parallax3",@"Parallax4",@"Parallax5"] containsObject:layerPlaceHolderGroup.groupName];
+    if(extendTerrainEdges) for(NSDictionary *tile in placeholderArray) {
+        if(![[tile valueForKey:@"gid"] length]) continue;
+        CGFloat tileX=[[tile valueForKey:@"x"] doubleValue];
+        firstTileX=MIN(firstTileX,tileX); lastTileX=MAX(lastTileX,tileX);
+    }
+#endif
     for(NSDictionary *placeholder in placeholderArray)
     {
         if ([[placeholder valueForKey:@"type"] isEqualToString:@"AnimatedSprite"])
@@ -192,7 +206,9 @@
         
         if ([[placeholder valueForKey:@"gid"] length])
         {
-            [self processTilePlaceHolder:placeholder xRatio:groupXRatio yRatio:groupYRatio zOrder:groupZOrder scale:scale];
+            CGFloat tileX=[[placeholder valueForKey:@"x"] doubleValue];
+            [self processTilePlaceHolder:placeholder xRatio:groupXRatio yRatio:groupYRatio zOrder:groupZOrder scale:scale
+                             extendLeft:extendTerrainEdges && tileX==firstTileX extendRight:extendTerrainEdges && tileX==lastTileX];
             continue;
         }
         
@@ -212,6 +228,15 @@
             [layerSprite setScale:(2*scale*SCREEN_SCALE)];
             float x = [[placeholder valueForKey:@"x"] floatValue] * scale;
             float y = [[placeholder valueForKey:@"y"] floatValue] * scale;
+#ifdef PROJECTPEON_MAC
+            if ([layerFileName hasSuffix:@"_P0.png"] && layerSprite.contentSize.height == 576) {
+                // The original 256x192 sky is centered in a 1024x576 extension.
+                // Preserve its scale and position in both window formats.
+                layerSprite.scale /= 3;
+                x -= 128 * layerSprite.scale;
+            }
+#endif
+
             
             if([placeholder valueForKey:ParallaxRatioX] != nil)
             {
@@ -226,14 +251,21 @@
                 groupZOrder = [[placeholder valueForKey:ZOrder] intValue];
             }
 
+            CCNode *layerNode=layerSprite;
+#ifdef PROJECTPEON_MAC
+            // Use matching landscape edge samples; preserve the Moon's outpainted globe.
+            if(layerSprite.contentSize.height==576 && [layerFileName hasSuffix:@"_P0.png"] &&
+               ([layerFileName hasPrefix:@"P1"] || [layerFileName hasPrefix:@"P3"]))
+                layerNode=PeonLandscapeSkybox(layerSprite);
+#endif
             //Never set the position of layerSprite - positionOffset below will do the work
-            [parrallaxNode addChild:layerSprite z:groupZOrder parallaxRatio:ccp(groupXRatio, groupYRatio) positionOffset:ccp(x, y) motionOffset:ccp(motionX, motionY)];
+            [parrallaxNode addChild:layerNode z:groupZOrder parallaxRatio:ccp(groupXRatio, groupYRatio) positionOffset:ccp(x, y) motionOffset:ccp(motionX, motionY)];
         }
     }
     [CCTexture2D setDefaultAlphaPixelFormat:currentFormat];
 }
 
--(void)processTilePlaceHolder:(id)placeholder xRatio:(float)groupXRatio yRatio:(float)groupYRatio zOrder:(float)groupZOrder scale:(float)scale
+-(void)processTilePlaceHolder:(id)placeholder xRatio:(float)groupXRatio yRatio:(float)groupYRatio zOrder:(float)groupZOrder scale:(float)scale extendLeft:(BOOL)extendLeft extendRight:(BOOL)extendRight
 {
     int gid = [[placeholder valueForKey:@"gid"] intValue];
     CCTMXTilesetInfo *tileInfo = [self tileInfoForGid:gid];
@@ -248,6 +280,17 @@
     [[tileSprite texture] setAliasTexParameters];
     
     [parrallaxNode addChild:tileSprite z:groupZOrder parallaxRatio:ccp(groupXRatio, groupYRatio) positionOffset:ccp(x, y)];
+#ifdef PROJECTPEON_MAC
+    // Only add neighbors beyond the strip's outer ends; interior tile joins stay exact.
+    for(NSInteger side=-1;side<=1;side+=2) {
+        if((side<0 && !extendLeft) || (side>0 && !extendRight)) continue;
+        CCSprite *edge=[CCSprite spriteWithTexture:tileSprite.texture rect:tileSprite.textureRect];
+        edge.anchorPoint=tileSprite.anchorPoint; edge.scale=tileSprite.scale; edge.flipX=YES;
+        CGFloat edgeX=x+side*tileSprite.boundingBox.size.width;
+        [parrallaxNode addChild:edge z:groupZOrder parallaxRatio:ccp(groupXRatio,groupYRatio) positionOffset:ccp(edgeX,y)];
+    }
+#endif
+
 }
 
 -(void)processEmitter:(id)placeholder xRatio:(float)groupXRatio yRatio:(float)groupYRatio zOrder:(float)groupZOrder scale:(float)scale

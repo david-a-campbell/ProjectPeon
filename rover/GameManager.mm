@@ -1,4 +1,7 @@
 #ifdef PROJECTPEON_MAC
+#import "PeonWideScreen.h"
+#endif
+#ifdef PROJECTPEON_MAC
 #import "PeonRecorder.h"
 #endif
 //  GameManager.m
@@ -232,6 +235,7 @@ static GameManager* _sharedGameManager = nil;                      // 1
 -(void)runSceneWithName:(NSString*)sceneName
 {
 #ifdef PROJECTPEON_MAC
+    [[PeonWideScreen sharedPresentation] setDriving:NO];
     [[PeonRecorder sharedRecorder] discard];
 #endif
 
@@ -268,6 +272,7 @@ static GameManager* _sharedGameManager = nil;                      // 1
 -(void)runPlanet:(int)pNum level:(int)lNum
 {
 #ifdef PROJECTPEON_MAC
+    [[PeonWideScreen sharedPresentation] setDriving:NO];
     [[PeonRecorder sharedRecorder] discard];
 #endif
 
@@ -363,6 +368,9 @@ static GameManager* _sharedGameManager = nil;                      // 1
 -(void)setIsPaused:(BOOL)isPaused
 {
     _isPaused = isPaused;
+#ifdef PROJECTPEON_MAC
+    [[PeonWideScreen sharedPresentation] setPaused:isPaused];
+#endif
     if (_isPaused)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_PAUSE object:nil];

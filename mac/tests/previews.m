@@ -2,12 +2,29 @@
 #import "PopupTitleSettings.h"
 #import "LevelScoreDisplay.h"
 #import "PeonRecorder.h"
+#import "PeonWideScreen.h"
+#import "PeonSkybox.h"
+#import "PunkParallax.h"
 #import "PeonCloseButton.h"
 #import "SaveMenuItem.h"
 #import "UIImage+Extras.h"
 #import "SaveManager.h"
 #import "PopupMenu.h"
 #import "ToolTipMenu.h"
+@interface ReentrantActionTest : NSObject
+@property(assign) CCActionManager *manager;
+@property(assign) id sibling;
+@property NSInteger calls;
+- (void)closeDuringUpdate;
+@end
+@implementation ReentrantActionTest
+- (void)closeDuringUpdate {
+    self.calls++;
+    [self.manager update:1.0/60];
+    [self.manager removeAllActionsFromTarget:self.sibling];
+    [self.manager removeAllActionsFromTarget:self];
+}
+@end
 @interface ToolTipMenu (CloseTest)
 -(id)initWithMessage:(NSString *)message plankCount:(int)count;
 @end
@@ -45,8 +62,22 @@ static BOOL mousePosition(id layer, SEL selector, CGPoint *position) {
     *position = testMouse; return testMouseInside;
 }
 BOOL PeonKeyDown(unsigned short code) { return code<128 && testKeys[code]; }
+static void previewException(NSException *exception) { fprintf(stderr,"Preview check failed: %s\n",exception.description.UTF8String); exit(1); }
 int main(int argc,const char **argv) {
+ NSSetUncaughtExceptionHandler(previewException);
  @autoreleasepool {
+  CCActionManager *reentrantManager=[[[CCActionManager alloc] init] autorelease];
+  ReentrantActionTest *closingTarget=[[[ReentrantActionTest alloc] init] autorelease];
+  NSObject *closingSibling=[[[NSObject alloc] init] autorelease];
+  closingTarget.manager=reentrantManager;
+  closingTarget.sibling=closingSibling;
+  [reentrantManager addAction:[CCCallFunc actionWithTarget:closingTarget selector:@selector(closeDuringUpdate)] target:closingTarget paused:NO];
+  [reentrantManager addAction:[CCDelayTime actionWithDuration:1] target:closingSibling paused:NO];
+  [reentrantManager update:1.0/60];
+  [reentrantManager update:1.0/60];
+  NSCAssert(closingTarget.calls==1,@"A nested frame repeated the closing callback");
+  NSCAssert([reentrantManager numberOfRunningActionsInTarget:closingTarget]==0 && [reentrantManager numberOfRunningActionsInTarget:closingSibling]==0,@"Closing actions were not cleaned up");
+  puts("Nested animation update during menu cleanup: PASS");
   CGLPixelFormatAttribute attributes[]={kCGLPFAAllowOfflineRenderers,0};
   CGLPixelFormatObj format; CGLContextObj context; GLint count;
   NSCAssert(CGLChoosePixelFormat(attributes,&format,&count)==kCGLNoError,@"Pixel format");
@@ -65,6 +96,67 @@ int main(int argc,const char **argv) {
   [CCFileUtils sharedFileUtils].searchPath=@[resources];
   [CCFileUtils sharedFileUtils].enableFallbackSuffixes=NO;
   for(NSString *atlas in @[@"MainMenuAtlas.plist",@"popupBacking.plist",@"spriteAtlas.plist"]) [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:atlas];
+  for (NSString *texture in @[@"P1L1_P1.png", @"P2L2_P1.png", @"P3L1_P1.png"]) {
+   PunkParallax *clouds=[PunkParallax node];
+   CCSprite *cloud=[CCSprite spriteWithFile:texture];
+   cloud.anchorPoint=ccp(0,0); cloud.scale=4;
+   [clouds addChild:cloud z:0 parallaxRatio:ccp(.05,.05) positionOffset:ccp(0,0) motionOffset:ccp(-40,0)];
+   NSCAssert(clouds.children.count==3,@"Moving sky needs neighbors on both sides");
+   for (NSNumber *wide in @[@NO,@YES]) {
+    [[PeonWideScreen sharedPresentation] setDriving:wide.boolValue];
+    for (NSNumber *zoom in @[@1,@.2]) {
+     clouds.scale=zoom.doubleValue;
+     for (NSNumber *cameraX in @[@0,@-10000,@-100000]) {
+      clouds.position=ccp(cameraX.doubleValue,0);
+      for (int step=0;step<4;step++) {
+       [clouds update:step==0?0:1000];
+       [clouds visit];
+       CGFloat inset=wide.boolValue?1024.0/6:0;
+       CGFloat covered=-inset;
+       NSArray *tiles=[[clouds.children getNSArray] sortedArrayUsingComparator:^NSComparisonResult(CCNode *a,CCNode *b) {
+        return a.position.x<b.position.x?NSOrderedAscending:NSOrderedDescending;
+       }];
+       for (CCNode *tile in tiles) {
+        CGRect bounds=tile.boundingBox;
+        CGFloat left=bounds.origin.x*clouds.scaleX;
+        CGFloat right=CGRectGetMaxX(bounds)*clouds.scaleX;
+        if (right<covered) continue;
+        NSCAssert(left<=covered+.01,@"Cloud gap: %@",texture);
+        covered=MAX(covered,right);
+       }
+       NSCAssert(covered>=1024+inset,@"Clouds do not cover right edge: %@",texture);
+      }
+     }
+    }
+   }
+   [clouds cleanup];
+  }
+  [[PeonWideScreen sharedPresentation] setDriving:NO];
+  puts("All moving sky overlays repeat across both edges during camera travel, wrapping and zoom: PASS");
+  for(NSString *name in @[@"P1L1_P0.png",@"P1L2_P0.png",@"P3L1_P0.png"]) {
+   CCSprite *source=[CCSprite spriteWithFile:name]; [source.texture setAliasTexParameters];
+   CCNode *sky=PeonLandscapeSkybox(source);
+   CCRenderTexture *surface=[CCRenderTexture renderTextureWithWidth:1024 height:576];
+   NSMutableData *actual=[NSMutableData dataWithLength:1024*576*4];
+   NSMutableData *expected=[NSMutableData dataWithLength:1024*576*4];
+   [surface beginWithClear:0 g:0 b:0 a:1];
+   kmMat4 projection;kmMat4OrthographicProjection(&projection,0,1024,0,576,-1000,1000);
+   kmGLMatrixMode(KM_GL_PROJECTION);kmGLLoadMatrix(&projection);
+   kmGLMatrixMode(KM_GL_MODELVIEW);kmGLLoadIdentity(); glDisable(GL_DEPTH_TEST);
+   [sky visit]; glReadPixels(0,0,1024,576,GL_RGBA,GL_UNSIGNED_BYTE,actual.mutableBytes);
+   glClear(GL_COLOR_BUFFER_BIT);
+   CCSprite *center=[CCSprite spriteWithTexture:source.texture rect:CGRectMake(128,0,768,576)];
+   center.anchorPoint=ccp(0,0); center.position=ccp(128,0); [center visit];
+   glReadPixels(0,0,1024,576,GL_RGBA,GL_UNSIGNED_BYTE,expected.mutableBytes);
+   [surface end];
+   unsigned char *a=actual.mutableBytes,*e=expected.mutableBytes;
+   for(int y=0;y<576;y++) {
+    NSCAssert(memcmp(a+(y*1024+127)*4,a+(y*1024+128)*4,4)==0,@"Sky left join changed: %@",name);
+    NSCAssert(memcmp(a+(y*1024+895)*4,a+(y*1024+896)*4,4)==0,@"Sky right join changed: %@",name);
+    NSCAssert(memcmp(a+(y*1024+128)*4,e+(y*1024+128)*4,768*4)==0,@"Sky center changed: %@",name);
+   }
+  }
+  puts("Landscape skyboxes: exact edge matches and unchanged center pixels: PASS");
   // Exercise the real director drawing path: font batch nodes must have a parent.
   [director drawScene];
   [director drawScene];
@@ -130,6 +222,31 @@ int main(int argc,const char **argv) {
   [selection cleanup];
   puts("All planet transitions, stationary buttons, bounded WASD, mouse hover without clicks, and centering: PASS");
   RelaunchTestLayer *roverMenu=[RelaunchTestLayer node];
+  CCNode *hudTimer=[CCNode node], *hudFuel=[CCNode node], *hudMenu=[CCNode node];
+  [roverMenu setValue:hudTimer forKey:@"timer"];
+  [roverMenu setValue:hudFuel forKey:@"fuelGauge"];
+  [roverMenu setValue:hudMenu forKey:@"tabMenu"];
+  [[PeonWideScreen sharedPresentation] setPaused:NO];
+  [[PeonWideScreen sharedPresentation] setDriving:YES];
+  [roverMenu visit];
+  NSCAssert(fabs(hudTimer.position.x-(40-1024.0/6))<0.01 && fabs(hudFuel.position.x-hudTimer.position.x)<0.01,@"Wide left HUD margin");
+  NSCAssert(fabs(hudMenu.position.x-(966.5+1024.0/6))<0.01,@"Wide right HUD margin");
+  [[PeonWideScreen sharedPresentation] setDriving:NO];
+  [roverMenu visit];
+  NSCAssert(hudTimer.position.x==40 && hudMenu.position.x==966.5,@"HUD did not restore original margins");
+  puts("Widescreen HUD corner margins and restoration: PASS");
+  CCNode *mapCamera=[NSClassFromString(@"BaseActionLayer") node];
+  mapCamera.scale=0.5;
+  [[PeonWideScreen sharedPresentation] setDriving:YES];
+  mapCamera.position=ccp(-128,0);
+  NSCAssert(fabs(mapCamera.position.x-(-128-1024.0/6))<0.01,@"Wide camera exposed left map boundary");
+  mapCamera.position=ccp(-600,0);
+  NSCAssert(mapCamera.position.x==-600,@"Wide camera blocked forward travel");
+  [[PeonWideScreen sharedPresentation] setDriving:NO];
+  mapCamera.position=ccp(-128,0);
+  NSCAssert(mapCamera.position.x==-128,@"Normal camera position changed");
+  puts("Widescreen map left boundary at zoom and forward travel: PASS");
+
   BaseGameScene *level=[BaseGameScene node];
   [level setValue:roverMenu forKey:@"creationLayer"];
   [roverMenu setValue:@YES forKey:@"cartCreationEnabled"];
@@ -219,6 +336,14 @@ int main(int argc,const char **argv) {
   id priorRecording=[[NSUserDefaults standardUserDefaults] objectForKey:@"PeonRecordingEnabled"];
   [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"PeonRecordingEnabled"];
   LevelScoreDisplay *recordingScore=[[[LevelScoreDisplay alloc] init] autorelease];
+  [[PeonWideScreen sharedPresentation] setPaused:NO];
+  [[PeonWideScreen sharedPresentation] setDriving:YES];
+  [recordingScore visit];
+  NSCAssert(fabs(recordingScore.position.x+1024.0/6)<0.01,@"Hidden score assets did not follow left edge");
+  [[PeonWideScreen sharedPresentation] setDriving:NO];
+  [recordingScore visit];
+  NSCAssert(recordingScore.position.x==0,@"Score assets did not restore original position");
+  puts("Hidden results follow widescreen left edge and restore: PASS");
   CCMenuItem *exportButton=[recordingScore valueForKey:@"videoBtn"];
   NSCAssert(!exportButton.visible && !exportButton.isEnabled,@"Disabled recording exposed export button");
   [[PeonRecorder sharedRecorder] toggleRecording:nil];

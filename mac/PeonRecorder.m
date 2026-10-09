@@ -126,8 +126,16 @@
         for(int i=0;i<2;i++) { glBindBuffer(GL_PIXEL_PACK_BUFFER,transfers[i]); glBufferData(GL_PIXEL_PACK_BUFFER,1024*768*4,NULL,GL_STREAM_READ); }
     }
     glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT,framebuffer);
-    // Flip and shrink on the GPU; transfer into a buffer without reading CPU memory yet.
-    glBlitFramebufferEXT(viewport[0],viewport[1],viewport[0]+viewport[2],viewport[1]+viewport[3],0,768,1024,0,GL_COLOR_BUFFER_BIT,GL_LINEAR);
+    // Aspect-fit the experimental wide view into the recording without stretching it.
+    GLfloat clear[4]; glGetFloatv(GL_COLOR_CLEAR_VALUE,clear);
+    BOOL scissor=glIsEnabled(GL_SCISSOR_TEST); glDisable(GL_SCISSOR_TEST);
+    glClearColor(0,0,0,1); glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(clear[0],clear[1],clear[2],clear[3]);
+    CGFloat factor=MIN(1024.0/viewport[2],768.0/viewport[3]);
+    GLint width=lround(viewport[2]*factor),height=lround(viewport[3]*factor);
+    GLint x=(1024-width)/2,y=(768-height)/2;
+    glBlitFramebufferEXT(viewport[0],viewport[1],viewport[0]+viewport[2],viewport[1]+viewport[3],x,y+height,x+width,y,GL_COLOR_BUFFER_BIT,GL_LINEAR);
+    if(scissor) glEnable(GL_SCISSOR_TEST);
     glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT,framebuffer);
     glBindBuffer(GL_PIXEL_PACK_BUFFER,transfers[index]);
     glPixelStorei(GL_PACK_ALIGNMENT,1); glReadPixels(0,0,1024,768,GL_BGRA,GL_UNSIGNED_BYTE,NULL);

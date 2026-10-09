@@ -1,4 +1,8 @@
 #ifdef PROJECTPEON_MAC
+#import "PeonWideScreen.h"
+#import "PeonViewport.h"
+#endif
+#ifdef PROJECTPEON_MAC
 #import "PeonRecorder.h"
 #endif
 //
@@ -245,6 +249,9 @@
 
 -(void)slideMenuIn
 {
+#ifdef PROJECTPEON_MAC
+    [[PeonWideScreen sharedPresentation] setDriving:NO];
+#endif
     id leftTopMove = [CCMoveTo actionWithDuration:0.5 position:ccp(32, 256)];
     id moveEffectTop = [CCEaseOut actionWithAction:leftTopMove rate:10.0f];
     id leftBottomMove = [CCMoveTo actionWithDuration:0.5 position:ccp(115, 256)];
@@ -378,6 +385,10 @@
 
 -(void)visit
 {
+#ifdef PROJECTPEON_MAC
+    CGFloat inset=(PeonPresentationSize(CGSizeMake(1024,768)).width-1024)/2;
+    self.position=ccp(-inset,self.position.y);
+#endif
     [super visit];
 }
 

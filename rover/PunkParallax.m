@@ -10,6 +10,9 @@
 #import "CGPointExtension.h"
 #import "Constants.h"
 #import "CCSprite.h"
+#ifdef PROJECTPEON_MAC
+#import "PeonViewport.h"
+#endif
 
 @interface PunkNodeObject : NSObject
 {
@@ -24,6 +27,8 @@
 @property (nonatomic, readwrite) CGPoint motionOffset;
 @property (nonatomic, readwrite) CGPoint originalOffset;
 @property (nonatomic,readwrite,assign) CCNode *child;
+@property (nonatomic) BOOL repeatsHorizontally;
+@property (nonatomic) NSInteger repeatIndex;
 +(id) pointWithCGPoint:(CGPoint)point offset:(CGPoint)offset;
 -(id) initWithCGPoint:(CGPoint)point offset:(CGPoint)offset;
 @end
@@ -98,6 +103,30 @@
 
     obj.child.position = ccp(x,y);
 
+#ifdef PROJECTPEON_MAC
+    if (motion.x != 0 && motion.y == 0 && [child isKindOfClass:[CCSprite class]]) {
+        obj.repeatsHorizontally = YES;
+        ccArrayAppendObjectWithResize(_motionArray, obj);
+        for (NSInteger index = -1; index <= 1; index += 2) {
+            CCSprite *copy = [CCSprite spriteWithTexture:[(CCSprite *)child texture]
+                                                   rect:[(CCSprite *)child textureRect]];
+            copy.anchorPoint = child.anchorPoint;
+            copy.scaleX = child.scaleX;
+            copy.scaleY = child.scaleY;
+            copy.opacity = [(CCSprite *)child opacity];
+            copy.color = [(CCSprite *)child color];
+            PunkNodeObject *repeat = [PunkNodeObject pointWithCGPoint:ratio offset:offset];
+            repeat.child = copy;
+            repeat.motionOffset = motion;
+            repeat.originalOffset = offset;
+            repeat.repeatsHorizontally = YES;
+            repeat.repeatIndex = index;
+            ccArrayAppendObjectWithResize(_parallaxArray, repeat);
+            ccArrayAppendObjectWithResize(_motionArray, repeat);
+            [super addChild:copy z:z tag:child.tag];
+        }
+    } else
+#endif
     if (motion.x != 0 || motion.y != 0)
     {
         offset = [self dupOffsetForMotion:motion size:obj.child.boundingBox.size original:offset];
@@ -186,6 +215,27 @@
     _lastPosition = position;
 }
 
+#ifdef PROJECTPEON_MAC
+-(void)visit
+{
+    CGSize presentation = PeonPresentationSize([CCDirector sharedDirector].winSize);
+    CGFloat left = - (presentation.width - [CCDirector sharedDirector].winSize.width) / (2 * self.scaleX);
+    for (unsigned int i = 0; i < _parallaxArray->num; i++) {
+        PunkNodeObject *obj = _parallaxArray->arr[i];
+        if (!obj.repeatsHorizontally) continue;
+        CGFloat width = obj.child.boundingBox.size.width;
+        if (width <= 0) continue;
+        CGFloat origin = _lastPosition.x * obj.ratio.x / self.scaleX + obj.offset.x;
+        // Keep one copy straddling the left edge and its neighbors on either side.
+        CGFloat phase = fmod(origin - left, width);
+        if (phase < 0) phase += width;
+        obj.child.position = ccp(left + phase + obj.repeatIndex * width,
+                                _lastPosition.y * obj.ratio.y / self.scaleY + obj.offset.y);
+    }
+    [super visit];
+}
+#endif
+
 -(void)update:(ccTime)delta
 {
     for(unsigned int i=0; i < _motionArray->num; i++)
@@ -199,6 +249,11 @@
         float xUpperLimit = obj.originalOffset.x + xLimit;
         float xLowerLimit = obj.originalOffset.x - xLimit;
         
+#ifdef PROJECTPEON_MAC
+        if (obj.repeatsHorizontally && xLimit > 0)
+            obj.offset = ccp(obj.originalOffset.x + fmod(obj.offset.x - obj.originalOffset.x, xLimit), obj.offset.y);
+        else
+#endif
         if (obj.offset.x > xUpperLimit || obj.offset.x < xLowerLimit)
             [obj setOffset:ccp(obj.originalOffset.x, obj.offset.y)];
         

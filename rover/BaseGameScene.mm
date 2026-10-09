@@ -18,14 +18,74 @@
 #import "GameManager.h"
 #import "SaveManager.h"
 #import "ControlsLayer.h"
+#ifdef PROJECTPEON_MAC
+#import "PeonWideScreen.h"
+#import "PeonViewport.h"
+#endif
 
 @interface BaseGameScene()
 {
     CartCreationLayer *creationLayer;
+#ifdef PROJECTPEON_MAC
+    BOOL inspectionCameraEnabled;
+    CGPoint inspectionOriginalPosition;
+    CGFloat inspectionOriginalScale;
+    BOOL inspectionOriginalWide;
+    BOOL inspectionDirectorWasPaused;
+#endif
 }
 @end
 
 @implementation BaseGameScene
+
+#ifdef PROJECTPEON_MAC
+@synthesize inspectionCameraEnabled;
+-(BaseActionLayer *)inspectionActionLayer {
+    for(CCNode *node in self.children) if([node isKindOfClass:[BaseActionLayer class]]) return (BaseActionLayer *)node;
+    return nil;
+}
+-(void)setInspectionCameraEnabled:(BOOL)enabled {
+    BaseActionLayer *layer=[self inspectionActionLayer];
+    if(!layer || enabled==inspectionCameraEnabled) return;
+    inspectionCameraEnabled=enabled;
+    if(enabled) {
+        inspectionOriginalPosition=layer.position;
+        inspectionOriginalScale=layer.scale;
+        inspectionOriginalWide=PeonWideScreenAmount()>0;
+        inspectionDirectorWasPaused=[[CCDirector sharedDirector] isPaused];
+        [[CCDirector sharedDirector] pause];
+        [[PeonWideScreen sharedPresentation] setDriving:YES];
+    } else {
+        [[PeonWideScreen sharedPresentation] setDriving:inspectionOriginalWide];
+        layer.scaleX=inspectionOriginalScale;
+        layer.scaleY=inspectionOriginalScale;
+        layer.position=inspectionOriginalPosition;
+        if(!inspectionDirectorWasPaused) [[CCDirector sharedDirector] resume];
+    }
+}
+-(void)setInspectionCameraPosition:(CGPoint)position zoom:(CGFloat)zoom {
+    if(!inspectionCameraEnabled) return;
+    BaseActionLayer *layer=[self inspectionActionLayer];
+    CGFloat clampedZoom=MAX(.2,MIN(1,zoom));
+    layer.scaleX=clampedZoom;
+    layer.scaleY=clampedZoom;
+    CGFloat width=[[layer valueForKey:@"mapWidth"] doubleValue];
+    CGFloat inset=(PeonPresentationSize([CCDirector sharedDirector].winSize).width-[CCDirector sharedDirector].winSize.width)/2;
+    position.x=MAX(position.x,-width*layer.scale+1024+256*layer.scale+inset);
+    position.y=MIN(position.y,-256*layer.scale);
+    layer.position=position;
+}
+-(void)panInspectionCameraBy:(CGPoint)delta {
+    BaseActionLayer *layer=[self inspectionActionLayer];
+    [self setInspectionCameraPosition:ccpAdd(layer.position,delta) zoom:layer.scale];
+}
+-(void)zoomInspectionCameraBy:(CGFloat)factor {
+    BaseActionLayer *layer=[self inspectionActionLayer];
+    CGFloat zoom=MAX(.2,MIN(1,layer.scale*factor));
+    CGFloat ratio=zoom/layer.scale;
+    [self setInspectionCameraPosition:ccp(512+(layer.position.x-512)*ratio,384+(layer.position.y-384)*ratio) zoom:zoom];
+}
+#endif
 
 -(void)cartCreationFromKeyboard
 {

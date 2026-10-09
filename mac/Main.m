@@ -8,15 +8,34 @@
 #import "SaveManager.h"
 #import "PeonMac.h"
 #import "PeonViewport.h"
+#import "PeonInspection.h"
 #import "Platforms/Mac/CCGLView.h"
 
 static BOOL keys[128];
-BOOL PeonKeyDown(unsigned short code) { return code < 128 && keys[code]; }
+static BaseGameScene *inspectionScene(void) {
+    CCScene *scene=[[CCDirector sharedDirector] runningScene];
+    return [scene isKindOfClass:[BaseGameScene class]] ? (BaseGameScene *)scene : nil;
+}
+BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCameraEnabled] && code < 128 && keys[code]; }
 @interface PeonView : CCGLView { UITouch *pointer; }
 @end
 @implementation PeonView
 - (BOOL)acceptsFirstResponder { return YES; }
 - (void)keyDown:(NSEvent *)event {
+    if ([inspectionScene() inspectionCameraEnabled]) {
+        [self.openGLContext makeCurrentContext];
+        switch(event.keyCode) {
+            case 0: case 123: [inspectionScene() panInspectionCameraBy:ccp(128,0)]; break;
+            case 2: case 124: [inspectionScene() panInspectionCameraBy:ccp(-128,0)]; break;
+            case 13: case 126: [inspectionScene() panInspectionCameraBy:ccp(0,-128)]; break;
+            case 1: case 125: [inspectionScene() panInspectionCameraBy:ccp(0,128)]; break;
+            case 24: [inspectionScene() zoomInspectionCameraBy:1.2]; break;
+            case 27: [inspectionScene() zoomInspectionCameraBy:1/1.2]; break;
+            case 53: [inspectionScene() setInspectionCameraEnabled:NO]; break;
+            case 35: [[NSApp delegate] performSelector:@selector(saveCameraScreenshot:) withObject:nil]; break;
+        }
+        return;
+    }
     if (event.keyCode<128) keys[event.keyCode]=YES;
     if (!event.isARepeat &&
         !(event.modifierFlags & (NSEventModifierFlagCommand | NSEventModifierFlagControl | NSEventModifierFlagOption))) {
@@ -37,6 +56,7 @@ BOOL PeonKeyDown(unsigned short code) { return code < 128 && keys[code]; }
 }
 - (void)keyUp:(NSEvent *)event { if (event.keyCode<128) keys[event.keyCode]=NO; }
 - (void)mouseDown:(NSEvent *)event {
+    if ([inspectionScene() inspectionCameraEnabled]) return;
     [self.openGLContext makeCurrentContext];
     CGPoint point = [self convertPoint:event.locationInWindow fromView:nil];
     if (!CGRectContainsPoint(PeonGameViewport(self.bounds, [[CCDirector sharedDirector] winSize]), point)) return;
@@ -65,6 +85,24 @@ BOOL PeonKeyDown(unsigned short code) { return code < 128 && keys[code]; }
 @end
 
 @implementation AppDelegate
+- (void)toggleInspectionCamera:(NSMenuItem *)item {
+    [[(CCGLView *)self.window.contentView openGLContext] makeCurrentContext];
+    BaseGameScene *scene=inspectionScene();
+    [scene setInspectionCameraEnabled:!scene.inspectionCameraEnabled];
+}
+- (void)saveCameraScreenshot:(id)sender {
+    NSString *name=[NSString stringWithFormat:@"Project Peon Camera %.0f.png",NSDate.date.timeIntervalSince1970*1000];
+    PeonRequestScreenshot([[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:name]);
+}
+- (BOOL)validateMenuItem:(NSMenuItem *)item {
+    if(item.action==@selector(toggleInspectionCamera:)) {
+        item.state=inspectionScene().inspectionCameraEnabled?NSControlStateValueOn:NSControlStateValueOff;
+        return inspectionScene()!=nil;
+    }
+    if(item.action==@selector(saveCameraScreenshot:)) return inspectionScene().inspectionCameraEnabled;
+    return YES;
+}
+
 - (void)toggleFPS:(NSMenuItem *)item {
     BOOL hidden=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonHideFPS"];
     [[NSUserDefaults standardUserDefaults] setBool:hidden forKey:@"PeonHideFPS"];
@@ -80,6 +118,13 @@ BOOL PeonKeyDown(unsigned short code) { return code < 128 && keys[code]; }
     fpsItem.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonHideFPS"] ? NSControlStateValueOff : NSControlStateValueOn;
     [appMenu addItem:[NSMenuItem separatorItem]];
     [appMenu addItemWithTitle:@"Quit Project Peon" action:@selector(terminate:) keyEquivalent:@"q"];
+    NSMenuItem *debugRoot=[[[NSMenuItem alloc] initWithTitle:@"Camera" action:nil keyEquivalent:@""] autorelease];
+    NSMenu *debugMenu=[[[NSMenu alloc] initWithTitle:@"Camera"] autorelease];
+    [debugRoot setSubmenu:debugMenu]; [menu addItem:debugRoot];
+    NSMenuItem *inspect=[debugMenu addItemWithTitle:@"Inspect Level (WASD / arrows, + / −, Esc to exit)" action:@selector(toggleInspectionCamera:) keyEquivalent:@"i"];
+    inspect.target=self; inspect.keyEquivalentModifierMask=NSEventModifierFlagCommand|NSEventModifierFlagOption;
+    NSMenuItem *shot=[debugMenu addItemWithTitle:@"Save Screenshot to Desktop" action:@selector(saveCameraScreenshot:) keyEquivalent:@"p"];
+    shot.target=self; shot.keyEquivalentModifierMask=NSEventModifierFlagCommand|NSEventModifierFlagOption;
     [NSApp setMainMenu:menu];
     self.window=[[[NSWindow alloc] initWithContentRect:NSMakeRect(0,0,1024,768) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskResizable backing:NSBackingStoreBuffered defer:NO] autorelease];
     self.window.title=@"Project Peon — A/D or ←/→ drive · Space boost · R relaunch · C build · M next song"; self.window.delegate=self;

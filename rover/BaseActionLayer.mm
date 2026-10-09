@@ -31,6 +31,9 @@
 #import "ForceArea.h"
 #import "CompositeSprite.h"
 #import "PunkParallax.h"
+#ifdef PROJECTPEON_MAC
+#import "PeonViewport.h"
+#endif
 
 @implementation BaseActionLayer
 @synthesize playerCart;
@@ -354,10 +357,14 @@
     float newX = fixedPositionX - [playerCart averagePosition].x;
     float newY = fixedPositionY - [playerCart averagePosition].y;
     
-    //for stopping on the left
-    newX = MIN(newX, -xStop);
+    float wideInset = 0;
+#ifdef PROJECTPEON_MAC
+    wideInset = (PeonPresentationSize([CCDirector sharedDirector].winSize).width - [CCDirector sharedDirector].winSize.width) / (2 * scale);
+#endif
+    // Keep the expanded viewport inside the same map boundaries.
+    newX = MIN(newX, -xStop-wideInset);
     //for stopping on the right
-    newX = MAX(newX, -mapWidth+winSize.width+xStop);
+    newX = MAX(newX, -mapWidth+winSize.width+xStop+wideInset);
     //for stopping on the bottom
     newY = MIN(newY, -yStop);
     
@@ -404,8 +411,21 @@
     [self setPosition:newPos];
 }
 
+#ifdef PROJECTPEON_MAC
+-(void)visit
+{
+    // Apply the left boundary before the first widescreen frame is drawn.
+    [self setPosition:self.position];
+    [super visit];
+}
+#endif
+
 -(void)setPosition:(CGPoint)position
 {
+#ifdef PROJECTPEON_MAC
+    CGFloat inset=(PeonPresentationSize([CCDirector sharedDirector].winSize).width-[CCDirector sharedDirector].winSize.width)/2;
+    if (inset > 0) position.x=MIN(position.x,-256*self.scale-inset);
+#endif
     for (BaseParallaxLayer *aLayer in parallaxHolderArray)
     {
         [aLayer setParallaxPosition:position];
@@ -852,10 +872,14 @@
     float newX = fixedPositionX - [[self getPod] position].x;
     float newY = fixedPositionY - [[self getPod] position].y;
     
-    //for stopping on the left
-    newX = MIN(newX, -xStop);
+    float wideInset = 0;
+#ifdef PROJECTPEON_MAC
+    wideInset = (PeonPresentationSize([CCDirector sharedDirector].winSize).width - [CCDirector sharedDirector].winSize.width) / (2 * newScale);
+#endif
+    // Keep the expanded viewport inside the same map boundaries.
+    newX = MIN(newX, -xStop-wideInset);
     //for stopping on the right
-    newX = MAX(newX, (-mapWidth)+winSize.width+xStop);
+    newX = MAX(newX, (-mapWidth)+winSize.width+xStop+wideInset);
     //for stopping on the bottom
     newY = MIN(newY, -yStop);
 
