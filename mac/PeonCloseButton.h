@@ -4,6 +4,8 @@
 @property(nonatomic) NSInteger closePriority;
 @end
 
+BOOL PeonDismissOpenMenu(void);
+
 // Use the same normal/selected sprite and tracking behavior as other game buttons.
 static void PeonAddCloseButton(CCSprite *frame, BOOL wide, id target, SEL action, NSInteger priority) {
     CCSprite *up = [CCSprite spriteWithFile:@"MenuClose.png"];

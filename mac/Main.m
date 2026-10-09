@@ -2,6 +2,7 @@
 #import "PeonRecorder.h"
 #endif
 #import "MacAppDelegate.h"
+#import "PeonCloseButton.h"
 #import "GameManager.h"
 #import "BaseGameScene.h"
 #import "SaveManager.h"
@@ -19,6 +20,10 @@ BOOL PeonKeyDown(unsigned short code) { return code < 128 && keys[code]; }
     if (event.keyCode<128) keys[event.keyCode]=YES;
     if (!event.isARepeat &&
         !(event.modifierFlags & (NSEventModifierFlagCommand | NSEventModifierFlagControl | NSEventModifierFlagOption))) {
+        if (event.keyCode==53) {
+            [self.openGLContext makeCurrentContext];
+            PeonDismissOpenMenu();
+        }
         if (event.keyCode==46) [[GameManager sharedGameManager] playNextTrackForCurrentScene];
         if (event.keyCode==15 || event.keyCode==8) {
             CCScene *scene = [[CCDirector sharedDirector] runningScene];

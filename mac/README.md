@@ -48,3 +48,5 @@ Gameplay records automatically at 1024×768, up to 60 fps, with background video
 Capture uses two GPU transfer buffers, polls completion without waiting, and enables hardware H.264 encoding where available. Both GPU transfer and encoder queues remain bounded.
 
 Use Project Peon → Show FPS in the Mac menu bar to show or hide the FPS monitor. The preference is remembered between launches.
+
+Escape dismisses the topmost open menu, just like its red close button.

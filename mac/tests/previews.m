@@ -1,3 +1,4 @@
+#import "PeonCloseButton.h"
 #import "SaveMenuItem.h"
 #import "UIImage+Extras.h"
 #import "SaveManager.h"
@@ -211,6 +212,19 @@ int main(int argc,const char **argv) {
   [tipCloseMenu ccTouchEnded:tipTouch withEvent:nil];
   NSCAssert([[tip valueForKey:@"isClosing"] boolValue],@"Tooltip close button did not dismiss");
   [tip cleanup];
+  CCNode *escapeRoot=[CCNode node];
+  director.notificationNode=escapeRoot;
+  [escapeRoot onEnter];
+  NSCAssert(!PeonDismissOpenMenu(),@"Escape should do nothing without a menu");
+  for(int type=0;type<=6;type++) {
+   PopupMenu *escapePopup=[[[PopupMenu alloc] initForType:type andDelegate:nil] autorelease];
+   [escapeRoot addChild:escapePopup];
+   NSCAssert(PeonDismissOpenMenu() && [[escapePopup valueForKey:@"isClosing"] boolValue],@"Escape did not dismiss popup %d",type);
+   NSCAssert(!PeonDismissOpenMenu(),@"Escape reactivated a closing menu");
+   [escapePopup removeFromParentAndCleanup:YES];
+  }
+  [escapeRoot onExit]; director.notificationNode=nil;
+  puts("Escape dismissal for all seven popup types and no-menu guard: PASS");
   puts("All popup types: down/up sprites, drag out/back, cancellation, release dismissal; tooltip release: PASS");
  }
  return 0;
