@@ -34,6 +34,9 @@
 #import "CCEventDispatcher.h"
 #import "CCGLView.h"
 #import "CCWindow.h"
+#ifdef PROJECTPEON_MAC
+#import "PeonViewport.h"
+#endif
 
 #import "../../CCNode.h"
 #import "../../CCScheduler.h"
@@ -244,6 +247,12 @@
 
 -(void) setViewport
 {
+#ifdef PROJECTPEON_MAC
+    CGSize gameSize = CGSizeEqualToSize(_originalWinSize, CGSizeZero) ? _winSizeInPixels : _originalWinSize;
+    CGRect viewport = _resizeMode == kCCDirectorResize_AutoScale ? PeonGameViewport(self.view.bounds, gameSize) : self.view.bounds;
+    NSRect backing = [self.view convertRectToBacking:viewport];
+    glViewport(lround(backing.origin.x), lround(backing.origin.y), lround(backing.size.width), lround(backing.size.height));
+#else
 	CGPoint offset = CGPointZero;
 	float widthAspect = _winSizeInPixels.width;
 	float heightAspect = _winSizeInPixels.height;
@@ -267,6 +276,7 @@
 	}
 
 	glViewport(offset.x, offset.y, widthAspect, heightAspect);
+#endif
 }
 
 -(void) setProjection:(ccDirectorProjection)projection
@@ -358,6 +368,11 @@
 
 - (CGPoint) convertToLogicalCoordinates:(CGPoint)coords
 {
+#ifdef PROJECTPEON_MAC
+    if (_resizeMode == kCCDirectorResize_NoScale) return coords;
+    CGSize gameSize = [self winSize];
+    return PeonGamePoint(coords, PeonGameViewport(self.view.bounds, gameSize), gameSize);
+#endif
 	CGPoint ret;
 
 	if( _resizeMode == kCCDirectorResize_NoScale )
@@ -414,7 +429,13 @@
 	[pool release];
 		
 #else
-	[self performSelector:@selector(drawScene) onThread:_runningThread withObject:nil waitUntilDone:YES];
+	#ifdef PROJECTPEON_MAC
+    // Keep scene mutation and Core Data on the AppKit thread, and never block
+    // the display callback while the main thread stops the display link.
+    dispatch_async(dispatch_get_main_queue(), ^{ if (_isAnimating) [self drawScene]; });
+#else
+    [self performSelector:@selector(drawScene) onThread:_runningThread withObject:nil waitUntilDone:YES];
+#endif
 #endif
 
     return kCVReturnSuccess;
@@ -529,6 +550,11 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 	if( ! _isPaused )
 		[_scheduler update: _dt];
 
+#ifdef PROJECTPEON_MAC
+    // AppKit may update the drawable during fullscreen transitions or display changes.
+    // Reapply the aspect-fit viewport using its current bounds each frame.
+    [self setViewport];
+#endif
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	/* to avoid flickr, nextScene MUST be here: after tick and before draw.

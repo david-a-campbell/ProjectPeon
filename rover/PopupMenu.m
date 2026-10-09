@@ -206,11 +206,9 @@ static PopupMenu *_currentDisplay;
 
 -(BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    float menuWidth = [top boundingBox].size.width;
     CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
-    CGRect boundingBox = CGRectMake(0, 0, menuWidth, [self getMenuHeight]);
-    touchLocation = ccp(touchLocation.x + menuWidth/2.0f, touchLocation.y + [self getMenuHeight]/2.0f);
-    
+    CGRect boundingBox = CGRectUnion(top.boundingBox, bottom.boundingBox);
+
     if (!isClosing)
     {
         if(!CGRectContainsPoint(boundingBox, touchLocation))

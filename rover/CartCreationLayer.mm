@@ -837,6 +837,18 @@
     [timer startTimer];
 }
 
+-(void)cartCreationFromKeyboard
+{
+    if (!cartCreationEnabled && popupTypeToShow == kPopupTypeGamePlay)
+        [self goToCartCreation];
+}
+
+-(void)relaunchFromKeyboard
+{
+    if (!cartCreationEnabled && popupTypeToShow == kPopupTypeGamePlay)
+        [self relaunch];
+}
+
 -(void)relaunch
 {
     [timer resetTimer];

@@ -114,6 +114,17 @@
     [[self nodeArray] addObject:sfxSlider];
     [[self nodeArray] addObject:menu];
     [[self nodeArray] addObject:subMenu];
+#ifdef PROJECTPEON_MAC
+    // Mac input uses the keyboard; the old tilt and touch switches do not apply.
+    [controlSwitchBG setVisible:NO];
+    [controlTiltBtn setVisible:NO]; [controlTiltBtn setIsEnabled:NO];
+    [controlTouchBtn setVisible:NO]; [controlTouchBtn setIsEnabled:NO];
+    [retinaSwitch setVisible:NO]; [retinaSwitch setIsEnabled:NO];
+    CCLabelBMFont *help = [CCLabelBMFont labelWithString:@"A / D or arrow keys: drive\nSpace: boost / R: relaunch\nClick and drag: build\nC: edit cart / M: next song" fntFile:@"font52.fnt"];
+    [help setScale:SCREEN_SCALE]; [help setPosition:ccp(0, -50)];
+    [[self nodeArray] addObject:help];
+#endif
+
 }
 
 -(void)switchRetina

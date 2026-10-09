@@ -186,9 +186,9 @@
 
 -(void)fadeMiddleInComplete
 {
+    [self deallocScrollview];
     [self getSavedCarts];
     [self setupScrollview];
-    [NSThread detachNewThreadSelector:@selector(setupScrollview) toTarget:self withObject:nil];
     isMenuDisplaying = YES;
     [self setIsMenuEnabled:YES];
 }
@@ -405,10 +405,8 @@
 {
     if (expandedItem != nil)
     {
-        //Center of box is at (512, 327.83)
-        CGRect boundingBox = CGRectMake(296.96, 166.55, 430.08, 322.56);
-        CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
-        touchLocation = ccp(touchLocation.x, touchLocation.y);
+        CGRect boundingBox = [expandedItem selectionBounds];
+        CGPoint touchLocation = [expandedItem convertTouchToNodeSpace:touch];
         if (!CGRectContainsPoint(boundingBox, touchLocation)) {
                 [expandedItem minimize];
         }

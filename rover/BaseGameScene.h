@@ -17,5 +17,7 @@
     int planetNum;
     int levelNum;
 }
+-(void)relaunchFromKeyboard;
+-(void)cartCreationFromKeyboard;
 -(id)initWithPlanet:(int)pNum andLevel:(int)lNum;
 @end

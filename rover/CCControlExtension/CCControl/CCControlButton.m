@@ -539,7 +539,7 @@ enum
 #pragma mark -
 #pragma mark CCTargetedTouch Delegate Methods
 
-#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) || defined(PROJECTPEON_MAC)
 
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {

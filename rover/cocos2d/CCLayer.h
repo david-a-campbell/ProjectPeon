@@ -28,7 +28,7 @@
 
 #import "ccMacros.h"
 
-#ifdef __CC_PLATFORM_IOS
+#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
 #import <UIKit/UIKit.h>									// Needed for UIAccelerometerDelegate
 #import "Platforms/iOS/CCTouchDelegateProtocol.h"		// Touches only supported on iOS
 #elif defined(__CC_PLATFORM_MAC)
@@ -53,7 +53,7 @@ typedef enum {
  - It can receive Keyboard events on Mac
  - It can receive Mouse events on Mac
 */
-#ifdef __CC_PLATFORM_IOS
+#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
 @interface CCLayer : CCNode <CCAccelerometerDelegate, CCTouchAllAtOnceDelegate, CCTouchOneByOneDelegate>
 {
 	BOOL _touchEnabled;

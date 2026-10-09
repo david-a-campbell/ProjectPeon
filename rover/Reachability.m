@@ -67,7 +67,11 @@ static void PrintReachabilityFlags(SCNetworkReachabilityFlags flags, const char*
 #if kShouldPrintReachabilityFlags
 
     NSLog(@"Reachability Flag Status: %c%c %c%c%c%c%c%c%c %s\n",
-          (flags & kSCNetworkReachabilityFlagsIsWWAN)				? 'W' : '-',
+          #ifdef PROJECTPEON_MAC
+          '-',
+#else
+          (flags & kSCNetworkReachabilityFlagsIsWWAN) ? 'W' : '-',
+#endif
           (flags & kSCNetworkReachabilityFlagsReachable)            ? 'R' : '-',
 
           (flags & kSCNetworkReachabilityFlagsTransientConnection)  ? 't' : '-',
@@ -262,6 +266,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
         }
     }
 
+#ifndef PROJECTPEON_MAC
 	if ((flags & kSCNetworkReachabilityFlagsIsWWAN) == kSCNetworkReachabilityFlagsIsWWAN)
 	{
 		/*
@@ -269,6 +274,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
          */
 		returnValue = ReachableViaWWAN;
 	}
+#endif
     
 	return returnValue;
 }

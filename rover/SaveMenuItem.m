@@ -51,7 +51,11 @@
 -(void)setupImage:(UIImage *)image
 {
     savedImage = [[CCSprite spriteWithCGImage:[image CGImage] key:nil] retain];
-    [savedImage setScale:0.28*2*(SCREEN_SCALE)];
+    // Saved PNGs can have Retina pixel dimensions independent of their point size.
+    // Fit the preview to the original 512 x 384 canvas before scaling the menu.
+    CGSize previewSize = savedImage.contentSize;
+    CGFloat previewScale = MIN(512.0 / previewSize.width, 384.0 / previewSize.height);
+    [savedImage setScale:previewScale * 0.28*2*(SCREEN_SCALE)];
     [savedImage setAnchorPoint:ccp(0,0)];
     [savedImage setPosition:ccp(24.25*0.28, 24.25*0.28)];
     CCSprite *backing = [CCSprite spriteWithSpriteFrameName:@"blueprints_loadGlow_1.png"];
@@ -61,7 +65,10 @@
     button = [CCMenuItemSprite itemWithNormalSprite:backing selectedSprite:backingSel disabledSprite:nil target:self selector:@selector(expandView)];
     [button addChild:savedImage];
     [button setAnchorPoint:ccp(0, 0)];
-    [button  setPosition:ccp((-[button boundingBox].size.width/2)*0.28*2*(SCREEN_SCALE), (-[button boundingBox].size.height/2)*0.28*2*(SCREEN_SCALE))];
+    CGSize frameSize = CGSizeMake(backing.contentSize.width * backing.scale,
+                                  backing.contentSize.height * backing.scale);
+    [button setContentSize:frameSize];
+    [button setPosition:ccp(-frameSize.width/2, -frameSize.height/2)];
     [self addChild:button];
     [self setOpacity:0];
     [self setupButtons];
@@ -87,6 +94,11 @@
     [saveButton setIsEnabled:NO];
     [self addChild:deleteButton];
     [self addChild:saveButton];
+}
+
+-(CGRect)selectionBounds
+{
+    return CGRectUnion(button.boundingBox, CGRectUnion(saveButton.boundingBox, deleteButton.boundingBox));
 }
 
 -(void)minimize
@@ -115,7 +127,7 @@
     [deleteButton runAction:[[fade copy]autorelease]];
     [saveButton runAction:fade];
     [deleteButton setIsEnabled:YES];
-    [saveButton setIsEnabled:YES]; 
+    [saveButton setIsEnabled:YES];
     [saveDelegate expandViewComplete];
 }
 
@@ -135,7 +147,7 @@
 
 -(void)colapseComplete
 {
-//    [[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:1 swallowsTouches:NO];
+//    [[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:-502 swallowsTouches:NO];
     [self setTouchEnabled:YES];
     [button setIsEnabled:YES];
     isExpanded = NO;
@@ -200,7 +212,7 @@
 
 -(void)registerWithTouchDispatcher
 {
-    [[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:1 swallowsTouches:NO]; 
+    [[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:-502 swallowsTouches:NO];
 }
 
 @end

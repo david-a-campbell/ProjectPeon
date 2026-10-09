@@ -89,7 +89,11 @@
 -(void)switchToCurrentMode
 {
     currentMovement = ccp(0, 0);
+#ifdef PROJECTPEON_MAC
+    useTouch = NO;
+#else
     useTouch = [[SaveManager sharedManager] useTouchControl];
+#endif
     
     if (controlsEnabled && useTouch)
     {
@@ -229,6 +233,14 @@
 {
     if ([[GameManager sharedGameManager] isPaused]){return;}
     
+#ifdef PROJECTPEON_MAC
+    BOOL boost = PeonKeyDown(49);
+    if (boost != buttonBecameActive) {
+        if (boost) [_actionLayer buttonPressBegan]; else [_actionLayer buttonPressEnded];
+        buttonBecameActive = boost;
+    }
+    currentMovement = ccp(0, (PeonKeyDown(2) || PeonKeyDown(124)) - (PeonKeyDown(0) || PeonKeyDown(123)));
+#else
     if (useTouch)
     {
         if ([button active] && !buttonBecameActive)
@@ -242,6 +254,7 @@
         }
         currentMovement = ccp(0, joystick.velocity.x);
     }
+#endif
     [_actionLayer movementDidOccur:currentMovement];
 }
 

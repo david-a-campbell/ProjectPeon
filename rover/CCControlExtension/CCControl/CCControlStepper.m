@@ -30,7 +30,7 @@
 #define CCControlStepperLabelColorEnabled   ccc3(55, 55, 55)
 #define CCControlStepperLabelColorDisabled  ccc3(147, 147, 147)
 
-#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) || defined(PROJECTPEON_MAC)
 #define CCControlStepperLabelFont           @"CourierNewPSMT"
 #elif __MAC_OS_X_VERSION_MAX_ALLOWED
 #define CCControlStepperLabelFont           @"Courier New"
@@ -284,7 +284,7 @@
     }
 }
 
-#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) || defined(PROJECTPEON_MAC)
 
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {

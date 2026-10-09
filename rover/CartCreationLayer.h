@@ -137,4 +137,6 @@
 -(id)initwithLayerToFollow:(CCLayer*)layer andDelegate:(id<cartCreationDelegate>) theDelegate  topLayer:(CCLayer *)topLayer;
 -(void)selectToolType:(ToolType)type;
 -(void)slideToolMenuIn;
+-(void)relaunchFromKeyboard;
+-(void)cartCreationFromKeyboard;
 @end

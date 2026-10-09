@@ -13,7 +13,12 @@
     CCLabelAtlas *scoreLabel;
     CCLabelAtlas *levelLabel;
     CCSprite *screen;
+#ifdef PROJECTPEON_MAC
+    CCSprite *activityIndicatorSprite;
+#else
     UIImageView *activityIndicatorView;
+#endif
+    BOOL isFadingOut;
 }
 -(id)initWithPlanetNum:(int)planetNum LevelNumber:(int)levelNum;
 -(void)showActivityIndicator;

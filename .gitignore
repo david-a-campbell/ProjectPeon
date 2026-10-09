@@ -1,0 +1,4 @@
+# Local Mac builds and Python cache
+/build/
+__pycache__/
+*.pyc

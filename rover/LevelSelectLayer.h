@@ -17,5 +17,8 @@
     CCTMXTiledMap *tileMapNode;
     CGPoint originalPosition;
     CGPoint currentOffset;
+#ifdef PROJECTPEON_MAC
+    CGPoint parallaxTarget;
+#endif
 }
 @end

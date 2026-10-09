@@ -581,7 +581,7 @@ enum {
  */
 - (CGPoint)convertToWorldSpaceAR:(CGPoint)nodePoint;
 
-#ifdef __CC_PLATFORM_IOS
+#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
 /** Converts a UITouch to node (local) space coordinates. The result is in Points.
  @since v0.7.1
  */

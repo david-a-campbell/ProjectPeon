@@ -69,12 +69,21 @@
 
 -(void)showActivityIndicator
 {
+    if (isFadingOut) return;
+#ifdef PROJECTPEON_MAC
+    activityIndicatorSprite = [CCSprite spriteWithFile:@"loadingIcon.png"];
+    activityIndicatorSprite.position = ccp(946, 78);
+    activityIndicatorSprite.scale = 2*SCREEN_SCALE;
+    [self addChild:activityIndicatorSprite];
+    [activityIndicatorSprite runAction:[CCRepeatForever actionWithAction:[CCRotateBy actionWithDuration:0.8 angle:360]]];
+#else
     activityIndicatorView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loadingIcon"]];
     [activityIndicatorView setUserInteractionEnabled:NO];
     activityIndicatorView.center = ccp(946, 690);
     [[activityIndicatorView layer] addAnimation:[self animationForSpinning] forKey:@"rotationAnimation"];
     [[[CCDirector sharedDirector] view] addSubview:activityIndicatorView];
     [activityIndicatorView release];
+#endif
 }
 
 -(CCSequence*)fadeOutSequence
@@ -84,7 +93,13 @@
 
 -(void)fadeOut
 {
+    isFadingOut = YES;
+#ifdef PROJECTPEON_MAC
+    [activityIndicatorSprite removeFromParentAndCleanup:YES];
+    activityIndicatorSprite = nil;
+#else
     [activityIndicatorView removeFromSuperview];
+#endif
     [screen runAction:[CCFadeTo actionWithDuration:0.5 opacity:0]];
     [scoreLabel runAction:[CCFadeTo actionWithDuration:0.5 opacity:0]];
     [levelLabel runAction:[CCFadeTo actionWithDuration:0.5 opacity:0]];

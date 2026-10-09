@@ -1,0 +1,6 @@
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import "Platforms/Mac/CCEventDispatcher.h"
+#import "cocos2d.h"
+#import "PeonMac.h"
+#endif

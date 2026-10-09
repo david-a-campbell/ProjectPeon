@@ -4,39 +4,61 @@
 <dict>
 	<key>TitleScene</key>
 	<array>
+		<string>MT-10-02.mp3</string>
+		<string>MT-15-02.mp3</string>
+		<string>MT-20-02.mp3</string>
 		<string>MT-4-02.mp3</string>
+		<string>electrik candy puke th5 revision.mp3</string>
+		<string>jamaica space base riddim.mp3</string>
+		<string>sampledTrack.mp3</string>
+		<string>space tech 1-337.mp3</string>
 	</array>
 	<key>MainMenuScene</key>
 	<array>
-		<string>jamaica space base riddim.mp3</string>
-		<string>electrik candy puke th5 revision.mp3</string>
+		<string>MT-10-02.mp3</string>
+		<string>MT-15-02.mp3</string>
+		<string>MT-20-02.mp3</string>
 		<string>MT-4-02.mp3</string>
+		<string>electrik candy puke th5 revision.mp3</string>
+		<string>jamaica space base riddim.mp3</string>
+		<string>sampledTrack.mp3</string>
+		<string>space tech 1-337.mp3</string>
 	</array>
 	<key>Planet1</key>
 	<array>
-		<string>MT-10-02.mp3</string>
-		<string>MT-20-02.mp3</string>
-		<string>jamaica space base riddim.mp3</string>
-		<string>electrik candy puke th5 revision.mp3</string>
-		<string>MT-15-02.mp3</string>
+		<string>Silly Games2.mp3</string>
+		<string>Satellite 2.mp3</string>
+		<string>Mutual.mp3</string>
+		<string>Dont Look Back.mp3</string>
+		<string>Through The Dark 11.mp3</string>
+		<string>Need You.mp3</string>
+		<string>Get Enough.mp3</string>
+		<string>Atmosphere.mp3</string>
+		<string>All Time 2.mp3</string>
 	</array>
 	<key>Planet2</key>
 	<array>
-		<string>MT-20-02.mp3</string>
-		<string>MT-10-02.mp3</string>
-		<string>space tech 1-337.mp3</string>
-		<string>jamaica space base riddim.mp3</string>
-		<string>electrik candy puke th5 revision.mp3</string>
-		<string>MT-15-02.mp3</string>
+		<string>Silly Games2.mp3</string>
+		<string>Satellite 2.mp3</string>
+		<string>Mutual.mp3</string>
+		<string>Dont Look Back.mp3</string>
+		<string>Through The Dark 11.mp3</string>
+		<string>Need You.mp3</string>
+		<string>Get Enough.mp3</string>
+		<string>Atmosphere.mp3</string>
+		<string>All Time 2.mp3</string>
 	</array>
 	<key>Planet3</key>
 	<array>
-		<string>sampledTrack.mp3</string>
-		<string>MT-10-02.mp3</string>
-		<string>MT-20-02.mp3</string>
-		<string>jamaica space base riddim.mp3</string>
-		<string>electrik candy puke th5 revision.mp3</string>
-		<string>MT-15-02.mp3</string>
+		<string>Silly Games2.mp3</string>
+		<string>Satellite 2.mp3</string>
+		<string>Mutual.mp3</string>
+		<string>Dont Look Back.mp3</string>
+		<string>Through The Dark 11.mp3</string>
+		<string>Need You.mp3</string>
+		<string>Get Enough.mp3</string>
+		<string>Atmosphere.mp3</string>
+		<string>All Time 2.mp3</string>
 	</array>
 </dict>
 </plist>

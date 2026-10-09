@@ -93,9 +93,11 @@
 	obj.child = child;
 	ccArrayAppendObjectWithResize(_parallaxArray, obj);
 
-	CGPoint pos = self.position;
-	pos.x = pos.x * ratio.x + offset.x;
-	pos.y = pos.y * ratio.y + offset.y;
+	// New children must account for the parent's current camera position too.
+    // This also works when a planet changes without moving the camera.
+    CGPoint pos = [self absolutePosition_];
+    pos.x = -pos.x + pos.x * ratio.x + offset.x;
+    pos.y = -pos.y + pos.y * ratio.y + offset.y;
 	child.position = pos;
 
 	[super addChild: child z:z tag:child.tag];

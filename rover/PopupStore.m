@@ -15,6 +15,9 @@
 
 -(void)requestStoreItems
 {
+#ifdef PROJECTPEON_MAC
+    return; // The repository already includes both upgrades; no store needed.
+#endif
     Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
     NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
     if (networkStatus == NotReachable)
@@ -87,7 +90,9 @@
 
 -(void)createMenu
 {
+#ifndef PROJECTPEON_MAC
     [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+#endif
     isMakingPayment = NO;
     
     CCMenuItemImage *logo = [CCMenuItemImage itemWithNormalImage:@"shopLogo.png" selectedImage:@"shopLogo.png"];
@@ -137,12 +142,23 @@
     [self createMotorSpriteOnMenu:menu];
     [menu setPosition:ccp(0, 0)];
     
+#ifdef PROJECTPEON_MAC
+    [restoreBtn setVisible:NO]; [restoreBtn setIsEnabled:NO];
+    [adNote setVisible:NO];
+    CCLabelBMFont *included = [CCLabelBMFont labelWithString:@"All upgrades\nincluded\n\nNo purchases\nrequired" fntFile:@"font52.fnt"];
+    included.scale = SCREEN_SCALE;
+    included.position = ccp(-274.5, -55);
+    [[self nodeArray] addObject:included];
+#endif
     [[self nodeArray] addObject:menu];
     [self requestStoreItems];
 }
 
 -(void)wheelUpgradeSelected
 {
+#ifdef PROJECTPEON_MAC
+    return; // Included upgrades never start a payment.
+#endif
     if (isMakingPayment) {return;}
     isMakingPayment = YES;
     
@@ -158,6 +174,9 @@
 
 -(void)boostUpgradeSelected
 {
+#ifdef PROJECTPEON_MAC
+    return; // Included upgrades never start a payment.
+#endif
     if (isMakingPayment) {return;}
     isMakingPayment = YES;
     
@@ -219,7 +238,11 @@
 
 -(void)restorePurchases
 {
+#ifdef PROJECTPEON_MAC
+    [ToolTipMenu displayWithMessage:@"All upgrades are included in this Mac version." plankCount:5];
+#else
     [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+#endif
 }
 
 -(int)numberOfPlanks
@@ -299,7 +322,9 @@
 
 -(void)dealloc
 {
+#ifndef PROJECTPEON_MAC
     [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
+#endif
     [productReq setDelegate:nil];
     [productReq release];
     productReq = nil;

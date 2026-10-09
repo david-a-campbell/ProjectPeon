@@ -18,7 +18,9 @@
 #import "Constants.h"
 #import "PlayerSettings.h"
 #import "Purchases.h"
+#ifndef PROJECTPEON_MAC
 #import "UIDevice-Hardware.h"
+#endif
 
 @implementation SaveManager
 @synthesize creationDelegate, offset;
@@ -485,6 +487,7 @@
 }
 
 //Purchases
+// All paid upgrades are included, including for existing saves and offline play.
 
 -(BOOL)hasBooster50Unlocked
 {
@@ -526,8 +529,13 @@
 -(Purchases*)createPurchasesData
 {
     Purchases *purchases = [NSEntityDescription insertNewObjectForEntityForName:@"Purchases" inManagedObjectContext:context];
+#ifdef PROJECTPEON_MAC
+    [purchases setHasBooster50:@YES];
+    [purchases setHasMotor50:@YES];
+#else
     [purchases setHasBooster50:@NO];
     [purchases setHasMotor50:@NO];
+#endif
     [self saveContext];
     return purchases;
 }

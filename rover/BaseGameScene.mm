@@ -27,6 +27,21 @@
 
 @implementation BaseGameScene
 
+-(void)cartCreationFromKeyboard
+{
+    for (CCNode *child in self.children)
+        if ([child isKindOfClass:[PopupMenu class]]) return;
+    [creationLayer cartCreationFromKeyboard];
+}
+
+-(void)relaunchFromKeyboard
+{
+    for (CCNode *child in self.children)
+        if ([child isKindOfClass:[PopupMenu class]]) return;
+    [creationLayer relaunchFromKeyboard];
+}
+
+
 -(id)initWithPlanet:(int)pNum andLevel:(int)lNum
 {
     self = [super init];

@@ -10,6 +10,10 @@
 #import "Constants.h"
 #import "SaveManager.h"
 #import "GameManager.h"
+#ifdef PROJECTPEON_MAC
+#import "PeonMac.h"
+#import "PeonViewport.h"
+#endif
 
 @implementation LevelSelectLayer
 
@@ -25,11 +29,57 @@
 
         [self setupParallaxLayersForPlanet:planetToLoad];
         [self addChild:parallaxNode z:0];
+#ifdef PROJECTPEON_MAC
+        [self scheduleUpdate];
+#else
         [self setAccelerometerEnabled:YES];
+#endif
         currentOffset = ccp(0, 0);
     }
     return self;
 }
+
+#ifdef PROJECTPEON_MAC
+-(BOOL)parallaxMousePosition:(CGPoint *)position
+{
+    NSView *view = (NSView *)[[CCDirector sharedDirector] view];
+    NSWindow *window = view.window;
+    if (!window.isKeyWindow) return NO;
+    NSPoint point = [view convertPoint:window.mouseLocationOutsideOfEventStream fromView:nil];
+    if (!CGRectContainsPoint(PeonGameViewport(view.bounds, [[CCDirector sharedDirector] winSize]), point)) return NO;
+    *position = [[CCDirector sharedDirector] convertToGL:point];
+    return YES;
+}
+
+-(void)update:(ccTime)dt
+{
+    BOOL popupVisible = NO;
+    for (CCNode *node in [[CCDirector sharedDirector] runningScene].children)
+        if ([node isKindOfClass:[PopupMenu class]]) popupVisible = YES;
+    CGFloat x = 0, y = 0;
+    if (!popupVisible) {
+        x = (PeonKeyDown(2) || PeonKeyDown(124)) - (PeonKeyDown(0) || PeonKeyDown(123));
+        y = (PeonKeyDown(13) || PeonKeyDown(126)) - (PeonKeyDown(1) || PeonKeyDown(125));
+    }
+    if (x || y) {
+        parallaxTarget.x = MAX(-64, MIN(64, parallaxTarget.x + x*100*dt));
+        parallaxTarget.y = MAX(-48, MIN(48, parallaxTarget.y + y*100*dt));
+    } else {
+        CGPoint mouse;
+        CGSize size = [[CCDirector sharedDirector] winSize];
+        if (!popupVisible && [self parallaxMousePosition:&mouse]) {
+            parallaxTarget = ccp((mouse.x / size.width * 2 - 1) * 64,
+                                 (mouse.y / size.height * 2 - 1) * 48);
+            parallaxTarget.x = MAX(-64, MIN(64, parallaxTarget.x));
+            parallaxTarget.y = MAX(-48, MIN(48, parallaxTarget.y));
+        } else {
+            parallaxTarget = CGPointZero;
+        }
+    }
+    CGFloat blend = 1 - expf(-10*dt);
+    parallaxNode.position = ccpAdd(parallaxNode.position, ccpMult(ccpSub(parallaxTarget, parallaxNode.position), blend));
+}
+#endif
 
 -(void)dealloc
 {

@@ -68,6 +68,7 @@ static GameManager* _sharedGameManager = nil;                      // 1
         
         [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:trackFileName];
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:trackFileName loop:NO];
+        currentTrackName = trackFileName;
     }
 }
 
@@ -87,7 +88,15 @@ static GameManager* _sharedGameManager = nil;                      // 1
         random = arc4random_uniform([tracks count]);
     }
     [self playBackgroundTrack:[tracks objectAtIndex:random]];
-    currentTrackName = [tracks objectAtIndex:random];
+}
+
+-(void)playNextTrackForCurrentScene
+{
+    NSArray *tracks = [self getMusicTracksForScene:[self shortSceneName:currentSceneName]];
+    if (!tracks.count) return;
+    NSUInteger index = currentTrackName ? [tracks indexOfObject:currentTrackName] : NSNotFound;
+    NSUInteger next = index == NSNotFound ? 0 : (index + 1) % tracks.count;
+    [self playBackgroundTrack:[tracks objectAtIndex:next]];
 }
 
 -(void)stopSoundEffect:(ALuint)soundEffectID
@@ -246,10 +255,7 @@ static GameManager* _sharedGameManager = nil;                      // 1
     [oldSceneName release];
     [[CCTextureCache sharedTextureCache] removeUnusedTextures];
     
-    if (![sceneName isEqualToString:TitleSceneID])
-    {
-        [self playRandomTrackForCurrentScene];
-    }
+    [self playRandomTrackForCurrentScene];
 }
 
 -(void)runPlanet:(int)pNum level:(int)lNum

@@ -198,7 +198,7 @@ typedef void (^CCControlBlock) (id sender, CCControlEvent event);
  */
 - (BOOL)isPointInside:(CGPoint)location;
 
-#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) || defined(PROJECTPEON_MAC)
 
 /**
  * Returns a point corresponding to the touh location converted into the 

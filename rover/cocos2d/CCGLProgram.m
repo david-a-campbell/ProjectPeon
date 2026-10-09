@@ -148,7 +148,15 @@ typedef void (*GLLogFunction) (GLuint program,
     if (!source)
         return NO;
 		
-		const GLchar *sources[] = {
+		#ifdef PROJECTPEON_MAC
+        // Desktop GLSL provides derivatives without the OpenGL ES extension.
+        // Apple's GLSL compiler rejects the extension after injected uniforms.
+        NSString *desktopSource = [[NSString stringWithUTF8String:source]
+            stringByReplacingOccurrencesOfString:@"#extension GL_OES_standard_derivatives : enable" withString:@""];
+        source = [desktopSource UTF8String];
+#endif
+        const GLchar *sources[] = {
+
 #ifdef __CC_PLATFORM_IOS
 			(type == GL_VERTEX_SHADER ? "precision highp float;\n" : "precision mediump float;\n"),
 #endif

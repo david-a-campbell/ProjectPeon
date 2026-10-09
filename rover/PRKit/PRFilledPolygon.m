@@ -86,11 +86,13 @@
     NSArray *triangulatedPoints = [triangulator triangulateVertices:points];
     
     areaTrianglePointCount = [triangulatedPoints count];
-    areaTrianglePoints = (CGPoint *) malloc(sizeof(CGPoint) * areaTrianglePointCount);
-    textureCoordinates = (CGPoint *) malloc(sizeof(CGPoint) * areaTrianglePointCount);
+    areaTrianglePoints = (ccVertex2F *) malloc(sizeof(ccVertex2F) * areaTrianglePointCount);
+    textureCoordinates = (ccVertex2F *) malloc(sizeof(ccVertex2F) * areaTrianglePointCount);
     
     for (int i = 0; i < areaTrianglePointCount; i++) {
-        areaTrianglePoints[i] = ccpMult([[triangulatedPoints objectAtIndex:i] CGPointValue], CC_CONTENT_SCALE_FACTOR());
+        CGPoint point = [[triangulatedPoints objectAtIndex:i] CGPointValue];
+        // CGPoint uses doubles on 64-bit systems; the shader consumes GL_FLOAT.
+        areaTrianglePoints[i] = (ccVertex2F){ point.x * CC_CONTENT_SCALE_FACTOR(), point.y * CC_CONTENT_SCALE_FACTOR() };
     }
     
     [self calculateTextureCoordinates];
@@ -99,7 +101,9 @@
 
 -(void) calculateTextureCoordinates {
 	for (int j = 0; j < areaTrianglePointCount; j++) {
-		textureCoordinates[j] = ccpMult(areaTrianglePoints[j], 1.0f/texture.pixelsWide);
+		if (!texture || !texture.pixelsWide || !texture.pixelsHigh) return;
+        textureCoordinates[j] = (ccVertex2F){ areaTrianglePoints[j].x / texture.pixelsWide,
+                                             areaTrianglePoints[j].y / texture.pixelsHigh };
 	}
 }
 
@@ -123,7 +127,7 @@
 
 -(void) draw 
 {
-    glBlendFunc(blendFunc.src, blendFunc.dst);
+    ccGLBlendFunc(blendFunc.src, blendFunc.dst);
     
     ccGLBindTexture2D([self.texture name]);
     CCGLProgram *prog = [[CCShaderCache sharedShaderCache] programForKey:kCCShader_PositionTexture];
@@ -139,12 +143,12 @@
     ccGLUseProgram(prog->_program);
     [prog setUniformForModelViewProjectionMatrix];
 
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, sizeof(CGPoint), areaTrianglePoints);
-    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, sizeof(CGPoint), textureCoordinates);
+    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, sizeof(ccVertex2F), areaTrianglePoints);
+    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, sizeof(ccVertex2F), textureCoordinates);
     
     glDrawArrays(GL_TRIANGLES, 0, areaTrianglePointCount);
     
-    glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
+    CHECK_GL_ERROR_DEBUG();
 }
 
 -(void) updateBlendFunc

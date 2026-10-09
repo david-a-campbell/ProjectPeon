@@ -140,7 +140,7 @@
 {
     if ((self = [super init]))
     {
-#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) || defined(PROJECTPEON_MAC)
     #if COCOS2D_VERSION >= 0x00020100
         // Enabled the touch event
         self.touchEnabled           = YES;
@@ -177,7 +177,7 @@
 
 -(void) setHandlerPriority:(NSInteger)newPriority
 {
-#ifdef __CC_PLATFORM_IOS
+#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
 	CCTouchDispatcher *dispatcher = [[CCDirector sharedDirector] touchDispatcher];
 	[dispatcher setPriority:newPriority forDelegate:self];
     
@@ -191,7 +191,7 @@
 
 - (void)onEnter
 {
-#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) || defined(PROJECTPEON_MAC)
     CCTouchDispatcher * dispatcher  = [CCDirector sharedDirector].touchDispatcher;
 	[dispatcher addTargetedDelegate:self priority:_defaultTouchPriority swallowsTouches:YES];
 #endif
@@ -200,7 +200,7 @@
 
 - (void)onExit
 {
-#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) || defined(PROJECTPEON_MAC)
     CCTouchDispatcher * dispatcher  = [CCDirector sharedDirector].touchDispatcher;
 	[dispatcher removeDelegate:self];
 #endif
@@ -385,7 +385,7 @@
     return CGRectContainsPoint([self boundingBox], location);
 }
 
-#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) || defined(PROJECTPEON_MAC)
 
 - (CGPoint)touchLocation:(UITouch *)touch
 {

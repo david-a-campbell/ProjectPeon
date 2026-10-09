@@ -38,9 +38,11 @@
 #import "Support/TransformUtils.h"
 #import "Support/CGPointExtension.h"
 
-#ifdef __CC_PLATFORM_IOS
+#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
 #import "Platforms/iOS/CCTouchDispatcher.h"
+#ifndef PROJECTPEON_MAC
 #import "Platforms/iOS/CCDirectorIOS.h"
+#endif
 #elif defined(__CC_PLATFORM_MAC)
 #import "Platforms/Mac/CCEventDispatcher.h"
 #import "Platforms/Mac/CCDirectorMac.h"
@@ -52,7 +54,7 @@
 #pragma mark -
 #pragma mark Layer
 
-#if __CC_PLATFORM_IOS
+#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
 @interface CCLayer ()
 -(void) registerWithTouchDispatcher;
 @end
@@ -75,7 +77,7 @@
 		_touchMode = kCCTouchesAllAtOnce;
         _touchSwallow = YES;
 
-#ifdef __CC_PLATFORM_IOS
+#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
 		_accelerometerEnabled = NO;
 #elif defined(__CC_PLATFORM_MAC)
         _gestureEnabled = NO;
@@ -90,7 +92,7 @@
 
 #pragma mark Layer - iOS - Touch and Accelerometer related
 
-#ifdef __CC_PLATFORM_IOS
+#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
 -(void) registerWithTouchDispatcher
 {
 	CCDirector *director = [CCDirector sharedDirector];
@@ -349,7 +351,7 @@
 #pragma mark Layer - Callbacks
 -(void) onEnter
 {
-#ifdef __CC_PLATFORM_IOS
+#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
 	// register 'parent' nodes first
 	// since events are propagated in reverse order
 	if (_touchEnabled)
@@ -381,7 +383,7 @@
 // Can't register mouse, touches here because of #issue #1018, and #1021
 -(void) onEnterTransitionDidFinish
 {
-#ifdef __CC_PLATFORM_IOS
+#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
 	if( _accelerometerEnabled )
 		[[UIAccelerometer sharedAccelerometer] setDelegate:(id<UIAccelerometerDelegate>)self];
 #endif
@@ -394,7 +396,7 @@
 {
 	CCDirector *director = [CCDirector sharedDirector];
 
-#ifdef __CC_PLATFORM_IOS
+#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
 	if( _touchEnabled )
 		[[director touchDispatcher] removeDelegate:self];
 
@@ -420,7 +422,7 @@
 	[super onExit];
 }
 
-#ifdef __CC_PLATFORM_IOS
+#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
 -(BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
 	NSAssert(NO, @"Layer#ccTouchBegan override me");

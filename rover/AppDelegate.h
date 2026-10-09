@@ -1,3 +1,6 @@
+#ifdef PROJECTPEON_MAC
+#import "MacAppDelegate.h"
+#else
 //
 //  AppDelegate.h
 //  rover
@@ -25,3 +28,5 @@
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 @end
+
+#endif

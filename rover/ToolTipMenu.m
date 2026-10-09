@@ -413,9 +413,8 @@ static ToolTipMenu *_currentDisplay;
 -(BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
     CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
-    CGRect boundingBox = CGRectMake(0, 0, 623, [self getMenuHeight]);
-    touchLocation = ccp(touchLocation.x + 623/2.0f, touchLocation.y + [self getMenuHeight]/2.0f);
-    
+    CGRect boundingBox = CGRectUnion(top.boundingBox, bottom.boundingBox);
+
     if (!isClosing)
     {
         if(!CGRectContainsPoint(boundingBox, touchLocation))

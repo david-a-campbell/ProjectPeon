@@ -31,7 +31,7 @@
 #import "Support/CGPointExtension.h"
 #import "ccMacros.h"
 
-#ifdef __CC_PLATFORM_IOS
+#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
 #import "Platforms/iOS/CCDirectorIOS.h"
 #import "Platforms/iOS/CCTouchDispatcher.h"
 #elif defined(__CC_PLATFORM_MAC)
@@ -90,7 +90,7 @@ enum {
 -(id) initWithArray:(NSArray *)arrayOfItems
 {
 	if( (self=[super init]) ) {
-#ifdef __CC_PLATFORM_IOS
+#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
 		[self setTouchPriority:kCCMenuHandlerPriority];
 		[self setTouchMode:kCCTouchesOneByOne];
 		[self setTouchEnabled:YES];
@@ -111,7 +111,7 @@ enum {
 		
 		// XXX: in v0.7, winSize should return the visible size
 		// XXX: so the bar calculation should be done there
-#ifdef __CC_PLATFORM_IOS
+#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
 		CGRect r = [[UIApplication sharedApplication] statusBarFrame];
 		s.height -= r.size.height;
 #endif
@@ -166,7 +166,7 @@ enum {
 
 -(void) setHandlerPriority:(NSInteger)newPriority
 {
-#ifdef __CC_PLATFORM_IOS
+#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
 	CCTouchDispatcher *dispatcher = [[CCDirector sharedDirector] touchDispatcher];
 	[dispatcher setPriority:newPriority forDelegate:self];
 
@@ -180,7 +180,7 @@ enum {
 
 #pragma mark Menu - Events Touches
 
-#ifdef __CC_PLATFORM_IOS
+#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
 
 -(CCMenuItem *) itemForTouch: (UITouch *) touch
 {

@@ -42,6 +42,7 @@
 -(CGPoint)currentTmxMaping;
 -(void)stopBackgroundMusic;
 -(void)playRandomTrackForCurrentScene;
+-(void)playNextTrackForCurrentScene;
 -(int)planetToShow;
 -(NSString*)currentPlanetName;
 

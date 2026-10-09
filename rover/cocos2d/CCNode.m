@@ -42,7 +42,7 @@
 // externals
 #import "kazmath/GL/matrix.h"
 
-#ifdef __CC_PLATFORM_IOS
+#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
 #import "Platforms/iOS/CCDirectorIOS.h"
 #endif
 
@@ -916,7 +916,7 @@ static NSUInteger globalOrderOfArrival = 1;
 
 // convenience methods which take a UITouch instead of CGPoint
 
-#ifdef __CC_PLATFORM_IOS
+#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
 
 - (CGPoint)convertTouchToNodeSpace:(UITouch *)touch
 {

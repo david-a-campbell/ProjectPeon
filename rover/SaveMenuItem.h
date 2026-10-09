@@ -35,4 +35,5 @@
 -(void)enable;
 -(void)collapseView;
 -(void)minimize;
+-(CGRect)selectionBounds;
 @end
