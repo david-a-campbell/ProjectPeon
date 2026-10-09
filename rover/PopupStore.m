@@ -145,10 +145,16 @@
 #ifdef PROJECTPEON_MAC
     [restoreBtn setVisible:NO]; [restoreBtn setIsEnabled:NO];
     [adNote setVisible:NO];
-    CCLabelBMFont *included = [CCLabelBMFont labelWithString:@"All upgrades\nincluded\n\nNo purchases\nrequired" fntFile:@"font52.fnt"];
-    included.scale = SCREEN_SCALE;
-    included.position = ccp(-274.5, -55);
+    CCLabelBMFont *included = [CCLabelBMFont labelWithString:@"All upgrades\nincluded" fntFile:@"font42.fnt"];
+    included.alignment = kCCTextAlignmentCenter;
+    included.scale = SCREEN_SCALE * 0.85;
+    included.position = ccp(-274.5, -25);
     [[self nodeArray] addObject:included];
+    CCLabelBMFont *purchases = [CCLabelBMFont labelWithString:@"No purchases\nrequired" fntFile:@"font42.fnt"];
+    purchases.alignment = kCCTextAlignmentCenter;
+    purchases.scale = SCREEN_SCALE * 0.85;
+    purchases.position = ccp(-274.5, -105);
+    [[self nodeArray] addObject:purchases];
 #endif
     [[self nodeArray] addObject:menu];
     [self requestStoreItems];
