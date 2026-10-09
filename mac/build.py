@@ -63,7 +63,8 @@ for resource in resources:
         subprocess.run(['xcrun','momc',str(resource),str(assets/(resource.stem+'.momd'))],check=True)
     elif resource.is_dir(): shutil.copytree(resource,assets/resource.name,dirs_exist_ok=True,copy_function=shutil.copyfile)
     else: shutil.copyfile(resource,assets/resource.name)
-info={'CFBundleExecutable':'ProjectPeon','CFBundleIdentifier':'com.digitalfury.projectpeon.mac','CFBundleName':'Project Peon','CFBundleDisplayName':'Project Peon','CFBundlePackageType':'APPL','CFBundleVersion':'2','CFBundleShortVersionString':'2.0','LSMinimumSystemVersion':'12.0','NSHighResolutionCapable':True,'NSPrincipalClass':'NSApplication'}
+shutil.copyfile(ROOT/'mac/Assets/ProjectPeon.icns',assets/'ProjectPeon.icns')
+info={'CFBundleExecutable':'ProjectPeon','CFBundleIdentifier':'com.digitalfury.projectpeon.mac','CFBundleName':'Project Peon','CFBundleDisplayName':'Project Peon','CFBundleIconFile':'ProjectPeon.icns','CFBundlePackageType':'APPL','CFBundleVersion':'2','CFBundleShortVersionString':'2.0','LSMinimumSystemVersion':'12.0','NSHighResolutionCapable':True,'NSPrincipalClass':'NSApplication'}
 with (contents/'Info.plist').open('wb') as f: plistlib.dump(info,f)
 subprocess.run(['xattr','-cr',str(app)],check=True)
 subprocess.run(['codesign','--force','--deep','--sign','-',str(app)],check=True)

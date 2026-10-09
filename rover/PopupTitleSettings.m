@@ -121,9 +121,30 @@
     [controlTiltBtn setVisible:NO]; [controlTiltBtn setIsEnabled:NO];
     [controlTouchBtn setVisible:NO]; [controlTouchBtn setIsEnabled:NO];
     [retinaSwitch setVisible:NO]; [retinaSwitch setIsEnabled:NO];
-    CCLabelBMFont *help = [CCLabelBMFont labelWithString:@"A / D or arrow keys: drive\nSpace: boost / R: relaunch\nClick and drag: build\nC: edit cart / M: next song" fntFile:@"font52.fnt"];
-    [help setScale:SCREEN_SCALE]; [help setPosition:ccp(0, -50)];
-    [[self nodeArray] addObject:help];
+    // Fixed rows use the taller Mac panel; hidden iPad switches take no space.
+    musicVolumeBG.position = ccp(0, 234);
+    sfxVolumeBG.position = ccp(0, 162);
+    musicSlider.position = ccp(145, 234);
+    sfxSlider.position = ccp(145, 162);
+    tutorialBtn.position = ccp(0, -252);
+    CCLabelBMFont *heading = [CCLabelBMFont labelWithString:@"CONTROLS" fntFile:@"font52.fnt"];
+    heading.scale = SCREEN_SCALE;
+    heading.position = ccp(0, 102);
+    [[self nodeArray] addObject:heading];
+    NSArray *keys = @[@"A / D or arrows", @"Space", @"R", @"Click and drag", @"C", @"M"];
+    NSArray *actions = @[@"Drive", @"Boost", @"Relaunch", @"Build cart", @"Return to building", @"Next song"];
+    for (NSUInteger row = 0; row < keys.count; row++) {
+        CGFloat y = 54 - row * 36.0;
+        CCLabelBMFont *key = [CCLabelBMFont labelWithString:keys[row] fntFile:@"font42.fnt"];
+        CCLabelBMFont *action = [CCLabelBMFont labelWithString:actions[row] fntFile:@"font42.fnt"];
+        key.anchorPoint = action.anchorPoint = ccp(0, 0.5);
+        key.scale = action.scale = SCREEN_SCALE * 0.8;
+        key.position = ccp(-265, y);
+        action.position = ccp(0, y);
+        key.color = ccc3(155, 222, 255);
+        [[self nodeArray] addObject:key];
+        [[self nodeArray] addObject:action];
+    }
 #endif
 
 }
@@ -180,6 +201,9 @@
 
 -(int)numberOfPlanks
 {
+#ifdef PROJECTPEON_MAC
+    return 32;
+#endif
     if (!IS_RETINA)
     {
         return 20;
