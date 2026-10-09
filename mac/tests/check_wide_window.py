@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify immediate native window expansion and exact restoration without showing a window."""
+"""Verify animated internal presentation and a fixed widescreen window."""
 import pathlib, subprocess, tempfile
 root=pathlib.Path(__file__).resolve().parents[2]
 with tempfile.TemporaryDirectory() as directory:

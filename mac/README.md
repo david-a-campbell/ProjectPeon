@@ -26,7 +26,7 @@ The blueprint panel saves carts using the cart-plus button. Select a saved thumb
 
 All motor/booster purchases are included by default. The eight original music tracks play in the title and level-select menus; the nine new tracks play only in levels. Sound effects retain their original assets.
 
-Saves and progress are stored in `~/Library/Application Support/Project Peon/CartSave.sqlite`. Fullscreen preserves the original 4:3 proportions and maps input through the same centered viewport.
+Saves and progress are stored in `~/Library/Application Support/Project Peon/CartSave.sqlite`. The window stays 16:9. Menus and cart building use a centered 4:3 view, which animates wider for driving and contracts when returning to menus or building. Results retain the wide view. Fullscreen preserves proportions, and input follows the animated viewport.
 
 ## Checks
 

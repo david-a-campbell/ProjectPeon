@@ -228,7 +228,12 @@
 		// cache the NSWindow and NSOpenGLView created from the NIB
 		if( !_isFullScreen && CGSizeEqualToSize(_originalWinSize, CGSizeZero))
 		{
-			_originalWinSize = _winSizeInPixels;
+			#ifdef PROJECTPEON_MAC
+            // Window dimensions are presentation only; all original UI uses this canvas.
+            _originalWinSize = CGSizeMake(1024,768);
+#else
+            _originalWinSize = _winSizeInPixels;
+#endif
 		}
 	}
 }
@@ -572,7 +577,17 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
     // Reapply the aspect-fit viewport using its current bounds each frame.
     [self setProjection:kCCDirectorProjection2D];
 #endif
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	#ifdef PROJECTPEON_MAC
+    // Clear the entire drawable, then keep scene artwork out of the pillarbox bars.
+    glDisable(GL_SCISSOR_TEST);
+#endif
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+#ifdef PROJECTPEON_MAC
+    GLint activeViewport[4];
+    glGetIntegerv(GL_VIEWPORT,activeViewport);
+    glScissor(activeViewport[0],activeViewport[1],activeViewport[2],activeViewport[3]);
+    glEnable(GL_SCISSOR_TEST);
+#endif
 
 	/* to avoid flickr, nextScene MUST be here: after tick and before draw.
 	 XXX: Which bug is this one. It seems that it can't be reproduced with v0.9 */
@@ -621,7 +636,10 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 	_totalFrames++;
 	
 
-	PeonCaptureRequestedScreenshot();
+	#ifdef PROJECTPEON_MAC
+    glDisable(GL_SCISSOR_TEST);
+#endif
+    PeonCaptureRequestedScreenshot();
 	[[PeonRecorder sharedRecorder] captureFrame];
 	// flush buffer
 	[self.view.openGLContext flushBuffer];	

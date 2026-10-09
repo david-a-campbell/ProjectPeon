@@ -95,6 +95,15 @@
     [scoreMenu setAnchorPoint:ccp(0, 0)];
     [scoreMenu setPosition:ccp(-871, 151.5)];
     
+#ifdef PROJECTPEON_MAC
+    // Extract the baked-in face and cover its old location with matching panel pixels.
+    CCSprite *faceCover=[CCSprite spriteWithTexture:((CCSprite *)body.normalImage).texture rect:CGRectMake(80,20,42,42)];
+    faceCover.position=ccp(149/(2*SCREEN_SCALE),169/(2*SCREEN_SCALE));
+    [body addChild:faceCover z:1];
+    CCSprite *topFace=[CCSprite spriteWithTexture:((CCSprite *)body.normalImage).texture rect:CGRectMake(128,20,42,42)];
+    topFace.position=faceCover.position;
+    [body addChild:topFace z:2 tag:9910];
+#endif
     [self addChild:scoreMenu z:0];
     [self addChild:leftPanelBottom z:1];
     [self addChild:leftPanelTop z:3];
@@ -188,6 +197,21 @@
     [peonLabel setString:[NSString stringWithFormat:@"%i/%i", peonCount, totalPeons]];
     
     [self setupTimerImage];
+#ifdef PROJECTPEON_MAC
+    CCNode *topFace=[body getChildByTag:9910];
+    CGFloat unit=2*SCREEN_SCALE;
+    topFace.position=ccp(149/unit,169/unit);
+    peonLabel.position=ccp(218/unit,169/unit);
+    timeLabel.position=ccp(411/unit,169/unit);
+    bestTimeLabel.position=ccp(418/unit,135/unit);
+    bestTimeText.position=ccp(349/unit,135/unit);
+    CGRect row=CGRectUnion(topFace.boundingBox,peonLabel.boundingBox);
+    row=CGRectUnion(row,timerImage.boundingBox);
+    row=CGRectUnion(row,timeLabel.boundingBox);
+    CGFloat offset=347.5/unit-CGRectGetMidX(row);
+    for(CCNode *item in @[topFace,peonLabel,timerImage,timeLabel,bestTimeLabel,bestTimeText])
+        item.position=ccp(item.position.x+offset,item.position.y);
+#endif
     [scoreMenu setTouchEnabled:NO];
     [nextLevelBtn setOpacity:0];
     [nextLevelBtn setIsEnabled:NO];
@@ -283,6 +307,11 @@
     BOOL enabled=[PeonRecorder recordingEnabled];
     videoBtn.visible=enabled;
     videoBtn.isEnabled=enabled;
+    // Keep the visible actions centered in the same bottom button area.
+    videoBtn.position=ccp(148,52);
+    planetSelectBtn.position=ccp(enabled ? 281 : 214.5,52);
+    replayBtn.position=ccp(enabled ? 414 : 347.5,52);
+    nextLevelBtn.position=ccp(enabled ? 547 : 480.5,52);
 }
 #endif
 -(void)showVideoMenu

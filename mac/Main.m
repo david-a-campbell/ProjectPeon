@@ -169,7 +169,7 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     NSMenuItem *shot=[debugMenu addItemWithTitle:@"Save Screenshot to Desktop" action:@selector(saveCameraScreenshot:) keyEquivalent:@"p"];
     shot.target=self; shot.keyEquivalentModifierMask=NSEventModifierFlagCommand|NSEventModifierFlagOption;
     [NSApp setMainMenu:menu];
-    self.window=[[[NSWindow alloc] initWithContentRect:NSMakeRect(0,0,1024,768) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskResizable backing:NSBackingStoreBuffered defer:NO] autorelease];
+    self.window=[[[NSWindow alloc] initWithContentRect:NSMakeRect(0,0,1365.333333,768) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskResizable backing:NSBackingStoreBuffered defer:NO] autorelease];
     self.window.title=@"Project Peon — A/D or ←/→ drive · Space boost · R relaunch · C build · M next song"; self.window.delegate=self;
     NSTitlebarAccessoryViewController *levelAccessory=[[[NSTitlebarAccessoryViewController alloc] init] autorelease];
     levelAccessory.layoutAttribute=NSLayoutAttributeRight;
@@ -183,10 +183,10 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     levelAccessory.view=levelView;
     [self.window addTitlebarAccessoryViewController:levelAccessory];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLevelTitle:) name:@"PeonLevelTitleChanged" object:nil];
-    self.window.contentAspectRatio=NSMakeSize(4,3);
-    self.window.contentMinSize=NSMakeSize(640,480);
+    self.window.contentAspectRatio=NSMakeSize(16,9);
+    self.window.contentMinSize=NSMakeSize(640,360);
     [self.window center];
-    PeonView *view=[[[PeonView alloc] initWithFrame:NSMakeRect(0,0,1024,768)] autorelease];
+    PeonView *view=[[[PeonView alloc] initWithFrame:NSMakeRect(0,0,1365.333333,768)] autorelease];
     view.wantsBestResolutionOpenGLSurface=YES;
     self.window.contentView=view; [self.window makeKeyAndOrderFront:nil]; [self.window makeFirstResponder:view];
     [view.openGLContext makeCurrentContext];

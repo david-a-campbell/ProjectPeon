@@ -4,16 +4,21 @@
 static CCNode<CCRGBAProtocol> *PeonRecordingSwitchSprite(BOOL enabled, BOOL pressed, CGFloat scale) {
     CCNodeRGBA *container=[CCNodeRGBA node]; container.contentSize=CGSizeMake(210,26);
     container.cascadeOpacityEnabled=YES;
-    unsigned char pixel[]={255,255,255,255};
-    CCTexture2D *texture=[[[CCTexture2D alloc] initWithData:pixel pixelFormat:kCCTexture2DPixelFormat_RGBA8888 pixelsWide:1 pixelsHigh:1 contentSize:CGSizeMake(1,1)] autorelease];
-    CCSprite *frame=[CCSprite spriteWithTexture:texture];
-    frame.scaleX=210; frame.scaleY=26; frame.position=ccp(105,13); frame.color=ccc3(210,240,255);
+    // Draw exact rectangles rather than stretching a one-pixel texture.
+    CCLayerColor *frame=[CCLayerColor layerWithColor:ccc4(210,240,255,255) width:210 height:26];
     [container addChild:frame];
-    CCSprite *inset=[CCSprite spriteWithTexture:texture];
-    inset.scaleX=204; inset.scaleY=20; inset.position=ccp(105,13);
-    inset.color=pressed ? ccc3(45,110,145) : (enabled ? ccc3(25,95,130) : ccc3(8,30,48));
+    ccColor4B fill=pressed ? ccc4(45,110,145,255) : (enabled ? ccc4(25,95,130,255) : ccc4(8,30,48,255));
+    CCLayerColor *inset=[CCLayerColor layerWithColor:fill width:204 height:20];
+    inset.position=ccp(3,3);
     [container addChild:inset];
     CCLabelBMFont *text=[CCLabelBMFont labelWithString:enabled ? @"ON" : @"OFF" fntFile:@"font52.fnt"];
+    // The tightly packed bitmap font bleeds neighboring glyphs under linear filtering.
+    // Inset only this switch's glyph UVs, preserving their original layout boxes.
+    for(CCSprite *glyph in text.children) {
+        CGRect rect=glyph.textureRect;
+        CGSize size=glyph.contentSize;
+        [glyph setTextureRect:CGRectInset(rect,0.5,0.5) rotated:glyph.textureRectRotated untrimmedSize:size];
+    }
     text.scale=scale*0.75; text.position=ccp(105,13); [container addChild:text];
     return container;
 }

@@ -1,3 +1,4 @@
+#import "PeonViewport.h"
 #import "PopupSettings.h"
 #import "PopupTitleSettings.h"
 #import "LevelScoreDisplay.h"
@@ -53,8 +54,11 @@
 @property(retain) NSOpenGLContext *openGLContext;
 @end
 @implementation PreviewView
-- (NSRect)bounds { return NSMakeRect(0,0,1024,768); }
+- (NSRect)bounds { return NSMakeRect(0,0,1365.333333,768); }
 - (NSRect)convertRectToBacking:(NSRect)rect { return rect; }
+- (NSUInteger)depthFormat { return 0; }
+- (void)setEventDelegate:(id)delegate {}
+- (void)setAcceptsTouchEvents:(BOOL)accepts {}
 - (void)lockOpenGLContext {}
 - (void)unlockOpenGLContext {}
 @end
@@ -91,13 +95,15 @@ int main(int argc,const char **argv) {
   view.pixelFormat=[[[NSOpenGLPixelFormat alloc] initWithAttributes:nativeAttributes] autorelease];
   view.openGLContext=[[[NSOpenGLContext alloc] initWithCGLContextObj:context] autorelease];
   CCDirector *director=[CCDirector sharedDirector];
-  object_setIvar(director,class_getInstanceVariable([CCDirector class],"__view"),view);
-  [director setValue:[NSValue valueWithSize:NSMakeSize(1024,768)] forKey:@"_winSizeInPixels"];
-  [director setValue:[NSValue valueWithSize:NSMakeSize(1024,768)] forKey:@"_originalWinSize"];
   NSString *resources=@(argv[1]);
   [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[resources stringByAppendingPathComponent:@"menuItemsAtlas.plist"] textureFilename:[resources stringByAppendingPathComponent:@"menuItemsAtlas.png"]];
   [CCFileUtils sharedFileUtils].searchPath=@[resources];
   [CCFileUtils sharedFileUtils].enableFallbackSuffixes=NO;
+  [director setView:(CCGLView *)view];
+  NSCAssert(CGSizeEqualToSize(director.winSize,CGSizeMake(1024,768)),@"Wide startup window changed the UI canvas");
+  CGRect menuViewport=PeonGameViewport(view.bounds,CGSizeMake(1024,768));
+  NSCAssert(fabs(menuViewport.origin.x-1024.0/6)<0.01 && fabs(CGRectGetMaxX(view.bounds)-CGRectGetMaxX(menuViewport)-menuViewport.origin.x)<0.01,@"Menu pillarbox bars must be equal");
+  puts("Wide startup retains original UI canvas and equal pillarbox margins: PASS");
   for(NSString *atlas in @[@"MainMenuAtlas.plist",@"popupBacking.plist",@"spriteAtlas.plist"]) [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:atlas];
   for (NSString *texture in @[@"P1L1_P1.png", @"P2L2_P1.png", @"P3L1_P1.png"]) {
    PunkParallax *clouds=[PunkParallax node];
