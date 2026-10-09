@@ -29,6 +29,7 @@
 #import "SplashZone.h"
 #ifdef PROJECTPEON_MAC
 #import "PeonSkybox.h"
+#import "PeonTerrainEdges.h"
 #endif
 
 @implementation BaseParallaxLayer
@@ -186,15 +187,9 @@
     }
     
     BOOL extendTerrainEdges=NO;
-    CGFloat firstTileX=CGFLOAT_MAX,lastTileX=-CGFLOAT_MAX;
 #ifdef PROJECTPEON_MAC
     extendTerrainEdges=groupXRatio>0 && groupXRatio<1 &&
         [@[@"Parallax2",@"Parallax3",@"Parallax4",@"Parallax5"] containsObject:layerPlaceHolderGroup.groupName];
-    if(extendTerrainEdges) for(NSDictionary *tile in placeholderArray) {
-        if(![[tile valueForKey:@"gid"] length]) continue;
-        CGFloat tileX=[[tile valueForKey:@"x"] doubleValue];
-        firstTileX=MIN(firstTileX,tileX); lastTileX=MAX(lastTileX,tileX);
-    }
 #endif
     for(NSDictionary *placeholder in placeholderArray)
     {
@@ -207,8 +202,20 @@
         if ([[placeholder valueForKey:@"gid"] length])
         {
             CGFloat tileX=[[placeholder valueForKey:@"x"] doubleValue];
+            CGFloat tileY=[[placeholder valueForKey:@"y"] doubleValue];
+            CGFloat firstTileX=tileX,lastTileX=tileX;
+            BOOL stacked=NO;
+            for(NSDictionary *other in placeholderArray) {
+                if(![[other valueForKey:@"gid"] length]) continue;
+                CGFloat otherX=[[other valueForKey:@"x"] doubleValue];
+                CGFloat otherY=[[other valueForKey:@"y"] doubleValue];
+                // Extend only the outside of the complete strip. A short upper
+                // row must not repeat over unrelated lower tiles inside it.
+                firstTileX=MIN(firstTileX,otherX); lastTileX=MAX(lastTileX,otherX);
+                if(otherY!=tileY && otherX==tileX) stacked=YES;
+            }
             [self processTilePlaceHolder:placeholder xRatio:groupXRatio yRatio:groupYRatio zOrder:groupZOrder scale:scale
-                             extendLeft:extendTerrainEdges && tileX==firstTileX extendRight:extendTerrainEdges && tileX==lastTileX];
+                             extendLeft:extendTerrainEdges && tileX==firstTileX extendRight:extendTerrainEdges && tileX==lastTileX preserveTileWidth:stacked];
             continue;
         }
         
@@ -265,7 +272,7 @@
     [CCTexture2D setDefaultAlphaPixelFormat:currentFormat];
 }
 
--(void)processTilePlaceHolder:(id)placeholder xRatio:(float)groupXRatio yRatio:(float)groupYRatio zOrder:(float)groupZOrder scale:(float)scale extendLeft:(BOOL)extendLeft extendRight:(BOOL)extendRight
+-(void)processTilePlaceHolder:(id)placeholder xRatio:(float)groupXRatio yRatio:(float)groupYRatio zOrder:(float)groupZOrder scale:(float)scale extendLeft:(BOOL)extendLeft extendRight:(BOOL)extendRight preserveTileWidth:(BOOL)preserveTileWidth
 {
     int gid = [[placeholder valueForKey:@"gid"] intValue];
     CCTMXTilesetInfo *tileInfo = [self tileInfoForGid:gid];
@@ -282,12 +289,22 @@
     [parrallaxNode addChild:tileSprite z:groupZOrder parallaxRatio:ccp(groupXRatio, groupYRatio) positionOffset:ccp(x, y)];
 #ifdef PROJECTPEON_MAC
     // Only add neighbors beyond the strip's outer ends; interior tile joins stay exact.
+    CGRect visibleRect=tileSprite.textureRect;
+    // Vertically stacked parts must share their original horizontal coordinates.
+    if(!preserveTileWidth && (extendLeft || extendRight)) visibleRect=PeonTerrainVisibleRect(tileFileName,visibleRect);
     for(NSInteger side=-1;side<=1;side+=2) {
         if((side<0 && !extendLeft) || (side>0 && !extendRight)) continue;
-        CCSprite *edge=[CCSprite spriteWithTexture:tileSprite.texture rect:tileSprite.textureRect];
-        edge.anchorPoint=tileSprite.anchorPoint; edge.scale=tileSprite.scale; edge.flipX=YES;
-        CGFloat edgeX=x+side*tileSprite.boundingBox.size.width;
+        // Cover the full camera travel, including strips shorter than the map.
+        CGFloat viewportSpan=1024.0*16/9/.2;
+        CGFloat requiredSpan=side<0 ? viewportSpan :
+            MAX(viewportSpan,mapWidth*groupXRatio+viewportSpan-(x+CGRectGetMaxX(visibleRect)*tileSprite.scaleX));
+        NSInteger copies=MAX(1,(NSInteger)ceil(requiredSpan/(visibleRect.size.width*tileSprite.scaleX)));
+        for(NSInteger copy=1;copy<=copies;copy++) {
+        CCSprite *edge=[CCSprite spriteWithTexture:tileSprite.texture rect:visibleRect];
+        edge.anchorPoint=tileSprite.anchorPoint; edge.scale=tileSprite.scale; edge.flipX=(copy%2)==1;
+        CGFloat edgeX=x+(side<0 ? CGRectGetMinX(visibleRect)-copy*visibleRect.size.width : CGRectGetMaxX(visibleRect)+(copy-1)*visibleRect.size.width)*tileSprite.scaleX;
         [parrallaxNode addChild:edge z:groupZOrder parallaxRatio:ccp(groupXRatio,groupYRatio) positionOffset:ccp(edgeX,y)];
+        }
     }
 #endif
 

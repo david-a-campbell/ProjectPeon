@@ -1,5 +1,6 @@
 #import "PeonInspection.h"
 #import "PunkParallax.h"
+#import "PeonTerrainEdges.h"
 #import "PeonWideScreen.h"
 #import "GameManager.h"
 #import "SaveMenuItem.h"
@@ -74,11 +75,59 @@ int main(int argc,const char **argv) {
   NSManagedObjectContext *saveContext=[[[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType] autorelease];
   saveContext.persistentStoreCoordinator=coordinator;
   [[SaveManager sharedManager] setValue:saveContext forKey:@"context"];
+  id priorUnlock=[[NSUserDefaults standardUserDefaults] objectForKey:@"PeonUnlockAllLevels"];
+  [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"PeonUnlockAllLevels"];
+  SaveManager *saves=[SaveManager sharedManager];
+  int normalPlanet=[saves getHighestPlanetUnlocked];
+  NSMutableArray *normalLevels=[NSMutableArray array];
+  for(int planet=1;planet<=[saves numberOfPlanets];planet++) [normalLevels addObject:@([saves getHighestLevelUnlockedForPlanet:planet])];
+  [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"PeonUnlockAllLevels"];
+  NSCAssert([saves getHighestPlanetUnlocked]==[saves numberOfPlanets],@"All planets must be accessible");
+  for(int planet=1;planet<=[saves numberOfPlanets];planet++) NSCAssert([saves getHighestLevelUnlockedForPlanet:planet]==[saves numberOfLevelsForPlanetNumber:planet],@"All levels must be accessible");
+  [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"PeonUnlockAllLevels"];
+  NSCAssert([saves getHighestPlanetUnlocked]==normalPlanet,@"Unlock toggle changed saved planet progress");
+  for(int planet=1;planet<=[saves numberOfPlanets];planet++) NSCAssert([saves getHighestLevelUnlockedForPlanet:planet]==[normalLevels[planet-1] intValue],@"Unlock toggle changed saved level progress");
+  if(priorUnlock) [[NSUserDefaults standardUserDefaults] setObject:priorUnlock forKey:@"PeonUnlockAllLevels"];
+  else [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"PeonUnlockAllLevels"];
+  puts("Unlock-all toggle exposes every level and restores saved progress when disabled: PASS");
 
   [[GameManager sharedGameManager] setCurrentPlanetNum:1];
-  [[GameManager sharedGameManager] setCurrentLevelNum:1];
+  CGRect treeEdge=PeonTerrainVisibleRect(@"P1L3_P5_18.png",CGRectMake(0,0,1280,1280));
+  NSCAssert(CGRectGetMaxX(treeEdge)==1016 && treeEdge.size.width>0,@"Transparent tree padding and thin ground tail must be excluded from the join");
+  puts("Tree extension joins at visible artwork, excluding transparent padding: PASS");
+  [[GameManager sharedGameManager] setCurrentLevelNum:argc>4?atoi(argv[4]):1];
   AuditScene *scene=[AuditScene node];
   [scene setupWorld]; [scene onEnter];
+  if(argc>4 && atoi(argv[4])==8) {
+   for(CCNode *layer in scene.children) {
+    if(![NSStringFromClass(layer.class) isEqualToString:@"BacgroundParallaxLayer"]) continue;
+    PunkParallax *parallax=[layer valueForKey:@"parrallaxNode"];
+    for(unsigned int i=0;i<parallax.parallaxArray->num;i++) {
+     id item=parallax.parallaxArray->arr[i];
+     CGPoint ratio,offset;
+     [[item valueForKey:@"ratio"] getValue:&ratio];
+     [[item valueForKey:@"offset"] getValue:&offset];
+     if(fabs(ratio.x-.75)<.00001 && offset.y>=10240)
+       NSCAssert(offset.x<=0,@"Upper tree tile must not repeat over unrelated lower tiles");
+    }
+   }
+   puts("Earth 8 upper canopy stays aligned with its own lower tile: PASS");
+  }
+  NSCAssert(![scene drivingCameraAvailable],@"Mouse pan must be unavailable during cart creation");
+  CCNode *drivingLayer=[scene valueForKey:@"inspectionActionLayer"];
+  CGPoint beforePan=drivingLayer.position;
+  [drivingLayer setValue:@YES forKey:@"shouldFollowSprite"];
+  NSCAssert([scene drivingCameraAvailable],@"Mouse pan must be available while driving");
+  [scene panDrivingCameraBy:ccp(-128,-32)];
+  NSCAssert(!CGPointEqualToPoint(beforePan,drivingLayer.position),@"Mouse drag did not move the camera");
+  CGPoint afterPan=drivingLayer.position;
+  [drivingLayer setValue:@YES forKey:@"levelWasCompleted"];
+  [scene panDrivingCameraBy:ccp(-128,-32)];
+  NSCAssert(![scene drivingCameraAvailable] && CGPointEqualToPoint(afterPan,drivingLayer.position),@"Mouse pan must stop at the level ending");
+  [drivingLayer setValue:@NO forKey:@"levelWasCompleted"];
+  [drivingLayer setValue:@NO forKey:@"shouldFollowSprite"];
+  drivingLayer.position=beforePan;
+  puts("Mouse pan gated to driving; unavailable in building and results: PASS");
   [scene setInspectionCameraEnabled:YES];
   NSCAssert(scene.inspectionCameraEnabled,@"Inspection did not enable");
   for(CCNode *node in scene.children) if([NSStringFromClass(node.class) isEqualToString:@"CartCreationLayer"] || [NSStringFromClass(node.class) isEqualToString:@"LevelScoreDisplay"]) node.visible=NO;

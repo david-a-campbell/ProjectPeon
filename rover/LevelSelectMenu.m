@@ -28,6 +28,9 @@
         [self setupPopupMenu];
         didScroll = NO;
         menuItemsEnabled = YES;
+#ifdef PROJECTPEON_MAC
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshLevelAccess:) name:@"PeonLevelAccessChanged" object:nil];
+#endif
     }
     return self;
 }
@@ -110,6 +113,13 @@
     }
     [formatter release];
 }
+
+#ifdef PROJECTPEON_MAC
+-(void)refreshLevelAccess:(NSNotification *)notification {
+    [self clearScrollViewAndItemList];
+    [self configureForPlanetNumber:currentPlanet];
+}
+#endif
 
 -(void)clearScrollViewAndItemList
 {
@@ -248,6 +258,9 @@
 
 -(void)dealloc
 {
+#ifdef PROJECTPEON_MAC
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+#endif
     [menuItemList release];
     menuItemList = nil;
     [super dealloc];

@@ -235,6 +235,7 @@ static GameManager* _sharedGameManager = nil;                      // 1
 -(void)runSceneWithName:(NSString*)sceneName
 {
 #ifdef PROJECTPEON_MAC
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"PeonLevelTitleChanged" object:nil];
     [[PeonWideScreen sharedPresentation] setDriving:NO];
     [[PeonRecorder sharedRecorder] discard];
 #endif
@@ -272,6 +273,7 @@ static GameManager* _sharedGameManager = nil;                      // 1
 -(void)runPlanet:(int)pNum level:(int)lNum
 {
 #ifdef PROJECTPEON_MAC
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"PeonLevelTitleChanged" object:@{@"planet":@(pNum),@"level":@(lNum)}];
     [[PeonWideScreen sharedPresentation] setDriving:NO];
     [[PeonRecorder sharedRecorder] discard];
 #endif

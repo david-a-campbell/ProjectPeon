@@ -402,6 +402,9 @@
 
 - (void)followSprite
 {   
+#ifdef PROJECTPEON_MAC
+    if([self drivingCameraAvailable] && [[NSUserDefaults standardUserDefaults] boolForKey:@"PeonMousePan"]) return;
+#endif
     if (!shouldFollowSprite)
         return;
     if (playerCart == nil)
@@ -412,6 +415,17 @@
 }
 
 #ifdef PROJECTPEON_MAC
+-(BOOL)drivingCameraAvailable {
+    return shouldFollowSprite && !levelWasCompleted && ![[GameManager sharedGameManager] isPaused];
+}
+-(void)panDrivingCameraBy:(CGPoint)delta {
+    if(![self drivingCameraAvailable]) return;
+    CGFloat inset=(PeonPresentationSize([CCDirector sharedDirector].winSize).width-1024)/2;
+    CGPoint position=ccpAdd(self.position,delta);
+    position.x=MAX(position.x,-mapWidth*self.scaleX+1024+256*self.scaleX+inset);
+    position.y=MAX(-mapHeight*self.scaleY+768,MIN(position.y,-256*self.scaleY));
+    self.position=position;
+}
 -(void)visit
 {
     // Apply the left boundary before the first widescreen frame is drawn.

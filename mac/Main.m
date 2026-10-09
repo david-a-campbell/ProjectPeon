@@ -17,7 +17,7 @@ static BaseGameScene *inspectionScene(void) {
     return [scene isKindOfClass:[BaseGameScene class]] ? (BaseGameScene *)scene : nil;
 }
 BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCameraEnabled] && code < 128 && keys[code]; }
-@interface PeonView : CCGLView { UITouch *pointer; }
+@interface PeonView : CCGLView { UITouch *pointer; BOOL panningMap; CGPoint previousPanPoint; }
 @end
 @implementation PeonView
 - (BOOL)acceptsFirstResponder { return YES; }
@@ -60,6 +60,11 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     [self.openGLContext makeCurrentContext];
     CGPoint point = [self convertPoint:event.locationInWindow fromView:nil];
     if (!CGRectContainsPoint(PeonGameViewport(self.bounds, [[CCDirector sharedDirector] winSize]), point)) return;
+    CGPoint gamePoint=PeonGamePoint(point,PeonGameViewport(self.bounds,[[CCDirector sharedDirector] winSize]),[[CCDirector sharedDirector] winSize]);
+    // Keep the top HUD available while the rest of the scene is draggable.
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"PeonMousePan"] && [inspectionScene() drivingCameraAvailable] && gamePoint.y<688) {
+        panningMap=YES; previousPanPoint=gamePoint; return;
+    }
     [[self window] makeFirstResponder:self];
     [pointer release]; pointer = [UITouch new]; pointer.view = self; pointer.tapCount = event.clickCount;
     pointer.location = [self convertPoint:event.locationInWindow fromView:nil]; pointer.previousLocation = pointer.location;
@@ -67,11 +72,17 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
 }
 - (void)mouseDragged:(NSEvent *)event {
     [self.openGLContext makeCurrentContext];
+    if(panningMap) {
+        CGPoint point=PeonGamePoint([self convertPoint:event.locationInWindow fromView:nil],PeonGameViewport(self.bounds,[[CCDirector sharedDirector] winSize]),[[CCDirector sharedDirector] winSize]);
+        if([[NSUserDefaults standardUserDefaults] boolForKey:@"PeonMousePan"]) [inspectionScene() panDrivingCameraBy:ccpMult(ccpSub(point,previousPanPoint),2)];
+        previousPanPoint=point; return;
+    }
     if (!pointer) return;
     pointer.previousLocation=pointer.location; pointer.location=[self convertPoint:event.locationInWindow fromView:nil];
     [[[CCDirector sharedDirector] touchDispatcher] touchesMoved:[NSSet setWithObject:pointer] withEvent:event];
 }
 - (void)mouseUp:(NSEvent *)event {
+    if(panningMap) { panningMap=NO; return; }
     [self.openGLContext makeCurrentContext];
     if (!pointer) return;
     pointer.previousLocation=pointer.location; pointer.location=[self convertPoint:event.locationInWindow fromView:nil];
@@ -79,12 +90,20 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     [pointer release]; pointer=nil;
 }
 - (void)cancelInput {
+    panningMap=NO;
     memset(keys,0,sizeof(keys));
     if(pointer) { [[[CCDirector sharedDirector] touchDispatcher] touchesCancelled:[NSSet setWithObject:pointer] withEvent:nil]; [pointer release]; pointer=nil; }
 }
 @end
 
 @implementation AppDelegate
+- (void)updateLevelTitle:(NSNotification *)notification {
+    NSDictionary *level=notification.object;
+    NSInteger planet=[level[@"planet"] integerValue];
+    NSArray *names=@[@"Earth",@"Moon",@"Mars"];
+    self.levelTitleLabel.stringValue=(planet>=1 && planet<=names.count) ?
+        [NSString stringWithFormat:@"%@ %02ld",names[planet-1],(long)[level[@"level"] integerValue]] : @"";
+}
 - (void)toggleInspectionCamera:(NSMenuItem *)item {
     [[(CCGLView *)self.window.contentView openGLContext] makeCurrentContext];
     BaseGameScene *scene=inspectionScene();
@@ -95,6 +114,14 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     PeonRequestScreenshot([[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:name]);
 }
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
+    if(item.action==@selector(toggleUnlockAllLevels:)) {
+        item.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonUnlockAllLevels"]?NSControlStateValueOn:NSControlStateValueOff;
+        return YES;
+    }
+    if(item.action==@selector(toggleMousePan:)) {
+        item.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonMousePan"]?NSControlStateValueOn:NSControlStateValueOff;
+        return YES;
+    }
     if(item.action==@selector(toggleInspectionCamera:)) {
         item.state=inspectionScene().inspectionCameraEnabled?NSControlStateValueOn:NSControlStateValueOff;
         return inspectionScene()!=nil;
@@ -108,6 +135,18 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     [[NSUserDefaults standardUserDefaults] setBool:hidden forKey:@"PeonHideFPS"];
     item.state=hidden ? NSControlStateValueOff : NSControlStateValueOn;
 }
+- (void)toggleMousePan:(NSMenuItem *)item {
+    BOOL enabled=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonMousePan"];
+    [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:@"PeonMousePan"];
+    item.state=enabled?NSControlStateValueOn:NSControlStateValueOff;
+}
+- (void)toggleUnlockAllLevels:(NSMenuItem *)item {
+    [[(CCGLView *)self.window.contentView openGLContext] makeCurrentContext];
+    BOOL enabled=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonUnlockAllLevels"];
+    [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:@"PeonUnlockAllLevels"];
+    item.state=enabled?NSControlStateValueOn:NSControlStateValueOff;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"PeonLevelAccessChanged" object:nil];
+}
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"PeonHideFPS":@YES}];
     NSMenu *menu=[[[NSMenu alloc] init] autorelease]; NSMenuItem *root=[[[NSMenuItem alloc] init] autorelease]; [menu addItem:root];
@@ -116,6 +155,10 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     NSMenuItem *fpsItem=[appMenu addItemWithTitle:@"Show FPS" action:@selector(toggleFPS:) keyEquivalent:@""];
     fpsItem.target=self;
     fpsItem.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonHideFPS"] ? NSControlStateValueOff : NSControlStateValueOn;
+    NSMenuItem *panItem=[appMenu addItemWithTitle:@"Mouse Pan Map" action:@selector(toggleMousePan:) keyEquivalent:@""];
+    panItem.target=self;
+    NSMenuItem *unlockItem=[appMenu addItemWithTitle:@"Unlock All Levels" action:@selector(toggleUnlockAllLevels:) keyEquivalent:@""];
+    unlockItem.target=self;
     [appMenu addItem:[NSMenuItem separatorItem]];
     [appMenu addItemWithTitle:@"Quit Project Peon" action:@selector(terminate:) keyEquivalent:@"q"];
     NSMenuItem *debugRoot=[[[NSMenuItem alloc] initWithTitle:@"Camera" action:nil keyEquivalent:@""] autorelease];
@@ -128,6 +171,18 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     [NSApp setMainMenu:menu];
     self.window=[[[NSWindow alloc] initWithContentRect:NSMakeRect(0,0,1024,768) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskResizable backing:NSBackingStoreBuffered defer:NO] autorelease];
     self.window.title=@"Project Peon — A/D or ←/→ drive · Space boost · R relaunch · C build · M next song"; self.window.delegate=self;
+    NSTitlebarAccessoryViewController *levelAccessory=[[[NSTitlebarAccessoryViewController alloc] init] autorelease];
+    levelAccessory.layoutAttribute=NSLayoutAttributeRight;
+    NSView *levelView=[[[NSView alloc] initWithFrame:NSMakeRect(0,0,112,22)] autorelease];
+    self.levelTitleLabel=[NSTextField labelWithString:@""];
+    self.levelTitleLabel.frame=NSMakeRect(0,2,100,18);
+    self.levelTitleLabel.font=[NSFont boldSystemFontOfSize:12];
+    self.levelTitleLabel.textColor=[NSColor secondaryLabelColor];
+    self.levelTitleLabel.alignment=NSTextAlignmentRight;
+    [levelView addSubview:self.levelTitleLabel];
+    levelAccessory.view=levelView;
+    [self.window addTitlebarAccessoryViewController:levelAccessory];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLevelTitle:) name:@"PeonLevelTitleChanged" object:nil];
     self.window.contentAspectRatio=NSMakeSize(4,3);
     self.window.contentMinSize=NSMakeSize(640,480);
     [self.window center];

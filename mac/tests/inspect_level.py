@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Verify saved cart preview sizes at standard and Retina resolutions."""
-import hashlib, pathlib, subprocess, tempfile, plistlib, xml.etree.ElementTree as ET
+import hashlib, pathlib, subprocess, tempfile, plistlib, os, xml.etree.ElementTree as ET
 root=pathlib.Path(__file__).resolve().parents[2]
 objects=root/'build/mac/objects'
 main=hashlib.sha1(b'mac/Main.m').hexdigest()+'.o'
@@ -18,7 +18,8 @@ with tempfile.TemporaryDirectory(prefix='peon-previews-') as directory:
         command+=['-framework',framework]
     # Follow the actual playable-level mapping rather than the TMX filename numbering.
     mappings=plistlib.loads((root/'rover/tmxMappings.plist').read_bytes())
-    planet,level=map(int,mappings['planet1Level1'].split())
+    requested_level=int(os.environ.get('PEON_INSPECT_LEVEL','1'))
+    planet,level=map(int,mappings[f'planet1Level{requested_level}'].split())
     tree=ET.parse(root/f'rover/Planet{planet}/planet{planet}Level{level}.tmx').getroot()
     height=int(tree.get('height'))*int(tree.get('tileheight'))
     width=int(tree.get('width'))*int(tree.get('tilewidth'))
@@ -34,7 +35,9 @@ with tempfile.TemporaryDirectory(prefix='peon-previews-') as directory:
         ys=[a[1]+(x-a[0])/(b[0]-a[0])*(b[1]-a[1]) for a,b in segments if min(a[0],b[0])<=x<=max(a[0],b[0]) and a[0]!=b[0]]
         y=max(ys)+300 if ys else 3000
         for zoom in [.2,.35,.5,1]: poses.append(f'x{x:05d}-zoom{zoom},{x},{y},{zoom}')
+        if x==1000: poses.append(f'start-above,{x},{y+3000},0.35')
     pose_file=pathlib.Path(directory)/'poses.csv'; pose_file.write_text('\n'.join(poses))
-    (root.parent/'outputs/level-one-inspection').mkdir(parents=True,exist_ok=True)
+    output=root.parent/('outputs/level-one-inspection' if requested_level==1 else f'outputs/level-{requested_level}-inspection')
+    output.mkdir(parents=True,exist_ok=True)
     subprocess.run(command,check=True)
-    subprocess.run([str(binary),str(root/'build/mac/Project Peon.app/Contents/Resources'),str(root.parent/'outputs/level-one-inspection'),str(pose_file)],check=True)
+    subprocess.run([str(binary),str(root/'build/mac/Project Peon.app/Contents/Resources'),str(output),str(pose_file),str(requested_level)],check=True)

@@ -40,6 +40,12 @@
 
 #ifdef PROJECTPEON_MAC
 @synthesize inspectionCameraEnabled;
+-(BOOL)drivingCameraAvailable {
+    return !inspectionCameraEnabled && [[self inspectionActionLayer] drivingCameraAvailable];
+}
+-(void)panDrivingCameraBy:(CGPoint)delta {
+    if([self drivingCameraAvailable]) [[self inspectionActionLayer] panDrivingCameraBy:delta];
+}
 -(BaseActionLayer *)inspectionActionLayer {
     for(CCNode *node in self.children) if([node isKindOfClass:[BaseActionLayer class]]) return (BaseActionLayer *)node;
     return nil;

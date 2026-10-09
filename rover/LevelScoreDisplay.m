@@ -249,9 +249,8 @@
 
 -(void)slideMenuIn
 {
-#ifdef PROJECTPEON_MAC
-    [[PeonWideScreen sharedPresentation] setDriving:NO];
-#endif
+    // Keep the gameplay presentation through the results. Loading another
+    // level or returning to planet selection restores the original window.
     id leftTopMove = [CCMoveTo actionWithDuration:0.5 position:ccp(32, 256)];
     id moveEffectTop = [CCEaseOut actionWithAction:leftTopMove rate:10.0f];
     id leftBottomMove = [CCMoveTo actionWithDuration:0.5 position:ccp(115, 256)];

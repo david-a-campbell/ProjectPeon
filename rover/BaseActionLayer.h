@@ -41,6 +41,10 @@
 }
 @property (nonatomic, assign) NSObject<ControlsDelegate> *controlsDelegate;
 @property (nonatomic, retain) PlayerCart* playerCart;
+#ifdef PROJECTPEON_MAC
+-(BOOL)drivingCameraAvailable;
+-(void)panDrivingCameraBy:(CGPoint)delta;
+#endif
 -(NSString*)TileMapName;
 -(b2World*)getWorld;
 -(void)addParallaxLayer:(BaseParallaxLayer*)layer;

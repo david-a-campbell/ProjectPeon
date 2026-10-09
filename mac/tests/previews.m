@@ -1,6 +1,9 @@
 #import "PopupSettings.h"
 #import "PopupTitleSettings.h"
 #import "LevelScoreDisplay.h"
+@interface LevelScoreDisplay (PresentationTest)
+- (void)slideMenuIn;
+@end
 #import "PeonRecorder.h"
 #import "PeonWideScreen.h"
 #import "PeonSkybox.h"
@@ -340,6 +343,11 @@ int main(int argc,const char **argv) {
   [[PeonWideScreen sharedPresentation] setDriving:YES];
   [recordingScore visit];
   NSCAssert(fabs(recordingScore.position.x+1024.0/6)<0.01,@"Hidden score assets did not follow left edge");
+  [recordingScore slideMenuIn];
+  [recordingScore visit];
+  NSCAssert(PeonWideScreenAmount()==1 && fabs(recordingScore.position.x+1024.0/6)<0.01,@"Results must retain widescreen and remain anchored to the left edge");
+  [recordingScore cleanup];
+  puts("Ending score presentation retains widescreen: PASS");
   [[PeonWideScreen sharedPresentation] setDriving:NO];
   [recordingScore visit];
   NSCAssert(recordingScore.position.x==0,@"Score assets did not restore original position");

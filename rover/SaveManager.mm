@@ -257,6 +257,9 @@
 
 -(int)getHighestPlanetUnlocked
 {
+#ifdef PROJECTPEON_MAC
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"PeonUnlockAllLevels"]) return [self numberOfPlanets];
+#endif
     int highestPlanet = 1;
     Progress *progress = [self getProgressObject];
     for (Planets *planet in [progress planets])
@@ -279,6 +282,9 @@
 
 -(int)getHighestLevelUnlockedForPlanet:(int)planetNum
 {    
+#ifdef PROJECTPEON_MAC
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"PeonUnlockAllLevels"]) return [self numberOfLevelsForPlanetNumber:planetNum];
+#endif
     int highestLevelUnlocked = 0;
     
     Planets *planet = [self getPlanetObject:planetNum];
