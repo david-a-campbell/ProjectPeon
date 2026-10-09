@@ -14,6 +14,8 @@ int main(void) { @autoreleasepool {
  delegate.window=[[[NSWindow alloc] initWithContentRect:NSMakeRect(100,100,1066.666667,600) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskResizable backing:NSBackingStoreBuffered defer:NO] autorelease];
  delegate.window.contentAspectRatio=NSMakeSize(16,9);
  NSRect original=delegate.window.frame;
+ NSCAssert(PeonWideScreenAmount()==1,@"App must start in widescreen");
+ [[PeonWideScreen sharedPresentation] setCartCreation:YES]; waitForTransition();
  [[PeonWideScreen sharedPresentation] setDriving:YES];
  NSCAssert(PeonWideScreenAmount()==0,@"Expansion must animate from the current viewport");
  [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.12]];
@@ -43,7 +45,16 @@ int main(void) { @autoreleasepool {
  [[PeonWideScreen sharedPresentation] setPaused:NO]; waitForTransition();
  NSCAssert(PeonWideScreenAmount()==1,@"Home screen did not restore widescreen");
  [[PeonWideScreen sharedPresentation] setHomeScreen:NO]; waitForTransition();
- NSCAssert(PeonWideScreenAmount()==0,@"Planet selection did not restore 4:3");
+ NSCAssert(PeonWideScreenAmount()==1,@"Non-cart scene must stay widescreen");
+ [[PeonWideScreen sharedPresentation] setCartCreation:NO];
+ [[PeonWideScreen sharedPresentation] setInstructionsVisible:YES];
+ [[PeonWideScreen sharedPresentation] setLoadingVisible:YES];
+ [[PeonWideScreen sharedPresentation] setInstructionsVisible:NO];
+ NSCAssert(PeonWideScreenAmount()==1,@"Tutorial-to-loading handoff changed aspect");
+ [[PeonWideScreen sharedPresentation] setLoadingVisible:NO];
+ waitForTransition();
+ NSCAssert(PeonWideScreenAmount()==1,@"Loading handoff changed aspect outside cart mode");
+ [[PeonWideScreen sharedPresentation] setCartCreation:YES]; waitForTransition();
  [[PeonWideScreen sharedPresentation] setInstructionsVisible:YES]; waitForTransition();
  NSCAssert(PeonWideScreenAmount()==1,@"Automatic tutorial did not expand to widescreen");
  [[PeonWideScreen sharedPresentation] setInstructionsVisible:NO]; waitForTransition();

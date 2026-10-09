@@ -8,6 +8,7 @@ CGFloat PeonWideScreenAmount(void);
 #endif
 @interface PeonWideScreen : NSObject
 + (instancetype)sharedPresentation;
+- (void)setCartCreation:(BOOL)cartCreation;
 - (void)setHomeScreen:(BOOL)home;
 - (void)setLoadingVisible:(BOOL)visible;
 - (void)setInstructionsVisible:(BOOL)visible;

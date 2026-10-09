@@ -197,6 +197,9 @@
 
 -(void)removeLoadingLayer
 {
+#ifdef PROJECTPEON_MAC
+    [[PeonWideScreen sharedPresentation] setCartCreation:YES];
+#endif
     [loadingLayer removeFromParentAndCleanup:YES];
     loadingLayer = nil;
 //    [[AdManager sharedAdManager] setShouldDisplayInterstitialAd:NO];

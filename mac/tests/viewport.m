@@ -23,6 +23,7 @@ int main(void) {
   CCDirectorMac *director=(CCDirectorMac *)[CCDirector sharedDirector];
   ViewportView *view=[ViewportView new];
   object_setIvar(director,class_getInstanceVariable([CCDirector class],"__view"),view);
+  [[PeonWideScreen sharedPresentation] setCartCreation:YES];
   CGSize game=CGSizeMake(1024,768);
   [director setValue:[NSValue valueWithSize:game] forKey:@"_originalWinSize"];
   // Intentionally stale dimensions: mapping must use the actual view after resizing.

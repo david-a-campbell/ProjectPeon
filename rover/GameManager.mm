@@ -237,7 +237,7 @@ static GameManager* _sharedGameManager = nil;                      // 1
 #ifdef PROJECTPEON_MAC
     [[NSNotificationCenter defaultCenter] postNotificationName:@"PeonLevelTitleChanged" object:nil];
     [[PeonWideScreen sharedPresentation] setHomeScreen:([sceneName isEqualToString:TitleSceneID] || [sceneName isEqualToString:MainMenuSceneID]) ];
-    [[PeonWideScreen sharedPresentation] setDriving:NO];
+    [[PeonWideScreen sharedPresentation] setCartCreation:NO];
     [[PeonRecorder sharedRecorder] discard];
 #endif
 
@@ -276,7 +276,7 @@ static GameManager* _sharedGameManager = nil;                      // 1
 #ifdef PROJECTPEON_MAC
     [[NSNotificationCenter defaultCenter] postNotificationName:@"PeonLevelTitleChanged" object:@{@"planet":@(pNum),@"level":@(lNum)}];
     [[PeonWideScreen sharedPresentation] setHomeScreen:NO];
-    [[PeonWideScreen sharedPresentation] setDriving:NO];
+    [[PeonWideScreen sharedPresentation] setCartCreation:NO];
     [[PeonRecorder sharedRecorder] discard];
 #endif
 

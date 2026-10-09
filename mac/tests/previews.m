@@ -90,6 +90,7 @@ int main(int argc,const char **argv) {
   NSCAssert(CGLChoosePixelFormat(attributes,&format,&count)==kCGLNoError,@"Pixel format");
   NSCAssert(CGLCreateContext(format,NULL,&context)==kCGLNoError,@"Context");
   CGLDestroyPixelFormat(format); CGLSetCurrentContext(context);
+  [[PeonWideScreen sharedPresentation] setCartCreation:YES];
   PreviewView *view=[[[PreviewView alloc] init] autorelease];
   NSOpenGLPixelFormatAttribute nativeAttributes[]={NSOpenGLPFAAllowOfflineRenderers,0};
   view.pixelFormat=[[[NSOpenGLPixelFormat alloc] initWithAttributes:nativeAttributes] autorelease];
@@ -300,6 +301,13 @@ int main(int argc,const char **argv) {
   [loading showActivityIndicator];
   NSCAssert([loading valueForKey:@"activityIndicatorSprite"]==nil,@"Loading icon reappears after transition");
   puts("Loading icon placement and transition cleanup: PASS");
+  CCTransitionFade *sceneFade=[CCTransitionFade transitionWithDuration:1 scene:[CCScene node]];
+  [sceneFade onEnter];
+  CCLayerColor *fadeCover=(CCLayerColor *)[sceneFade getChildByTag:0xFADEFADE];
+  NSCAssert(fabs(fadeCover.position.x+1024.0/6)<0.01 && fabs(fadeCover.contentSize.width-1024.0*4/3)<0.01 && fadeCover.contentSize.height==768,@"Scene fade leaves uncovered widescreen edges");
+  [sceneFade onExit];
+  [sceneFade cleanup];
+  puts("Scene fade covers the entire 16:9 canvas: PASS");
   for(int type=kPopupTypeLevelSelect;type<=kPopupStore;type++) {
    PopupMenu *popup=[[[PopupMenu alloc] initForType:type andDelegate:nil] autorelease];
    CCSprite *top=[popup valueForKey:@"top"],*bottom=[popup valueForKey:@"bottom"];

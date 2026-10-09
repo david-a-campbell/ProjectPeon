@@ -40,6 +40,7 @@
 #import "CCWindow.h"
 #ifdef PROJECTPEON_MAC
 #import "PeonViewport.h"
+#import "../../CCSprite.h"
 #endif
 
 #import "../../CCNode.h"
@@ -583,6 +584,35 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 #endif
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 #ifdef PROJECTPEON_MAC
+    // Cart building keeps its original clipped workspace. Draw the menu grid
+    // underneath it in the full window, without widening rendering or input.
+    if (PeonWideScreenAmount() < 1) {
+        static CCSprite *cartBackdrop;
+        if (!cartBackdrop)
+            cartBackdrop = [[CCSprite spriteWithFile:@"MenuGridWide.png"] retain];
+        CGSize gameSize = _originalWinSize;
+        CGFloat wideWidth = gameSize.width * 4 / 3;
+        CGRect bounds = self.view.bounds;
+        CGFloat scale = MIN(bounds.size.width / wideWidth, bounds.size.height / gameSize.height);
+        CGRect fullViewport = CGRectMake(CGRectGetMidX(bounds)-wideWidth*scale/2,
+                                         CGRectGetMidY(bounds)-gameSize.height*scale/2,
+                                         wideWidth*scale, gameSize.height*scale);
+        NSRect backing = [self.view convertRectToBacking:fullViewport];
+        glViewport(lround(backing.origin.x), lround(backing.origin.y),
+                   lround(backing.size.width), lround(backing.size.height));
+        kmGLMatrixMode(KM_GL_PROJECTION);
+        kmGLLoadIdentity();
+        kmMat4 backdropProjection;
+        kmMat4OrthographicProjection(&backdropProjection, -gameSize.width/6,
+                                     gameSize.width*7/6, 0, gameSize.height, -1024, 1024);
+        kmGLMultMatrix(&backdropProjection);
+        kmGLMatrixMode(KM_GL_MODELVIEW);
+        cartBackdrop.position = ccp(gameSize.width/2, gameSize.height/2);
+        cartBackdrop.scaleX = wideWidth / cartBackdrop.contentSize.width;
+        cartBackdrop.scaleY = gameSize.height / cartBackdrop.contentSize.height;
+        [cartBackdrop visit];
+        [self setProjection:kCCDirectorProjection2D];
+    }
     GLint activeViewport[4];
     glGetIntegerv(GL_VIEWPORT,activeViewport);
     glScissor(activeViewport[0],activeViewport[1],activeViewport[2],activeViewport[3]);
