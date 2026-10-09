@@ -64,7 +64,7 @@ for resource in resources:
     elif resource.is_dir(): shutil.copytree(resource,assets/resource.name,dirs_exist_ok=True,copy_function=shutil.copyfile)
     else: shutil.copyfile(resource,assets/resource.name)
 shutil.copyfile(ROOT/'mac/Assets/ProjectPeon.icns',assets/'ProjectPeon.icns')
-for caption in ['RecordGameplayLabel.png','MusicVolumeLabel.png','EffectVolumeLabel.png','titleBackdropWide.png','MenuGridWide.png','planet1MenuWide.tmx','planet2MenuWide.tmx','planet3MenuWide.tmx']:
+for caption in ['RecordGameplayLabel.png','MusicVolumeLabel.png','EffectVolumeLabel.png','titleBackdropWide.png','MenuGridWide.png','planet1MenuWide.tmx','planet2MenuWide.tmx','planet3MenuWide.tmx','loadingScreen1Wide.png','loadingScreen2Wide.png','loadingScreen3Wide.png']:
     shutil.copyfile(ROOT/'mac/Assets'/caption,assets/caption)
 shutil.copyfile(ROOT/'mac/Assets/MenuClose.png',assets/'MenuClose.png')
 shutil.copyfile(ROOT/'mac/Assets/MenuCloseDown.png',assets/'MenuCloseDown.png')

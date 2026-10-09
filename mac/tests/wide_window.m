@@ -44,6 +44,11 @@ int main(void) { @autoreleasepool {
  NSCAssert(PeonWideScreenAmount()==1,@"Home screen did not restore widescreen");
  [[PeonWideScreen sharedPresentation] setHomeScreen:NO]; waitForTransition();
  NSCAssert(PeonWideScreenAmount()==0,@"Planet selection did not restore 4:3");
+ [[PeonWideScreen sharedPresentation] setInstructionsVisible:YES]; waitForTransition();
+ NSCAssert(PeonWideScreenAmount()==1,@"Automatic tutorial did not expand to widescreen");
+ [[PeonWideScreen sharedPresentation] setInstructionsVisible:NO]; waitForTransition();
+ NSCAssert(PeonWideScreenAmount()==0,@"Tutorial dismissal did not restore cart view");
+
  NSCAssert(NSEqualRects(delegate.window.frame,original),@"Native window moved or resized");
  NSCAssert(delegate.window.contentAspectRatio.width==16 && delegate.window.contentAspectRatio.height==9,@"Native window aspect changed");
  NSLog(@"Internal viewport animation, reversal, pause/resume and fixed window: PASS");

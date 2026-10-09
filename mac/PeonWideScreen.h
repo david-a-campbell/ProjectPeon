@@ -9,6 +9,8 @@ CGFloat PeonWideScreenAmount(void);
 @interface PeonWideScreen : NSObject
 + (instancetype)sharedPresentation;
 - (void)setHomeScreen:(BOOL)home;
+- (void)setLoadingVisible:(BOOL)visible;
+- (void)setInstructionsVisible:(BOOL)visible;
 - (void)setDriving:(BOOL)driving;
 - (void)setPaused:(BOOL)paused;
 @end

@@ -290,6 +290,12 @@ int main(int argc,const char **argv) {
   CCSprite *spinner=[loading valueForKey:@"activityIndicatorSprite"];
   NSCAssert(CGRectContainsRect(CGRectMake(0,0,1024,768),spinner.boundingBox),@"Loading icon outside screen");
   NSCAssert(spinner.position.y==78,@"Loading icon uses inverted coordinates");
+  [[PeonWideScreen sharedPresentation] setLoadingVisible:YES];
+  [loading visit];
+  NSCAssert(fabs((1024+1024.0/6)-spinner.position.x-78)<0.01,@"Wide loading icon lost its right margin");
+  [[PeonWideScreen sharedPresentation] setLoadingVisible:NO];
+  [loading visit];
+  NSCAssert(spinner.position.x==946,@"Loading icon did not follow restored viewport");
   [loading performSelector:@selector(fadeOut)];
   [loading showActivityIndicator];
   NSCAssert([loading valueForKey:@"activityIndicatorSprite"]==nil,@"Loading icon reappears after transition");

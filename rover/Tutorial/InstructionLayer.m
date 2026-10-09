@@ -10,8 +10,25 @@
 #import "Constants.h"
 #import "AnimatedSprite.h"
 #import "SaveManager.h"
+#ifdef PROJECTPEON_MAC
+#import "PeonWideScreen.h"
+#endif
 
 @implementation InstructionLayer
+
+#ifdef PROJECTPEON_MAC
+-(void)onEnter
+{
+    [super onEnter];
+    [[PeonWideScreen sharedPresentation] setInstructionsVisible:YES];
+}
+
+-(void)onExit
+{
+    [[PeonWideScreen sharedPresentation] setInstructionsVisible:NO];
+    [super onExit];
+}
+#endif
 
 -(id)init
 {
@@ -36,6 +53,11 @@
             child.scaleX *= contentScale;
             child.scaleY *= contentScale;
         }
+        CCSprite *wideGrid = [CCSprite spriteWithFile:@"MenuGridWide.png"];
+        wideGrid.position = ccp(512,384);
+        wideGrid.scaleX = (1024.0*4.0/3.0)/wideGrid.contentSize.width;
+        wideGrid.scaleY = 768.0/wideGrid.contentSize.height;
+        [self addChild:wideGrid z:-1 tag:9920];
 #endif
     }
     return self;
@@ -139,6 +161,9 @@
 -(void)fadeAway
 {
     isFading = YES;
+#ifdef PROJECTPEON_MAC
+    [[self getChildByTag:9920] runAction:[CCFadeTo actionWithDuration:0.2 opacity:0]];
+#endif
     [background runAction:[CCFadeTo actionWithDuration:0.2 opacity:0]];
     [buildAnim runAction:[CCFadeTo actionWithDuration:0.2 opacity:0]];
     [driveAnim runAction:[CCFadeTo actionWithDuration:0.2 opacity:0]];

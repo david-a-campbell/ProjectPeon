@@ -9,9 +9,32 @@
 #import "LoadingLayer.h"
 #import "SaveManager.h"
 #import "Constants.h"
+#ifdef PROJECTPEON_MAC
+#import "PeonWideScreen.h"
+#endif
 
 
 @implementation LoadingLayer
+#ifdef PROJECTPEON_MAC
+-(void)onEnter
+{
+    [super onEnter];
+    [[PeonWideScreen sharedPresentation] setLoadingVisible:YES];
+}
+
+-(void)onExit
+{
+    [[PeonWideScreen sharedPresentation] setLoadingVisible:NO];
+    [super onExit];
+}
+
+-(void)visit
+{
+    // Preserve the 78-point right and bottom center margins throughout resizing.
+    activityIndicatorSprite.position = ccp(946 + (1024.0/6.0)*PeonWideScreenAmount(),78);
+    [super visit];
+}
+#endif
 
 -(id)initWithPlanetNum:(int)planetNum LevelNumber:(int)levelNum
 {
@@ -20,10 +43,19 @@
         [self setTouchEnabled:YES];
         [self setAnchorPoint:ccp(0,0)];
         [self setPosition:ccp(0, 0)];
+#ifdef PROJECTPEON_MAC
+        screen = [CCSprite spriteWithFile:[NSString stringWithFormat:@"loadingScreen%iWide.png", planetNum]];
+#else
         screen = [CCSprite spriteWithFile:[NSString stringWithFormat:@"loadingScreen%i.png", planetNum]];
+#endif
         [screen setAnchorPoint:ccp(0, 0)];
         [screen setPosition:ccp(0, 0)];
         [screen setScale:(2*SCREEN_SCALE)];
+#ifdef PROJECTPEON_MAC
+        screen.position = ccp(-1024.0/6.0,0);
+        screen.scaleX = (1024.0*4.0/3.0)/screen.contentSize.width;
+        screen.scaleY = 768.0/screen.contentSize.height;
+#endif
         [self addChild:screen];
         
         CCTexture2DPixelFormat currentFormat = [CCTexture2D defaultAlphaPixelFormat];
@@ -72,7 +104,7 @@
     if (isFadingOut) return;
 #ifdef PROJECTPEON_MAC
     activityIndicatorSprite = [CCSprite spriteWithFile:@"loadingIcon.png"];
-    activityIndicatorSprite.position = ccp(946, 78);
+    activityIndicatorSprite.position = ccp(946 + (1024.0/6.0)*PeonWideScreenAmount(), 78);
     activityIndicatorSprite.scale = 2*SCREEN_SCALE;
     [self addChild:activityIndicatorSprite];
     [activityIndicatorSprite runAction:[CCRepeatForever actionWithAction:[CCRotateBy actionWithDuration:0.8 angle:360]]];
