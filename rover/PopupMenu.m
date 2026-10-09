@@ -146,7 +146,11 @@ static PopupMenu *_currentDisplay;
 
 -(BOOL)isGameplayMenu
 {
+#ifdef PROJECTPEON_MAC
+    return [[menuStack objectAtIndex:0] intValue] == kPopupTypeGamePlay;
+#else
     return ([[menuStack objectAtIndex:0] intValue] == kPopupTypeCartCreation || [[menuStack objectAtIndex:0] intValue] == kPopupTypeGamePlay);
+#endif
 }
 
 -(void)setupMenuType

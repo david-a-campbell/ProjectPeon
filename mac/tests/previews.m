@@ -1,3 +1,7 @@
+#import "PopupSettings.h"
+#import "PopupTitleSettings.h"
+#import "LevelScoreDisplay.h"
+#import "PeonRecorder.h"
 #import "PeonCloseButton.h"
 #import "SaveMenuItem.h"
 #import "UIImage+Extras.h"
@@ -212,6 +216,39 @@ int main(int argc,const char **argv) {
   [tipCloseMenu ccTouchEnded:tipTouch withEvent:nil];
   NSCAssert([[tip valueForKey:@"isClosing"] boolValue],@"Tooltip close button did not dismiss");
   [tip cleanup];
+  id priorRecording=[[NSUserDefaults standardUserDefaults] objectForKey:@"PeonRecordingEnabled"];
+  [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"PeonRecordingEnabled"];
+  LevelScoreDisplay *recordingScore=[[[LevelScoreDisplay alloc] init] autorelease];
+  CCMenuItem *exportButton=[recordingScore valueForKey:@"videoBtn"];
+  NSCAssert(!exportButton.visible && !exportButton.isEnabled,@"Disabled recording exposed export button");
+  [[PeonRecorder sharedRecorder] toggleRecording:nil];
+  NSCAssert(exportButton.visible && exportButton.isEnabled,@"Enabled recording did not reveal export button");
+  [[PeonRecorder sharedRecorder] toggleRecording:nil];
+  NSCAssert(!exportButton.visible && !exportButton.isEnabled,@"Recording button did not hide after disabling");
+  if(priorRecording) [[NSUserDefaults standardUserDefaults] setObject:priorRecording forKey:@"PeonRecordingEnabled"];
+  else [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"PeonRecordingEnabled"];
+  puts("Recording toggle updates results export visibility: PASS");
+  for(Class settingsClass in @[[PopupSettings class],[PopupTitleSettings class]]) {
+   for(NSNumber *gameplay in @[@NO,@YES]) {
+    id settings=[[[settingsClass alloc] initWithDelegate:nil forGameplay:gameplay.boolValue] autorelease];
+    BOOL hasRecordingToggle=NO;
+    for(CCNode *node in [settings nodeArray]) if([node getChildByTag:9910]) hasRecordingToggle=YES;
+    NSCAssert(hasRecordingToggle==!gameplay.boolValue,@"Recording toggle visibility wrong for %@",settingsClass);
+   }
+  }
+  puts("Recording setting hidden in gameplay, available outside gameplay: PASS");
+  for(NSNumber *type in @[@(kPopupTypeCartCreation),@(kPopupTypeGamePlay)]) {
+   PopupMenu *phasePopup=[[[PopupMenu alloc] initForType:type.intValue andDelegate:nil] autorelease];
+   [phasePopup onEnter];
+   [phasePopup switchToMenu:kPopupSettings];
+   for(int frame=0;frame<60;frame++) [[director scheduler] update:1.0/60];
+   BOOL hasRecordingToggle=NO;
+   for(CCNode *node in [[phasePopup valueForKey:@"currentOptions"] nodeArray])
+       if([node getChildByTag:9910]) hasRecordingToggle=YES;
+   NSCAssert(hasRecordingToggle==(type.intValue==kPopupTypeCartCreation),@"Recording setting must be available while building, hidden after launch");
+   [phasePopup onExit]; [phasePopup cleanup];
+  }
+  puts("Cart-building recording toggle available; driving toggle hidden: PASS");
   CCNode *escapeRoot=[CCNode node];
   director.notificationNode=escapeRoot;
   [escapeRoot onEnter];

@@ -24,6 +24,13 @@
     NSUInteger generation,transferGeneration[2];
 }
 + (instancetype)sharedRecorder { static id instance; static dispatch_once_t once; dispatch_once(&once,^{instance=[self new];}); return instance; }
++ (BOOL)recordingEnabled { return [[NSUserDefaults standardUserDefaults] boolForKey:@"PeonRecordingEnabled"]; }
+- (void)toggleRecording:(id)sender {
+    BOOL enabled=![[self class] recordingEnabled];
+    [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:@"PeonRecordingEnabled"];
+    if(!enabled) [self discard];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"PeonRecordingPreferenceChanged" object:nil];
+}
 - (id)init { if((self=[super init])) { queue=dispatch_queue_create("com.projectpeon.recorder",DISPATCH_QUEUE_SERIAL); slot=dispatch_semaphore_create(1); } return self; }
 - (void)discard {
     capturing=NO; generation++;
@@ -35,7 +42,7 @@
     });
 }
 - (void)beginGameplay {
-    [self discard]; started=CACurrentMediaTime(); lastCaptureTick=-1; capturing=YES;
+    [self discard]; if(![[self class] recordingEnabled]) return; started=CACurrentMediaTime(); lastCaptureTick=-1; capturing=YES;
     dispatch_async(queue,^{
         file=[[NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Peon-%@.mp4",NSUUID.UUID.UUIDString]]] retain];
         writer=[[AVAssetWriter alloc] initWithURL:file fileType:AVFileTypeMPEG4 error:NULL];
@@ -49,6 +56,13 @@
     });
 }
 - (void)finishGameplay { capturing=NO; }
+- (void)finishScorePresentation {
+    NSUInteger run=generation;
+    // The last result button fades in over 1.5 seconds after the score panel settles.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.6*NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if(generation==run) [self finishGameplay];
+    });
+}
 - (void)enqueuePixels:(NSMutableData *)pixels time:(CMTime)time {
     dispatch_async(queue,^{ @autoreleasepool {
         if(writer.status==AVAssetWriterStatusWriting && input.readyForMoreMediaData) {

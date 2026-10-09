@@ -21,12 +21,19 @@
     if ((self = [super init]))
     {
         [self setupImages];
+#ifdef PROJECTPEON_MAC
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshRecordingButton) name:@"PeonRecordingPreferenceChanged" object:nil];
+        [self refreshRecordingButton];
+#endif
     }
     return self;
 }
 
 -(void)dealloc
 {
+#ifdef PROJECTPEON_MAC
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+#endif
     [scoreLabel release];
     scoreLabel = nil;
     [timeLabel release];
@@ -119,9 +126,6 @@
 
 -(void)showScore:(int)score peonCount:(int)pC totalPeons:(int)tP timerColor:(ColorStates)colorState tmerState:(TimerStates)tS timeElapsed:(int)time
 {
-#ifdef PROJECTPEON_MAC
-    [[PeonRecorder sharedRecorder] finishGameplay];
-#endif
     timerColor = colorState;
     timerState = tS;
     playerScore = score;
@@ -268,6 +272,13 @@
 
 }
 
+#ifdef PROJECTPEON_MAC
+-(void)refreshRecordingButton {
+    BOOL enabled=[PeonRecorder recordingEnabled];
+    videoBtn.visible=enabled;
+    videoBtn.isEnabled=enabled;
+}
+#endif
 -(void)showVideoMenu
 {
 #ifdef PROJECTPEON_MAC
@@ -284,6 +295,9 @@
     
     [self presentNextLevelButton];
     [scoreMenu setTouchEnabled:YES];
+#ifdef PROJECTPEON_MAC
+    [[PeonRecorder sharedRecorder] finishScorePresentation];
+#endif
 }
 
 -(void)goToNextLevel

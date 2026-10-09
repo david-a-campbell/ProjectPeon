@@ -43,10 +43,12 @@ python3 mac/tests/check_shaders.py
 
 Checks cover save persistence across processes, music cycling and playlist separation, fullscreen/Retina coordinates, previews and popups, parallax and keyboard action guards, ground pixels, and bundled shaders.
 
-Gameplay records automatically at 1024×768, up to 60 fps, with background video encoding. At the results screen, the camera button exports the MP4 to your Desktop. Restart, next level, level select, building, or quitting discards the unexported recording. Videos have no sound.
+Enable Gameplay recording below effect volume in Settings to record automatically at 1024×768, up to 60 fps, with background video encoding. At the results screen, the camera button exports the MP4 to your Desktop. Restart, next level, level select, building, or quitting discards the unexported recording. Videos have no sound.
 
 Capture uses two GPU transfer buffers, polls completion without waiting, and enables hardware H.264 encoding where available. Both GPU transfer and encoder queues remain bounded.
 
 Use Project Peon → Show FPS in the Mac menu bar to show or hide the FPS monitor. The preference is remembered between launches.
 
 Escape dismisses the topmost open menu, just like its red close button.
+
+Gameplay recording is off by default and the export button is hidden while disabled. The recording preference is remembered.

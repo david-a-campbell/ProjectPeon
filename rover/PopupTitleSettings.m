@@ -1,3 +1,6 @@
+#ifdef PROJECTPEON_MAC
+#import "PeonRecordingSettings.h"
+#endif
 //
 //  PopupTitleSettings.m
 //  rover
@@ -122,25 +125,30 @@
     [controlTouchBtn setVisible:NO]; [controlTouchBtn setIsEnabled:NO];
     [retinaSwitch setVisible:NO]; [retinaSwitch setIsEnabled:NO];
     // Fixed rows use the taller Mac panel; hidden iPad switches take no space.
-    musicVolumeBG.position = ccp(0, 234);
-    sfxVolumeBG.position = ccp(0, 162);
+    musicVolumeBG.visible=NO; sfxVolumeBG.visible=NO;
+    PeonAddVolumeCaption([self nodeArray], @"MusicVolumeLabel.png", @"musicVolume.png", 234, SCREEN_SCALE);
+    PeonAddVolumeCaption([self nodeArray], @"EffectVolumeLabel.png", @"sfxVolume.png", 171, SCREEN_SCALE);
     musicSlider.position = ccp(145, 234);
-    sfxSlider.position = ccp(145, 162);
+    sfxSlider.position = ccp(145, 171);
+    PeonInsetVolumeSlider(musicSlider);
+    PeonInsetVolumeSlider(sfxSlider);
     tutorialBtn.position = ccp(0, -252);
     CCLabelBMFont *heading = [CCLabelBMFont labelWithString:@"CONTROLS" fntFile:@"font52.fnt"];
     heading.scale = SCREEN_SCALE;
-    heading.position = ccp(0, 102);
+    heading.position = ccp(0, 54);
+    if(!forGameplay) PeonAddRecordingSetting([self nodeArray], SCREEN_SCALE);
     [[self nodeArray] addObject:heading];
     NSArray *keys = @[@"A / D or arrows", @"Space", @"R", @"Click and drag", @"C", @"M"];
     NSArray *actions = @[@"Drive", @"Boost", @"Relaunch", @"Build cart", @"Return to building", @"Next song"];
     for (NSUInteger row = 0; row < keys.count; row++) {
-        CGFloat y = 54 - row * 36.0;
+        CGFloat y = 6 - row * 36.0;
         CCLabelBMFont *key = [CCLabelBMFont labelWithString:keys[row] fntFile:@"font42.fnt"];
         CCLabelBMFont *action = [CCLabelBMFont labelWithString:actions[row] fntFile:@"font42.fnt"];
-        key.anchorPoint = action.anchorPoint = ccp(0, 0.5);
+        key.anchorPoint = ccp(0, 0.5);
+        action.anchorPoint = ccp(1, 0.5);
         key.scale = action.scale = SCREEN_SCALE * 0.8;
-        key.position = ccp(-265, y);
-        action.position = ccp(0, y);
+        key.position = ccp(-251, y);
+        action.position = ccp(250, y);
         key.color = ccc3(155, 222, 255);
         [[self nodeArray] addObject:key];
         [[self nodeArray] addObject:action];
