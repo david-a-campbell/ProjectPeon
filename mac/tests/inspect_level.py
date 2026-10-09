@@ -9,7 +9,7 @@ with tempfile.TemporaryDirectory(prefix='peon-previews-') as directory:
     (contents/'MacOS').mkdir(parents=True)
     (contents/'Resources').symlink_to(root/'build/mac/Project Peon.app/Contents/Resources')
     (contents/'Info.plist').write_bytes(plistlib.dumps({'CFBundleExecutable':'Inspection','CFBundleIdentifier':'local.peon.inspection','CFBundlePackageType':'APPL'}))
-    binary=contents/'MacOS/Inspection' 
+    binary=contents/'MacOS/Inspection'
     command=['xcrun','clang','-Wno-deprecated-declarations','-DPROJECTPEON_MAC=1','-DCC_DIRECTOR_MAC_THREAD=2','-fno-objc-arc','-fblocks']
     for path in ['mac','mac/compat','rover','rover/cocos2d','rover/cocos2d/Support','rover/PRKit','rover/Tutorial','rover/libs/kazmath/include']:
         command+=['-I',str(root/path)]
