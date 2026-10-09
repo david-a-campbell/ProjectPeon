@@ -117,7 +117,11 @@
 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) 
     {
+#ifdef PROJECTPEON_MAC
+        tileMapNode = [CCTMXTiledMap tiledMapWithTMXFile:[NSString stringWithFormat:@"planet%iMenuWide.tmx", planetNumber]];
+#else
         tileMapNode = [CCTMXTiledMap tiledMapWithTMXFile:[NSString stringWithFormat:@"planet%iMenuTileMap.tmx", planetNumber]];
+#endif
     }
     [parallaxNode setPosition: ccp(0, 0)];
     
@@ -215,7 +219,13 @@
             zOrder = [[layer propertyNamed:propertyName] floatValue];
         }
     }
-    [parallaxNode addChild:layer z:zOrder parallaxRatio:ccp(parallaxRatioX, parallaxRatioY) positionOffset:ccp(0,0)];
+    [parallaxNode addChild:layer z:zOrder parallaxRatio:ccp(parallaxRatioX, parallaxRatioY) positionOffset:
+#ifdef PROJECTPEON_MAC
+     ccp(-512,0)
+#else
+     ccp(0,0)
+#endif
+     ];
     [layer setScale:2.0*(SCREEN_SCALE)];
     [layer release];
 }

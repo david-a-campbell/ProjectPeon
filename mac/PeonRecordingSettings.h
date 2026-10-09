@@ -1,14 +1,23 @@
 #import "cocos2d.h"
 #import "PeonRecorder.h"
 #import "CCControlExtension.h"
+// CCLayerColor does not refresh its vertex colors when inherited opacity changes.
+// Keep this correction local to the recording switch's solid rectangles.
+@interface CCLayerColor (PeonRecordingColorRefresh)
+- (void)updateColor;
+@end
+@interface PeonRecordingSwitchFill : CCLayerColor
+@end
+
+
 static CCNode<CCRGBAProtocol> *PeonRecordingSwitchSprite(BOOL enabled, BOOL pressed, CGFloat scale) {
     CCNodeRGBA *container=[CCNodeRGBA node]; container.contentSize=CGSizeMake(210,26);
     container.cascadeOpacityEnabled=YES;
     // Draw exact rectangles rather than stretching a one-pixel texture.
-    CCLayerColor *frame=[CCLayerColor layerWithColor:ccc4(210,240,255,255) width:210 height:26];
+    CCLayerColor *frame=[PeonRecordingSwitchFill layerWithColor:ccc4(210,240,255,255) width:210 height:26];
     [container addChild:frame];
     ccColor4B fill=pressed ? ccc4(45,110,145,255) : (enabled ? ccc4(25,95,130,255) : ccc4(8,30,48,255));
-    CCLayerColor *inset=[CCLayerColor layerWithColor:fill width:204 height:20];
+    CCLayerColor *inset=[PeonRecordingSwitchFill layerWithColor:fill width:204 height:20];
     inset.position=ccp(3,3);
     [container addChild:inset];
     CCLabelBMFont *text=[CCLabelBMFont labelWithString:enabled ? @"ON" : @"OFF" fntFile:@"font52.fnt"];

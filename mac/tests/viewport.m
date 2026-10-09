@@ -54,7 +54,7 @@ int main(void) {
   NSCAssert(edge.x<0,@"Widescreen did not reveal additional world space");
   [[PeonWideScreen sharedPresentation] setPaused:YES];
   [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.55]];
-  NSCAssert(PeonWideScreenAmount()==0,@"Menu did not collapse to 4:3");
+  NSCAssert(PeonWideScreenAmount()==1,@"Menu did not retain widescreen background");
   [[PeonWideScreen sharedPresentation] setDriving:NO];
   [[PeonWideScreen sharedPresentation] setPaused:NO];
   puts("Immediate widescreen expansion, pointer alignment and menu collapse: PASS");

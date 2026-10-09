@@ -22,6 +22,21 @@
         [self setTouchEnabled:YES];
         [self setupSprites];
         [self setupCheckbox];
+#if PROJECTPEON_MAC
+        // Fit the visible panel and footer (artwork rows 84 through 737),
+        // rather than centering the image's unused top padding.
+        menu.anchorPoint = CGPointZero;
+        const CGFloat contentScale = 720.0 / 653.0;
+        const CGPoint contentCenter = ccp(512.0, 357.5);
+        for (CCNode *child in [self children])
+        {
+            CGPoint point = child.position;
+            child.position = ccp(512.0 + (point.x - contentCenter.x) * contentScale,
+                                 384.0 + (point.y - contentCenter.y) * contentScale);
+            child.scaleX *= contentScale;
+            child.scaleY *= contentScale;
+        }
+#endif
     }
     return self;
 }

@@ -32,8 +32,16 @@
     [self addChild:layer];
     [layer release];
     
+#ifdef PROJECTPEON_MAC
+    CCSprite *background = [CCSprite spriteWithFile:@"titleBackdropWide.png"];
+    [background setScaleY:768.0/background.contentSize.height];
+    [background setScaleX:(1024.0*4/3)/background.contentSize.width];
+#else
     CCSprite *background = [CCSprite spriteWithFile:@"titleBackdrop.png"];
+#endif
+#ifndef PROJECTPEON_MAC
     [background setScale:2*SCREEN_SCALE];
+#endif
     [background setPosition: ccp(512.0, 384.0)];
     [layer addChild:background];
     

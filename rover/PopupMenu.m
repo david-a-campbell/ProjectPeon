@@ -87,13 +87,22 @@ static PopupMenu *_currentDisplay;
         top = [CCSprite spriteWithFile:@"toolTip_1.png"];
         bottom = [CCSprite spriteWithFile:@"toolTip_3.png"];
     }
+#ifdef PROJECTPEON_MAC
+    overlay = [CCSprite spriteWithFile:@"MenuGridWide.png"];
+#else
     overlay = [CCSprite spriteWithFile:@"darkOverlayOpaque.png"];
+#endif
     backOverlay = [CCSprite spriteWithFile:@"darkOverlay93.png"];
     
     [top setScale:2*SCREEN_SCALE];
     [bottom setScale:2*SCREEN_SCALE];
     [overlay setScale:2*(SCREEN_SCALE)];
     [backOverlay setScale:2*(SCREEN_SCALE)];
+#ifdef PROJECTPEON_MAC
+    [overlay setScaleX:(1024.0*4/3)/overlay.contentSize.width];
+    [overlay setScaleY:768.0/overlay.contentSize.height];
+    [backOverlay setScaleX:(1024.0*4/3)/backOverlay.contentSize.width];
+#endif
     topOriginalPos = ccp(0, 24-15);
     bottomOriginalPos = ccp(0, -23.5+7);
     [top setPosition:topOriginalPos];
