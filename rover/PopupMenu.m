@@ -7,6 +7,9 @@
 //
 
 #import "PopupMenu.h"
+#ifdef PROJECTPEON_MAC
+#import "PeonCloseButton.h"
+#endif
 #import "cocos2d.h"
 #import "Constants.h"
 #import "GameManager.h"
@@ -102,6 +105,9 @@ static PopupMenu *_currentDisplay;
     [overlay setOpacity:0];
     [backOverlay setOpacity:0];
     [self addChild:top z:1];
+#ifdef PROJECTPEON_MAC
+    PeonAddCloseButton(top, [self isWide], self, @selector(hide), -1002);
+#endif
     [self addChild:bottom z:0];
     [self addChild:overlay z:-10];
     [self addChild:backOverlay z:-12];
@@ -304,6 +310,9 @@ static PopupMenu *_currentDisplay;
 
 -(void)hide
 {
+#ifdef PROJECTPEON_MAC
+    PeonDisableCloseButton(top);
+#endif
     if (volumeChanged)
     {
         [[SaveManager sharedManager] setMusicVolume:[[SimpleAudioEngine sharedEngine] backgroundMusicVolume]];

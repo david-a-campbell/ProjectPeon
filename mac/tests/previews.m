@@ -2,6 +2,10 @@
 #import "UIImage+Extras.h"
 #import "SaveManager.h"
 #import "PopupMenu.h"
+#import "ToolTipMenu.h"
+@interface ToolTipMenu (CloseTest)
+-(id)initWithMessage:(NSString *)message plankCount:(int)count;
+@end
 #import "LoadingLayer.h"
 #import "LevelSelectLayer.h"
 #import "BaseGameScene.h"
@@ -152,8 +156,48 @@ int main(int argc,const char **argv) {
    NSCAssert(frame.size.width>0 && frame.size.width<1024,@"Popup width exceeds screen");
    NSCAssert(fabs(CGRectGetMidX(frame))<0.01,@"Popup frame is not centered");
    printf("Popup type %d: PASS (centered, width %.2f)\n",type,frame.size.width);
+   CCMenu *closeMenu=(CCMenu *)[top getChildByTag:9906];
+   CCMenuItemSprite *close=(CCMenuItemSprite *)[closeMenu getChildByTag:9905];
+   NSCAssert(close!=nil && close.boundingBox.size.width<=24.01,@"Missing or oversized close icon");
+   top.opacity=255;
+   UITouch *touch=[[[UITouch alloc] init] autorelease]; touch.view=(NSView *)view;
+   touch.location=[director convertToUI:[popup convertToWorldSpace:CGPointZero]];
+   [popup ccTouchBegan:touch withEvent:nil];
+   NSCAssert(![[popup valueForKey:@"isClosing"] boolValue],@"Body click dismissed menu");
+   touch.location=[director convertToUI:[top convertToWorldSpace:close.position]];
+   NSCAssert([closeMenu ccTouchBegan:touch withEvent:nil],@"Close button missed press");
+   NSCAssert(close.isSelected && close.selectedImage.visible && !close.normalImage.visible,@"Down sprite not displayed");
+   NSCAssert(![[popup valueForKey:@"isClosing"] boolValue],@"Menu dismissed on press instead of release");
+   CGPoint inside=touch.location;
+   touch.location=ccpAdd(inside,ccp(100,0));
+   [closeMenu ccTouchMoved:touch withEvent:nil];
+   NSCAssert(!close.isSelected && close.normalImage.visible,@"Drag out did not restore up sprite");
+   [closeMenu ccTouchEnded:touch withEvent:nil];
+   NSCAssert(![[popup valueForKey:@"isClosing"] boolValue],@"Release outside activated close");
+   touch.location=inside;[closeMenu ccTouchBegan:touch withEvent:nil];
+   [closeMenu ccTouchCancelled:touch withEvent:nil];
+   NSCAssert(!close.isSelected && ![[popup valueForKey:@"isClosing"] boolValue],@"Cancelled press activated close");
+   [closeMenu ccTouchBegan:touch withEvent:nil];
+   touch.location=ccpAdd(inside,ccp(100,0));[closeMenu ccTouchMoved:touch withEvent:nil];
+   touch.location=inside;[closeMenu ccTouchMoved:touch withEvent:nil];
+   NSCAssert(close.isSelected,@"Drag back did not restore down state");
+   [closeMenu ccTouchEnded:touch withEvent:nil];
+   NSCAssert([[popup valueForKey:@"isClosing"] boolValue] && !close.isEnabled,@"Release did not dismiss and disable close");
    [popup cleanup];
   }
+  ToolTipMenu *tip=[[[ToolTipMenu alloc] initWithMessage:@"Close button test" plankCount:6] autorelease];
+  CCSprite *tipTop=[tip valueForKey:@"top"];
+  CCMenu *tipCloseMenu=(CCMenu *)[tipTop getChildByTag:9906];
+  CCMenuItem *tipClose=(CCMenuItem *)[tipCloseMenu getChildByTag:9905];
+  NSCAssert(tipClose!=nil,@"Tooltip missing close button");tipTop.opacity=255;
+  UITouch *tipTouch=[[[UITouch alloc] init] autorelease];tipTouch.view=(NSView *)view;
+  tipTouch.location=[director convertToUI:[tipTop convertToWorldSpace:tipClose.position]];
+  [tipCloseMenu ccTouchBegan:tipTouch withEvent:nil];
+  NSCAssert(tipClose.isSelected && ![[tip valueForKey:@"isClosing"] boolValue],@"Tooltip press should only select button");
+  [tipCloseMenu ccTouchEnded:tipTouch withEvent:nil];
+  NSCAssert([[tip valueForKey:@"isClosing"] boolValue],@"Tooltip close button did not dismiss");
+  [tip cleanup];
+  puts("All popup types: down/up sprites, drag out/back, cancellation, release dismissal; tooltip release: PASS");
  }
  return 0;
 }

@@ -64,6 +64,8 @@ for resource in resources:
     elif resource.is_dir(): shutil.copytree(resource,assets/resource.name,dirs_exist_ok=True,copy_function=shutil.copyfile)
     else: shutil.copyfile(resource,assets/resource.name)
 shutil.copyfile(ROOT/'mac/Assets/ProjectPeon.icns',assets/'ProjectPeon.icns')
+shutil.copyfile(ROOT/'mac/Assets/MenuClose.png',assets/'MenuClose.png')
+shutil.copyfile(ROOT/'mac/Assets/MenuCloseDown.png',assets/'MenuCloseDown.png')
 info={'CFBundleExecutable':'ProjectPeon','CFBundleIdentifier':'com.digitalfury.projectpeon.mac','CFBundleName':'Project Peon','CFBundleDisplayName':'Project Peon','CFBundleIconFile':'ProjectPeon.icns','CFBundlePackageType':'APPL','CFBundleVersion':'2','CFBundleShortVersionString':'2.0','LSMinimumSystemVersion':'12.0','NSHighResolutionCapable':True,'NSPrincipalClass':'NSApplication'}
 with (contents/'Info.plist').open('wb') as f: plistlib.dump(info,f)
 subprocess.run(['xattr','-cr',str(app)],check=True)

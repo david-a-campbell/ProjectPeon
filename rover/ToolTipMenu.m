@@ -7,6 +7,9 @@
 //
 
 #import "ToolTipMenu.h"
+#ifdef PROJECTPEON_MAC
+#import "PeonCloseButton.h"
+#endif
 #import "GameManager.h"
 #import "SaveManager.h"
 #import "CCLabelBMFont.h"
@@ -115,6 +118,9 @@ static ToolTipMenu *_currentDisplay;
     [backgroundBacking setOpacity:0];
     
     [self addChild:top z:1];
+#ifdef PROJECTPEON_MAC
+    PeonAddCloseButton(top, NO, self, @selector(animateClosed), -2002);
+#endif
     [self addChild:bottom z:0];
     [self addChild:background z:-10];
     [self addChild:backgroundBacking z:-11];
@@ -338,6 +344,9 @@ static ToolTipMenu *_currentDisplay;
 
 -(void)animateClosed
 {
+#ifdef PROJECTPEON_MAC
+    PeonDisableCloseButton(top);
+#endif
     isClosing = YES;
     CCFadeTo *fade = [CCFadeTo actionWithDuration:0.2 opacity:0];
     CCFadeTo *backGroundFade = [CCFadeTo actionWithDuration:0.2 opacity:0];
