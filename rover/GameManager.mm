@@ -1,3 +1,6 @@
+#ifdef PROJECTPEON_MAC
+#import "PeonRecorder.h"
+#endif
 //  GameManager.m
 
 #import "GameManager.h"
@@ -227,7 +230,11 @@ static GameManager* _sharedGameManager = nil;                      // 1
 
 
 -(void)runSceneWithName:(NSString*)sceneName
-{    
+{
+#ifdef PROJECTPEON_MAC
+    [[PeonRecorder sharedRecorder] discard];
+#endif
+
     [[CCTextureCache sharedTextureCache] removeUnusedTextures];
     if ([sceneName isEqualToString:currentSceneName]) {return;}
     
@@ -260,6 +267,10 @@ static GameManager* _sharedGameManager = nil;                      // 1
 
 -(void)runPlanet:(int)pNum level:(int)lNum
 {
+#ifdef PROJECTPEON_MAC
+    [[PeonRecorder sharedRecorder] discard];
+#endif
+
     [[CCTextureCache sharedTextureCache] removeUnusedTextures];
     BaseGameScene *sceneToRun = [[[BaseGameScene alloc] initWithPlanet:pNum andLevel:lNum] autorelease];
     

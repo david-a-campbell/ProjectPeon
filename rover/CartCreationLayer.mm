@@ -1,3 +1,6 @@
+#ifdef PROJECTPEON_MAC
+#import "PeonRecorder.h"
+#endif
 //
 //  CartCreationLayer.m
 //  rover
@@ -781,6 +784,9 @@
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     [self hideToolMenu];
     [fuelGauge fadeIn];
+#ifdef PROJECTPEON_MAC
+    [[PeonRecorder sharedRecorder] beginGameplay];
+#endif
     [cartCreationDelegate startAction];
     popupTypeToShow = kPopupTypeGamePlay;
 }
@@ -851,6 +857,9 @@
 
 -(void)relaunch
 {
+#ifdef PROJECTPEON_MAC
+    [[PeonRecorder sharedRecorder] beginGameplay];
+#endif
     [timer resetTimer];
     [fuelGauge fadeIn];
     [cartCreationDelegate resetAction];
@@ -865,6 +874,9 @@
 
 -(void)endGameplay
 {
+#ifdef PROJECTPEON_MAC
+    [[PeonRecorder sharedRecorder] discard];
+#endif
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
     [cartCreationDelegate stopAction];
     [timer resetTimer];

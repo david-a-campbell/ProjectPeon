@@ -46,7 +46,7 @@
     [cartCreationBtn setScale:2*SCREEN_SCALE];
     [levelSelBtn setScale:2*SCREEN_SCALE];
     
-    CCMenu *menu = [CCMenu menuWithItems:relaunchBtn, cartCreationBtn, levelSelBtn, videoBtn, settingsBtn, returnToTitleBtn, nil];
+    CCMenu *menu = [CCMenu menuWithItems:relaunchBtn, cartCreationBtn, levelSelBtn, settingsBtn, returnToTitleBtn, nil];
     [menu alignItemsVerticallyWithPadding: 0];
     [menu setPosition:ccp(0, 0)];
     [[self nodeArray] addObject:menu];

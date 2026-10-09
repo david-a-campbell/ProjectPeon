@@ -10,7 +10,7 @@ with tempfile.TemporaryDirectory(prefix='peon-saves-') as directory:
     for path in ['mac','mac/compat','rover','rover/cocos2d','rover/PRKit','rover/libs/kazmath/include']:
         command+=['-I',str(root/path)]
     command+=['-include',str(root/'mac/Prefix.pch'),str(root/'mac/tests/saves.m'),*[str(p) for p in objects.glob('*.o') if p.name!=main and len(p.stem)==40],'-lc++','-lz','-o',str(binary)]
-    for framework in ['Cocoa','OpenGL','QuartzCore','CoreVideo','CoreData','AVFoundation','AudioToolbox','CoreGraphics','StoreKit','SystemConfiguration','Security']:
+    for framework in ['Cocoa','OpenGL','QuartzCore','CoreVideo','CoreData','AVFoundation','VideoToolbox','CoreMedia','AudioToolbox','CoreGraphics','StoreKit','SystemConfiguration','Security']:
         command+=['-framework',framework]
     subprocess.run(command,check=True)
     model=root/'build/mac/Project Peon.app/Contents/Resources/CartSave.momd'

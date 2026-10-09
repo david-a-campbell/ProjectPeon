@@ -1,3 +1,6 @@
+#ifdef PROJECTPEON_MAC
+#import "PeonRecorder.h"
+#endif
 #import "MacAppDelegate.h"
 #import "GameManager.h"
 #import "BaseGameScene.h"
@@ -57,10 +60,19 @@ BOOL PeonKeyDown(unsigned short code) { return code < 128 && keys[code]; }
 @end
 
 @implementation AppDelegate
+- (void)toggleFPS:(NSMenuItem *)item {
+    BOOL hidden=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonHideFPS"];
+    [[NSUserDefaults standardUserDefaults] setBool:hidden forKey:@"PeonHideFPS"];
+    item.state=hidden ? NSControlStateValueOff : NSControlStateValueOn;
+}
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"PeonHideFPS":@YES}];
     NSMenu *menu=[[[NSMenu alloc] init] autorelease]; NSMenuItem *root=[[[NSMenuItem alloc] init] autorelease]; [menu addItem:root];
     NSMenu *appMenu=[[[NSMenu alloc] initWithTitle:@"Project Peon"] autorelease]; [root setSubmenu:appMenu];
     [appMenu addItemWithTitle:@"Controls…" action:@selector(showControls:) keyEquivalent:@"?"];
+    NSMenuItem *fpsItem=[appMenu addItemWithTitle:@"Show FPS" action:@selector(toggleFPS:) keyEquivalent:@""];
+    fpsItem.target=self;
+    fpsItem.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonHideFPS"] ? NSControlStateValueOff : NSControlStateValueOn;
     [appMenu addItem:[NSMenuItem separatorItem]];
     [appMenu addItemWithTitle:@"Quit Project Peon" action:@selector(terminate:) keyEquivalent:@"q"];
     [NSApp setMainMenu:menu];
@@ -97,7 +109,7 @@ BOOL PeonKeyDown(unsigned short code) { return code < 128 && keys[code]; }
     [[CCDirector sharedDirector] resume]; [[GameManager sharedGameManager] becomeActive];
 }
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender { return YES; }
-- (void)applicationWillTerminate:(NSNotification *)n { [self saveContext]; [[CCDirector sharedDirector] end]; }
+- (void)applicationWillTerminate:(NSNotification *)n { [[PeonRecorder sharedRecorder] discard]; [self saveContext]; [[CCDirector sharedDirector] end]; }
 - (NSURL *)applicationDocumentsDirectory {
     NSString *testDirectory = [[[NSProcessInfo processInfo] environment] objectForKey:@"PEON_SAVE_DIR"];
     if(testDirectory) { NSURL *testURL=[NSURL fileURLWithPath:testDirectory isDirectory:YES]; [[NSFileManager defaultManager] createDirectoryAtURL:testURL withIntermediateDirectories:YES attributes:nil error:NULL]; return testURL; }

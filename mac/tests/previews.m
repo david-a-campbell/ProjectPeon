@@ -29,6 +29,9 @@
 @end
 @implementation PreviewView
 - (NSRect)bounds { return NSMakeRect(0,0,1024,768); }
+- (NSRect)convertRectToBacking:(NSRect)rect { return rect; }
+- (void)lockOpenGLContext {}
+- (void)unlockOpenGLContext {}
 @end
 static BOOL testKeys[128];
 static BOOL testMouseInside;
@@ -57,6 +60,17 @@ int main(int argc,const char **argv) {
   [CCFileUtils sharedFileUtils].searchPath=@[resources];
   [CCFileUtils sharedFileUtils].enableFallbackSuffixes=NO;
   for(NSString *atlas in @[@"MainMenuAtlas.plist",@"popupBacking.plist",@"spriteAtlas.plist"]) [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:atlas];
+  // Exercise the real director drawing path: font batch nodes must have a parent.
+  [director drawScene];
+  [director drawScene];
+  id previousFPSSetting=[[NSUserDefaults standardUserDefaults] objectForKey:@"PeonHideFPS"];
+  [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"PeonHideFPS"];
+  [director drawScene];
+  [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"PeonHideFPS"];
+  [director drawScene];
+  if(previousFPSSetting) [[NSUserDefaults standardUserDefaults] setObject:previousFPSSetting forKey:@"PeonHideFPS"];
+  else [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"PeonHideFPS"];
+  puts("Startup drawing with FPS overlay visible and hidden: PASS");
   NSManagedObjectModel *model=[[[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[resources stringByAppendingPathComponent:@"CartSave.momd"]]] autorelease];
   NSPersistentStoreCoordinator *coordinator=[[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model] autorelease];
   [coordinator addPersistentStoreWithType:NSInMemoryStoreType configuration:nil URL:nil options:nil error:NULL];

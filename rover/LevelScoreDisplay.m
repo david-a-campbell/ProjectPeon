@@ -1,3 +1,6 @@
+#ifdef PROJECTPEON_MAC
+#import "PeonRecorder.h"
+#endif
 //
 //  LevelScoreDisplay.m
 //  rover
@@ -116,6 +119,9 @@
 
 -(void)showScore:(int)score peonCount:(int)pC totalPeons:(int)tP timerColor:(ColorStates)colorState tmerState:(TimerStates)tS timeElapsed:(int)time
 {
+#ifdef PROJECTPEON_MAC
+    [[PeonRecorder sharedRecorder] finishGameplay];
+#endif
     timerColor = colorState;
     timerState = tS;
     playerScore = score;
@@ -264,6 +270,9 @@
 
 -(void)showVideoMenu
 {
+#ifdef PROJECTPEON_MAC
+    [[PeonRecorder sharedRecorder] exportVideo];
+#endif
 
 }
 
@@ -279,6 +288,9 @@
 
 -(void)goToNextLevel
 {
+#ifdef PROJECTPEON_MAC
+    [[PeonRecorder sharedRecorder] discard];
+#endif
     [[GameManager sharedGameManager] playSoundEffect:@"levelSelect.mp3"];
     [scoreMenu setTouchEnabled:NO];
     [self slideMenuOut];
@@ -325,6 +337,9 @@
 
 -(void)goToPlanetSelect
 {
+#ifdef PROJECTPEON_MAC
+    [[PeonRecorder sharedRecorder] discard];
+#endif
     [[GameManager sharedGameManager] playSoundEffect:@"levelSelect.mp3"];
     [scoreMenu setTouchEnabled:NO];
     [self slideMenuOut];
@@ -339,6 +354,9 @@
 
 -(void)replayLevel
 {
+#ifdef PROJECTPEON_MAC
+    [[PeonRecorder sharedRecorder] discard];
+#endif
     [scoreMenu setTouchEnabled:NO];
     [self slideMenuOut];
     [delegate replayLevelSelected];

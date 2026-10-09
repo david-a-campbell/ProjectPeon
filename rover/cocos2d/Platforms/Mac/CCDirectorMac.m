@@ -1,3 +1,6 @@
+#ifdef PROJECTPEON_MAC
+#import "PeonRecorder.h"
+#endif
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -574,11 +577,37 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 	if( _displayStats )
 		[self showStats];
 
+#ifdef PROJECTPEON_MAC
+    // Wall-clock rendering rate, averaged over half a second across scene changes.
+    static CCLabelBMFont *performanceLabel;
+    static CCNode *performanceOverlay;
+    static CFTimeInterval performanceStart;
+    static NSUInteger performanceFrames;
+    if(!performanceLabel) {
+        performanceOverlay=[[CCNode alloc] init];
+        performanceLabel=[[CCLabelBMFont labelWithString:@"FPS --" fntFile:@"font42.fnt"] retain];
+        performanceLabel.scale=0.35;
+        performanceLabel.anchorPoint=ccp(1,0);
+        performanceLabel.color=ccc3(255,255,255);
+        [performanceOverlay addChild:performanceLabel];
+    }
+    CFTimeInterval now=CACurrentMediaTime();
+    if(!performanceStart) performanceStart=now;
+    performanceFrames++;
+    if(now-performanceStart>=0.5) {
+        [performanceLabel setString:[NSString stringWithFormat:@"FPS %.0f",performanceFrames/(now-performanceStart)]];
+        performanceFrames=0; performanceStart=now;
+    }
+    performanceLabel.position=ccp(_originalWinSize.width-12,12);
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonHideFPS"])
+        [performanceOverlay visit];
+#endif
 	kmGLPopMatrix();
 
 	_totalFrames++;
 	
 
+	[[PeonRecorder sharedRecorder] captureFrame];
 	// flush buffer
 	[self.view.openGLContext flushBuffer];	
 

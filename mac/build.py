@@ -53,7 +53,7 @@ if failed: sys.exit(f'{failed} compilation units failed. See errors above.')
 staging = tempfile.TemporaryDirectory(prefix='projectpeon-build-')
 app = pathlib.Path(staging.name)/'Project Peon.app'; contents=app/'Contents'; binary=contents/'MacOS'; assets=contents/'Resources'
 binary.mkdir(parents=True,exist_ok=True); assets.mkdir(parents=True,exist_ok=True)
-frameworks=['Cocoa','OpenGL','QuartzCore','CoreVideo','CoreData','AVFoundation','AudioToolbox','CoreGraphics','StoreKit','SystemConfiguration','Security']
+frameworks=['Cocoa','OpenGL','QuartzCore','CoreVideo','CoreData','AVFoundation','VideoToolbox','CoreMedia','AudioToolbox','CoreGraphics','StoreKit','SystemConfiguration','Security']
 command=['xcrun','clang++','-mmacosx-version-min=12.0',*[str(o) for o in outputs],'-o',str(binary/'ProjectPeon'),'-lz']
 for framework in frameworks: command+=['-framework',framework]
 subprocess.run(command,check=True)
