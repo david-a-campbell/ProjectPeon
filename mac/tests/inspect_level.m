@@ -91,14 +91,15 @@ int main(int argc,const char **argv) {
   else [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"PeonUnlockAllLevels"];
   puts("Unlock-all toggle exposes every level and restores saved progress when disabled: PASS");
 
-  [[GameManager sharedGameManager] setCurrentPlanetNum:1];
+  int inspectionPlanet=argc>5?atoi(argv[5]):1;
+  [[GameManager sharedGameManager] setCurrentPlanetNum:inspectionPlanet];
   CGRect treeEdge=PeonTerrainVisibleRect(@"P1L3_P5_18.png",CGRectMake(0,0,1280,1280));
   NSCAssert(CGRectGetMaxX(treeEdge)==1016 && treeEdge.size.width>0,@"Transparent tree padding and thin ground tail must be excluded from the join");
   puts("Tree extension joins at visible artwork, excluding transparent padding: PASS");
   [[GameManager sharedGameManager] setCurrentLevelNum:argc>4?atoi(argv[4]):1];
   AuditScene *scene=[AuditScene node];
   [scene setupWorld]; [scene onEnter];
-  if(argc>4 && atoi(argv[4])==8) {
+  if(inspectionPlanet==1 && argc>4 && atoi(argv[4])==8) {
    for(CCNode *layer in scene.children) {
     if(![NSStringFromClass(layer.class) isEqualToString:@"BacgroundParallaxLayer"]) continue;
     PunkParallax *parallax=[layer valueForKey:@"parrallaxNode"];
