@@ -9,6 +9,8 @@
     dispatch_queue_t queue;
     dispatch_semaphore_t slot;
     AVAssetWriter *writer;
+    CMTime firstFrameTime;
+    BOOL sessionStarted;
     AVAssetWriterInput *input;
     AVAssetWriterInputPixelBufferAdaptor *adaptor;
     NSURL *file;
@@ -41,7 +43,9 @@
         input.expectsMediaDataInRealTime=YES;
         adaptor=[[AVAssetWriterInputPixelBufferAdaptor assetWriterInputPixelBufferAdaptorWithAssetWriterInput:input sourcePixelBufferAttributes:@{(id)kCVPixelBufferPixelFormatTypeKey:@(kCVPixelFormatType_32BGRA),(id)kCVPixelBufferWidthKey:@1024,(id)kCVPixelBufferHeightKey:@768}] retain];
         if([writer canAddInput:input]) [writer addInput:input];
-        if([writer startWriting]) [writer startSessionAtSourceTime:kCMTimeZero];
+        sessionStarted=NO;
+        firstFrameTime=kCMTimeInvalid;
+        [writer startWriting];
     });
 }
 - (void)finishGameplay { capturing=NO; }
@@ -54,7 +58,14 @@
                 size_t stride=CVPixelBufferGetBytesPerRow(buffer);
                 for(int y=0;y<768;y++) memcpy((char *)CVPixelBufferGetBaseAddress(buffer)+y*stride,(char *)pixels.bytes+y*1024*4,1024*4);
                 CVPixelBufferUnlockBaseAddress(buffer,0);
-                [adaptor appendPixelBuffer:buffer withPresentationTime:time]; CVPixelBufferRelease(buffer);
+                // GPU transfer/setup can delay the first image. Anchor the movie to that
+                // image rather than leaving an empty interval at the start of the file.
+                if(!sessionStarted) {
+                    firstFrameTime=time;
+                    [writer startSessionAtSourceTime:kCMTimeZero];
+                    sessionStarted=YES;
+                }
+                [adaptor appendPixelBuffer:buffer withPresentationTime:CMTimeSubtract(time,firstFrameTime)]; CVPixelBufferRelease(buffer);
             }
         }
         [pixels release]; dispatch_semaphore_signal(slot);
@@ -114,7 +125,7 @@
 - (void)exportVideo {
     capturing=NO;
     dispatch_async(queue,^{
-        if(!writer || writer.status!=AVAssetWriterStatusWriting) return;
+        if(!writer || writer.status!=AVAssetWriterStatusWriting || !sessionStarted) return;
         AVAssetWriter *completed=writer; writer=nil;
         NSURL *source=file; file=nil;
         [input markAsFinished]; [input release]; input=nil; [adaptor release]; adaptor=nil;
