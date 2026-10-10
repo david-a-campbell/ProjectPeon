@@ -234,6 +234,8 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     NSMenu *menu=[[[NSMenu alloc] init] autorelease]; NSMenuItem *root=[[[NSMenuItem alloc] init] autorelease]; [menu addItem:root];
     NSMenu *appMenu=[[[NSMenu alloc] initWithTitle:@"Project Peon"] autorelease]; [root setSubmenu:appMenu];
     [appMenu addItemWithTitle:@"Controls…" action:@selector(showControls:) keyEquivalent:@"?"];
+    NSMenuItem *privacyItem=[appMenu addItemWithTitle:@"Privacy Policy…" action:@selector(showPrivacyPolicy:) keyEquivalent:@""];
+    privacyItem.target=self;
     [appMenu addItem:[NSMenuItem separatorItem]];
     [appMenu addItemWithTitle:@"Quit Project Peon" action:@selector(terminate:) keyEquivalent:@"q"];
     NSMenuItem *debugRoot=[[[NSMenuItem alloc] initWithTitle:@"Debug" action:nil keyEquivalent:@""] autorelease];
@@ -293,6 +295,9 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     [[GameManager sharedGameManager] runSceneWithName:TitleSceneID];
     [director startAnimation];
     [NSApp activateIgnoringOtherApps:YES];
+}
+- (void)showPrivacyPolicy:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/david-a-campbell/ProjectPeon/blob/widescreen-16-9/mac/AppStore/Privacy.md"]];
 }
 - (void)showControls:(id)sender {
     NSAlert *alert=[[[NSAlert alloc] init] autorelease]; alert.messageText=@"Project Peon controls";
