@@ -50,7 +50,16 @@
 
 -(void)setupMenuImages
 {
+#ifdef PROJECTPEON_MAC
+    blueprints_background = [CCLayerGradient layerWithColor:ccc4(14,43,66,255)
+                                                   fadingTo:ccc4(3,15,30,255)
+                                                alongVector:ccp(0,-1)];
+    blueprints_background.contentSize = CGSizeMake(1024,120);
+    blueprints_background.anchorPoint = ccp(0.5,0.5);
+    blueprints_background.ignoreAnchorPointForPosition = NO;
+#else
     blueprints_background = [CCMenuItemImage itemWithNormalImage:@"blueprints_background.png" selectedImage:nil];
+#endif
     blueprints_left_1 = [CCSprite spriteWithSpriteFrameName:@"blueprints_left_1.png"];
     blueprints_left_2 = [CCSprite spriteWithSpriteFrameName:@"blueprints_left_2.png"];
     blueprints_right_1 = [CCSprite spriteWithSpriteFrameName:@"blueprints_right_1.png"];
