@@ -152,6 +152,29 @@
         NSURL *source=file; file=nil;
         [input markAsFinished]; [input release]; input=nil; [adaptor release]; adaptor=nil;
         [completed finishWritingWithCompletionHandler:^{ @autoreleasepool {
+#ifdef PROJECTPEON_APP_STORE
+            dispatch_async(dispatch_get_main_queue(),^{
+                if(completed.status==AVAssetWriterStatusCompleted) {
+                    NSSavePanel *panel=[NSSavePanel savePanel];
+                    panel.nameFieldStringValue=@"Project Peon Gameplay.mp4";
+                    [panel beginSheetModalForWindow:NSApp.mainWindow completionHandler:^(NSModalResponse response) {
+                        NSError *error=nil;
+                        if(response==NSModalResponseOK) {
+                            NSData *video=[NSData dataWithContentsOfURL:source options:0 error:&error];
+                            if(video && [video writeToURL:panel.URL options:NSDataWritingAtomic error:&error])
+                                [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[panel.URL]];
+                            else if(error) [NSApp presentError:error];
+                        }
+                        [[NSFileManager defaultManager] removeItemAtURL:source error:NULL];
+                        [source release]; [completed release];
+                    }];
+                }else {
+                    if(completed.error) [NSApp presentError:completed.error];
+                    [[NSFileManager defaultManager] removeItemAtURL:source error:NULL];
+                    [source release]; [completed release];
+                }
+            });
+#else
             NSURL *desktop=[[[NSFileManager defaultManager] URLsForDirectory:NSDesktopDirectory inDomains:NSUserDomainMask] firstObject];
             NSDateFormatter *format=[[[NSDateFormatter alloc] init] autorelease]; format.dateFormat=@"yyyy-MM-dd HH-mm-ss";
             NSURL *output=[desktop URLByAppendingPathComponent:[NSString stringWithFormat:@"Project Peon %@-%@.mp4",[format stringFromDate:NSDate.date],[NSUUID.UUID.UUIDString substringToIndex:6]]];
@@ -160,6 +183,7 @@
                 dispatch_async(dispatch_get_main_queue(),^{ [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[output]]; });
             else if(error) dispatch_async(dispatch_get_main_queue(),^{ [NSApp presentError:error]; });
             [[NSFileManager defaultManager] removeItemAtURL:source error:NULL]; [source release]; [completed release];
+#endif
         }}];
     });
 }

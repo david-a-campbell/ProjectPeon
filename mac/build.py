@@ -3,6 +3,8 @@
 import concurrent.futures, hashlib, json, os, pathlib, plistlib, shutil, subprocess, sys, tempfile
 from build_icon import build_icon
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+STORE = os.environ.get('PEON_APP_STORE') == '1'
+ARCH = os.environ.get('PEON_ARCH')
 OUT = pathlib.Path(os.environ.get('PEON_BUILD_DIR', ROOT / 'build/mac'))
 OBJ = OUT / 'objects'
 OBJ.mkdir(parents=True, exist_ok=True)
@@ -33,11 +35,15 @@ sdk = subprocess.check_output(['xcrun','--sdk','macosx','--show-sdk-path'],text=
 include_dirs=[ROOT/'mac',ROOT/'mac/compat',ROOT/'rover',ROOT/'rover/libs',ROOT/'rover/libs/kazmath/include',ROOT/'rover/cocos2d/Platforms/iOS']
 include_dirs += sorted({f.parent for f in (ROOT/'rover').rglob('*.h') if 'boost.framework' not in str(f) and '/FontLabel/' not in str(f) and '/CocosDenshion/' not in str(f) and '/Platforms/iOS' not in str(f)})
 common=['-isysroot',sdk,'-mmacosx-version-min=12.0','-DPROJECTPEON_MAC=1','-DCC_DIRECTOR_MAC_THREAD=2','-DCOCOS2D_DEBUG=1','-Wno-deprecated-declarations','-Wno-incompatible-pointer-types','-Wno-int-conversion','-Wno-shorten-64-to-32','-Wno-pointer-to-int-cast','-Wno-nullability-completeness','-Wno-objc-method-access','-Wno-format','-O1','-g']
+if ARCH: common += ['-arch', ARCH]
+if STORE: common += ['-DPROJECTPEON_APP_STORE=1', '-O2']
 for d in include_dirs: common += ['-I',str(d)]
 headers = list((ROOT/'rover').rglob('*.h')) + list((ROOT/'mac').rglob('*.h')) + [ROOT/'mac/Prefix.pch']
 header_time = max(f.stat().st_mtime for f in headers)
 def compile(source):
-    output = OBJ/(hashlib.sha1(str(source.relative_to(ROOT)).encode()).hexdigest()+'.o')
+    cache_key = str(source.relative_to(ROOT))
+    if STORE or ARCH: cache_key += repr(common)
+    output = OBJ/(hashlib.sha1(cache_key.encode()).hexdigest()+'.o')
     if output.exists() and output.stat().st_mtime > max(header_time,source.stat().st_mtime): return output, ''
     command = ['xcrun','clang++' if source.suffix in ('.mm','.cpp') else 'clang', *common]
     if source.suffix in ('.m','.mm'): command += ['-fno-objc-arc','-fblocks','-include',str(ROOT/'mac/Prefix.pch')]
@@ -56,6 +62,7 @@ app = pathlib.Path(staging.name)/'Project Peon.app'; contents=app/'Contents'; bi
 binary.mkdir(parents=True,exist_ok=True); assets.mkdir(parents=True,exist_ok=True)
 frameworks=['Cocoa','OpenGL','QuartzCore','CoreVideo','CoreData','AVFoundation','VideoToolbox','CoreMedia','AudioToolbox','CoreGraphics','StoreKit','SystemConfiguration','Security']
 command=['xcrun','clang++','-mmacosx-version-min=12.0',*[str(o) for o in outputs],'-o',str(binary/'ProjectPeon'),'-lz']
+if ARCH: command += ['-arch', ARCH]
 for framework in frameworks: command+=['-framework',framework]
 subprocess.run(command,check=True)
 for resource in resources:
@@ -70,9 +77,24 @@ for caption in ['CartLoad.png','CartLoadDown.png','CartDelete.png','CartDeleteDo
 shutil.copyfile(ROOT/'mac/Assets/MenuClose.png',assets/'MenuClose.png')
 shutil.copyfile(ROOT/'mac/Assets/MenuCloseDown.png',assets/'MenuCloseDown.png')
 info={'CFBundleExecutable':'ProjectPeon','CFBundleIdentifier':'com.digitalfury.projectpeon.mac','CFBundleName':'Project Peon','CFBundleDisplayName':'Project Peon','CFBundleIconFile':'ProjectPeon.icns','CFBundlePackageType':'APPL','CFBundleVersion':'2','CFBundleShortVersionString':'2.0','LSMinimumSystemVersion':'12.0','NSHighResolutionCapable':True,'NSPrincipalClass':'NSApplication'}
+if STORE:
+    info.update(CFBundleIdentifier='com.digitalfury.rover', CFBundleVersion='200',
+                LSApplicationCategoryType='public.app-category.puzzle-games',
+                ITSAppUsesNonExemptEncryption=False,
+                CFBundleSupportedPlatforms=['MacOSX'], DTPlatformName='macosx',
+                DTSDKName='macosx'+subprocess.check_output(['xcrun','--sdk','macosx','--show-sdk-version'],text=True).strip(),
+                DTSDKBuild=subprocess.check_output(['xcrun','--sdk','macosx','--show-sdk-build-version'],text=True).strip(),
+                BuildMachineOSBuild=subprocess.check_output(['sw_vers','-buildVersion'],text=True).strip())
+    xcode_version = subprocess.check_output(['xcodebuild','-version'],text=True).splitlines()
+    version_parts = xcode_version[0].split()[1].split('.')
+    info['DTXcode'] = ''.join([version_parts[0].zfill(2), *version_parts[1:], *(['0']*(3-len(version_parts)))])
+    info['DTXcodeBuild'] = xcode_version[1].split()[-1]
+    shutil.copyfile(ROOT/'mac/AppStore/PrivacyInfo.xcprivacy',assets/'PrivacyInfo.xcprivacy')
 with (contents/'Info.plist').open('wb') as f: plistlib.dump(info,f)
 subprocess.run(['xattr','-cr',str(app)],check=True)
-subprocess.run(['codesign','--force','--deep','--sign','-',str(app)],check=True)
+sign_command = ['codesign','--force','--sign','-']
+if STORE: sign_command += ['--entitlements', str(ROOT/'mac/AppStore/ProjectPeon.entitlements')]
+subprocess.run([*sign_command,str(app)],check=True)
 subprocess.run(['codesign','--verify','--deep','--strict',str(app)],check=True)
 final_app = OUT/'Project Peon.app'
 # Rebuild the bundle cleanly so removed resources cannot survive an update.

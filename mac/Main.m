@@ -138,7 +138,15 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
 }
 - (void)saveCameraScreenshot:(id)sender {
     NSString *name=[NSString stringWithFormat:@"Project Peon Camera %.0f.png",NSDate.date.timeIntervalSince1970*1000];
+#ifdef PROJECTPEON_APP_STORE
+    NSSavePanel *panel=[NSSavePanel savePanel];
+    panel.nameFieldStringValue=name;
+    [panel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse response) {
+        if(response==NSModalResponseOK) PeonRequestScreenshot(panel.URL.path);
+    }];
+#else
     PeonRequestScreenshot([[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:name]);
+#endif
 }
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
     if(item.menu==self.debugMenuItem.submenu && self.debugMenuItem.hidden) return NO;
