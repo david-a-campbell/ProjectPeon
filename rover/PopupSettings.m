@@ -87,6 +87,10 @@
     [controlTiltBtn setScale:2*SCREEN_SCALE];
     [controlTouchBtn setScale:2*SCREEN_SCALE];
     [retinaSwitch setScale:2*SCREEN_SCALE];
+#ifdef PROJECTPEON_IOS
+    retinaSwitch.visible = NO;
+    retinaSwitch.isEnabled = NO;
+#endif
     [backBtn setScale:2*SCREEN_SCALE];
     
     CCMenu *menu;

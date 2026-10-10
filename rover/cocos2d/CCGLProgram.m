@@ -155,7 +155,18 @@ typedef void (*GLLogFunction) (GLuint program,
             stringByReplacingOccurrencesOfString:@"#extension GL_OES_standard_derivatives : enable" withString:@""];
         source = [desktopSource UTF8String];
 #endif
+#ifdef PROJECTPEON_IOS
+        // Extension directives must precede the precision and uniform declarations.
+        NSString *iosSource = [NSString stringWithUTF8String:source];
+        NSString *derivatives = @"#extension GL_OES_standard_derivatives : enable";
+        BOOL usesDerivatives = [iosSource rangeOfString:derivatives].location != NSNotFound;
+        iosSource = [iosSource stringByReplacingOccurrencesOfString:derivatives withString:@""];
+        source = [iosSource UTF8String];
+#endif
         const GLchar *sources[] = {
+#ifdef PROJECTPEON_IOS
+            usesDerivatives ? "#extension GL_OES_standard_derivatives : enable\n" : "",
+#endif
 
 #ifdef __CC_PLATFORM_IOS
 			(type == GL_VERTEX_SHADER ? "precision highp float;\n" : "precision mediump float;\n"),

@@ -3,8 +3,12 @@
 //
 #import <Foundation/Foundation.h>
 #import "Constants.h"
+#ifdef PROJECTPEON_IOS
+#import "../mac/CDAudioManager.h"
+#else
 #import "SimpleAudioEngine.h"
 #import "CDAudioManager.h"
+#endif
 @class CCScene;
 
 @interface GameManager : NSObject

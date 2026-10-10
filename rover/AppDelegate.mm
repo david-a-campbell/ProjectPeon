@@ -62,6 +62,9 @@
     
 
     BOOL retinaOn = [[SaveManager sharedManager] isRetinaEnabled];
+#ifdef PROJECTPEON_IOS
+    retinaOn = YES;
+#endif
     [director_ enableRetinaDisplay:retinaOn];
     
 	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
@@ -88,7 +91,6 @@
 	navController_.navigationBarHidden = YES;
     
 	// set the Navigation Controller as the root view controller
-    [window_ addSubview:navController_.view];	// Generates flicker.
 	[window_ setRootViewController:navController_];
     //[window_ addSubview:[director_ view]];
 	
@@ -108,11 +110,17 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
+#ifdef PROJECTPEON_IOS
+    [[SimpleAudioEngine sharedEngine] pauseAudio];
+#endif
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_WILL_RESIGN_ACTIVE object:nil];
     [director_ pause];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+#ifdef PROJECTPEON_IOS
+    [[SimpleAudioEngine sharedEngine] resumeAudio];
+#endif
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_DID_BECOME_ACTIVE object:nil];
     [director_ resume];
 }

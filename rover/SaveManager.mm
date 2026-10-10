@@ -485,7 +485,11 @@
         retinaOn = NO;
     }
     [playerSettings setIsRetinaEnabled:[NSNumber numberWithBool:retinaOn]];
+    #ifdef PROJECTPEON_IOS
+    [playerSettings setUseTouchControl:@YES];
+#else
     [playerSettings setUseTouchControl:@NO];
+#endif
     [playerSettings setMusicVolume:[NSNumber numberWithFloat:0.75f]];
     [playerSettings setSfxVolume:[NSNumber numberWithFloat:0.25f]];
     [self saveContext];

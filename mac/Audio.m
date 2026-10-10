@@ -13,7 +13,23 @@
 @end
 @implementation SimpleAudioEngine { AVAudioPlayer *music; NSMutableDictionary *effects; ALuint nextID; BOOL musicWasPlaying; }
 + (instancetype)sharedEngine { static id instance; static dispatch_once_t once; dispatch_once(&once,^{ instance=[self new]; }); return instance; }
-- (id)init { if((self=[super init])) { effects=[NSMutableDictionary new]; _backgroundMusicVolume=1; _effectsVolume=1; } return self; }
+- (id)init { if((self=[super init])) { effects=[NSMutableDictionary new]; _backgroundMusicVolume=1; _effectsVolume=1;
+#ifdef PROJECTPEON_IOS
+    AVAudioSession *session=[AVAudioSession sharedInstance];
+    [session setCategory:AVAudioSessionCategoryAmbient error:NULL];
+    [session setActive:YES error:NULL];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(audioInterrupted:) name:AVAudioSessionInterruptionNotification object:session];
+#endif
+} return self; }
+#ifdef PROJECTPEON_IOS
+- (void)audioInterrupted:(NSNotification *)notification {
+    if ([notification.userInfo[AVAudioSessionInterruptionTypeKey] unsignedIntegerValue] == AVAudioSessionInterruptionTypeBegan) [self pauseAudio];
+    else if ([notification.userInfo[AVAudioSessionInterruptionOptionKey] unsignedIntegerValue] & AVAudioSessionInterruptionOptionShouldResume) {
+        [[AVAudioSession sharedInstance] setActive:YES error:NULL];
+        [self resumeAudio];
+    }
+}
+#endif
 - (AVAudioPlayer *)playerForFile:(NSString *)file {
     NSURL *url=[[NSBundle mainBundle] URLForResource:file withExtension:nil]; if(!url) return nil;
     AVAudioPlayer *player=[[[AVAudioPlayer alloc] initWithContentsOfURL:url error:NULL] autorelease]; [player prepareToPlay]; return player;

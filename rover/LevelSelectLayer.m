@@ -115,7 +115,7 @@
 
 -(void)setupParallaxLayersForPlanet:(int)planetNumber
 {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) 
+    // Both device families use the original game maps.
     {
 #ifdef PROJECTPEON_MAC
         tileMapNode = [CCTMXTiledMap tiledMapWithTMXFile:[NSString stringWithFormat:@"planet%iMenuWide.tmx", planetNumber]];

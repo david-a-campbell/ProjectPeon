@@ -184,6 +184,12 @@ float	__ccContentScaleFactor = 1;
 	glViewport(0, 0, size.width, size.height );
 }
 
+#ifdef PROJECTPEON_IOS
+// Preserve the original game's coordinates while UIKit sizes the drawable for each device.
+-(CGSize)winSize { return CGSizeMake(1024, 768); }
+-(CGSize)winSizeInPixels { return CGSizeMake(2048, 1536); }
+#endif
+
 -(void) setProjection:(ccDirectorProjection)projection
 {
 	CGSize size = _winSizeInPixels;
@@ -198,7 +204,11 @@ float	__ccContentScaleFactor = 1;
 			kmGLLoadIdentity();
 
 			kmMat4 orthoMatrix;
+#ifdef PROJECTPEON_IOS
+            kmMat4OrthographicProjection(&orthoMatrix, 0, 1024, 0, 768, -1024, 1024);
+#else
 			kmMat4OrthographicProjection(&orthoMatrix, 0, size.width / CC_CONTENT_SCALE_FACTOR(), 0, size.height / CC_CONTENT_SCALE_FACTOR(), -1024, 1024 );
+#endif
 			kmGLMultMatrix( &orthoMatrix );
 
 			kmGLMatrixMode(KM_GL_MODELVIEW);

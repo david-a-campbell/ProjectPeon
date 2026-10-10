@@ -45,7 +45,7 @@
     if ((self = [super init])) 
     {
         _tileMapName = tileMapName;
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) 
+        // Both device families use the original game maps.
         {
             tileMapNode = [CCTMXTiledMap tiledMapWithTMXFile:tileMapName];
         }

@@ -200,10 +200,17 @@ static GameManager* _sharedGameManager = nil;                      // 1
 
 -(void)setupAudioEngine
 {
+#ifdef PROJECTPEON_IOS
+    // The AVFoundation adapter initializes without the legacy OpenAL worker.
+    [CDAudioManager sharedManager];
+    [[CDAudioManager sharedManager] setBackgroundMusicCompletionListener:self selector:@selector(playRandomTrackForCurrentScene)];
+    [[CDAudioManager sharedManager] setResignBehavior:kAMRBStopPlay autoHandle:YES];
+#else
     NSOperationQueue *queue = [[NSOperationQueue new] autorelease];
     NSInvocationOperation *asyncSetupOperation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(initAudioAsync) object:nil];
     [queue addOperation:asyncSetupOperation];
     [asyncSetupOperation autorelease];
+#endif
     
     float musicVolume = [[SaveManager sharedManager] getMusicVolume];
     float sfxVolume = [[SaveManager sharedManager] getSfxVolume];

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F01000000000000000000005 /* Audio.m in Sources */ = {isa = PBXBuildFile; fileRef = F01000000000000000000006 /* Audio.m */; };
 		A100F2A11776775900962A8D /* boostMeter_tip.png in Resources */ = {isa = PBXBuildFile; fileRef = A100F2941776775900962A8D /* boostMeter_tip.png */; };
 		A100F2A41776775900962A8D /* createMenu_btn_bar_tip.png in Resources */ = {isa = PBXBuildFile; fileRef = A100F2971776775900962A8D /* createMenu_btn_bar_tip.png */; };
 		A100F2A51776775900962A8D /* createMenu_btn_booster_tip.png in Resources */ = {isa = PBXBuildFile; fileRef = A100F2981776775900962A8D /* createMenu_btn_booster_tip.png */; };
@@ -1444,9 +1445,12 @@
 		C3CFBDA9B82E1E70203EEC62 /* jamaica space base riddim.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C3AE7748EB708BA8FC63613F /* jamaica space base riddim.mp3 */; };
 		FB0AA230693DEAB81673B7A9 /* sampledTrack.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CC42F44D8FCDB397D1FA6562 /* sampledTrack.mp3 */; };
 		6DFF5D113ABC68CC957B06A3 /* space tech 1-337.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA42F997F4A337401FA14708 /* space tech 1-337.mp3 */; };
+		202BF3AF81B0736105452564 = {isa = PBXBuildFile; fileRef = 4EAE2CAF68237036049A0323; };
+		FD3AD62B845DEDA1C6451086 = {isa = PBXBuildFile; fileRef = D9E80C54853224DDC0F4934C; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F01000000000000000000006 /* Audio.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mac/Audio.m; sourceTree = SOURCE_ROOT; };
 		A100F2941776775900962A8D /* boostMeter_tip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boostMeter_tip.png; sourceTree = "<group>"; };
 		A100F2971776775900962A8D /* createMenu_btn_bar_tip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = createMenu_btn_bar_tip.png; sourceTree = "<group>"; };
 		A100F2981776775900962A8D /* createMenu_btn_booster_tip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = createMenu_btn_booster_tip.png; sourceTree = "<group>"; };
@@ -3223,6 +3227,8 @@
 		C3AE7748EB708BA8FC63613F /* jamaica space base riddim.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "jamaica space base riddim.mp3"; sourceTree = "<group>"; };
 		CC42F44D8FCDB397D1FA6562 /* sampledTrack.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "sampledTrack.mp3"; sourceTree = "<group>"; };
 		EA42F997F4A337401FA14708 /* space tech 1-337.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "space tech 1-337.mp3"; sourceTree = "<group>"; };
+		4EAE2CAF68237036049A0323 = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "ios/Assets.xcassets"; sourceTree = SOURCE_ROOT; };
+		D9E80C54853224DDC0F4934C = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "ios/PrivacyInfo.xcprivacy"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3230,7 +3236,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1F19E4F18340B3800D10EBF /* Twitter.framework in Frameworks */,
 				A1F19E4D18340B3100D10EBF /* Social.framework in Frameworks */,
 				A1F19E4B18340B2000D10EBF /* CoreImage.framework in Frameworks */,
 				A1F19E4718340B0B00D10EBF /* Accounts.framework in Frameworks */,
@@ -3246,7 +3251,6 @@
 				A1F29BFD1575BD660086D982 /* CoreData.framework in Frameworks */,
 				A147B59415027DAE005C0284 /* QuartzCore.framework in Frameworks */,
 				A147B59615027DAE005C0284 /* OpenGLES.framework in Frameworks */,
-				A147B59815027DAE005C0284 /* OpenAL.framework in Frameworks */,
 				A147B59C15027DAE005C0284 /* AVFoundation.framework in Frameworks */,
 				A147B59E15027DAE005C0284 /* UIKit.framework in Frameworks */,
 				A147B5A015027DAE005C0284 /* Foundation.framework in Frameworks */,
@@ -3350,6 +3354,8 @@
 		A147B58415027DAE005C0284 = {
 			isa = PBXGroup;
 			children = (
+				4EAE2CAF68237036049A0323,
+				D9E80C54853224DDC0F4934C,
 				A1F2F21215721D9D001F85B2 /* Default-Landscape@2x~ipad.png */,
 				A147B5A315027DAE005C0284 /* Rover */,
 				A147B59215027DAE005C0284 /* Frameworks */,
@@ -5922,6 +5928,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				202BF3AF81B0736105452564,
+				FD3AD62B845DEDA1C6451086,
 				A147B5B715027DAF005C0284 /* iTunesArtwork in Resources */,
 				A147B77615027DB2005C0284 /* blocks.png in Resources */,
 				A11171DF15686A0A007094B3 /* Thingy.plist in Resources */,
@@ -7066,10 +7074,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A147B6B215027DB1005C0284 /* CDAudioManager.m in Sources */,
-				A147B6B615027DB1005C0284 /* CDOpenALSupport.m in Sources */,
-				A147B6B915027DB1005C0284 /* CocosDenshion.m in Sources */,
-				A147B6BC15027DB1005C0284 /* SimpleAudioEngine.m in Sources */,
+				F01000000000000000000005 /* Audio.m in Sources */,
 				A147B6CC15027DB1005C0284 /* CDataScanner.m in Sources */,
 				A147B6D015027DB1005C0284 /* CDataScanner_Extensions.m in Sources */,
 				A147B6D315027DB1005C0284 /* NSDictionary_JSONExtensions.m in Sources */,
@@ -7376,8 +7381,6 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: David Campbell (QQMU524G9Q)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Campbell (QQMU524G9Q)";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -7396,11 +7399,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"${SRCROOT}/rover/libs/cocos2d\"/**";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
-				PROVISIONING_PROFILE = "B72AC5EE-AAE6-422F-B14C-DD8C7C0428B9";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B72AC5EE-AAE6-422F-B14C-DD8C7C0428B9";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -7427,8 +7428,6 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: David Campbell (K8BH4PM89R)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: David Campbell (K8BH4PM89R)";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -7445,11 +7444,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"${SRCROOT}/rover/libs/cocos2d\"/**";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "";
-				PROVISIONING_PROFILE = "9C090A46-6457-4BB3-9B05-697059FA34DF";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9C090A46-6457-4BB3-9B05-697059FA34DF";
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -7459,12 +7456,16 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = K8BH4PM89R;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++11";
+				CLANG_CXX_LIBRARY = "libc++";
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited) PROJECTPEON_IOS=1";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\\\"$(SRCROOT)/rover/libs\\\"",
+					"$(SRCROOT)/rover/libs",
 					"$(SRCROOT)",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -7480,7 +7481,9 @@
 					"\"rover/libs\"",
 				);
 				INFOPLIST_FILE = rover/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/rover/libs/MonkVG\"",
@@ -7492,9 +7495,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.digitalfury.rover;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "B72AC5EE-AAE6-422F-B14C-DD8C7C0428B9";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B72AC5EE-AAE6-422F-B14C-DD8C7C0428B9";
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "\"rover/libs\"";
 				VALID_ARCHS = "$(ARCHS_STANDARD)";
 				WRAPPER_EXTENSION = app;
@@ -7506,12 +7507,16 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = K8BH4PM89R;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++11";
+				CLANG_CXX_LIBRARY = "libc++";
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited) PROJECTPEON_IOS=1";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\\\"$(SRCROOT)/rover/libs\\\"",
+					"$(SRCROOT)/rover/libs",
 					"$(SRCROOT)",
 				);
 				GCC_OPTIMIZATION_LEVEL = s;
@@ -7526,7 +7531,9 @@
 					"\"rover/libs\"",
 				);
 				INFOPLIST_FILE = rover/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/rover/libs/MonkVG\"",
@@ -7538,9 +7545,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.digitalfury.rover;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9C090A46-6457-4BB3-9B05-697059FA34DF";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9C090A46-6457-4BB3-9B05-697059FA34DF";
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "\"rover/libs\"";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "$(ARCHS_STANDARD)";
