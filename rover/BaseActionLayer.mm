@@ -23,6 +23,9 @@
 #import "SaveManager.h"
 #import "Elevator.h"
 #import "UIImage+Extras.h"
+#ifdef PROJECTPEON_MAC
+#import "kazmath/GL/matrix.h"
+#endif
 #import "DeleteAble.h"
 #import "Rock.h"
 #import "Ground.h"
@@ -438,7 +441,7 @@
 {
 #ifdef PROJECTPEON_MAC
     CGFloat inset=(PeonPresentationSize([CCDirector sharedDirector].winSize).width-[CCDirector sharedDirector].winSize.width)/2;
-    if (inset > 0) position.x=MIN(position.x,-256*self.scale-inset);
+    if (inset > 0 && (shouldFollowSprite || levelWasCompleted)) position.x=MIN(position.x,-256*self.scale-inset);
 #endif
     for (BaseParallaxLayer *aLayer in parallaxHolderArray)
     {
@@ -639,7 +642,13 @@
 -(void)processSave
 {
     UIImage *saveImage = [saveCartRender getUIImage];
-    saveImage = [saveImage imageByScalingProportionallyToSize:CGSizeMake(512.0, 384.0)];
+    saveImage = [saveImage imageByScalingProportionallyToSize:CGSizeMake(512.0,
+#ifdef PROJECTPEON_MAC
+                                                            288.0
+#else
+                                                            384.0
+#endif
+                                                            )];
     [[SaveManager sharedManager] saveCart:playerCart andImage:saveImage];   
 }
 
@@ -647,13 +656,33 @@
 {
     [CCDirector sharedDirector].nextDeltaTimeZero = YES;
     CGSize winSize = [CCDirector sharedDirector].winSize;
+#ifdef PROJECTPEON_MAC
+    winSize.width = ceil(winSize.height*16.0/9);
+#endif
     CCRenderTexture* rtx = [CCRenderTexture renderTextureWithWidth:winSize.width height:winSize.height];
     
     CCSprite *saveBacking = [CCSprite spriteWithFile:@"blueprints_backing.png"];
     [saveBacking setScale:2*(SCREEN_SCALE)];
     [saveBacking setPosition: ccp(512.0, 384.0)];
     
+#ifdef PROJECTPEON_MAC
+    GLboolean wasScissoring = glIsEnabled(GL_SCISSOR_TEST);
+    glDisable(GL_SCISSOR_TEST);
+#endif
     [rtx begin];
+#ifdef PROJECTPEON_MAC
+    // Render in the same world coordinates as the building viewport. The render
+    // texture's default projection otherwise adjusts the widescreen projection twice.
+    kmGLMatrixMode(KM_GL_PROJECTION);
+    kmGLLoadIdentity();
+    kmMat4 projection;
+    CGFloat inset = (winSize.width-1024)/2;
+    kmMat4OrthographicProjection(&projection,-inset,1024+inset,0,768,-1024,1024);
+    kmGLMultMatrix(&projection);
+    kmGLMatrixMode(KM_GL_MODELVIEW);
+    kmGLLoadIdentity();
+    saveBacking.scaleX *= winSize.width/1024;
+#endif
     [saveBacking visit];
     for (CartPart *part in [playerCart componentsInOrderOfZ])
     {
@@ -661,6 +690,9 @@
         [part visit];
     }
     [rtx end];
+#ifdef PROJECTPEON_MAC
+    if (wasScissoring) glEnable(GL_SCISSOR_TEST);
+#endif
     return rtx;
 }
 

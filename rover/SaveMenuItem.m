@@ -52,9 +52,13 @@
 {
     savedImage = [[CCSprite spriteWithCGImage:[image CGImage] key:nil] retain];
     // Saved PNGs can have Retina pixel dimensions independent of their point size.
-    // Fit the preview to the original 512 x 384 canvas before scaling the menu.
+    // Fit to the preview canvas before scaling the menu.
     CGSize previewSize = savedImage.contentSize;
-    CGFloat previewScale = MIN(512.0 / previewSize.width, 384.0 / previewSize.height);
+    CGFloat previewHeight = 384;
+#ifdef PROJECTPEON_MAC
+    previewHeight = 288;
+#endif
+    CGFloat previewScale = MIN(512.0 / previewSize.width, previewHeight / previewSize.height);
     [savedImage setScale:previewScale * 0.28*2*(SCREEN_SCALE)];
     [savedImage setAnchorPoint:ccp(0,0)];
     [savedImage setPosition:ccp(24.25*0.28, 24.25*0.28)];
@@ -62,12 +66,19 @@
     [backing setScale:0.28*2*(SCREEN_SCALE)];
     CCSprite *backingSel = [CCSprite spriteWithSpriteFrameName:@"blueprints_loadGlow_sel_1.png"];
     [backingSel setScale:0.28*2*(SCREEN_SCALE)];
+#ifdef PROJECTPEON_MAC
+    backing.scaleY *= 0.75;
+    backingSel.scaleY *= 0.75;
+#endif
     button = [CCMenuItemSprite itemWithNormalSprite:backing selectedSprite:backingSel disabledSprite:nil target:self selector:@selector(expandView)];
     [button addChild:savedImage];
     [button setAnchorPoint:ccp(0, 0)];
-    CGSize frameSize = CGSizeMake(backing.contentSize.width * backing.scale,
-                                  backing.contentSize.height * backing.scale);
+    CGSize frameSize = CGSizeMake(backing.contentSize.width * backing.scaleX,
+                                  backing.contentSize.height * backing.scaleY);
     [button setContentSize:frameSize];
+    // Center both new widescreen snapshots and existing 4:3 saves in the frame.
+    savedImage.position = ccp((frameSize.width-savedImage.contentSize.width*savedImage.scaleX)/2,
+                              (frameSize.height-savedImage.contentSize.height*savedImage.scaleY)/2);
     [button setPosition:ccp(-frameSize.width/2, -frameSize.height/2)];
     [self addChild:button];
     [self setOpacity:0];
@@ -80,6 +91,12 @@
     CCSprite *dbtnsel = [CCSprite spriteWithSpriteFrameName:@"blueprints_selectDelete_sel_1.png"];
     CCSprite *sbtn = [CCSprite spriteWithSpriteFrameName:@"blueprints_selectConfirm_1.png"];
     CCSprite *sbtnsel = [CCSprite spriteWithSpriteFrameName:@"blueprints_selectConfirm_sel_1.png"];
+#ifdef PROJECTPEON_MAC
+    dbtn = [CCSprite spriteWithFile:@"CartDelete.png"];
+    dbtnsel = [CCSprite spriteWithFile:@"CartDeleteDown.png"];
+    sbtn = [CCSprite spriteWithFile:@"CartLoad.png"];
+    sbtnsel = [CCSprite spriteWithFile:@"CartLoadDown.png"];
+#endif
     deleteButton = [CCMenuItemSprite itemWithNormalSprite:dbtn selectedSprite:dbtnsel target:self selector:@selector(deleteCart)];
     saveButton = [CCMenuItemSprite itemWithNormalSprite:sbtn selectedSprite:sbtnsel target:self selector:@selector(loadCart)];
     [saveButton setAnchorPoint:ccp(0, 0)];
@@ -88,6 +105,16 @@
     [deleteButton setPosition:ccp(36.75, -53.50)];
     [deleteButton setScale:0.33*2*(SCREEN_SCALE)];
     [saveButton setScale:0.33*2*(SCREEN_SCALE)];
+#ifdef PROJECTPEON_MAC
+    CGFloat buttonWidth = 106*0.33*2*SCREEN_SCALE;
+    CGFloat buttonHeight = 51*0.33*2*SCREEN_SCALE;
+    CGRect preview = savedImage.boundingBox;
+    CGFloat left = button.position.x+CGRectGetMinX(preview);
+    CGFloat right = button.position.x+CGRectGetMaxX(preview);
+    CGFloat bottom = button.position.y+CGRectGetMinY(preview);
+    saveButton.position = ccp(left,bottom-buttonHeight);
+    deleteButton.position = ccp(right-buttonWidth,bottom-buttonHeight);
+#endif
     [saveButton setOpacity:0];
     [deleteButton setOpacity:0];
     [deleteButton setIsEnabled:NO];

@@ -11,6 +11,7 @@
 #import "PunkParallax.h"
 #import "PeonCloseButton.h"
 #import "SaveMenuItem.h"
+#import "SaveMenu.h"
 #import "UIImage+Extras.h"
 #import "SaveManager.h"
 #import "PopupMenu.h"
@@ -103,8 +104,8 @@ int main(int argc,const char **argv) {
   [director setView:(CCGLView *)view];
   NSCAssert(CGSizeEqualToSize(director.winSize,CGSizeMake(1024,768)),@"Wide startup window changed the UI canvas");
   CGRect menuViewport=PeonGameViewport(view.bounds,CGSizeMake(1024,768));
-  NSCAssert(fabs(menuViewport.origin.x-1024.0/6)<0.01 && fabs(CGRectGetMaxX(view.bounds)-CGRectGetMaxX(menuViewport)-menuViewport.origin.x)<0.01,@"Menu pillarbox bars must be equal");
-  puts("Wide startup retains original UI canvas and equal pillarbox margins: PASS");
+  NSCAssert(fabs(menuViewport.origin.x)<0.01 && fabs(CGRectGetMaxX(view.bounds)-CGRectGetMaxX(menuViewport)-menuViewport.origin.x)<0.01,@"Menu viewport must fill the window");
+  puts("Wide startup retains original UI canvas and full widescreen viewport: PASS");
   for(NSString *atlas in @[@"MainMenuAtlas.plist",@"popupBacking.plist",@"spriteAtlas.plist"]) [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:atlas];
   for (NSString *texture in @[@"P1L1_P1.png", @"P2L2_P1.png", @"P3L1_P1.png"]) {
    PunkParallax *clouds=[PunkParallax node];
@@ -184,10 +185,11 @@ int main(int argc,const char **argv) {
   NSManagedObjectContext *saveContext=[[[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType] autorelease];
   saveContext.persistentStoreCoordinator=coordinator;
   [[SaveManager sharedManager] setValue:saveContext forKey:@"context"];
-  for(NSNumber *factor in @[@1,@2]) {
-   NSInteger width=512*factor.integerValue,height=384*factor.integerValue;
+  for(NSNumber *factor in @[@1,@2]) for(NSNumber *wideImage in @[@NO,@YES]) {
+   NSInteger imageHeight=wideImage.boolValue?288:384;
+   NSInteger width=512*factor.integerValue,height=imageHeight*factor.integerValue;
    NSBitmapImageRep *rep=[[[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL pixelsWide:width pixelsHigh:height bitsPerSample:8 samplesPerPixel:4 hasAlpha:YES isPlanar:NO colorSpaceName:NSDeviceRGBColorSpace bytesPerRow:width*4 bitsPerPixel:32] autorelease];
-   NSImage *image=[[[NSImage alloc] initWithSize:NSMakeSize(512,384)] autorelease]; [image addRepresentation:rep];
+   NSImage *image=[[[NSImage alloc] initWithSize:NSMakeSize(512,imageHeight)] autorelease]; [image addRepresentation:rep];
    NSImage *scaled=[image imageByScalingProportionallyToSize:NSMakeSize(512,384)];
    NSCAssert(CGImageGetWidth(scaled.CGImage)==512 && CGImageGetHeight(scaled.CGImage)==384,@"Generated image dimensions depend on screen resolution");
    NSCAssert(CGLGetCurrentContext()==context,@"Image scaling changed the GL context");
@@ -195,6 +197,11 @@ int main(int argc,const char **argv) {
    CCSprite *preview=[item valueForKey:@"savedImage"];
    CCMenuItemSprite *button=[item valueForKey:@"button"];
    CGRect bounds=preview.boundingBox;
+   CGRect visiblePreview=CGRectOffset(preview.boundingBox,button.position.x,button.position.y);
+   CCMenuItem *loadAction=[item valueForKey:@"saveButton"], *deleteAction=[item valueForKey:@"deleteButton"];
+   NSCAssert(fabs(CGRectGetMaxY(loadAction.boundingBox)-CGRectGetMinY(visiblePreview))<0.01 && fabs(CGRectGetMaxY(deleteAction.boundingBox)-CGRectGetMinY(visiblePreview))<0.01,@"Action long edges do not meet preview bottom");
+   NSCAssert(fabs(CGRectGetMinX(loadAction.boundingBox)-CGRectGetMinX(visiblePreview))<0.01 && fabs(CGRectGetMaxX(deleteAction.boundingBox)-CGRectGetMaxX(visiblePreview))<0.01,@"Preview actions lost corner alignment");
+
    NSCAssert(bounds.size.width<=143.37 && bounds.size.height<=107.53,@"Retina preview exceeds banner: %@",NSStringFromRect(bounds));
    NSCAssert(fabs(button.position.x+button.contentSize.width/2)<0.01 && fabs(button.position.y+button.contentSize.height/2)<0.01,@"Frame is not centered");
    NSCAssert(CGRectContainsRect(CGRectMake(0,0,button.contentSize.width,button.contentSize.height),bounds),@"Preview outside frame");
@@ -243,19 +250,37 @@ int main(int argc,const char **argv) {
   NSCAssert(fabs(hudMenu.position.x-(966.5+1024.0/6))<0.01,@"Wide right HUD margin");
   [[PeonWideScreen sharedPresentation] setDriving:NO];
   [roverMenu visit];
-  NSCAssert(hudTimer.position.x==40 && hudMenu.position.x==966.5,@"HUD did not restore original margins");
+  NSCAssert(fabs(hudTimer.position.x-(40-1024.0/6))<0.01 && fabs(hudMenu.position.x-(966.5+1024.0/6))<0.01,@"Cart HUD lost widescreen corner margins");
   puts("Widescreen HUD corner margins and restoration: PASS");
   CCNode *mapCamera=[NSClassFromString(@"BaseActionLayer") node];
   mapCamera.scale=0.5;
+  [mapCamera setValue:@YES forKey:@"shouldFollowSprite"];
   [[PeonWideScreen sharedPresentation] setDriving:YES];
   mapCamera.position=ccp(-128,0);
   NSCAssert(fabs(mapCamera.position.x-(-128-1024.0/6))<0.01,@"Wide camera exposed left map boundary");
   mapCamera.position=ccp(-600,0);
   NSCAssert(mapCamera.position.x==-600,@"Wide camera blocked forward travel");
   [[PeonWideScreen sharedPresentation] setDriving:NO];
+  [mapCamera setValue:@NO forKey:@"shouldFollowSprite"];
   mapCamera.position=ccp(-128,0);
   NSCAssert(mapCamera.position.x==-128,@"Normal camera position changed");
   puts("Widescreen map left boundary at zoom and forward travel: PASS");
+  SaveMenu *wideSave=[[[SaveMenu alloc] init] autorelease];
+  CCNode *saveBacking=[wideSave valueForKey:@"blueprints_background"];
+  NSCAssert(fabs(saveBacking.contentSize.width*saveBacking.scaleX-1024.0*4/3)<0.01,@"Save background does not span widescreen");
+  CCNode *saveLeft=[wideSave valueForKey:@"blueprints_left_1"];
+  CCNode *saveRight=[wideSave valueForKey:@"blueprints_right_1"];
+  NSCAssert(fabs(saveLeft.position.x-(-23.5-1024.0/6))<0.01 && fabs(saveRight.position.x-(1047.5+1024.0/6))<0.01,@"Save frame edges did not expand symmetrically");
+  puts("Cart starting camera unchanged and save frame widened symmetrically: PASS");
+  CCRenderTexture *snapshot=[mapCamera performSelector:@selector(takeCartScreenShot)];
+  UIImage *snapshotImage=[snapshot getUIImage];
+  NSCAssert(fabs((double)CGImageGetWidth(snapshotImage.CGImage)/CGImageGetHeight(snapshotImage.CGImage)-16.0/9)<0.002,@"Cart capture is not widescreen");
+  NSCAssert(mapCamera.position.x==-128,@"Snapshot moved the building camera");
+  UIImage *thumbnail=[snapshotImage imageByScalingProportionallyToSize:CGSizeMake(512,288)];
+  NSCAssert(CGImageGetWidth(thumbnail.CGImage)==512 && CGImageGetHeight(thumbnail.CGImage)==288,@"Saved snapshot dimensions incorrect");
+  puts("Full widescreen snapshot and 512 x 288 saved image: PASS");
+
+
 
   BaseGameScene *level=[BaseGameScene node];
   [level setValue:roverMenu forKey:@"creationLayer"];
@@ -289,14 +314,14 @@ int main(int argc,const char **argv) {
   LoadingLayer *loading=[[[LoadingLayer alloc] initWithPlanetNum:1 LevelNumber:1] autorelease];
   [loading showActivityIndicator];
   CCSprite *spinner=[loading valueForKey:@"activityIndicatorSprite"];
-  NSCAssert(CGRectContainsRect(CGRectMake(0,0,1024,768),spinner.boundingBox),@"Loading icon outside screen");
+  NSCAssert(CGRectContainsRect(CGRectMake(-1024.0/6,0,1024.0*4/3,768),spinner.boundingBox),@"Loading icon outside screen");
   NSCAssert(spinner.position.y==78,@"Loading icon uses inverted coordinates");
   [[PeonWideScreen sharedPresentation] setLoadingVisible:YES];
   [loading visit];
   NSCAssert(fabs((1024+1024.0/6)-spinner.position.x-78)<0.01,@"Wide loading icon lost its right margin");
   [[PeonWideScreen sharedPresentation] setLoadingVisible:NO];
   [loading visit];
-  NSCAssert(spinner.position.x==946,@"Loading icon did not follow restored viewport");
+  NSCAssert(fabs(spinner.position.x-(946+1024.0/6))<0.01,@"Loading icon did not follow restored viewport");
   [loading performSelector:@selector(fadeOut)];
   [loading showActivityIndicator];
   NSCAssert([loading valueForKey:@"activityIndicatorSprite"]==nil,@"Loading icon reappears after transition");
@@ -370,7 +395,7 @@ int main(int argc,const char **argv) {
   puts("Ending score presentation retains widescreen: PASS");
   [[PeonWideScreen sharedPresentation] setDriving:NO];
   [recordingScore visit];
-  NSCAssert(recordingScore.position.x==0,@"Score assets did not restore original position");
+  NSCAssert(fabs(recordingScore.position.x+1024.0/6)<0.01,@"Score assets lost widescreen left alignment");
   puts("Hidden results follow widescreen left edge and restore: PASS");
   CCMenuItem *exportButton=[recordingScore valueForKey:@"videoBtn"];
   NSCAssert(!exportButton.visible && !exportButton.isEnabled,@"Disabled recording exposed export button");

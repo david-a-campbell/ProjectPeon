@@ -9,6 +9,11 @@
 #import "SaveMenu.h"
 #import "Constants.h"
 #import "SaveManager.h"
+#ifdef PROJECTPEON_MAC
+#define SAVE_INSET (1024.0f/6)
+#else
+#define SAVE_INSET 0.0f
+#endif
 
 @implementation SaveMenu
 @synthesize isMenuDisplaying, delegate;
@@ -52,16 +57,19 @@
     blueprints_right_2 = [CCSprite spriteWithSpriteFrameName:@"blueprints_right_2.png"];
     
     [blueprints_background setScale:2*(SCREEN_SCALE)];
+#ifdef PROJECTPEON_MAC
+    blueprints_background.scaleX *= (1024+2*SAVE_INSET)/1024;
+#endif
     [blueprints_left_1 setScale:2*(SCREEN_SCALE)];
     [blueprints_left_2 setScale:2*(SCREEN_SCALE)];
     [blueprints_right_1 setScale:2*(SCREEN_SCALE)];
     [blueprints_right_2 setScale:2*(SCREEN_SCALE)];
     
     [blueprints_background setPosition:ccp(512.0f, 627.5f)];
-    [blueprints_left_1 setPosition:ccp(-23.5f, 626.135f)];
-    [blueprints_right_1 setPosition:ccp(1047.5f, 626.135f)];
-    [blueprints_left_2 setPosition:ccp(-48.0f, 625.449f)];
-    [blueprints_right_2 setPosition:ccp(1072.0f, 625.449f)];
+    [blueprints_left_1 setPosition:ccp(-23.5f - SAVE_INSET, 626.135f)];
+    [blueprints_right_1 setPosition:ccp(1047.5f + SAVE_INSET, 626.135f)];
+    [blueprints_left_2 setPosition:ccp(-48.0f - SAVE_INSET, 625.449f)];
+    [blueprints_right_2 setPosition:ccp(1072.0f + SAVE_INSET, 625.449f)];
     [blueprints_background setOpacity:0];
     
     [self addChild:blueprints_background z:-2];
@@ -97,12 +105,12 @@
 {
     float xSpacing = 85;
     if (scrollview == nil) {
-        scrollview = [[SWScrollView alloc] initWithViewSize:CGSizeMake(935, 146)];
+        scrollview = [[SWScrollView alloc] initWithViewSize:CGSizeMake(935+2*SAVE_INSET, 146)];
     }else {
         return;
     }
     [scrollview setDirection: SWScrollViewDirectionHorizontal];
-    [scrollview setPosition:ccp(44.5, 554.835)];
+    [scrollview setPosition:ccp(44.5-SAVE_INSET, 554.835)];
     [scrollview setContentOffset:ccp(0,0)];
     for (SaveMenuItem *item in [saveMenuItemList reverseObjectEnumerator])
     {
@@ -111,7 +119,7 @@
         xSpacing = xSpacing + 175;
     }
     [self addChild:scrollview z:-1];
-    float contentWidth = 935;
+    float contentWidth = 935+2*SAVE_INSET;
     if (xSpacing > contentWidth)
     {
         contentWidth = xSpacing;
@@ -157,8 +165,8 @@
 
 -(void)slideOuterMenuIn
 {
-    id moveActionLeft = [CCMoveTo actionWithDuration:0.1f position:ccp(22.5f , 626.135f)];
-    id moveActionRight = [CCMoveTo actionWithDuration:0.1f position:ccp(1001.5f , 626.135f)];
+    id moveActionLeft = [CCMoveTo actionWithDuration:0.1f position:ccp(22.5f - SAVE_INSET, 626.135f)];
+    id moveActionRight = [CCMoveTo actionWithDuration:0.1f position:ccp(1001.5f + SAVE_INSET, 626.135f)];
     id moveEffectLeft = [CCEaseIn actionWithAction:moveActionLeft rate:0.2f];
     id moveEffectRight = [CCEaseIn actionWithAction:moveActionRight rate:0.2f];
     id sequence = [CCSequence actions:moveEffectLeft, [CCCallFunc actionWithTarget:self selector:@selector(slideInnerMenuIn)], nil];
@@ -168,8 +176,8 @@
 
 -(void)slideInnerMenuIn
 {
-    id moveActionLeft = [CCMoveTo actionWithDuration:0.1f position:ccp(47.0f , 625.449f)];
-    id moveActionRight = [CCMoveTo actionWithDuration:0.1f position:ccp(977.0f , 625.449f)];
+    id moveActionLeft = [CCMoveTo actionWithDuration:0.1f position:ccp(47.0f - SAVE_INSET, 625.449f)];
+    id moveActionRight = [CCMoveTo actionWithDuration:0.1f position:ccp(977.0f + SAVE_INSET, 625.449f)];
     id moveEffectLeft = [CCEaseOut actionWithAction:moveActionLeft rate:0.2f];
     id moveEffectRight = [CCEaseOut actionWithAction:moveActionRight rate:0.2f];
     id sequence = [CCSequence actions:moveEffectLeft, [CCCallFunc actionWithTarget:self selector:@selector(fadeMiddleIn)], nil];
@@ -195,8 +203,8 @@
 
 -(void)slideInnerMenuOut
 {
-    id moveActionLeft = [CCMoveTo actionWithDuration:0.1f position:ccp(-48.0f , 625.449f)];
-    id moveActionRight = [CCMoveTo actionWithDuration:0.1f position:ccp(1072.0f , 625.449f)];
+    id moveActionLeft = [CCMoveTo actionWithDuration:0.1f position:ccp(-48.0f - SAVE_INSET, 625.449f)];
+    id moveActionRight = [CCMoveTo actionWithDuration:0.1f position:ccp(1072.0f + SAVE_INSET, 625.449f)];
     id moveEffectLeft = [CCEaseOut actionWithAction:moveActionLeft rate:0.2f];
     id moveEffectRight = [CCEaseOut actionWithAction:moveActionRight rate:0.2f];
     id sequence = [CCSequence actions:moveEffectLeft, [CCCallFunc actionWithTarget:self selector:@selector(slideOuterMenuOut)], nil];
@@ -206,8 +214,8 @@
 
 -(void)slideOuterMenuOut
 {
-    id moveActionLeft = [CCMoveTo actionWithDuration:0.1f position:ccp(-23.5f , 626.135f)];
-    id moveActionRight = [CCMoveTo actionWithDuration:0.1f position:ccp(1047.5f , 626.135f)];
+    id moveActionLeft = [CCMoveTo actionWithDuration:0.1f position:ccp(-23.5f - SAVE_INSET, 626.135f)];
+    id moveActionRight = [CCMoveTo actionWithDuration:0.1f position:ccp(1047.5f + SAVE_INSET, 626.135f)];
     id moveEffectLeft = [CCEaseOut actionWithAction:moveActionLeft rate:0.2f];
     id moveEffectRight = [CCEaseOut actionWithAction:moveActionRight rate:0.2f];
     [blueprints_left_1 runAction:moveEffectLeft];
@@ -263,7 +271,7 @@
         [item setIndex:[saveMenuItemList indexOfObject:item]];
     }
     float xSpacing = [scrollview contentSize].width - 175;
-    float contentWidth = 935;
+    float contentWidth = 935+2*SAVE_INSET;
     if (xSpacing > contentWidth)
     {
         contentWidth = xSpacing;
@@ -281,7 +289,7 @@
         [expandedItem collapseView];
     }
     expandedItem = (SaveMenuItem*)item;
-    CGPoint offset = ccp(-expandedItem.position.x+512-44.5, 0);
+    CGPoint offset = ccp(-expandedItem.position.x+512-44.5+SAVE_INSET, 0);
     [scrollview setContentOffset:offset animatedInDuration:0.3];
 }
 

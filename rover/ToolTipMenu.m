@@ -108,7 +108,13 @@ static ToolTipMenu *_currentDisplay;
     CCMenuItemImage *off = [CCMenuItemImage itemWithNormalImage:@"checkbox_1.png" selectedImage:@"checkbox_1.png"];
     
     [top setScale:2*SCREEN_SCALE];
+#ifdef PROJECTPEON_MAC
+    top.scaleX *= 4.0/3;
+#endif
     [bottom setScale:2*SCREEN_SCALE];
+#ifdef PROJECTPEON_MAC
+    bottom.scaleX *= 4.0/3;
+#endif
     [background setScale:2*SCREEN_SCALE];
     [backgroundBacking setScale:2*SCREEN_SCALE];
 #ifdef PROJECTPEON_MAC
@@ -140,6 +146,9 @@ static ToolTipMenu *_currentDisplay;
     {
         CCSprite *plank = [CCSprite spriteWithFile:@"toolTip_2.png"];
         [plank setScale:2*SCREEN_SCALE];
+#ifdef PROJECTPEON_MAC
+        plank.scaleX *= 4.0/3;
+#endif
         [plank setPosition:ccp(0, 0)];
         [plank setOpacity:0];
         [self addChild:plank z:-1];

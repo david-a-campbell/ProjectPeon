@@ -15,53 +15,22 @@ int main(void) { @autoreleasepool {
  delegate.window.contentAspectRatio=NSMakeSize(16,9);
  NSRect original=delegate.window.frame;
  NSCAssert(PeonWideScreenAmount()==1,@"App must start in widescreen");
- [[PeonWideScreen sharedPresentation] setCartCreation:YES]; waitForTransition();
- [[PeonWideScreen sharedPresentation] setDriving:YES];
- NSCAssert(PeonWideScreenAmount()==0,@"Expansion must animate from the current viewport");
- [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.12]];
- CGFloat intermediate=PeonWideScreenAmount();
- NSCAssert(intermediate>0 && intermediate<1,@"Viewport did not animate");
- CGSize game=CGSizeMake(1024,768);
- CGRect viewport=PeonGameViewport(delegate.window.contentView.bounds,game);
- CGPoint point=CGPointMake(123,456);
- CGPoint mapped=PeonGamePoint(PeonViewPoint(point,viewport,game),viewport,game);
- NSCAssert(hypot(mapped.x-point.x,mapped.y-point.y)<0.001,@"Pointer mapping changed during animation");
- // Reverse an unfinished transition without jumping or resizing the window.
- [[PeonWideScreen sharedPresentation] setDriving:NO];
- NSCAssert(PeonWideScreenAmount()==intermediate,@"Reversal jumped");
- waitForTransition();
- NSCAssert(PeonWideScreenAmount()==0,@"Presentation did not return to 4:3");
- [[PeonWideScreen sharedPresentation] setDriving:YES]; waitForTransition();
- NSCAssert(PeonWideScreenAmount()==1,@"Presentation did not expand to 16:9");
- [[PeonWideScreen sharedPresentation] setPaused:YES]; waitForTransition();
- NSCAssert(PeonWideScreenAmount()==1,@"Pause menu did not fill the window");
- [[PeonWideScreen sharedPresentation] setPaused:NO]; waitForTransition();
- NSCAssert(PeonWideScreenAmount()==1,@"Resume did not expand");
- [[PeonWideScreen sharedPresentation] setDriving:NO]; waitForTransition();
- [[PeonWideScreen sharedPresentation] setHomeScreen:YES]; waitForTransition();
- NSCAssert(PeonWideScreenAmount()==1,@"Home screen did not use widescreen");
- [[PeonWideScreen sharedPresentation] setPaused:YES]; waitForTransition();
- NSCAssert(PeonWideScreenAmount()==1,@"Home settings did not fill the window");
- [[PeonWideScreen sharedPresentation] setPaused:NO]; waitForTransition();
- NSCAssert(PeonWideScreenAmount()==1,@"Home screen did not restore widescreen");
- [[PeonWideScreen sharedPresentation] setHomeScreen:NO]; waitForTransition();
- NSCAssert(PeonWideScreenAmount()==1,@"Non-cart scene must stay widescreen");
- [[PeonWideScreen sharedPresentation] setCartCreation:NO];
- [[PeonWideScreen sharedPresentation] setInstructionsVisible:YES];
- [[PeonWideScreen sharedPresentation] setLoadingVisible:YES];
- [[PeonWideScreen sharedPresentation] setInstructionsVisible:NO];
- NSCAssert(PeonWideScreenAmount()==1,@"Tutorial-to-loading handoff changed aspect");
- [[PeonWideScreen sharedPresentation] setLoadingVisible:NO];
- waitForTransition();
- NSCAssert(PeonWideScreenAmount()==1,@"Loading handoff changed aspect outside cart mode");
- [[PeonWideScreen sharedPresentation] setCartCreation:YES]; waitForTransition();
- [[PeonWideScreen sharedPresentation] setInstructionsVisible:YES]; waitForTransition();
- NSCAssert(PeonWideScreenAmount()==1,@"Automatic tutorial did not expand to widescreen");
- [[PeonWideScreen sharedPresentation] setInstructionsVisible:NO]; waitForTransition();
- NSCAssert(PeonWideScreenAmount()==0,@"Tutorial dismissal did not restore cart view");
-
+ for (NSNumber *state in @[@YES,@NO,@YES]) {
+  [[PeonWideScreen sharedPresentation] setCartCreation:state.boolValue];
+  [[PeonWideScreen sharedPresentation] setDriving:!state.boolValue];
+  [[PeonWideScreen sharedPresentation] setPaused:state.boolValue];
+  [[PeonWideScreen sharedPresentation] setInstructionsVisible:state.boolValue];
+  [[PeonWideScreen sharedPresentation] setLoadingVisible:state.boolValue];
+  waitForTransition();
+  NSCAssert(PeonWideScreenAmount()==1,@"A mode change narrowed the viewport");
+  CGSize game=CGSizeMake(1024,768);
+  CGRect viewport=PeonGameViewport(delegate.window.contentView.bounds,game);
+  CGPoint point=CGPointMake(123,456);
+  CGPoint mapped=PeonGamePoint(PeonViewPoint(point,viewport,game),viewport,game);
+  NSCAssert(hypot(mapped.x-point.x,mapped.y-point.y)<0.001,@"Pointer mapping changed");
+ }
  NSCAssert(NSEqualRects(delegate.window.frame,original),@"Native window moved or resized");
  NSCAssert(delegate.window.contentAspectRatio.width==16 && delegate.window.contentAspectRatio.height==9,@"Native window aspect changed");
- NSLog(@"Internal viewport animation, reversal, pause/resume and fixed window: PASS");
+ NSLog(@"All modes retain widescreen, pointer alignment and fixed window: PASS");
  NSApp.delegate=nil;
  } return 0; }

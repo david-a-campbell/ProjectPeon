@@ -32,7 +32,7 @@ int main(void) {
   for(NSValue *size in sizes) for(NSNumber *scale in @[@1,@2]) {
    view.bounds=NSMakeRect(0,0,size.sizeValue.width,size.sizeValue.height); view.backingScale=scale.doubleValue;
    [director setViewport]; GLint gl[4]; glGetIntegerv(GL_VIEWPORT,gl);
-   NSCAssert(fabs((double)gl[2]/gl[3]-4.0/3)<0.002,@"Fullscreen aspect stretched");
+   NSCAssert(fabs((double)gl[2]/gl[3]-16.0/9)<0.002,@"Fullscreen aspect stretched");
    CGRect viewport=PeonGameViewport(view.bounds,game);
    NSCAssert(gl[0]==lround(viewport.origin.x*view.backingScale) && gl[1]==lround(viewport.origin.y*view.backingScale),@"Viewport misplaced");
    CGPoint targets[]={{0,0},{1024,768},{512,384},{100,650},{900,80}};
@@ -58,7 +58,7 @@ int main(void) {
   NSCAssert(PeonWideScreenAmount()==1,@"Menu did not retain widescreen background");
   [[PeonWideScreen sharedPresentation] setDriving:NO];
   [[PeonWideScreen sharedPresentation] setPaused:NO];
-  puts("Immediate widescreen expansion, pointer alignment and menu collapse: PASS");
+  puts("Immediate widescreen expansion, pointer alignment and persistent widescreen: PASS");
  }
  return 0;
 }

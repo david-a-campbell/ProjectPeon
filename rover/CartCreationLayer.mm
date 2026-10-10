@@ -345,6 +345,10 @@
     [deleteSubMenu addChild:deleteAllBacking z:-10];
     deleteAllMenuUp = ccp(876, 165);
     deleteAllMenuDown = ccp(876, -65);
+#ifdef PROJECTPEON_MAC
+    deleteAllMenuUp.x = (deleteAllMenuUp.x-512)*4/3+512;
+    deleteAllMenuDown.x = (deleteAllMenuDown.x-512)*4/3+512;
+#endif
     [deleteSubMenu setPosition:deleteAllMenuDown];
     [self addChild:deleteSubMenu z:999];
     
@@ -384,6 +388,10 @@
     [motorSubMenu addChild:motorMenuBacking z:-10];
     motorMenuUp = ccp(372, 165);
     motorMenuDown = ccp(372, -65);
+#ifdef PROJECTPEON_MAC
+    motorMenuUp.x = (motorMenuUp.x-512)*4/3+512;
+    motorMenuDown.x = (motorMenuDown.x-512)*4/3+512;
+#endif
     [motorSubMenu setPosition:motorMenuDown];
     [self addChild:motorSubMenu z:999];
     
@@ -459,6 +467,10 @@
     [boosterSubMenu addChild:boosterMenuBacking z:-10];
     boosterMenuUp = ccp(270, 165);
     boosterMenuDown = ccp(270, -65);
+#ifdef PROJECTPEON_MAC
+    boosterMenuUp.x = (boosterMenuUp.x-512)*4/3+512;
+    boosterMenuDown.x = (boosterMenuDown.x-512)*4/3+512;
+#endif
     [boosterSubMenu setPosition:boosterMenuDown];
     [self addChild:boosterSubMenu z:999];
     
@@ -665,6 +677,15 @@
     [popupUpArrowBooster setIsEnabled:NO];
     [popupUpArrowBooster setPosition:ccp(270, 91.5)];
     
+#ifdef PROJECTPEON_MAC
+    // Spread the tools without changing icon sizes or the camera origin.
+    for (CCNode *item in toolMenu.children)
+        item.position = ccp((item.position.x-512)*4/3+512, item.position.y);
+    for (CCNode *arrow in @[popupUpArrowDelete, popupUpArrowMotor, popupUpArrowBooster])
+        arrow.position = ccp((arrow.position.x-512)*4/3+512, arrow.position.y);
+    createMenuBackground.position = ccp(-1024.0/6,0);
+    createMenuBackground.scaleX *= 4.0/3;
+#endif
     [toolMenu addChild:createMenuBackground z:-10];
     [toolMenu addChild:popupUpArrowDelete z:-9];
     [toolMenu addChild:popupUpArrowMotor z:-9];
@@ -942,7 +963,11 @@
 
 -(BOOL)touchIsValidForCreation:(CGPoint)touchLocation
 {
-    if (touchLocation.y >= GroundHeight && touchLocation.y <=768 && touchLocation.x >= 0 && touchLocation.x <= 1024)
+    CGFloat inset = 0;
+#ifdef PROJECTPEON_MAC
+    inset = 1024.0/6;
+#endif
+    if (touchLocation.y >= GroundHeight && touchLocation.y <=768 && touchLocation.x >= -inset && touchLocation.x <= 1024+inset)
     {
         return YES;
     }
@@ -952,6 +977,10 @@
 -(CGPoint)makeTouchValidForCreation:(CGPoint)touchLocation
 {
     CGPoint validLocation = touchLocation;
+    CGFloat inset = 0;
+#ifdef PROJECTPEON_MAC
+    inset = 1024.0/6;
+#endif
     if (touchLocation.y < GroundHeight)
     {
         validLocation.y = GroundHeight;
@@ -960,13 +989,13 @@
     {
         validLocation.y = 768;
     }
-    if (touchLocation.x < 0)
+    if (touchLocation.x < -inset)
     {
-        validLocation.x = 0;
+        validLocation.x = -inset;
     }
-    if (touchLocation.x > 1024)
+    if (touchLocation.x > 1024+inset)
     {
-        validLocation.x = 1024;
+        validLocation.x = 1024+inset;
     }
     
     return validLocation;
