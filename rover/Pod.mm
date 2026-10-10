@@ -11,6 +11,21 @@
 #import "Ground.h"
 #import "BoosterRayCastCalllback.h"
 
+// Match the extra width available for cart construction. Keep the iPad size.
+static CGFloat podBodyScale(void)
+{
+#ifdef PROJECTPEON_MAC
+    return 4.0f / 3.0f;
+#else
+    return 1.0f;
+#endif
+}
+
+static void scalePodVertices(b2Vec2 *vertices, int count)
+{
+    for (int i = 0; i < count; ++i) vertices[i] *= podBodyScale();
+}
+
 @implementation Pod
 
 -(id)initWithWorld:(b2World *)theWorld atLocation:(CGPoint)location andLayer:(CCLayer*)layer
@@ -21,6 +36,10 @@
         [self setGameObjectType:kPodType];
         world = theWorld;
         [self setupImages];
+        // Growing about the original bottom-left keeps the landing feet on the ground.
+        CGFloat growth = podBodyScale() - 1.0f;
+        location = ccp(location.x + self.contentSize.width * SCREEN_SCALE * growth,
+                       location.y + self.contentSize.height * SCREEN_SCALE * growth);
         [self setPosition:location];
         [self createBodyAtLocation:location];
         [self setupSensors];
@@ -56,14 +75,14 @@
 -(void)setPosition:(CGPoint)position
 {
     [podBackground setPosition:ccp(position.x-backGroundOffset.x, position.y-backGroundOffset.y)];
-    [blastEmitter setPosition:ccp(position.x, position.y - 1075.5f)];
+    [blastEmitter setPosition:ccp(position.x, position.y - 1075.5f * podBodyScale())];
     [super setPosition:position];
 }
 
 -(void)setupImages
 {
     [self setDisplayFrame:[[CCSprite spriteWithFile:@"podForeground.png"] displayFrame]];
-    [self setScale:2*SCREEN_SCALE];
+    [self setScale:2*SCREEN_SCALE * podBodyScale()];
     podDoor = [CCSprite spriteWithFile:@"podDoor.png"];
     [podDoor setScale:2*SCREEN_SCALE];
     [podDoor setAnchorPoint:ccp(0, 0)];
@@ -71,14 +90,14 @@
     [podDoor setOpacity:0];
     [self addChild:podDoor z:-1];
     podBackground = [CCSprite spriteWithFile:@"podBackground.png"];
-    [podBackground setScale:2*SCREEN_SCALE];
-    backGroundOffset = ccp(0, -258.0f/2.0f);
+    [podBackground setScale:2*SCREEN_SCALE * podBodyScale()];
+    backGroundOffset = ccp(0, -258.0f/2.0f * podBodyScale());
     [parentLayer addChild:podBackground z:-500];
     
     blastEmitter = [CCParticleSystemQuad particleWithFile:@"PodRocket.plist"];
     [[blastEmitter texture] setAliasTexParameters];
     [blastEmitter setPositionType:kCCPositionTypeGrouped];
-    [blastEmitter setScale:2];
+    [blastEmitter setScale:2 * podBodyScale()];
     [parentLayer addChild:blastEmitter z:-501];
     [blastEmitter stopSystem];
 }
@@ -116,12 +135,25 @@
         b2Vec2((555.0f -xOffset) /pixelsToMeterRatio(), (2146.5f -yOffset)/pixelsToMeterRatio()),
         b2Vec2((344.0f -xOffset) /pixelsToMeterRatio(), (1863.5f -yOffset)/pixelsToMeterRatio()),
     };
+    scalePodVertices(verts, 7);
     shape.Set(verts, 7);
     fixtureDef.shape = &shape;
     counterBody->CreateFixture(&fixtureDef);
     
     
     b2PolygonShape shape2;
+#ifdef PROJECTPEON_MAC
+    // A narrow strip at the far right delays completion without requiring
+    // detached parts elsewhere in the level to enter the ship.
+    b2Vec2 verts2[] = {
+        b2Vec2((1610.0f-xOffset)/pixelsToMeterRatio(), (348.0f-yOffset)/pixelsToMeterRatio()),
+        b2Vec2((1774.0f-xOffset)/pixelsToMeterRatio(), (348.0f-yOffset)/pixelsToMeterRatio()),
+        b2Vec2((1655.0f-xOffset)/pixelsToMeterRatio(), (1542.5f-yOffset)/pixelsToMeterRatio()),
+        b2Vec2((1610.0f-xOffset)/pixelsToMeterRatio(), (1790.0f-yOffset)/pixelsToMeterRatio())
+    };
+    scalePodVertices(verts2, 4);
+    shape2.Set(verts2, 4);
+#else
     b2Vec2 verts2[] = {
         b2Vec2((1413.0f -xOffset) /pixelsToMeterRatio(), (348.0f -yOffset)/pixelsToMeterRatio()),
         b2Vec2((1854.0f -xOffset) /pixelsToMeterRatio(), (348.0f -yOffset)/pixelsToMeterRatio()),
@@ -130,7 +162,9 @@
         b2Vec2((1565.5f -xOffset) /pixelsToMeterRatio(), (2032.5f -yOffset)/pixelsToMeterRatio()),
         b2Vec2((1413.0f -xOffset) /pixelsToMeterRatio(), (2186.0f -yOffset)/pixelsToMeterRatio())
     };
+    scalePodVertices(verts2, 6);
     shape2.Set(verts2, 6);
+#endif
     fixtureDef.shape = &shape2;
     cartTouchBody->CreateFixture(&fixtureDef);
 }
@@ -164,6 +198,7 @@
         b2Vec2((158.0f -xOffset) /pixelsToMeterRatio(), (348.0f -yOffset)/pixelsToMeterRatio())
     };
     
+    scalePodVertices(verts, 15);
     for (int x = 0; x < 14; x++)
     {
         shipShape.Set(verts[x], verts[x+1]);
@@ -189,6 +224,7 @@
         b2Vec2((1607.0f -xOffset) /pixelsToMeterRatio(), (122.0f -yOffset)/pixelsToMeterRatio())
     };
     
+    scalePodVertices(verts2, 4);
     base.Set(verts2, 4);
     body->CreateFixture(&baseFixtureDef);
 }
@@ -225,7 +261,8 @@
         podRamp = nil;
     }
     
-    CGPoint offset = ccp([self boundingBox].size.width/2.0 - 168, [self boundingBox].size.height/2.0 - 349);
+    // Reattach the original-sized ramp to the enlarged entrance.
+    CGPoint offset = ccp([self boundingBox].size.width/2.0 - 168 * podBodyScale(), [self boundingBox].size.height/2.0 - 349 * podBodyScale());
     CGPoint location = ccp([self position].x - offset.x, [self position].y - offset.y);
     podRamp = [[PodRamp alloc] initWithWorld:world atLocation:location withBody:body];
     [podRamp setDelegate:self];
@@ -280,7 +317,7 @@
     if (![blastEmitter active]){return;}
     BoosterRayCastcallback callback;
     
-    b2Vec2 origin = b2Vec2(_position.x/pixelsToMeterRatio(), _position.y/pixelsToMeterRatio() -1055.0f/pixelsToMeterRatio());
+    b2Vec2 origin = b2Vec2(_position.x/pixelsToMeterRatio(), _position.y/pixelsToMeterRatio() -1055.0f * podBodyScale()/pixelsToMeterRatio());
     b2Vec2 final = b2Vec2(origin.x,origin.y-1300.0f/pixelsToMeterRatio());
     world->RayCast(&callback, origin, final);
     
