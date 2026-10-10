@@ -4,7 +4,7 @@ Effective October 10, 2026.
 
 The Mac version of Project Peon does not collect, transmit, sell, or track personal data. It has no account system, advertisements, or analytics service. Gameplay works offline.
 
-Saved carts, level progress, and settings are stored locally on your Mac in the app's sandbox. The game does not upload them to a server.
+Saved carts, level progress, and settings are stored locally on your Mac in the app's sandbox. The game does not upload them to a server. This local data is retained until you delete it. You can delete individual saved carts in the load/save menu; removing the app's local sandbox data removes saved carts, progress, and settings. Exported recordings and screenshots remain in your chosen location until you delete those files.
 
 Optional gameplay recording captures the game view only, without sound. Recordings are temporarily stored locally; exporting a recording saves it to a location you choose using the macOS Save dialog. Unexported recordings are discarded when you restart, change levels, return to building, or quit. The app does not access your camera or microphone.
 
