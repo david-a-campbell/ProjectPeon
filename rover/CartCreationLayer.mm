@@ -255,6 +255,15 @@
     [saveMenu showMenu];
 }
 
+-(void)openSaveMenuFromTool
+{
+    [saveBtnSprite selected];
+    [self selectToolType:toolTypeSave];
+    [self showSaveMenu];
+    [self hideToolMenu];
+    [saveBtnSprite setIsEnabled:NO];
+}
+
 -(void)setupTempToolImages
 {
     tempBooster = [[CCSprite alloc] initWithSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"booster.png"]];
@@ -627,11 +636,9 @@
     //
     saveBtnSprite = [CCMenuItemSprite itemWithNormalSprite:saveButton selectedSprite:saveButtonSel disabledSprite:saveButtonDis
                                                        block:^(id sender) {
-                                                           [saveBtnSprite selected];
-                                                           [self selectToolType:toolTypeSave];
-                                                           [self showSaveMenu];
-                                                           [self hideToolMenu];
-                                                           [saveBtnSprite setIsEnabled:NO];
+                                                           [ToolTipMenu displayTipForTool:toolTypeSave whenDismissed:^{
+                                                               [self openSaveMenuFromTool];
+                                                           }];
                                                        } touchBlock:nil];
     [saveBtnSprite setPosition:ccp(157 , commonY)];
     [saveBtnSprite setScale:SCREEN_SCALE*2];

@@ -14,6 +14,9 @@
 #import "GameManager.h"
 #import "ToolTipMenu.h"
 #import "CCControlExtension.h"
+#ifdef PROJECTPEON_MAC
+#import "PeonBitmapFont.h"
+#endif
 
 @implementation PopupSettings
 
@@ -133,6 +136,7 @@
     PeonInsetVolumeSlider(sfxSlider);
     backBtn.position = ccp(0, -252);
     CCLabelBMFont *heading = [CCLabelBMFont labelWithString:@"CONTROLS" fntFile:@"font52.fnt"];
+    PeonInsetBitmapGlyphs(heading);
     heading.scale = SCREEN_SCALE;
     heading.position = ccp(0, 54);
     if(!forGameplay) PeonAddRecordingSetting([self nodeArray], SCREEN_SCALE);
@@ -143,11 +147,13 @@
         CGFloat y = 6 - row * 32.0;
         CCLabelBMFont *key = [CCLabelBMFont labelWithString:keys[row] fntFile:@"font42.fnt"];
         CCLabelBMFont *action = [CCLabelBMFont labelWithString:actions[row] fntFile:@"font42.fnt"];
-        key.anchorPoint = ccp(0, 0.5);
-        action.anchorPoint = ccp(1, 0.5);
+        PeonInsetBitmapGlyphs(key);
+        PeonInsetBitmapGlyphs(action);
+        key.anchorPoint = ccp(1, 0.5);
+        action.anchorPoint = ccp(0, 0.5);
         key.scale = action.scale = SCREEN_SCALE * 0.8;
-        key.position = ccp(-251, y);
-        action.position = ccp(250, y);
+        key.position = ccp(-18, y);
+        action.position = ccp(18, y);
         key.color = ccc3(155, 222, 255);
         [[self nodeArray] addObject:key];
         [[self nodeArray] addObject:action];

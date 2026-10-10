@@ -27,7 +27,9 @@
     NSMutableArray *plankArray;
     NSMutableArray *partArray;
     NSString *contentString;
+    void (^dismissAction)(void);
 }
 +(void)displayTipForTool:(ToolType)type;
++(void)displayTipForTool:(ToolType)type whenDismissed:(void (^)(void))action;
 +(void)displayWithMessage:(NSString*)string plankCount:(int)planks;
 @end

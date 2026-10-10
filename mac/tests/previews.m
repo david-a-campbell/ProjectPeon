@@ -50,6 +50,13 @@
 @end
 @interface ToolTipMenu (CloseTest)
 -(id)initWithMessage:(NSString *)message plankCount:(int)count;
+-(id)initForToolType:(ToolType)type;
+-(void)setupContent;
+-(void)animateClosed;
+-(void)finishDismissal;
+@end
+@interface SaveMenu (KeyboardTest)
+-(void)fadeMiddleInComplete;
 @end
 #import "LoadingLayer.h"
 #import "LevelSelectLayer.h"
@@ -82,6 +89,8 @@
 - (void)unlockOpenGLContext {}
 @end
 static BOOL testKeys[128];
+static BOOL testShowTips;
+static BOOL showTipsForTest(id manager, SEL selector) { return testShowTips; }
 static BOOL testMouseInside;
 static CGPoint testMouse;
 static BOOL mousePosition(id layer, SEL selector, CGPoint *position) {
@@ -523,6 +532,14 @@ int main(int argc,const char **argv) {
    [overlay cleanup];
   }
   puts("All seven tool overlays, upgrade icons and fuel highlight align with widescreen tools: PASS");
+  ToolTipMenu *saveTip=[[[ToolTipMenu alloc] initForToolType:toolTypeSave] autorelease];
+  [saveTip setupContent];
+  CCLabelBMFont *saveText=[saveTip valueForKey:@"text"];
+  NSCAssert([saveText.string rangeOfString:@"load"].location!=NSNotFound && [saveText.string rangeOfString:@"save"].location!=NSNotFound && [saveText.string rangeOfString:@"creations"].location!=NSNotFound,@"Save tooltip does not explain load/save");
+  CCSprite *saveHighlight=[[saveTip valueForKey:@"partArray"] lastObject];
+  NSCAssert(fabs(saveHighlight.position.x+saveTip.position.x-PeonCartToolX(157))<.01,@"Save tooltip highlight does not align with Save icon");
+  [saveTip cleanup];
+  puts("Save tooltip explains cart load/save and aligns with Save icon: PASS");
   ToolTipMenu *tip=[[[ToolTipMenu alloc] initWithMessage:@"Close button test" plankCount:6] autorelease];
   CCSprite *tipTop=[tip valueForKey:@"top"];
   CCMenu *tipCloseMenu=(CCMenu *)[tipTop getChildByTag:9906];
@@ -593,7 +610,43 @@ int main(int argc,const char **argv) {
    NSCAssert(!PeonDismissOpenMenu(),@"Escape reactivated a closing menu");
    [escapePopup removeFromParentAndCleanup:YES];
   }
+  SaveMenu *escapeSave=[[[SaveMenu alloc] init] autorelease];
+  [escapeRoot addChild:escapeSave];
+  NSCAssert(!PeonDismissOpenMenu(),@"Escape dismissed a save menu before it opened");
+  [escapeSave fadeMiddleInComplete];
+  ToolTipMenu *escapeTip=[[[ToolTipMenu alloc] initForToolType:toolTypeSave] autorelease];
+  [escapeRoot addChild:escapeTip];
+  NSCAssert(PeonDismissOpenMenu() && [[escapeTip valueForKey:@"isClosing"] boolValue] && escapeSave.isMenuDisplaying,@"Escape must dismiss the tooltip before the save menu");
+  [escapeTip removeFromParentAndCleanup:YES];
+  [escapeSave setValue:@YES forKey:@"isSaving"];
+  NSCAssert(!PeonDismissOpenMenu() && escapeSave.isMenuDisplaying,@"Escape interrupted an active save");
+  [escapeSave setValue:@NO forKey:@"isSaving"];
+  NSCAssert(PeonDismissOpenMenu() && !escapeSave.isMenuDisplaying,@"Escape did not close the save menu");
+  NSCAssert(!PeonDismissOpenMenu(),@"Escape restarted save menu dismissal");
+  [escapeSave removeFromParentAndCleanup:YES];
+  puts("Escape closes load/save after tooltips, guards active saving and repeated presses: PASS");
   [escapeRoot onExit]; director.notificationNode=nil;
+  CCScene *saveTipScene=[CCScene node];
+  [director setValue:saveTipScene forKey:@"runningScene"];
+  [saveTipScene onEnter];
+  Method tipsMethod=class_getInstanceMethod([SaveManager class],@selector(getShowToolTipsState));
+  IMP originalTips=method_setImplementation(tipsMethod,(IMP)showTipsForTest);
+  __block NSUInteger saveOpenCount=0;
+  testShowTips=YES;
+  [ToolTipMenu displayTipForTool:toolTypeSave whenDismissed:^{ saveOpenCount++; }];
+  NSCAssert(saveOpenCount==0 && saveTipScene.children.count==1,@"Save menu opened before its tooltip closed");
+  ToolTipMenu *pendingSaveTip=(ToolTipMenu *)[saveTipScene.children objectAtIndex:0];
+  [pendingSaveTip animateClosed];
+  NSCAssert(saveOpenCount==0,@"Save menu opened during tooltip closing animation");
+  [pendingSaveTip finishDismissal];
+  NSCAssert(saveOpenCount==1 && saveTipScene.children.count==0,@"Save menu was not opened after tooltip removal");
+  testShowTips=NO;
+  [ToolTipMenu displayTipForTool:toolTypeSave whenDismissed:^{ saveOpenCount++; }];
+  NSCAssert(saveOpenCount==2 && saveTipScene.children.count==0,@"Disabled tips delayed opening the Save menu");
+  method_setImplementation(tipsMethod,originalTips);
+  [saveTipScene onExit]; [saveTipScene cleanup];
+  [director setValue:nil forKey:@"runningScene"];
+  puts("Save waits for tooltip dismissal; disabled tips open immediately: PASS");
   puts("Escape dismissal for all seven popup types and no-menu guard: PASS");
   puts("All popup types: down/up sprites, drag out/back, cancellation, release dismissal; tooltip release: PASS");
  }

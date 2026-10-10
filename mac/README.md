@@ -54,7 +54,7 @@ Capture uses two GPU transfer buffers, polls completion without waiting, and ena
 
 Use Debug → Show FPS in the Mac menu bar to show or hide the FPS monitor. The preference is remembered between launches.
 
-Escape dismisses the topmost open menu, just like its red close button.
+Escape dismisses the topmost open menu, including tooltips and the load/save cart menu. An active cart save finishes before the menu can close.
 
 Gameplay recording is off by default and the export button is hidden while disabled. The recording preference is remembered.
 

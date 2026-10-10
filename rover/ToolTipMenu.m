@@ -22,12 +22,19 @@ static ToolTipMenu *_currentDisplay;
 
 +(void)displayTipForTool:(ToolType)type
 {
+    [self displayTipForTool:type whenDismissed:nil];
+}
+
++(void)displayTipForTool:(ToolType)type whenDismissed:(void (^)(void))action
+{
     if (![[SaveManager sharedManager] getShowToolTipsState])
     {
+        if (action) action();
         return;
     }
     [ToolTipMenu dismissToolTip];
     _currentDisplay = [[ToolTipMenu alloc] initForToolType:type];
+    _currentDisplay->dismissAction = [action copy];
     CCScene *runningScene = [[CCDirector sharedDirector] runningScene];
     [runningScene addChild:_currentDisplay z:1000000];
     [_currentDisplay release];
@@ -198,6 +205,9 @@ static ToolTipMenu *_currentDisplay;
         case toolTypeEdit:
             [self setupContentForEdit];
             break;
+        case toolTypeSave:
+            [self setupContentForSave];
+            break;
         default:
             [self setupContentForString];
             break;
@@ -320,6 +330,19 @@ static ToolTipMenu *_currentDisplay;
     [self addChild:text z:2];
 }
 
+-(void)setupContentForSave
+{
+    CCSprite *save = [CCSprite spriteWithSpriteFrameName:@"createMenu_btn_blueprints_sel_1.png"];
+    [save setPosition:[self adjustForOrigin:ccp(157, commonY)]];
+    [save setScale:2*SCREEN_SCALE];
+    [self addChild:save];
+    [partArray addObject:save];
+    text = [self labelWithText:@"The Save icon lets you load and save your cart creations.\n\nSave your designs to use them again, or load a saved cart to keep building."];
+    [text setPosition:ccp(0, [self textOffset])];
+    [text setScale:SCREEN_SCALE];
+    [self addChild:text z:2];
+}
+
 -(void)setupContentForEdit
 {
     CCSprite *edit = [CCSprite spriteWithFile:@"createMenu_btn_edit_tip.png"];
@@ -365,6 +388,16 @@ static ToolTipMenu *_currentDisplay;
     [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.4], [CCCallFunc actionWithTarget:self selector:@selector(changeMenuPriority)], [CCCallFunc actionWithTarget:self selector:@selector(setupContent)], nil]];
 }
 
+-(void)finishDismissal
+{
+    void (^action)(void) = [dismissAction copy];
+    [dismissAction release];
+    dismissAction = nil;
+    [ToolTipMenu dismissToolTip];
+    if (action) action();
+    [action release];
+}
+
 -(void)animateClosed
 {
 #ifdef PROJECTPEON_MAC
@@ -382,7 +415,7 @@ static ToolTipMenu *_currentDisplay;
         [plankObject runAction:[[fade copy] autorelease]];
     }
     
-    id sequence = [CCSequence actions:backGroundFade,[CCCallFunc actionWithTarget:[ToolTipMenu class] selector:@selector(dismissToolTip)], nil];
+    id sequence = [CCSequence actions:backGroundFade,[CCCallFunc actionWithTarget:self selector:@selector(finishDismissal)], nil];
     [top runAction:fade];
     [text runAction:[[fade copy] autorelease]];
     [bottom runAction:[[fade copy] autorelease]];
@@ -500,6 +533,7 @@ static ToolTipMenu *_currentDisplay;
 
 -(void)dealloc
 {
+    [dismissAction release];
     if (contentString)
     {
         [contentString release];

@@ -162,6 +162,13 @@
     [self slideOuterMenuIn];
 }
 
+-(BOOL)dismissFromKeyboard
+{
+    if (!isMenuDisplaying || isSaving) return NO;
+    [self dissmissMenu];
+    return YES;
+}
+
 -(void)dissmissMenu
 {
     if (expandedItem != nil)

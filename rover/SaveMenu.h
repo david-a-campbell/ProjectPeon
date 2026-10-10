@@ -42,6 +42,7 @@
 @property(nonatomic, assign) id<saveMenuDelegate> delegate;
 -(void)showMenu;
 -(void)dissmissMenu;
+-(BOOL)dismissFromKeyboard;
 -(void)setOpacity:(GLubyte)opacity;
 -(void)runAction:(CCAction*)action;
 -(void)setIsMenuEnabled:(BOOL)isTouchEnabled;
