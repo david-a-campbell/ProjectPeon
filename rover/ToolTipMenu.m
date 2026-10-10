@@ -234,7 +234,7 @@ static ToolTipMenu *_currentDisplay;
     [partArray addObject:booster];
     [partArray addObject:boosterUpgrade];
     
-    text = [self labelWithText:@"Boosters turn your cart into a rocket cart!\n\nBooster Fuel recharges, but more rockets will burn it faster. Need more fuel? Check the store for upgrades!\n\nTo activate boosters touch anywhere while driving."];
+    text = [self labelWithText:@"Boosters turn your cart into a rocket cart!\n\nBooster Fuel recharges, but more rockets will burn it faster. Need more fuel? Check the workshop for upgrades!\n\nTo activate boosters touch anywhere while driving."];
     [text setPosition:ccp(0, [self textOffset])];
     [text setScale:SCREEN_SCALE];
     [self addChild:text z:2];
@@ -253,7 +253,7 @@ static ToolTipMenu *_currentDisplay;
     [partArray addObject:motor];
     [partArray addObject:motorUpgrade];
     
-    text = [self labelWithText:@"Motorized wheels are the power of your cart. They are light and float well.\n\nNeed more power? Check the store for upgrades!\n\nTilt your device to move."];
+    text = [self labelWithText:@"Motorized wheels are the power of your cart. They are light and float well.\n\nNeed more power? Check the workshop for upgrades!\n\nTilt your device to move."];
     [text setPosition:ccp(0, [self textOffset])];
     [text setScale:SCREEN_SCALE];
     [self addChild:text z:2];
@@ -484,7 +484,18 @@ static ToolTipMenu *_currentDisplay;
     {
         factor = 1;
     }
-    return [CCLabelBMFont labelWithString:someText fntFile:@"font42.fnt" width:500*factor alignment:kCCTextAlignmentLeft];
+    CCLabelBMFont *label = [CCLabelBMFont labelWithString:someText fntFile:@"font42.fnt" width:500*factor alignment:kCCTextAlignmentLeft];
+#ifdef PROJECTPEON_MAC
+    // Keep filtering inside each glyph so adjacent atlas pixels cannot bleed in.
+    for (CCSprite *glyph in label.children)
+    {
+        CGRect rect = glyph.textureRect;
+        CGSize size = glyph.contentSize;
+        [glyph setTextureRect:CGRectInset(rect, 0.5, 0.5)
+                     rotated:glyph.textureRectRotated untrimmedSize:size];
+    }
+#endif
+    return label;
 }
 
 -(void)dealloc

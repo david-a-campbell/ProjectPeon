@@ -16,6 +16,7 @@
 #import "PopupMenu.h"
 #import "SaveMenu.h"
 #import "LoadingLayer.h"
+#import "ToolTipMenu.h"
 #import "GameManager.h"
 #import "SaveManager.h"
 #import "ControlsLayer.h"
@@ -39,18 +40,31 @@
 }
 @end
 
+#ifdef PROJECTPEON_MAC
+static BOOL PeonPanBlockedByMenu(CCNode *node) {
+    if([node isKindOfClass:[PopupMenu class]] || [node isKindOfClass:[ToolTipMenu class]] ||
+       [node isKindOfClass:[SaveMenu class]] || [node isKindOfClass:[LoadingLayer class]] ||
+       [node isKindOfClass:[InstructionLayer class]]) return YES;
+    for(CCNode *child in node.children) if(PeonPanBlockedByMenu(child)) return YES;
+    return NO;
+}
+#endif
+
 @implementation BaseGameScene
 
 #ifdef PROJECTPEON_MAC
 @synthesize inspectionCameraEnabled;
 @synthesize mousePanPreviewEnabled;
+-(BOOL)canChangeMousePanState {
+    return !PeonPanBlockedByMenu(self);
+}
 -(void)setMousePanEnabled:(BOOL)enabled {
+    if(![self canChangeMousePanState]) return;
     if(!enabled) {
         if(mousePanPreviewEnabled) [self setInspectionCameraEnabled:NO];
         return;
     }
     if(inspectionCameraEnabled || ![[creationLayer valueForKey:@"cartCreationEnabled"] boolValue]) return;
-    for(CCNode *node in self.children) if([node isKindOfClass:[PopupMenu class]] || [node isKindOfClass:[SaveMenu class]]) return;
     BaseActionLayer *layer=[self inspectionActionLayer];
     if(!layer) return;
     [self setInspectionCameraEnabled:YES];
@@ -142,7 +156,7 @@
 -(void)cartCreationFromKeyboard
 {
 #ifdef PROJECTPEON_MAC
-    if(mousePanPreviewEnabled) { [self setInspectionCameraEnabled:NO]; return; }
+    if(mousePanPreviewEnabled) { if([self canChangeMousePanState]) [self setInspectionCameraEnabled:NO]; return; }
 #endif
     for (CCNode *child in self.children)
         if ([child isKindOfClass:[PopupMenu class]]) return;

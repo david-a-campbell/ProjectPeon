@@ -338,9 +338,27 @@ int main(int argc,const char **argv) {
   [mapCamera setValue:testCart forKey:@"playerCart"];
   rightPart.visible=NO;
   BOOL directorWasPaused=director.isPaused;
+  CCNode *menuHost=[CCNode node]; [panPreview addChild:menuHost];
+  for(Class menuClass in @[[PopupMenu class],[ToolTipMenu class],[SaveMenu class]]) {
+    CCNode *blocking=[menuClass node]; [menuHost addChild:blocking];
+    NSCAssert(!panPreview.canChangeMousePanState,@"Open overlay did not block map-pan changes");
+    [panPreview setMousePanEnabled:YES];
+    NSCAssert(!panPreview.mousePanPreviewEnabled,@"Map preview started through an open menu");
+    [blocking removeFromParentAndCleanup:YES];
+  }
+  NSCAssert(panPreview.canChangeMousePanState,@"Dismissed overlays still block map-pan changes");
   [panPreview setMousePanEnabled:YES];
   NSCAssert(panPreview.mousePanPreviewEnabled && panPreview.drivingCameraAvailable && director.isPaused,@"Building map preview did not enable a paused panning camera");
   NSCAssert(fabs(mapCamera.scale-.35)<.001 && !leftPart.visible && !topPart.visible && !roverMenu.visible && !hudMenu.visible,@"Map preview did not adopt driving zoom and hide cart/tools");
+  for(Class menuClass in @[[PopupMenu class],[ToolTipMenu class],[SaveMenu class]]) {
+    CCNode *blocking=[menuClass node]; [menuHost addChild:blocking];
+    [panPreview setMousePanEnabled:NO];
+    NSCAssert(panPreview.mousePanPreviewEnabled,@"Map preview stopped through an open menu");
+    [panPreview cartCreationFromKeyboard];
+    NSCAssert(panPreview.mousePanPreviewEnabled,@"C exited map preview through an open menu");
+    [blocking removeFromParentAndCleanup:YES];
+  }
+  puts("Popup, tooltip and load/save overlays block map-pan changes in both directions: PASS");
   CGPoint beforePan=mapCamera.position;
   [panPreview panDrivingCameraBy:ccp(-500,-200)];
   NSCAssert(mapCamera.position.x<beforePan.x && mapCamera.position.y<beforePan.y,@"Preview camera did not pan");

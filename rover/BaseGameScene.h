@@ -21,6 +21,7 @@
 @property (nonatomic, readonly) BOOL inspectionCameraEnabled;
 @property (nonatomic, readonly) BOOL mousePanPreviewEnabled;
 -(void)setMousePanEnabled:(BOOL)enabled;
+-(BOOL)canChangeMousePanState;
 -(BOOL)drivingCameraAvailable;
 -(void)teleportCartToScreenCenter;
 -(void)panDrivingCameraBy:(CGPoint)delta;

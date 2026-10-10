@@ -68,6 +68,6 @@ The left map boundary is offset for the wider cart workspace. Before every launc
 
 The Mac app icon is generated from the original `rover/Icon512.png` and `rover/Icon1024.png` artwork by `mac/build_icon.py` during each build.
 
-P toggles Mouse Pan Map. Mouse Pan Map in cart creation opens a paused map preview at the driving zoom, with the cart and building controls hidden. Drag to pan; turn the toggle off, press C, or press Escape to restore the editor camera and cart. During driving, the toggle continues to pan the live driving camera.
+P toggles Mouse Pan Map when no popup, tooltip, load/save cart panel or level-entry screen is open. While those overlays are open, the pan-map state stays unchanged. Mouse Pan Map in cart creation opens a paused map preview at the driving zoom, with the cart and building controls hidden. Drag to pan; turn the toggle off, press C, or press Escape to restore the editor camera and cart. During driving, the toggle continues to pan the live driving camera.
 
 The Debug menu is hidden on a fresh install. Click David Campbell in the credits ten times to show it. Ten more clicks disable FPS, physics overlays, ship-trigger bypass, cart teleport, unlocked levels and the debug inspection camera, then hide the menu. Its visibility is remembered between launches.

@@ -43,7 +43,7 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
             case 24: [inspectionScene() zoomInspectionCameraBy:1.2]; break;
             case 27: [inspectionScene() zoomInspectionCameraBy:1/1.2]; break;
             case 8: if([inspectionScene() mousePanPreviewEnabled]) [inspectionScene() cartCreationFromKeyboard]; break;
-            case 53: [inspectionScene() setInspectionCameraEnabled:NO]; break;
+            case 53: if(![inspectionScene() mousePanPreviewEnabled] || [inspectionScene() canChangeMousePanState]) [inspectionScene() setInspectionCameraEnabled:NO]; break;
             case 35: [[NSApp delegate] performSelector:@selector(saveCameraScreenshot:) withObject:nil]; break;
         }
         return;
@@ -203,6 +203,8 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     self.window.title=[NSString stringWithFormat:@"Project Peon — A/D or ←/→ drive · Space boost · R relaunch · C build · P %@ · M next song",panAction];
 }
 - (void)toggleMousePan:(NSMenuItem *)item {
+    BaseGameScene *scene=inspectionScene();
+    if(!scene || ![scene canChangeMousePanState]) return;
     BOOL enabled=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonMousePan"];
     [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:@"PeonMousePan"];
     [[(CCGLView *)self.window.contentView openGLContext] makeCurrentContext];
