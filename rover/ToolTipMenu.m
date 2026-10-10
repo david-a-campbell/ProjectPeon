@@ -9,6 +9,7 @@
 #import "ToolTipMenu.h"
 #ifdef PROJECTPEON_MAC
 #import "PeonCloseButton.h"
+#import "PeonViewport.h"
 #endif
 #import "GameManager.h"
 #import "SaveManager.h"
@@ -216,7 +217,11 @@ static ToolTipMenu *_currentDisplay;
     CCSprite *fuel = [CCSprite spriteWithFile:@"boostMeter_tip.png"];
     CCSprite *booster = [CCSprite spriteWithFile:@"createMenu_btn_booster_tip.png"];
     CCSprite *boosterUpgrade = [CCSprite spriteWithFile:@"createMenu_btn_boosterUpgrade_tip.png"];
+    #ifdef PROJECTPEON_MAC
+    [fuel setPosition:ccp(40-1024.0/6-512,728-384)];
+#else
     [fuel setPosition:[self adjustForOrigin:ccp(40, 728)]];
+#endif
     [booster setPosition:[self adjustForOrigin:ccp(270, commonY)]];
     [boosterUpgrade setPosition:[self adjustForOrigin:ccp(270, 165)]];
     [fuel setScale:SCREEN_SCALE];
@@ -466,6 +471,9 @@ static ToolTipMenu *_currentDisplay;
 
 -(CGPoint)adjustForOrigin:(CGPoint)point
 {
+#ifdef PROJECTPEON_MAC
+    point.x = PeonCartToolX(point.x);
+#endif
     return ccp(point.x -512, point.y -384);
 }
 

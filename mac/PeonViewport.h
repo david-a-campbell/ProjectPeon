@@ -32,3 +32,8 @@ static inline CGPoint PeonViewPoint(CGPoint point, CGRect viewport, CGSize gameS
     return CGPointMake(viewport.origin.x+(point.x+(presentation.width-gameSize.width)/2)*viewport.size.width/presentation.width,
                        viewport.origin.y+point.y*viewport.size.height/gameSize.height);
 }
+
+// Tool icons retain their size while spreading across the wider cart toolbar.
+static inline CGFloat PeonCartToolX(CGFloat originalX) {
+    return (originalX-512)*4/3+512;
+}

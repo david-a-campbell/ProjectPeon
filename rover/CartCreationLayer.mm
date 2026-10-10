@@ -346,8 +346,8 @@
     deleteAllMenuUp = ccp(876, 165);
     deleteAllMenuDown = ccp(876, -65);
 #ifdef PROJECTPEON_MAC
-    deleteAllMenuUp.x = (deleteAllMenuUp.x-512)*4/3+512;
-    deleteAllMenuDown.x = (deleteAllMenuDown.x-512)*4/3+512;
+    deleteAllMenuUp.x = PeonCartToolX(deleteAllMenuUp.x);
+    deleteAllMenuDown.x = PeonCartToolX(deleteAllMenuDown.x);
 #endif
     [deleteSubMenu setPosition:deleteAllMenuDown];
     [self addChild:deleteSubMenu z:999];
@@ -389,8 +389,8 @@
     motorMenuUp = ccp(372, 165);
     motorMenuDown = ccp(372, -65);
 #ifdef PROJECTPEON_MAC
-    motorMenuUp.x = (motorMenuUp.x-512)*4/3+512;
-    motorMenuDown.x = (motorMenuDown.x-512)*4/3+512;
+    motorMenuUp.x = PeonCartToolX(motorMenuUp.x);
+    motorMenuDown.x = PeonCartToolX(motorMenuDown.x);
 #endif
     [motorSubMenu setPosition:motorMenuDown];
     [self addChild:motorSubMenu z:999];
@@ -468,8 +468,8 @@
     boosterMenuUp = ccp(270, 165);
     boosterMenuDown = ccp(270, -65);
 #ifdef PROJECTPEON_MAC
-    boosterMenuUp.x = (boosterMenuUp.x-512)*4/3+512;
-    boosterMenuDown.x = (boosterMenuDown.x-512)*4/3+512;
+    boosterMenuUp.x = PeonCartToolX(boosterMenuUp.x);
+    boosterMenuDown.x = PeonCartToolX(boosterMenuDown.x);
 #endif
     [boosterSubMenu setPosition:boosterMenuDown];
     [self addChild:boosterSubMenu z:999];
@@ -680,9 +680,9 @@
 #ifdef PROJECTPEON_MAC
     // Spread the tools without changing icon sizes or the camera origin.
     for (CCNode *item in toolMenu.children)
-        item.position = ccp((item.position.x-512)*4/3+512, item.position.y);
+        item.position = ccp(PeonCartToolX(item.position.x), item.position.y);
     for (CCNode *arrow in @[popupUpArrowDelete, popupUpArrowMotor, popupUpArrowBooster])
-        arrow.position = ccp((arrow.position.x-512)*4/3+512, arrow.position.y);
+        arrow.position = ccp(PeonCartToolX(arrow.position.x), arrow.position.y);
     createMenuBackground.position = ccp(-1024.0/6,0);
     createMenuBackground.scaleX *= 4.0/3;
 #endif

@@ -369,6 +369,19 @@ int main(int argc,const char **argv) {
    NSCAssert([[popup valueForKey:@"isClosing"] boolValue] && !close.isEnabled,@"Release did not dismiss and disable close");
    [popup cleanup];
   }
+  NSArray *tipTypes=@[@(toolTypeMotor),@(toolTypeBooster),@(toolTypeShock),@(toolTypeBar),@(toolTypeWheel),@(toolTypeEdit),@(toolTypeDelete)];
+  NSArray *toolXs=@[@372,@270,@468,@568,@668,@784,@876];
+  for(NSUInteger index=0;index<tipTypes.count;index++) {
+   ToolTipMenu *overlay=[[[ToolTipMenu alloc] initForToolType:[tipTypes[index] intValue]] autorelease];
+   NSArray *parts=[overlay valueForKey:@"partArray"];
+   for(CCNode *highlight in parts) {
+    CGPoint world=ccpAdd(highlight.position,overlay.position);
+    CGFloat expected=world.y>700 ? 40-1024.0/6 : PeonCartToolX([toolXs[index] doubleValue]);
+    NSCAssert(fabs(world.x-expected)<0.01,@"Tooltip highlight does not overlap its toolbar tool");
+   }
+   [overlay cleanup];
+  }
+  puts("All seven tool overlays, upgrade icons and fuel highlight align with widescreen tools: PASS");
   ToolTipMenu *tip=[[[ToolTipMenu alloc] initWithMessage:@"Close button test" plankCount:6] autorelease];
   CCSprite *tipTop=[tip valueForKey:@"top"];
   CCMenu *tipCloseMenu=(CCMenu *)[tipTop getChildByTag:9906];
