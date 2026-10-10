@@ -29,6 +29,10 @@
 #import "DeleteAble.h"
 #import "Rock.h"
 #import "Ground.h"
+#ifdef PROJECTPEON_MAC
+#import "PlayerClipGround.h"
+#include <float.h>
+#endif
 #import "BreakableGround.h"
 #import "SpriteTrigger.h"
 #import "ForceArea.h"
@@ -874,8 +878,45 @@
     [self beginGameplay];
 }
 
+#ifdef PROJECTPEON_MAC
+-(void)clearStartingCartFromLeftBoundary
+{
+    float leftmost = FLT_MAX;
+    for (b2Body *cartBody = world->GetBodyList(); cartBody; cartBody = cartBody->GetNext())
+    {
+        if (cartBody->GetUserData() != playerCart) continue;
+        for (b2Fixture *fixture = cartBody->GetFixtureList(); fixture; fixture = fixture->GetNext())
+        {
+            if (fixture->IsSensor()) continue;
+            const b2Shape *shape = fixture->GetShape();
+            for (int child = 0; child < shape->GetChildCount(); ++child)
+            {
+                b2AABB bounds;
+                shape->ComputeAABB(&bounds, cartBody->GetTransform(), child);
+                leftmost = MIN(leftmost, bounds.lowerBound.x);
+            }
+        }
+    }
+    CGFloat inset = (PeonPresentationSize(CGSizeMake(1024,768)).width-1024)/2;
+    for (PlayerClipGround *clip in [self arrayOfType:kPlayerClipType])
+    {
+        if (![[clip.dictionary valueForKey:@"name"] isEqualToString:@"leftClip"]) continue;
+        // Always start from the map position, so repeated launches don't drift.
+        float boundaryX = ([[clip.dictionary valueForKey:@"x"] floatValue]-inset)/pixelsToMeterRatio();
+        if (leftmost != FLT_MAX) boundaryX = MIN(boundaryX, leftmost-64.0f/pixelsToMeterRatio());
+        b2Vec2 position = clip.body->GetPosition();
+        position.x = boundaryX;
+        clip.body->SetTransform(position, clip.body->GetAngle());
+        clip.position = ccp(position.x*pixelsToMeterRatio(), position.y*pixelsToMeterRatio());
+    }
+}
+#endif
+
 -(void)beginGameplay
 {
+#ifdef PROJECTPEON_MAC
+    [self clearStartingCartFromLeftBoundary];
+#endif
     shouldFollowSprite = YES;
     [_controlsDelegate enableControls];
     [playerCart startCartGameplay];

@@ -26,7 +26,7 @@ The blueprint panel saves carts using the cart-plus button. Select a saved thumb
 
 All motor/booster purchases are included by default. The eight original music tracks play in the title and level-select menus; the nine new tracks play only in levels. Sound effects retain their original assets.
 
-Saves and progress are stored in `~/Library/Application Support/Project Peon/CartSave.sqlite`. The window stays 16:9. The home screen fills the window with an expanded background. Popup menus fill the window with a continuous hexagon backdrop while their panels retain the original centered layout. Planet selection also fills the 16:9 window with extended parallax backgrounds and corner navigation. Cart building uses a centered 4:3 view, which animates wider for driving. Results retain the wide view. Fullscreen preserves proportions, and input follows the animated viewport.
+Saves and progress are stored in `~/Library/Application Support/Project Peon/CartSave.sqlite`. The window stays 16:9. The home screen fills the window with an expanded background. Popup menus fill the window with a continuous hexagon backdrop while their panels retain the original centered layout. Planet selection also fills the 16:9 window with extended parallax backgrounds and corner navigation. Cart building and driving both use the full 16:9 view, with the original construction camera position preserved. Results retain the wide view. Fullscreen preserves proportions, and input matches the viewport.
 
 ## Checks
 
@@ -37,6 +37,9 @@ python3 mac/tests/check_saves.py
 python3 mac/tests/check_music.py
 python3 mac/tests/check_viewport.py
 python3 mac/tests/check_previews.py
+python3 mac/tests/check_ship.py
+python3 mac/tests/check_teleport.py
+python3 mac/tests/check_boundaries.py
 python3 mac/tests/check_terrain.py
 python3 mac/tests/check_shaders.py
 ```
@@ -58,3 +61,5 @@ Use Project Peon → Show Box2D Objects to overlay physics bodies and joints in 
 Project Peon → Disable Ship Finish Trigger keeps driving active when the cart reaches the ship. Uncheck it to restore normal completion; it is off by default and remembered between launches.
 
 Project Peon → Enable Cart Teleport (T) enables pressing T during driving to move the connected cart assembly to the center of the current view. Use Mouse Pan Map to choose a destination. Teleporting stops its movement and preserves its joints; detached parts remain where they are. The toggle is off by default and remembered between launches.
+
+The left map boundary is offset for the wider cart workspace. Before every launch, it moves farther left if needed to leave 64 world pixels of clearance from all solid starting-cart fixtures. This prevents oversized wheels from overlapping the wall and receiving a forward impulse. It returns to the normal wide position for smaller carts; other map boundaries are unchanged.
