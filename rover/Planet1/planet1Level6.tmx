@@ -176,6 +176,7 @@
  </objectgroup>
  <objectgroup name="Parallax4" width="50" height="15">
   <properties>
+   <property name="ExtendRight" value="0"/>
    <property name="ParallaxRatioX" value=".675"/>
    <property name="ParallaxRatioY" value=".675"/>
    <property name="Scale" value="8"/>

@@ -195,6 +195,9 @@
     // repeating isolated effects (such as cave light rays) into outdoor areas.
     id extendEdges = [layerPlaceHolderGroup propertyNamed:@"ExtendEdges"];
     if (extendEdges && ![extendEdges boolValue]) extendTerrainEdges = NO;
+    // Cave backdrops may end before the outdoor finish instead of repeating.
+    id extendRight = [layerPlaceHolderGroup propertyNamed:@"ExtendRight"];
+    BOOL extendRightEdge = !extendRight || [extendRight boolValue];
     for(NSDictionary *placeholder in placeholderArray)
     {
         if ([[placeholder valueForKey:@"type"] isEqualToString:@"AnimatedSprite"])
@@ -234,7 +237,7 @@
             }
 #endif
             [self processTilePlaceHolder:placeholder xRatio:groupXRatio yRatio:groupYRatio zOrder:groupZOrder scale:scale
-                             extendLeft:extendTerrainEdges && tileX==firstTileX extendRight:extendTerrainEdges && tileX==lastTileX preserveTileWidth:stacked edgeBounds:edgeBounds];
+                             extendLeft:extendTerrainEdges && tileX==firstTileX extendRight:extendTerrainEdges && extendRightEdge && tileX==lastTileX preserveTileWidth:stacked edgeBounds:edgeBounds];
             continue;
         }
         
