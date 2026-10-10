@@ -52,3 +52,7 @@ Use Project Peon → Show FPS in the Mac menu bar to show or hide the FPS monito
 Escape dismisses the topmost open menu, just like its red close button.
 
 Gameplay recording is off by default and the export button is hidden while disabled. The recording preference is remembered.
+
+Use Project Peon → Show Box2D Objects to overlay physics bodies and joints in cart creation and gameplay. It is off by default and remembered between launches.
+
+Project Peon → Disable Ship Finish Trigger keeps driving active when the cart reaches the ship. Uncheck it to restore normal completion; it is off by default and remembered between launches.

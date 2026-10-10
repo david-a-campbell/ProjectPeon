@@ -114,6 +114,14 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     PeonRequestScreenshot([[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:name]);
 }
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
+    if(item.action==@selector(toggleShipFinishTrigger:)) {
+        item.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDisableShipFinishTrigger"]?NSControlStateValueOn:NSControlStateValueOff;
+        return YES;
+    }
+    if(item.action==@selector(togglePhysicsObjects:)) {
+        item.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonShowPhysicsObjects"]?NSControlStateValueOn:NSControlStateValueOff;
+        return YES;
+    }
     if(item.action==@selector(toggleUnlockAllLevels:)) {
         item.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonUnlockAllLevels"]?NSControlStateValueOn:NSControlStateValueOff;
         return YES;
@@ -130,6 +138,16 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     return YES;
 }
 
+- (void)toggleShipFinishTrigger:(NSMenuItem *)item {
+    BOOL disabled=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDisableShipFinishTrigger"];
+    [[NSUserDefaults standardUserDefaults] setBool:disabled forKey:@"PeonDisableShipFinishTrigger"];
+    item.state=disabled?NSControlStateValueOn:NSControlStateValueOff;
+}
+- (void)togglePhysicsObjects:(NSMenuItem *)item {
+    BOOL enabled=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonShowPhysicsObjects"];
+    [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:@"PeonShowPhysicsObjects"];
+    item.state=enabled?NSControlStateValueOn:NSControlStateValueOff;
+}
 - (void)toggleFPS:(NSMenuItem *)item {
     BOOL hidden=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonHideFPS"];
     [[NSUserDefaults standardUserDefaults] setBool:hidden forKey:@"PeonHideFPS"];
@@ -155,6 +173,12 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     NSMenuItem *fpsItem=[appMenu addItemWithTitle:@"Show FPS" action:@selector(toggleFPS:) keyEquivalent:@""];
     fpsItem.target=self;
     fpsItem.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonHideFPS"] ? NSControlStateValueOff : NSControlStateValueOn;
+    NSMenuItem *physicsItem=[appMenu addItemWithTitle:@"Show Box2D Objects" action:@selector(togglePhysicsObjects:) keyEquivalent:@""];
+    physicsItem.target=self;
+    physicsItem.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonShowPhysicsObjects"]?NSControlStateValueOn:NSControlStateValueOff;
+    NSMenuItem *shipTriggerItem=[appMenu addItemWithTitle:@"Disable Ship Finish Trigger" action:@selector(toggleShipFinishTrigger:) keyEquivalent:@""];
+    shipTriggerItem.target=self;
+    shipTriggerItem.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDisableShipFinishTrigger"]?NSControlStateValueOn:NSControlStateValueOff;
     NSMenuItem *panItem=[appMenu addItemWithTitle:@"Mouse Pan Map" action:@selector(toggleMousePan:) keyEquivalent:@""];
     panItem.target=self;
     NSMenuItem *unlockItem=[appMenu addItemWithTitle:@"Unlock All Levels" action:@selector(toggleUnlockAllLevels:) keyEquivalent:@""];

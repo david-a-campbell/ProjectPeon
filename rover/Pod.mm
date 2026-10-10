@@ -245,6 +245,9 @@
         return;
     }
     
+#ifdef PROJECTPEON_MAC
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDisableShipFinishTrigger"]) return;
+#endif
     if(isBodyCollidingWithObjectType(cartTouchBody, kPlayerCartType))
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_LEVEL_COMPLETE object:nil];

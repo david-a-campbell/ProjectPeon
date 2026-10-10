@@ -434,6 +434,7 @@
     // Apply the left boundary before the first widescreen frame is drawn.
     [self setPosition:self.position];
     [super visit];
+    [self drawPhysicsOverlay];
 }
 #endif
 
@@ -608,8 +609,24 @@
     //[playerCart applybreakableJoints];
 }
 
+#ifdef PROJECTPEON_MAC
+-(void)drawPhysicsOverlay
+{
+    if (!self.visible || !world || ![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonShowPhysicsObjects"]) return;
+    if (!debugDraw) [self setupDebugDraw];
+    // Draw after world sprites so terrain and cart artwork cannot hide fixtures.
+    kmGLPushMatrix();
+    [self transform];
+    ccGLEnableVertexAttribs(kCCVertexAttribFlag_Position);
+    kmGLScalef(32,32,1);
+    world->DrawDebugData();
+    kmGLPopMatrix();
+}
+#endif
+
 -(void)draw
 {
+#ifndef PROJECTPEON_MAC
     if (debugDraw)
     {
         ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
@@ -618,6 +635,7 @@
         world->DrawDebugData();
         kmGLPopMatrix();
     }
+    #endif
     [super draw];
 }
 
