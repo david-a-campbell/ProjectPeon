@@ -191,6 +191,10 @@
     extendTerrainEdges=groupXRatio>0 && groupXRatio<1 &&
         [@[@"Parallax2",@"Parallax3",@"Parallax4",@"Parallax5"] containsObject:layerPlaceHolderGroup.groupName];
 #endif
+    // Decorative layers can keep their original finite extent instead of
+    // repeating isolated effects (such as cave light rays) into outdoor areas.
+    id extendEdges = [layerPlaceHolderGroup propertyNamed:@"ExtendEdges"];
+    if (extendEdges && ![extendEdges boolValue]) extendTerrainEdges = NO;
     for(NSDictionary *placeholder in placeholderArray)
     {
         if ([[placeholder valueForKey:@"type"] isEqualToString:@"AnimatedSprite"])
@@ -214,8 +218,23 @@
                 firstTileX=MIN(firstTileX,otherX); lastTileX=MAX(lastTileX,otherX);
                 if(otherY!=tileY && otherX==tileX) stacked=YES;
             }
+            CGRect edgeBounds=CGRectZero;
+#ifdef PROJECTPEON_MAC
+            if(extendTerrainEdges && (tileX==firstTileX || tileX==lastTileX) &&
+               [[layerPlaceHolderGroup propertyNamed:@"CropEdgePadding"] boolValue]) {
+                // Use one join for stacked tiles, including thin mountain tails.
+                // Padding beyond that join must not leave a gap in the strip.
+                for(NSDictionary *other in placeholderArray) {
+                    if(![[other valueForKey:@"gid"] length] || [[other valueForKey:@"x"] doubleValue]!=tileX) continue;
+                    NSString *file=[[self tileInfoForGid:[[other valueForKey:@"gid"] intValue]] sourceImage];
+                    CCSprite *sprite=[CCSprite spriteWithFile:file];
+                    CGRect bounds=PeonTerrainVisibleRectWithMinimum(file,sprite.textureRect,1);
+                    edgeBounds=CGRectIsEmpty(edgeBounds) ? bounds : CGRectUnion(edgeBounds,bounds);
+                }
+            }
+#endif
             [self processTilePlaceHolder:placeholder xRatio:groupXRatio yRatio:groupYRatio zOrder:groupZOrder scale:scale
-                             extendLeft:extendTerrainEdges && tileX==firstTileX extendRight:extendTerrainEdges && tileX==lastTileX preserveTileWidth:stacked];
+                             extendLeft:extendTerrainEdges && tileX==firstTileX extendRight:extendTerrainEdges && tileX==lastTileX preserveTileWidth:stacked edgeBounds:edgeBounds];
             continue;
         }
         
@@ -272,7 +291,7 @@
     [CCTexture2D setDefaultAlphaPixelFormat:currentFormat];
 }
 
--(void)processTilePlaceHolder:(id)placeholder xRatio:(float)groupXRatio yRatio:(float)groupYRatio zOrder:(float)groupZOrder scale:(float)scale extendLeft:(BOOL)extendLeft extendRight:(BOOL)extendRight preserveTileWidth:(BOOL)preserveTileWidth
+-(void)processTilePlaceHolder:(id)placeholder xRatio:(float)groupXRatio yRatio:(float)groupYRatio zOrder:(float)groupZOrder scale:(float)scale extendLeft:(BOOL)extendLeft extendRight:(BOOL)extendRight preserveTileWidth:(BOOL)preserveTileWidth edgeBounds:(CGRect)edgeBounds
 {
     int gid = [[placeholder valueForKey:@"gid"] intValue];
     CCTMXTilesetInfo *tileInfo = [self tileInfoForGid:gid];
@@ -292,6 +311,7 @@
     CGRect visibleRect=tileSprite.textureRect;
     // Vertically stacked parts must share their original horizontal coordinates.
     if(!preserveTileWidth && (extendLeft || extendRight)) visibleRect=PeonTerrainVisibleRect(tileFileName,visibleRect);
+    if(!CGRectIsEmpty(edgeBounds)) visibleRect=edgeBounds;
     for(NSInteger side=-1;side<=1;side+=2) {
         if((side<0 && !extendLeft) || (side>0 && !extendRight)) continue;
         // Cover the full camera travel, including strips shorter than the map.

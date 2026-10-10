@@ -2,7 +2,7 @@
 #import "cocos2d.h"
 
 // Transparent padding is part of the texture, but is not a usable tile join.
-static inline CGRect PeonTerrainVisibleRect(NSString *file, CGRect fallback) {
+static inline CGRect PeonTerrainVisibleRectWithMinimum(NSString *file, CGRect fallback, size_t minimumPixels) {
     NSString *path=[[CCFileUtils sharedFileUtils] fullPathFromRelativePath:file];
     NSImage *image=[[[NSImage alloc] initWithContentsOfFile:path] autorelease];
     CGImageRef source=[image CGImageForProposedRect:NULL context:nil hints:nil];
@@ -20,9 +20,13 @@ static inline CGRect PeonTerrainVisibleRect(NSString *file, CGRect fallback) {
         size_t occupied=0;
         for(size_t y=0;y<height;y++) if(pixels[(y*width+x)*4+3]) occupied++;
         // Ignore the thin ground tail left beyond a cropped tree canopy.
-        if(occupied>=MAX((size_t)1,height/20)) { first=MIN(first,x); last=MAX(last,x); }
+        if(occupied>=MAX((size_t)1,minimumPixels)) { first=MIN(first,x); last=MAX(last,x); }
     }
     CGContextRelease(context); free(pixels);
     if(first==width) return fallback;
     return CGRectMake(first,0,last-first+1,height);
+}
+
+static inline CGRect PeonTerrainVisibleRect(NSString *file, CGRect fallback) {
+    return PeonTerrainVisibleRectWithMinimum(file,fallback,(size_t)fallback.size.height/20);
 }

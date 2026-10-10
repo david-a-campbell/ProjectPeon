@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build the original game and bundled engines as a standalone macOS app."""
 import concurrent.futures, hashlib, json, os, pathlib, plistlib, shutil, subprocess, sys, tempfile
+from build_icon import build_icon
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 OUT = pathlib.Path(os.environ.get('PEON_BUILD_DIR', ROOT / 'build/mac'))
 OBJ = OUT / 'objects'
@@ -63,7 +64,7 @@ for resource in resources:
         subprocess.run(['xcrun','momc',str(resource),str(assets/(resource.stem+'.momd'))],check=True)
     elif resource.is_dir(): shutil.copytree(resource,assets/resource.name,dirs_exist_ok=True,copy_function=shutil.copyfile)
     else: shutil.copyfile(resource,assets/resource.name)
-shutil.copyfile(ROOT/'mac/Assets/ProjectPeon.icns',assets/'ProjectPeon.icns')
+build_icon(assets/'ProjectPeon.icns')
 for caption in ['CartLoad.png','CartLoadDown.png','CartDelete.png','CartDeleteDown.png','RecordGameplayLabel.png','MusicVolumeLabel.png','EffectVolumeLabel.png','titleBackdropWide.png','MenuGridWide.png','planet1MenuWide.tmx','planet2MenuWide.tmx','planet3MenuWide.tmx','loadingScreen1Wide.png','loadingScreen2Wide.png','loadingScreen3Wide.png']:
     shutil.copyfile(ROOT/'mac/Assets'/caption,assets/caption)
 shutil.copyfile(ROOT/'mac/Assets/MenuClose.png',assets/'MenuClose.png')

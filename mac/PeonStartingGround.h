@@ -19,11 +19,9 @@ static NSString *PeonStartingGroundOutline(NSString *outline, CGPoint origin,
         fabs(points[0].y) > 0.01 || fabs(points[1].x-points[0].x) > 8 ||
         fabs(origin.y-points[1].y-surface) > 8) return outline;
     CGFloat localRight = right-origin.x;
-    size_t lastInside = 1;
-    for (size_t i = 2; i + 1 < points.size(); ++i)
-        if (points[i].x <= localRight) lastInside = i;
-    size_t join = lastInside+1;
-    // Leave a short slope beyond the platform rather than a vertical step.
+    // Follow only the first surface leaving the starting area. Later cave
+    // floors can loop back under the same X coordinates and must stay intact.
+    size_t join = 2;
     while (join + 1 < points.size() && points[join].x < localRight+256) ++join;
     if (join + 1 >= points.size()) return outline;
     CGPoint before = points[join-1], after = points[join];

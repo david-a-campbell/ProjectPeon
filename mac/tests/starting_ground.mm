@@ -32,6 +32,22 @@ int main(int argc, const char **argv) {
     NSCAssert(fabs(origin.y-[first[1] doubleValue]-surface)<0.001,@"Left floor height");
     NSCAssert(fabs(origin.y-[end[1] doubleValue]-surface)<0.001,@"Right floor height");
     NSCAssert(fabs(origin.x+[end[0] doubleValue]-right)<0.001,@"Platform width");
+    // Lower cave/switchback vertices beneath the starting footprint must
+    // survive. Earth 12 returns under the spawn thousands of pixels below it.
+    BOOL reachedFarTerrain=NO;
+    for(NSString *pair in oldPairs) {
+     NSArray *xy=[pair componentsSeparatedByString:@","];
+     double x=origin.x+[xy[0] doubleValue], y=origin.y-[xy[1] doubleValue];
+     if(x>right+512) reachedFarTerrain=YES;
+     if(!reachedFarTerrain || x>right || y>=surface-768) continue;
+     BOOL found=NO;
+     for(NSString *candidate in newPairs) {
+      NSArray *newXY=[candidate componentsSeparatedByString:@","];
+      if(fabs([xy[0] doubleValue]-[newXY[0] doubleValue])<0.001 &&
+         fabs([xy[1] doubleValue]-[newXY[1] doubleValue])<0.001) { found=YES; break; }
+     }
+     NSCAssert(found,@"Lower terrain underneath the starting area was removed in %@",path);
+    }
     // The remaining terrain must be an unchanged suffix of the map outline.
     NSUInteger suffix=newPairs.count-4;
     NSCAssert(suffix>0 && suffix<oldPairs.count,@"Terrain suffix");

@@ -175,6 +175,7 @@
  </objectgroup>
  <objectgroup name="Parallax2" width="50" height="15">
   <properties>
+   <property name="CropEdgePadding" value="1"/>
    <property name="ParallaxRatioX" value=".4"/>
    <property name="ParallaxRatioY" value=".4"/>
    <property name="Scale" value="8"/>
@@ -185,6 +186,7 @@
  </objectgroup>
  <objectgroup name="Parallax3" width="50" height="15">
   <properties>
+   <property name="CropEdgePadding" value="1"/>
    <property name="ParallaxRatioX" value=".6"/>
    <property name="ParallaxRatioY" value=".6"/>
    <property name="Scale" value="8"/>
@@ -201,6 +203,7 @@
  </objectgroup>
  <objectgroup name="Parallax4" width="50" height="15">
   <properties>
+   <property name="CropEdgePadding" value="1"/>
    <property name="ParallaxRatioX" value=".675"/>
    <property name="ParallaxRatioY" value=".675"/>
    <property name="Scale" value="8"/>
@@ -215,6 +218,7 @@
  </objectgroup>
  <objectgroup name="Parallax5" width="50" height="15">
   <properties>
+   <property name="CropEdgePadding" value="1"/>
    <property name="ParallaxRatioX" value=".75"/>
    <property name="ParallaxRatioY" value=".75"/>
    <property name="Scale" value="8"/>

@@ -65,3 +65,5 @@ Project Peon → Disable Ship Finish Trigger keeps driving active when the cart 
 Project Peon → Enable Cart Teleport (T) enables pressing T during driving to move the connected cart assembly to the center of the current view. Use Mouse Pan Map to choose a destination. Teleporting stops its movement and preserves its joints; detached parts remain where they are. The toggle is off by default and remembered between launches.
 
 The left map boundary is offset for the wider cart workspace. Before every launch, it moves farther left if needed to leave 64 world pixels of clearance from all solid starting-cart fixtures. This prevents oversized wheels from overlapping the wall and receiving a forward impulse. It returns to the normal wide position for smaller carts; other map boundaries are unchanged.
+
+The Mac app icon is generated from the original `rover/Icon512.png` and `rover/Icon1024.png` artwork by `mac/build_icon.py` during each build.
