@@ -351,7 +351,11 @@ static ToolTipMenu *_currentDisplay;
     [self addChild:edit];
     [partArray addObject:edit];
     
+#ifdef PROJECTPEON_MAC
+    text = [self labelWithText:@"The Move tool lets you click and drag parts to new locations.\n\nHold Shift during a drag to rotate. Release Shift to move again."];
+#else
     text = [self labelWithText:@"The edit tool allows you to tap and drag parts to new locations.\n\nUse a second finger to rotate the selected part."];
+#endif
     [text setPosition:ccp(0, [self textOffset])];
     [text setScale:SCREEN_SCALE];
     [self addChild:text z:2];

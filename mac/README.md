@@ -16,6 +16,7 @@ The standalone app is generated at `build/mac/Project Peon.app`. The build signs
 
 - Move the mouse or use WASD/arrow keys for level-select parallax.
 - Click and drag to build a cart.
+- With the Move tool, hold Shift at any point during a drag to rotate left/right; release Shift to resume moving without a jump.
 - A/D or left/right arrows drive; Space boosts.
 - R relaunches the rover during gameplay.
 - C returns to cart creation during gameplay.
@@ -39,6 +40,7 @@ python3 mac/tests/check_viewport.py
 python3 mac/tests/check_previews.py
 python3 mac/tests/check_ship.py
 python3 mac/tests/check_teleport.py
+python3 mac/tests/check_rotation.py
 python3 mac/tests/check_boundaries.py
 python3 mac/tests/check_right_boundaries.py
 python3 mac/tests/check_starting_ground.py

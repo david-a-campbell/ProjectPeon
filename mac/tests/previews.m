@@ -584,6 +584,14 @@ int main(int argc,const char **argv) {
     BOOL hasRecordingToggle=NO;
     for(CCNode *node in [settings nodeArray]) if([node getChildByTag:9910]) hasRecordingToggle=YES;
     NSCAssert(hasRecordingToggle==!gameplay.boolValue,@"Recording toggle visibility wrong for %@",settingsClass);
+    NSUInteger rotationHints=0;
+    for(CCNode *node in [settings nodeArray]) {
+     if(![node isKindOfClass:[CCLabelBMFont class]]) continue;
+     NSString *label=[(CCLabelBMFont *)node string];
+     if([label isEqualToString:@"Shift + drag"]) rotationHints++;
+     NSCAssert(CGRectGetMinY(node.boundingBox)>-242,@"Controls overlap the back button");
+    }
+    NSCAssert(rotationHints==1,@"Controls omit rotation shortcuts");
    }
   }
   puts("Recording setting hidden in gameplay, available outside gameplay: PASS");

@@ -142,8 +142,8 @@
     heading.position = ccp(0, 54);
     if(!forGameplay) PeonAddRecordingSetting([self nodeArray], SCREEN_SCALE);
     [[self nodeArray] addObject:heading];
-    NSArray *keys = @[@"A / D or arrows", @"Space", @"R", @"Click and drag", @"C", @"M", @"P"];
-    NSArray *actions = @[@"Drive", @"Boost", @"Relaunch", @"Build cart", @"Return to building", @"Next song", @"Toggle map pan"];
+    NSArray *keys = @[@"A / D or arrows", @"Space", @"R", @"Click and drag", @"Shift + drag", @"C", @"M", @"P"];
+    NSArray *actions = @[@"Drive", @"Boost", @"Relaunch", @"Build cart", @"Rotate (Move tool)", @"Return to building", @"Next song", @"Toggle map pan"];
     for (NSUInteger row = 0; row < keys.count; row++) {
         CGFloat y = 6 - row * 32.0;
         CCLabelBMFont *key = [CCLabelBMFont labelWithString:keys[row] fntFile:@"font42.fnt"];
