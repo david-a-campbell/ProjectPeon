@@ -31,6 +31,7 @@
 #import "Ground.h"
 #ifdef PROJECTPEON_MAC
 #import "PlayerClipGround.h"
+#import "PeonStartingGround.h"
 #include <float.h>
 #endif
 #import "BreakableGround.h"
@@ -164,6 +165,17 @@
     CCTMXObjectGroup *collisionsGroup = [tileMapNode objectGroupNamed:[self collisionsLayerName]];
     if (collisionsGroup != nil)
     {
+#ifdef PROJECTPEON_MAC
+        // Ground renders and creates its edge fixtures from the same outline.
+        for (NSMutableDictionary *object in collisionsGroup.objects) {
+            if (![object[@"type"] isEqualToString:@"TexturedGround"]) continue;
+            NSString *outline = object[@"polygonPoints"];
+            if (![outline length]) continue;
+            object[@"polygonPoints"] = PeonStartingGroundOutline(outline,
+                ccp([object[@"x"] doubleValue], [object[@"y"] doubleValue]),
+                startingGroundEdge.x, startingGroundEdge.y);
+        }
+#endif
         [self processCollisionGroup:collisionsGroup];
     }
     
@@ -251,6 +263,10 @@
     
 
     shape.SetAsBox(winSize.width, halfBoxHeight);
+#ifdef PROJECTPEON_MAC
+    startingGroundEdge = ccp((location.x+winSize.width)*pixelsToMeterRatio(),
+                            (location.y+halfBoxHeight)*pixelsToMeterRatio());
+#endif
     groundFixtureDef.shape = &shape;
     
     clipBody->CreateFixture(&groundFixtureDef);

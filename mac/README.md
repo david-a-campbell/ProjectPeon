@@ -40,6 +40,7 @@ python3 mac/tests/check_previews.py
 python3 mac/tests/check_ship.py
 python3 mac/tests/check_teleport.py
 python3 mac/tests/check_boundaries.py
+python3 mac/tests/check_starting_ground.py
 python3 mac/tests/check_terrain.py
 python3 mac/tests/check_shaders.py
 ```

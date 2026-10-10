@@ -28,6 +28,9 @@
     b2World * world;
     b2Draw * debugDraw;
     b2Body *offscreenSensorBody;
+#ifdef PROJECTPEON_MAC
+    CGPoint startingGroundEdge;
+#endif
     CCArray *accelerationArray;
     CCArray *touchArray;
     CCArray *morphGroundArray;
