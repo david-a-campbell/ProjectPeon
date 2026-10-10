@@ -732,11 +732,30 @@
     saveBacking.scaleX *= winSize.width/1024;
 #endif
     [saveBacking visit];
+#ifdef PROJECTPEON_MAC
+    // Frame the cart itself, independent of the editor camera or its zoom.
+    // Sprite bounds include each part's size, rotation and scale.
+    NSArray *parts=[playerCart componentsInOrderOfZ];
+    CGRect cartBounds=CGRectNull;
+    for(CartPart *part in parts) cartBounds=CGRectUnion(cartBounds,part.boundingBox);
+    kmGLPushMatrix();
+    if(!CGRectIsNull(cartBounds) && cartBounds.size.width>0 && cartBounds.size.height>0) {
+        const CGFloat padding=32;
+        CGFloat fit=MIN(1.0,MIN((winSize.width-2*padding)/cartBounds.size.width,
+                              (768-2*padding)/cartBounds.size.height));
+        kmGLTranslatef(512,384,0);
+        kmGLScalef(fit,fit,1);
+        kmGLTranslatef(-CGRectGetMidX(cartBounds),-CGRectGetMidY(cartBounds),0);
+    }
+    for(CartPart *part in parts) [part visit];
+    kmGLPopMatrix();
+#else
     for (CartPart *part in [playerCart componentsInOrderOfZ])
     {
         [part setSnapshotPosition:ccp(part.position.x+[self position].x, part.position.y+[self position].y)];
         [part visit];
     }
+#endif
     [rtx end];
 #ifdef PROJECTPEON_MAC
     if (wasScissoring) glEnable(GL_SCISSOR_TEST);

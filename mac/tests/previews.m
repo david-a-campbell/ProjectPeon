@@ -16,6 +16,15 @@
 #import "SaveManager.h"
 #import "PopupMenu.h"
 #import "ToolTipMenu.h"
+@interface SnapshotTestCart : NSObject
+@property(retain) NSArray *parts;
+-(NSArray *)componentsInOrderOfZ;
+@end
+@implementation SnapshotTestCart
+-(NSArray *)componentsInOrderOfZ { return self.parts; }
+-(void)dealloc { [_parts release]; [super dealloc]; }
+@end
+
 @interface ReentrantActionTest : NSObject
 @property(assign) CCActionManager *manager;
 @property(assign) id sibling;
@@ -279,6 +288,37 @@ int main(int argc,const char **argv) {
   UIImage *thumbnail=[snapshotImage imageByScalingProportionallyToSize:CGSizeMake(512,288)];
   NSCAssert(CGImageGetWidth(thumbnail.CGImage)==512 && CGImageGetHeight(thumbnail.CGImage)==288,@"Saved snapshot dimensions incorrect");
   puts("Full widescreen snapshot and 512 x 288 saved image: PASS");
+
+  // Oversized, off-camera parts must all be included without moving the editor.
+  SnapshotTestCart *testCart=[[[SnapshotTestCart alloc] init] autorelease];
+  CCLayerColor *leftPart=[CCLayerColor layerWithColor:ccc4(255,0,0,255) width:300 height:300];
+  CCLayerColor *rightPart=[CCLayerColor layerWithColor:ccc4(255,0,0,255) width:200 height:200];
+  CCLayerColor *topPart=[CCLayerColor layerWithColor:ccc4(255,0,0,255) width:300 height:200];
+  leftPart.position=ccp(-1600,200); rightPart.position=ccp(2500,200);
+  topPart.position=ccp(100,1500); topPart.rotation=35;
+  testCart.parts=@[leftPart,rightPart,topPart];
+  [mapCamera setValue:testCart forKey:@"playerCart"];
+  UIImage *fittedImage=[[mapCamera performSelector:@selector(takeCartScreenShot)] getUIImage];
+  CGImageRef fitted=fittedImage.CGImage;
+  size_t width=CGImageGetWidth(fitted),height=CGImageGetHeight(fitted);
+  unsigned char *pixels=calloc(width*height,4);
+  CGColorSpaceRef colorSpace=CGColorSpaceCreateDeviceRGB();
+  CGContextRef pixelContext=CGBitmapContextCreate(pixels,width,height,8,width*4,colorSpace,kCGImageAlphaPremultipliedLast|kCGBitmapByteOrder32Big);
+  CGContextDrawImage(pixelContext,CGRectMake(0,0,width,height),fitted);
+  size_t minX=width,minY=height,maxX=0,maxY=0;
+  for(size_t y=0;y<height;y++) for(size_t x=0;x<width;x++) {
+   unsigned char *pixel=pixels+(y*width+x)*4;
+   if(pixel[0]>220 && pixel[1]<30 && pixel[2]<30) {
+    minX=MIN(minX,x);maxX=MAX(maxX,x);minY=MIN(minY,y);maxY=MAX(maxY,y);
+   }
+  }
+  NSCAssert(minX>20 && minY>20 && maxX<width-20 && maxY<height-20,@"Cart snapshot clips oversized parts");
+  NSCAssert(fabs((minX+maxX+1)/2.0-width/2.0)<2 && fabs((minY+maxY+1)/2.0-height/2.0)<2,@"Cart snapshot is not centered");
+  NSCAssert(maxX-minX>width*.9,@"Oversized cart was not framed tightly");
+  NSCAssert(leftPart.position.x==-1600 && rightPart.position.x==2500 && topPart.position.y==1500 && topPart.rotation==35 && mapCamera.position.x==-128 && mapCamera.scale==.5,@"Snapshot changed cart parts or editor camera");
+  CGContextRelease(pixelContext);CGColorSpaceRelease(colorSpace);free(pixels);
+  [mapCamera setValue:nil forKey:@"playerCart"];
+  puts("Oversized cart: all parts fit with padding, centered snapshot, editor unchanged: PASS");
 
 
 
