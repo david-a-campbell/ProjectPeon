@@ -78,7 +78,7 @@ shutil.copyfile(ROOT/'mac/Assets/MenuClose.png',assets/'MenuClose.png')
 shutil.copyfile(ROOT/'mac/Assets/MenuCloseDown.png',assets/'MenuCloseDown.png')
 info={'CFBundleExecutable':'ProjectPeon','CFBundleIdentifier':'com.digitalfury.projectpeon.mac','CFBundleName':'Project Peon','CFBundleDisplayName':'Project Peon','CFBundleIconFile':'ProjectPeon.icns','CFBundlePackageType':'APPL','CFBundleVersion':'2','CFBundleShortVersionString':'2.0','LSMinimumSystemVersion':'12.0','NSHighResolutionCapable':True,'NSPrincipalClass':'NSApplication'}
 if STORE:
-    info.update(CFBundleIdentifier='com.digitalfury.rover', CFBundleVersion='201',
+    info.update(CFBundleIdentifier='com.digitalfury.rover', CFBundleVersion='202',
                 LSApplicationCategoryType='public.app-category.puzzle-games',
                 ITSAppUsesNonExemptEncryption=False,
                 CFBundleSupportedPlatforms=['MacOSX'], DTPlatformName='macosx',

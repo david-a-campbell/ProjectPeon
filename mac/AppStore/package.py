@@ -7,6 +7,7 @@ import plistlib
 import shutil
 import subprocess
 import sys
+import tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 parser = argparse.ArgumentParser(description=__doc__)
@@ -35,6 +36,15 @@ subprocess.run(['xcrun', 'lipo', '-create',
                 *[str(out / arch / 'Project Peon.app/Contents/MacOS/ProjectPeon')
                   for arch in ('arm64', 'x86_64')], '-output', str(binary)], check=True)
 subprocess.run(['xcrun', 'dsymutil', str(binary), '-o', str(out / 'Project Peon.app.dSYM')], check=True)
+# Sign and package outside Documents/iCloud. File Provider can reattach FinderInfo
+# after xattr cleanup, and productbuild preserves it in the installer payload.
+staging = tempfile.TemporaryDirectory(prefix='peon-app-store-', dir='/private/tmp')
+output_app = app
+app = pathlib.Path(staging.name) / 'Project Peon.app'
+shutil.copytree(output_app, app, copy_function=shutil.copyfile)
+for executable in (app / 'Contents/MacOS').iterdir():
+    executable.chmod(0o755)
+binary = app / 'Contents/MacOS/ProjectPeon'
 entitlements = plistlib.loads((ROOT / 'mac/AppStore/ProjectPeon.entitlements').read_bytes())
 identity = '-'
 if all(signing):
@@ -59,10 +69,24 @@ subprocess.run(['xattr', '-cr', str(app)], check=True)
 subprocess.run(['codesign', '--verify', '--strict', '--deep', str(app)], check=True)
 subprocess.run(['xcrun', 'lipo', str(binary), '-verify_arch', 'arm64', 'x86_64'], check=True)
 if all(signing):
-    package = out / 'Project Peon.pkg'
+    staged_package = pathlib.Path(staging.name) / 'Project Peon.pkg'
     subprocess.run(['productbuild', '--component', str(app), '/Applications',
-                    '--sign', args.installer_identity, str(package)], check=True)
+                    '--sign', args.installer_identity, str(staged_package)], check=True)
+    audit = pathlib.Path(staging.name) / 'expanded'
+    subprocess.run(['pkgutil', '--expand-full', str(staged_package), str(audit)], check=True)
+    payload_app = audit / 'com.digitalfury.rover.pkg/Payload/Project Peon.app'
+    metadata = subprocess.check_output(['xattr', '-lr', str(payload_app)], text=True)
+    if any(name in metadata for name in ('com.apple.FinderInfo:', 'com.apple.ResourceFork:')):
+        raise SystemExit('Installer payload contains forbidden Finder metadata.')
+    subprocess.run(['codesign', '--verify', '--strict', '--deep', str(payload_app)], check=True)
+    package = out / 'Project Peon.pkg'
+    shutil.copyfile(staged_package, package)
     subprocess.run(['pkgutil', '--check-signature', str(package)], check=True)
     print(f'Ready for App Store validation and upload: {package}')
 else:
     print(f'Universal sandbox validation build (not uploadable): {app}')
+shutil.rmtree(output_app)
+shutil.copytree(app, output_app, copy_function=shutil.copyfile)
+for executable in (output_app / 'Contents/MacOS').iterdir():
+    executable.chmod(0o755)
+staging.cleanup()
