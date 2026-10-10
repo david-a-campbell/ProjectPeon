@@ -2,6 +2,7 @@
 #import "PeonRecorder.h"
 #endif
 #import "MacAppDelegate.h"
+#import "PeonDebugSettings.h"
 #import "PeonCloseButton.h"
 #import "GameManager.h"
 #import "BaseGameScene.h"
@@ -22,6 +23,12 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
 @implementation PeonView
 - (BOOL)acceptsFirstResponder { return YES; }
 - (void)keyDown:(NSEvent *)event {
+    if(event.keyCode==35 &&
+       !(event.modifierFlags & (NSEventModifierFlagCommand | NSEventModifierFlagControl | NSEventModifierFlagOption)) &&
+       (![inspectionScene() inspectionCameraEnabled] || [inspectionScene() mousePanPreviewEnabled])) {
+        if(!event.isARepeat) [[NSApp delegate] performSelector:@selector(toggleMousePan:) withObject:nil];
+        return;
+    }
     if ([inspectionScene() inspectionCameraEnabled]) {
         [self.openGLContext makeCurrentContext];
         switch(event.keyCode) {
@@ -35,6 +42,7 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
             case 1: case 125: [inspectionScene() panInspectionCameraBy:ccp(0,128)]; break;
             case 24: [inspectionScene() zoomInspectionCameraBy:1.2]; break;
             case 27: [inspectionScene() zoomInspectionCameraBy:1/1.2]; break;
+            case 8: if([inspectionScene() mousePanPreviewEnabled]) [inspectionScene() cartCreationFromKeyboard]; break;
             case 53: [inspectionScene() setInspectionCameraEnabled:NO]; break;
             case 35: [[NSApp delegate] performSelector:@selector(saveCameraScreenshot:) withObject:nil]; break;
         }
@@ -64,13 +72,13 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
 }
 - (void)keyUp:(NSEvent *)event { if (event.keyCode<128) keys[event.keyCode]=NO; }
 - (void)mouseDown:(NSEvent *)event {
-    if ([inspectionScene() inspectionCameraEnabled]) return;
+    if ([inspectionScene() inspectionCameraEnabled] && ![inspectionScene() mousePanPreviewEnabled]) return;
     [self.openGLContext makeCurrentContext];
     CGPoint point = [self convertPoint:event.locationInWindow fromView:nil];
     if (!CGRectContainsPoint(PeonGameViewport(self.bounds, [[CCDirector sharedDirector] winSize]), point)) return;
     CGPoint gamePoint=PeonGamePoint(point,PeonGameViewport(self.bounds,[[CCDirector sharedDirector] winSize]),[[CCDirector sharedDirector] winSize]);
     // Keep the top HUD available while the rest of the scene is draggable.
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"PeonMousePan"] && [inspectionScene() drivingCameraAvailable] && gamePoint.y<688) {
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"PeonMousePan"] && [inspectionScene() drivingCameraAvailable] && ([inspectionScene() mousePanPreviewEnabled] || gamePoint.y<688)) {
         panningMap=YES; previousPanPoint=gamePoint; return;
     }
     [[self window] makeFirstResponder:self];
@@ -105,6 +113,17 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
 @end
 
 @implementation AppDelegate
+- (void)disableDebugOptions {
+    PeonSetDebugMenuVisible([NSUserDefaults standardUserDefaults],NO);
+    if(![inspectionScene() mousePanPreviewEnabled]) [inspectionScene() setInspectionCameraEnabled:NO];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"PeonLevelAccessChanged" object:nil];
+}
+- (void)toggleDebugMenu:(NSNotification *)notification {
+    BOOL visible=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"];
+    PeonSetDebugMenuVisible([NSUserDefaults standardUserDefaults],visible);
+    if(!visible) [self disableDebugOptions];
+    self.debugMenuItem.hidden=!visible;
+}
 - (void)updateLevelTitle:(NSNotification *)notification {
     NSDictionary *level=notification.object;
     NSInteger planet=[level[@"planet"] integerValue];
@@ -122,6 +141,11 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     PeonRequestScreenshot([[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:name]);
 }
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
+    if(item.menu==self.debugMenuItem.submenu && self.debugMenuItem.hidden) return NO;
+    if(item.action==@selector(toggleFPS:)) {
+        item.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonHideFPS"] ? NSControlStateValueOff : NSControlStateValueOn;
+        return YES;
+    }
     if(item.action==@selector(toggleTeleportCart:)) {
         item.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonTeleportCart"]?NSControlStateValueOn:NSControlStateValueOff;
         return YES;
@@ -170,9 +194,20 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     [[NSUserDefaults standardUserDefaults] setBool:hidden forKey:@"PeonHideFPS"];
     item.state=hidden ? NSControlStateValueOff : NSControlStateValueOn;
 }
+- (void)updatePanMapTitle:(NSNotification *)notification {
+    if(![NSThread isMainThread]) {
+        [self performSelectorOnMainThread:@selector(updatePanMapTitle:) withObject:nil waitUntilDone:NO];
+        return;
+    }
+    NSString *panAction=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonMousePan"] ? @"Follow Cart" : @"Pan Map";
+    self.window.title=[NSString stringWithFormat:@"Project Peon — A/D or ←/→ drive · Space boost · R relaunch · C build · P %@ · M next song",panAction];
+}
 - (void)toggleMousePan:(NSMenuItem *)item {
     BOOL enabled=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonMousePan"];
     [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:@"PeonMousePan"];
+    [[(CCGLView *)self.window.contentView openGLContext] makeCurrentContext];
+    [inspectionScene() setMousePanEnabled:enabled];
+    [self updatePanMapTitle:nil];
     item.state=enabled?NSControlStateValueOn:NSControlStateValueOff;
 }
 - (void)toggleUnlockAllLevels:(NSMenuItem *)item {
@@ -183,38 +218,43 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     [[NSNotificationCenter defaultCenter] postNotificationName:@"PeonLevelAccessChanged" object:nil];
 }
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"PeonHideFPS":@YES}];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"PeonHideFPS":@YES,@"PeonDebugMenuVisible":@NO}];
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"]) [self disableDebugOptions];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toggleDebugMenu:) name:@"PeonToggleDebugMenu" object:nil];
     NSMenu *menu=[[[NSMenu alloc] init] autorelease]; NSMenuItem *root=[[[NSMenuItem alloc] init] autorelease]; [menu addItem:root];
     NSMenu *appMenu=[[[NSMenu alloc] initWithTitle:@"Project Peon"] autorelease]; [root setSubmenu:appMenu];
     [appMenu addItemWithTitle:@"Controls…" action:@selector(showControls:) keyEquivalent:@"?"];
-    NSMenuItem *fpsItem=[appMenu addItemWithTitle:@"Show FPS" action:@selector(toggleFPS:) keyEquivalent:@""];
-    fpsItem.target=self;
-    fpsItem.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonHideFPS"] ? NSControlStateValueOff : NSControlStateValueOn;
-    NSMenuItem *physicsItem=[appMenu addItemWithTitle:@"Show Box2D Objects" action:@selector(togglePhysicsObjects:) keyEquivalent:@""];
-    physicsItem.target=self;
-    physicsItem.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonShowPhysicsObjects"]?NSControlStateValueOn:NSControlStateValueOff;
-    NSMenuItem *shipTriggerItem=[appMenu addItemWithTitle:@"Disable Ship Finish Trigger" action:@selector(toggleShipFinishTrigger:) keyEquivalent:@""];
-    shipTriggerItem.target=self;
-    shipTriggerItem.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDisableShipFinishTrigger"]?NSControlStateValueOn:NSControlStateValueOff;
-    NSMenuItem *teleportItem=[appMenu addItemWithTitle:@"Enable Cart Teleport (T)" action:@selector(toggleTeleportCart:) keyEquivalent:@""];
-    teleportItem.target=self;
-    teleportItem.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonTeleportCart"]?NSControlStateValueOn:NSControlStateValueOff;
-    NSMenuItem *panItem=[appMenu addItemWithTitle:@"Mouse Pan Map" action:@selector(toggleMousePan:) keyEquivalent:@""];
-    panItem.target=self;
-    NSMenuItem *unlockItem=[appMenu addItemWithTitle:@"Unlock All Levels" action:@selector(toggleUnlockAllLevels:) keyEquivalent:@""];
-    unlockItem.target=self;
     [appMenu addItem:[NSMenuItem separatorItem]];
     [appMenu addItemWithTitle:@"Quit Project Peon" action:@selector(terminate:) keyEquivalent:@"q"];
-    NSMenuItem *debugRoot=[[[NSMenuItem alloc] initWithTitle:@"Camera" action:nil keyEquivalent:@""] autorelease];
-    NSMenu *debugMenu=[[[NSMenu alloc] initWithTitle:@"Camera"] autorelease];
+    NSMenuItem *debugRoot=[[[NSMenuItem alloc] initWithTitle:@"Debug" action:nil keyEquivalent:@""] autorelease];
+    NSMenu *debugMenu=[[[NSMenu alloc] initWithTitle:@"Debug"] autorelease];
     [debugRoot setSubmenu:debugMenu]; [menu addItem:debugRoot];
+    self.debugMenuItem=debugRoot;
+    debugRoot.hidden=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"];
+    NSMenuItem *fpsItem=[debugMenu addItemWithTitle:@"Show FPS" action:@selector(toggleFPS:) keyEquivalent:@""];
+    fpsItem.target=self;
+    fpsItem.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonHideFPS"] ? NSControlStateValueOff : NSControlStateValueOn;
+    NSMenuItem *physicsItem=[debugMenu addItemWithTitle:@"Show Box2D Objects" action:@selector(togglePhysicsObjects:) keyEquivalent:@""];
+    physicsItem.target=self;
+    physicsItem.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonShowPhysicsObjects"]?NSControlStateValueOn:NSControlStateValueOff;
+    NSMenuItem *shipTriggerItem=[debugMenu addItemWithTitle:@"Disable Ship Finish Trigger" action:@selector(toggleShipFinishTrigger:) keyEquivalent:@""];
+    shipTriggerItem.target=self;
+    shipTriggerItem.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDisableShipFinishTrigger"]?NSControlStateValueOn:NSControlStateValueOff;
+    NSMenuItem *teleportItem=[debugMenu addItemWithTitle:@"Enable Cart Teleport (T)" action:@selector(toggleTeleportCart:) keyEquivalent:@""];
+    teleportItem.target=self;
+    teleportItem.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonTeleportCart"]?NSControlStateValueOn:NSControlStateValueOff;
+    NSMenuItem *unlockItem=[debugMenu addItemWithTitle:@"Unlock All Levels" action:@selector(toggleUnlockAllLevels:) keyEquivalent:@""];
+    unlockItem.target=self;
+    [debugMenu addItem:[NSMenuItem separatorItem]];
     NSMenuItem *inspect=[debugMenu addItemWithTitle:@"Inspect Level (WASD / arrows, + / −, Esc to exit)" action:@selector(toggleInspectionCamera:) keyEquivalent:@"i"];
     inspect.target=self; inspect.keyEquivalentModifierMask=NSEventModifierFlagCommand|NSEventModifierFlagOption;
     NSMenuItem *shot=[debugMenu addItemWithTitle:@"Save Screenshot to Desktop" action:@selector(saveCameraScreenshot:) keyEquivalent:@"p"];
     shot.target=self; shot.keyEquivalentModifierMask=NSEventModifierFlagCommand|NSEventModifierFlagOption;
     [NSApp setMainMenu:menu];
     self.window=[[[NSWindow alloc] initWithContentRect:NSMakeRect(0,0,1365.333333,768) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskResizable backing:NSBackingStoreBuffered defer:NO] autorelease];
-    self.window.title=@"Project Peon — A/D or ←/→ drive · Space boost · R relaunch · C build · M next song"; self.window.delegate=self;
+    self.window.delegate=self;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePanMapTitle:) name:NSUserDefaultsDidChangeNotification object:[NSUserDefaults standardUserDefaults]];
+    [self updatePanMapTitle:nil];
     NSTitlebarAccessoryViewController *levelAccessory=[[[NSTitlebarAccessoryViewController alloc] init] autorelease];
     levelAccessory.layoutAttribute=NSLayoutAttributeRight;
     NSView *levelView=[[[NSView alloc] initWithFrame:NSMakeRect(0,0,112,22)] autorelease];
@@ -246,7 +286,7 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
 }
 - (void)showControls:(id)sender {
     NSAlert *alert=[[[NSAlert alloc] init] autorelease]; alert.messageText=@"Project Peon controls";
-    alert.informativeText=@"Level selection: move the mouse or use W/A/S/D to move the parallax.\nClick and drag to build your rover.\nA / D or Left / Right arrows: drive\nSpace: booster\nR: relaunch rover\nC: return to cart creation\nM: next music track\nUse the on-screen menus to play, pause, reset and save.\nCommand-Q: quit"; [alert runModal];
+    alert.informativeText=@"Level selection: move the mouse or use W/A/S/D to move the parallax.\nClick and drag to build your rover.\nA / D or Left / Right arrows: drive\nSpace: booster\nR: relaunch rover\nC: return to cart creation\nM: next music track\nP: toggle Mouse Pan Map (cart-free preview while building)\nUse the on-screen menus to play, pause, reset and save.\nCommand-Q: quit"; [alert runModal];
 }
 - (void)applicationWillResignActive:(NSNotification *)n {
     [(PeonView *)self.window.contentView cancelInput];

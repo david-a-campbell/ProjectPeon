@@ -2,6 +2,7 @@
 #import <CoreData/CoreData.h>
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate>
 @property(retain) NSWindow *window;
+@property(retain) NSMenuItem *debugMenuItem;
 @property(retain) NSTextField *levelTitleLabel;
 @property(retain) NSManagedObjectContext *managedObjectContext;
 @property(retain) NSManagedObjectModel *managedObjectModel;

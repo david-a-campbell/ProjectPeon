@@ -52,18 +52,22 @@ Enable Gameplay recording below effect volume in Settings to record automaticall
 
 Capture uses two GPU transfer buffers, polls completion without waiting, and enables hardware H.264 encoding where available. Both GPU transfer and encoder queues remain bounded.
 
-Use Project Peon → Show FPS in the Mac menu bar to show or hide the FPS monitor. The preference is remembered between launches.
+Use Debug → Show FPS in the Mac menu bar to show or hide the FPS monitor. The preference is remembered between launches.
 
 Escape dismisses the topmost open menu, just like its red close button.
 
 Gameplay recording is off by default and the export button is hidden while disabled. The recording preference is remembered.
 
-Use Project Peon → Show Box2D Objects to overlay physics bodies and joints in cart creation and gameplay. It is off by default and remembered between launches.
+Use Debug → Show Box2D Objects to overlay physics bodies and joints in cart creation and gameplay. It is off by default and remembered between launches.
 
-Project Peon → Disable Ship Finish Trigger keeps driving active when the cart reaches the ship. Uncheck it to restore normal completion; it is off by default and remembered between launches.
+Debug → Disable Ship Finish Trigger keeps driving active when the cart reaches the ship. Uncheck it to restore normal completion; it is off by default and remembered between launches.
 
-Project Peon → Enable Cart Teleport (T) enables pressing T during driving to move the connected cart assembly to the center of the current view. Use Mouse Pan Map to choose a destination. Teleporting stops its movement and preserves its joints; detached parts remain where they are. The toggle is off by default and remembered between launches.
+Debug → Enable Cart Teleport (T) enables pressing T during driving to move the connected cart assembly to the center of the current view. Use Mouse Pan Map to choose a destination. Teleporting stops its movement and preserves its joints; detached parts remain where they are. The toggle is off by default and remembered between launches.
 
 The left map boundary is offset for the wider cart workspace. Before every launch, it moves farther left if needed to leave 64 world pixels of clearance from all solid starting-cart fixtures. This prevents oversized wheels from overlapping the wall and receiving a forward impulse. It returns to the normal wide position for smaller carts; other map boundaries are unchanged.
 
 The Mac app icon is generated from the original `rover/Icon512.png` and `rover/Icon1024.png` artwork by `mac/build_icon.py` during each build.
+
+P toggles Mouse Pan Map. Mouse Pan Map in cart creation opens a paused map preview at the driving zoom, with the cart and building controls hidden. Drag to pan; turn the toggle off, press C, or press Escape to restore the editor camera and cart. During driving, the toggle continues to pan the live driving camera.
+
+The Debug menu is hidden on a fresh install. Click David Campbell in the credits ten times to show it. Ten more clicks disable FPS, physics overlays, ship-trigger bypass, cart teleport, unlocked levels and the debug inspection camera, then hide the menu. Its visibility is remembered between launches.

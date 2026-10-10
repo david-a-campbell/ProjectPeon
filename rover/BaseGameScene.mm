@@ -8,6 +8,7 @@
 
 #import "BaseGameScene.h"
 #import "BaseActionLayer.h"
+#import "PlayerCart.h"
 #import "CartCreationLayer.h"
 #import "ForeGroundParallaxLayer.h"
 #import "BacgroundParallaxLayer.h"
@@ -28,6 +29,8 @@
     CartCreationLayer *creationLayer;
 #ifdef PROJECTPEON_MAC
     BOOL inspectionCameraEnabled;
+    BOOL mousePanPreviewEnabled;
+    NSMutableArray *mousePanHiddenNodes;
     CGPoint inspectionOriginalPosition;
     CGFloat inspectionOriginalScale;
     BOOL inspectionOriginalWide;
@@ -40,15 +43,43 @@
 
 #ifdef PROJECTPEON_MAC
 @synthesize inspectionCameraEnabled;
+@synthesize mousePanPreviewEnabled;
+-(void)setMousePanEnabled:(BOOL)enabled {
+    if(!enabled) {
+        if(mousePanPreviewEnabled) [self setInspectionCameraEnabled:NO];
+        return;
+    }
+    if(inspectionCameraEnabled || ![[creationLayer valueForKey:@"cartCreationEnabled"] boolValue]) return;
+    for(CCNode *node in self.children) if([node isKindOfClass:[PopupMenu class]] || [node isKindOfClass:[SaveMenu class]]) return;
+    BaseActionLayer *layer=[self inspectionActionLayer];
+    if(!layer) return;
+    [self setInspectionCameraEnabled:YES];
+    mousePanPreviewEnabled=YES;
+    mousePanHiddenNodes=[[NSMutableArray alloc] init];
+    NSMutableArray *nodes=[NSMutableArray arrayWithArray:[layer.playerCart componentsInOrderOfZ] ?: @[]];
+    [nodes addObject:creationLayer];
+    // The corner menu belongs to the separate controls layer.
+    CCNode *cornerMenu=[creationLayer valueForKey:@"tabMenu"];
+    if(cornerMenu) [nodes addObject:cornerMenu];
+    for(CCNode *node in nodes) {
+        [mousePanHiddenNodes addObject:@{@"node":node,@"visible":@(node.visible)}];
+        node.visible=NO;
+    }
+    // Keep the same world point centered while adopting the driving zoom.
+    CGFloat ratio=.35/layer.scale;
+    [self setInspectionCameraPosition:ccp(512+(layer.position.x-512)*ratio,
+                                         384+(layer.position.y-384)*ratio) zoom:.35];
+}
 -(void)teleportCartToScreenCenter {
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonTeleportCart"]) return;
+    if (mousePanPreviewEnabled || ![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonTeleportCart"]) return;
     [[self inspectionActionLayer] teleportCartToScreenCenter];
 }
 -(BOOL)drivingCameraAvailable {
-    return !inspectionCameraEnabled && [[self inspectionActionLayer] drivingCameraAvailable];
+    return mousePanPreviewEnabled || (!inspectionCameraEnabled && [[self inspectionActionLayer] drivingCameraAvailable]);
 }
 -(void)panDrivingCameraBy:(CGPoint)delta {
-    if([self drivingCameraAvailable]) [[self inspectionActionLayer] panDrivingCameraBy:delta];
+    if(mousePanPreviewEnabled) [self panInspectionCameraBy:delta];
+    else if([self drivingCameraAvailable]) [[self inspectionActionLayer] panDrivingCameraBy:delta];
 }
 -(BaseActionLayer *)inspectionActionLayer {
     for(CCNode *node in self.children) if([node isKindOfClass:[BaseActionLayer class]]) return (BaseActionLayer *)node;
@@ -66,6 +97,12 @@
         [[CCDirector sharedDirector] pause];
         [[PeonWideScreen sharedPresentation] setDriving:YES];
     } else {
+        if(mousePanPreviewEnabled) {
+            for(NSDictionary *state in mousePanHiddenNodes) [(CCNode *)state[@"node"] setVisible:[state[@"visible"] boolValue]];
+            [mousePanHiddenNodes release]; mousePanHiddenNodes=nil;
+            mousePanPreviewEnabled=NO;
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"PeonMousePan"];
+        }
         [[PeonWideScreen sharedPresentation] setDriving:inspectionOriginalWide];
         layer.scaleX=inspectionOriginalScale;
         layer.scaleY=inspectionOriginalScale;
@@ -83,6 +120,11 @@
     CGFloat inset=(PeonPresentationSize([CCDirector sharedDirector].winSize).width-[CCDirector sharedDirector].winSize.width)/2;
     position.x=MAX(position.x,-width*layer.scale+1024+256*layer.scale+inset);
     position.y=MIN(position.y,-256*layer.scale);
+    if(mousePanPreviewEnabled) {
+        CGFloat height=[[layer valueForKey:@"mapHeight"] doubleValue];
+        position.x=MIN(position.x,-256*layer.scale-inset);
+        position.y=MAX(position.y,-height*layer.scale+768);
+    }
     layer.position=position;
 }
 -(void)panInspectionCameraBy:(CGPoint)delta {
@@ -99,6 +141,9 @@
 
 -(void)cartCreationFromKeyboard
 {
+#ifdef PROJECTPEON_MAC
+    if(mousePanPreviewEnabled) { [self setInspectionCameraEnabled:NO]; return; }
+#endif
     for (CCNode *child in self.children)
         if ([child isKindOfClass:[PopupMenu class]]) return;
     [creationLayer cartCreationFromKeyboard];
@@ -209,8 +254,19 @@
 //    [[AdManager sharedAdManager] setShouldDisplayInterstitialAd:NO];
 }
 
+-(void)onExit
+{
+#ifdef PROJECTPEON_MAC
+    if(inspectionCameraEnabled) [self setInspectionCameraEnabled:NO];
+#endif
+    [super onExit];
+}
+
 -(void)dealloc
 {
+#ifdef PROJECTPEON_MAC
+    [mousePanHiddenNodes release];
+#endif
     [super dealloc];
 }
 

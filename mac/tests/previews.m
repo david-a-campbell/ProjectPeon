@@ -1,4 +1,5 @@
 #import "PeonViewport.h"
+#import "PeonDebugSettings.h"
 #import "PopupSettings.h"
 #import "PopupTitleSettings.h"
 #import "LevelScoreDisplay.h"
@@ -23,6 +24,14 @@
 @implementation SnapshotTestCart
 -(NSArray *)componentsInOrderOfZ { return self.parts; }
 -(void)dealloc { [_parts release]; [super dealloc]; }
+@end
+
+@interface DebugCreditObserver : NSObject
+@property NSUInteger toggleCount;
+-(void)toggled:(NSNotification *)notification;
+@end
+@implementation DebugCreditObserver
+-(void)toggled:(NSNotification *)notification { self.toggleCount++; }
 @end
 
 @interface ReentrantActionTest : NSObject
@@ -320,6 +329,36 @@ int main(int argc,const char **argv) {
   [mapCamera setValue:nil forKey:@"playerCart"];
   puts("Oversized cart: all parts fit with padding, centered snapshot, editor unchanged: PASS");
 
+  BaseGameScene *panPreview=[BaseGameScene node];
+  [panPreview setValue:roverMenu forKey:@"creationLayer"];
+  [roverMenu setValue:@YES forKey:@"cartCreationEnabled"];
+  [panPreview addChild:mapCamera];
+  [mapCamera setValue:@64000 forKey:@"mapWidth"];
+  [mapCamera setValue:@19200 forKey:@"mapHeight"];
+  [mapCamera setValue:testCart forKey:@"playerCart"];
+  rightPart.visible=NO;
+  BOOL directorWasPaused=director.isPaused;
+  [panPreview setMousePanEnabled:YES];
+  NSCAssert(panPreview.mousePanPreviewEnabled && panPreview.drivingCameraAvailable && director.isPaused,@"Building map preview did not enable a paused panning camera");
+  NSCAssert(fabs(mapCamera.scale-.35)<.001 && !leftPart.visible && !topPart.visible && !roverMenu.visible && !hudMenu.visible,@"Map preview did not adopt driving zoom and hide cart/tools");
+  CGPoint beforePan=mapCamera.position;
+  [panPreview panDrivingCameraBy:ccp(-500,-200)];
+  NSCAssert(mapCamera.position.x<beforePan.x && mapCamera.position.y<beforePan.y,@"Preview camera did not pan");
+  [panPreview panDrivingCameraBy:ccp(-100000,-100000)];
+  NSCAssert(mapCamera.position.x>-64000*.35 && mapCamera.position.y>=-19200*.35+768,@"Preview escaped the map");
+  [panPreview setMousePanEnabled:NO];
+  NSCAssert(!panPreview.mousePanPreviewEnabled && !panPreview.inspectionCameraEnabled && director.isPaused==directorWasPaused,@"Map preview did not restore pause state");
+  NSCAssert(mapCamera.position.x==-128 && mapCamera.position.y==0 && mapCamera.scale==.5 && leftPart.visible && topPart.visible && !rightPart.visible && roverMenu.visible && hudMenu.visible,@"Map preview changed the building camera or part visibility");
+  [panPreview setMousePanEnabled:YES];
+  [panPreview cartCreationFromKeyboard];
+  NSCAssert(!panPreview.mousePanPreviewEnabled && mapCamera.position.x==-128,@"C did not return from map preview");
+  [roverMenu setValue:@NO forKey:@"cartCreationEnabled"];
+  [panPreview setMousePanEnabled:YES];
+  NSCAssert(!panPreview.mousePanPreviewEnabled && director.isPaused==directorWasPaused,@"Driving mode unexpectedly entered the building preview");
+  [mapCamera setValue:nil forKey:@"playerCart"];
+  [mapCamera removeFromParentAndCleanup:NO];
+  puts("Building mouse-pan preview: driving zoom, hidden cart/tools, bounded panning, exact restoration and C exit: PASS");
+
 
 
   BaseGameScene *level=[BaseGameScene node];
@@ -380,9 +419,53 @@ int main(int argc,const char **argv) {
    NSCAssert(frame.size.width>0 && frame.size.width<1024,@"Popup width exceeds screen");
    NSCAssert(fabs(CGRectGetMidX(frame))<0.01,@"Popup frame is not centered");
    printf("Popup type %d: PASS (centered, width %.2f)\n",type,frame.size.width);
+   if(type==kPopupGameInfo) {
+    BasePopupMenu *credits=[popup valueForKey:@"currentOptions"];
+    NSCAssert(credits.nodeArray.count==2,@"Credits still contain the website link");
+    CCNode *text=credits.nodeArray[0];
+    CGRect bounds=text.boundingBox;
+    CGFloat halfHeight=credits.numberOfPlanks*9;
+    CGFloat topPadding=halfHeight-CGRectGetMaxY(bounds);
+    CGFloat bottomPadding=CGRectGetMinY(bounds)+halfHeight;
+    NSCAssert(fabs(CGRectGetMidY(bounds))<.01 && fabs(topPadding-bottomPadding)<.01,@"Credits are not vertically centered");
+    NSCAssert(topPadding>=20 && topPadding<=50,@"Credits panel height leaves incorrect padding: %f",topPadding);
+    NSCAssert(popup.position.y==384,@"Credits panel moved off screen center");
+    printf("Credits layout: centered panel and text, %.1f matching top/bottom padding: PASS\n",topPadding);
+    CCMenu *creditMenu=(CCMenu *)credits.nodeArray[1];
+    CCMenuItem *creditButton=(CCMenuItem *)[creditMenu getChildByTag:9920];
+    NSCAssert(creditButton && creditButton.position.y>100 && creditButton.position.x>0,@"Secret credit target is not over the programming name");
+    DebugCreditObserver *observer=[[[DebugCreditObserver alloc] init] autorelease];
+    [[NSNotificationCenter defaultCenter] addObserver:observer selector:@selector(toggled:) name:@"PeonToggleDebugMenu" object:nil];
+    UITouch *creditTouch=[[[UITouch alloc] init] autorelease];
+    creditTouch.view=(NSView *)view;
+    creditTouch.location=[director convertToUI:[creditMenu convertToWorldSpace:creditButton.position]];
+    for(int tap=0;tap<20;tap++) {
+        NSCAssert([creditMenu ccTouchBegan:creditTouch withEvent:nil],@"Programming name tap missed the hidden target");
+        NSCAssert(observer.toggleCount==(NSUInteger)(tap/10),@"Debug toggled before the tenth tap was released");
+        [creditMenu ccTouchEnded:creditTouch withEvent:nil];
+        NSCAssert(observer.toggleCount==(NSUInteger)((tap+1)/10),@"Debug did not toggle once per ten taps");
+    }
+    [[NSNotificationCenter defaultCenter] removeObserver:observer];
+    puts("Debug credit gesture: ten taps per toggle, counter resets: PASS");
+    NSString *suite=[@"PeonDebugTest-" stringByAppendingString:NSUUID.UUID.UUIDString];
+    NSUserDefaults *debugDefaults=[[[NSUserDefaults alloc] initWithSuiteName:suite] autorelease];
+    NSCAssert(![debugDefaults boolForKey:@"PeonDebugMenuVisible"],@"Fresh install exposes Debug");
+    PeonSetDebugMenuVisible(debugDefaults,YES);
+    NSCAssert([debugDefaults boolForKey:@"PeonDebugMenuVisible"],@"Debug reveal was not saved");
+    NSArray *debugKeys=@[@"PeonShowPhysicsObjects",@"PeonDisableShipFinishTrigger",@"PeonTeleportCart",@"PeonUnlockAllLevels"];
+    for(NSString *key in debugKeys) [debugDefaults setBool:YES forKey:key];
+    [debugDefaults setBool:NO forKey:@"PeonHideFPS"];
+    PeonSetDebugMenuVisible(debugDefaults,NO);
+    NSCAssert(![debugDefaults boolForKey:@"PeonDebugMenuVisible"] && [debugDefaults boolForKey:@"PeonHideFPS"],@"Debug hide left the menu or FPS enabled");
+    for(NSString *key in debugKeys) NSCAssert(![debugDefaults boolForKey:key],@"Debug hide left an option enabled: %@",key);
+    [debugDefaults removePersistentDomainForName:suite];
+    puts("Debug settings: fresh install hidden, reveal saved, all utilities reset on hide: PASS");
+   }
    CCMenu *closeMenu=(CCMenu *)[top getChildByTag:9906];
    CCMenuItemSprite *close=(CCMenuItemSprite *)[closeMenu getChildByTag:9905];
    NSCAssert(close!=nil && close.boundingBox.size.width<=24.01,@"Missing or oversized close icon");
+   CGFloat dotRatio=type==kPopupStore ? 1.0-227.0/839.0 : 1.0-117.0/623.0;
+   NSCAssert(top.flipX && fabs(close.position.x-top.contentSize.width*dotRatio)<.01,@"Mirrored popup dot and close button do not align on the right");
    top.opacity=255;
    UITouch *touch=[[[UITouch alloc] init] autorelease]; touch.view=(NSView *)view;
    touch.location=[director convertToUI:[popup convertToWorldSpace:CGPointZero]];
@@ -426,6 +509,7 @@ int main(int argc,const char **argv) {
   CCSprite *tipTop=[tip valueForKey:@"top"];
   CCMenu *tipCloseMenu=(CCMenu *)[tipTop getChildByTag:9906];
   CCMenuItem *tipClose=(CCMenuItem *)[tipCloseMenu getChildByTag:9905];
+  NSCAssert(tipTop.flipX && fabs(tipClose.position.x-tipTop.contentSize.width*(1.0-117.0/623.0))<.01,@"Tooltip close button does not align with mirrored dot");
   NSCAssert(tipClose!=nil,@"Tooltip missing close button");tipTop.opacity=255;
   UITouch *tipTouch=[[[UITouch alloc] init] autorelease];tipTouch.view=(NSView *)view;
   tipTouch.location=[director convertToUI:[tipTop convertToWorldSpace:tipClose.position]];
