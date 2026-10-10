@@ -40,6 +40,10 @@
 
 #ifdef PROJECTPEON_MAC
 @synthesize inspectionCameraEnabled;
+-(void)teleportCartToScreenCenter {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonTeleportCart"]) return;
+    [[self inspectionActionLayer] teleportCartToScreenCenter];
+}
 -(BOOL)drivingCameraAvailable {
     return !inspectionCameraEnabled && [[self inspectionActionLayer] drivingCameraAvailable];
 }

@@ -56,3 +56,5 @@ Gameplay recording is off by default and the export button is hidden while disab
 Use Project Peon → Show Box2D Objects to overlay physics bodies and joints in cart creation and gameplay. It is off by default and remembered between launches.
 
 Project Peon → Disable Ship Finish Trigger keeps driving active when the cart reaches the ship. Uncheck it to restore normal completion; it is off by default and remembered between launches.
+
+Project Peon → Enable Cart Teleport (T) enables pressing T during driving to move the connected cart assembly to the center of the current view. Use Mouse Pan Map to choose a destination. Teleporting stops its movement and preserves its joints; detached parts remain where they are. The toggle is off by default and remembered between launches.

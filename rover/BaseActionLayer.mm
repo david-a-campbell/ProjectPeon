@@ -418,6 +418,13 @@
 }
 
 #ifdef PROJECTPEON_MAC
+-(void)teleportCartToScreenCenter {
+    if (![self drivingCameraAvailable]) return;
+    CGSize canvas = [CCDirector sharedDirector].winSize;
+    CGPoint center = [self convertToNodeSpace:ccp(canvas.width/2, canvas.height/2)];
+    [playerCart teleportToPosition:center];
+    [playerVelocities removeAllObjects];
+}
 -(BOOL)drivingCameraAvailable {
     return shouldFollowSprite && !levelWasCompleted && ![[GameManager sharedGameManager] isPaused];
 }

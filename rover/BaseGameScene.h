@@ -20,6 +20,7 @@
 #ifdef PROJECTPEON_MAC
 @property (nonatomic, readonly) BOOL inspectionCameraEnabled;
 -(BOOL)drivingCameraAvailable;
+-(void)teleportCartToScreenCenter;
 -(void)panDrivingCameraBy:(CGPoint)delta;
 -(void)setInspectionCameraEnabled:(BOOL)enabled;
 -(void)panInspectionCameraBy:(CGPoint)delta;

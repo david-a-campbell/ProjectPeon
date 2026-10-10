@@ -134,6 +134,51 @@
     [self regainFuel];
 }
 
+#ifdef PROJECTPEON_MAC
+-(void)teleportToPosition:(CGPoint)position
+{
+    if (!body || world->IsLocked()) return;
+    // Move the connected assembly together so joints and relative angles survive.
+    // Detached parts elsewhere in the level aren't part of this assembly.
+    std::vector<b2Body *> assembly(1, body);
+    for (size_t i = 0; i < assembly.size(); ++i)
+    {
+        for (b2JointEdge *edge = assembly[i]->GetJointList(); edge; edge = edge->next)
+        {
+            if (edge->other->GetUserData() != self) continue;
+            BOOL known = NO;
+            for (b2Body *member : assembly) if (member == edge->other) known = YES;
+            if (!known) assembly.push_back(edge->other);
+        }
+    }
+    b2AABB bounds;
+    BOOL hasBounds = NO;
+    for (b2Body *member : assembly)
+        for (b2Fixture *fixture = member->GetFixtureList(); fixture; fixture = fixture->GetNext())
+        {
+            if (fixture->IsSensor()) continue;
+            const b2Shape *shape = fixture->GetShape();
+            for (int child = 0; child < shape->GetChildCount(); ++child)
+            {
+                b2AABB partBounds;
+                shape->ComputeAABB(&partBounds, member->GetTransform(), child);
+                if (hasBounds) bounds.Combine(partBounds);
+                else { bounds = partBounds; hasBounds = YES; }
+            }
+        }
+    if (!hasBounds) return;
+    b2Vec2 shift = b2Vec2(position.x/pixelsToMeterRatio(), position.y/pixelsToMeterRatio()) - bounds.GetCenter();
+    for (b2Body *member : assembly)
+    {
+        member->SetTransform(member->GetPosition() + shift, member->GetAngle());
+        member->SetLinearVelocity(b2Vec2_zero);
+        member->SetAngularVelocity(0);
+        member->SetAwake(true);
+    }
+    [self setPosition:ccp(body->GetPosition().x*pixelsToMeterRatio(), body->GetPosition().y*pixelsToMeterRatio())];
+}
+#endif
+
 -(void)moveBodyToCart
 {
     if ([components count])

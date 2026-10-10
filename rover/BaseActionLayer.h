@@ -43,6 +43,7 @@
 @property (nonatomic, retain) PlayerCart* playerCart;
 #ifdef PROJECTPEON_MAC
 -(BOOL)drivingCameraAvailable;
+-(void)teleportCartToScreenCenter;
 -(void)panDrivingCameraBy:(CGPoint)delta;
 #endif
 -(NSString*)TileMapName;

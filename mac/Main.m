@@ -25,6 +25,10 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     if ([inspectionScene() inspectionCameraEnabled]) {
         [self.openGLContext makeCurrentContext];
         switch(event.keyCode) {
+            case 17:
+                if (!event.isARepeat && !(event.modifierFlags & (NSEventModifierFlagCommand | NSEventModifierFlagControl | NSEventModifierFlagOption)))
+                    [inspectionScene() teleportCartToScreenCenter];
+                break;
             case 0: case 123: [inspectionScene() panInspectionCameraBy:ccp(128,0)]; break;
             case 2: case 124: [inspectionScene() panInspectionCameraBy:ccp(-128,0)]; break;
             case 13: case 126: [inspectionScene() panInspectionCameraBy:ccp(0,-128)]; break;
@@ -42,6 +46,10 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
         if (event.keyCode==53) {
             [self.openGLContext makeCurrentContext];
             PeonDismissOpenMenu();
+        }
+        if (event.keyCode==17) {
+            [self.openGLContext makeCurrentContext];
+            [inspectionScene() teleportCartToScreenCenter];
         }
         if (event.keyCode==46) [[GameManager sharedGameManager] playNextTrackForCurrentScene];
         if (event.keyCode==15 || event.keyCode==8) {
@@ -114,6 +122,10 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     PeonRequestScreenshot([[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:name]);
 }
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
+    if(item.action==@selector(toggleTeleportCart:)) {
+        item.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonTeleportCart"]?NSControlStateValueOn:NSControlStateValueOff;
+        return YES;
+    }
     if(item.action==@selector(toggleShipFinishTrigger:)) {
         item.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDisableShipFinishTrigger"]?NSControlStateValueOn:NSControlStateValueOff;
         return YES;
@@ -138,6 +150,11 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     return YES;
 }
 
+- (void)toggleTeleportCart:(NSMenuItem *)item {
+    BOOL enabled=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonTeleportCart"];
+    [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:@"PeonTeleportCart"];
+    item.state=enabled?NSControlStateValueOn:NSControlStateValueOff;
+}
 - (void)toggleShipFinishTrigger:(NSMenuItem *)item {
     BOOL disabled=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDisableShipFinishTrigger"];
     [[NSUserDefaults standardUserDefaults] setBool:disabled forKey:@"PeonDisableShipFinishTrigger"];
@@ -179,6 +196,9 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     NSMenuItem *shipTriggerItem=[appMenu addItemWithTitle:@"Disable Ship Finish Trigger" action:@selector(toggleShipFinishTrigger:) keyEquivalent:@""];
     shipTriggerItem.target=self;
     shipTriggerItem.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDisableShipFinishTrigger"]?NSControlStateValueOn:NSControlStateValueOff;
+    NSMenuItem *teleportItem=[appMenu addItemWithTitle:@"Enable Cart Teleport (T)" action:@selector(toggleTeleportCart:) keyEquivalent:@""];
+    teleportItem.target=self;
+    teleportItem.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonTeleportCart"]?NSControlStateValueOn:NSControlStateValueOff;
     NSMenuItem *panItem=[appMenu addItemWithTitle:@"Mouse Pan Map" action:@selector(toggleMousePan:) keyEquivalent:@""];
     panItem.target=self;
     NSMenuItem *unlockItem=[appMenu addItemWithTitle:@"Unlock All Levels" action:@selector(toggleUnlockAllLevels:) keyEquivalent:@""];
