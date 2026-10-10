@@ -177,6 +177,9 @@
         }
 #endif
         [self processCollisionGroup:collisionsGroup];
+#ifdef PROJECTPEON_MAC
+        [self clearShipsFromRightBoundary];
+#endif
     }
     
     CCTMXObjectGroup *placeholderGroup = [tileMapNode objectGroupNamed:[self placeholderLayerName]];
@@ -895,6 +898,49 @@
 }
 
 #ifdef PROJECTPEON_MAC
+-(void)clearShipsFromRightBoundary
+{
+    float shipRight = -FLT_MAX;
+    for (Pod *ship in [self arrayOfType:kPodType])
+    {
+        shipRight = MAX(shipRight, CGRectGetMaxX(ship.boundingBox)/pixelsToMeterRatio());
+        for (b2Fixture *fixture = ship.body->GetFixtureList(); fixture; fixture = fixture->GetNext())
+        {
+            const b2Shape *shape = fixture->GetShape();
+            for (int child = 0; child < shape->GetChildCount(); ++child)
+            {
+                b2AABB bounds;
+                shape->ComputeAABB(&bounds, ship.body->GetTransform(), child);
+                shipRight = MAX(shipRight, bounds.upperBound.x);
+            }
+        }
+    }
+    if (shipRight == -FLT_MAX) return;
+    for (PlayerClipGround *clip in [self arrayOfType:kPlayerClipType])
+    {
+        if (![[clip.dictionary valueForKey:@"name"] isEqualToString:@"rightClip"]) continue;
+        float boundaryLeft = FLT_MAX;
+        for (b2Fixture *fixture = clip.body->GetFixtureList(); fixture; fixture = fixture->GetNext())
+        {
+            const b2Shape *shape = fixture->GetShape();
+            for (int child = 0; child < shape->GetChildCount(); ++child)
+            {
+                b2AABB bounds;
+                shape->ComputeAABB(&bounds, clip.body->GetTransform(), child);
+                boundaryLeft = MIN(boundaryLeft, bounds.lowerBound.x);
+            }
+        }
+        if (boundaryLeft == FLT_MAX) continue;
+        // Keep every segment of the map wall beyond the ship's full extent,
+        // including its interior sensors, without moving the landing position.
+        float shift = MAX(0.0f, shipRight+64.0f/pixelsToMeterRatio()-boundaryLeft);
+        b2Vec2 position = clip.body->GetPosition();
+        position.x += shift;
+        clip.body->SetTransform(position, clip.body->GetAngle());
+        clip.position = ccp(position.x*pixelsToMeterRatio(), position.y*pixelsToMeterRatio());
+    }
+}
+
 -(void)clearStartingCartFromLeftBoundary
 {
     float leftmost = FLT_MAX;
