@@ -8,7 +8,7 @@
 
 #import "PopupGameInfo.h"
 
-#ifdef PROJECTPEON_MAC
+#if defined(PROJECTPEON_MAC) && DEBUG && !defined(PROJECTPEON_APP_STORE)
 @interface PopupGameInfo () { NSUInteger debugTapCount; }
 @end
 #endif
@@ -22,7 +22,7 @@
     [text setPosition:ccp(0, 0)];
     
     [[self nodeArray] addObject:text];
-#ifdef PROJECTPEON_MAC
+#if defined(PROJECTPEON_MAC) && DEBUG && !defined(PROJECTPEON_APP_STORE)
     CCLabelBMFont *label=(CCLabelBMFont *)text;
     NSRange nameRange=[label.string rangeOfString:@"David Campbell"];
     CGRect nameBounds=CGRectNull;
@@ -41,7 +41,7 @@
 #endif
 }
 
-#ifdef PROJECTPEON_MAC
+#if defined(PROJECTPEON_MAC) && DEBUG && !defined(PROJECTPEON_APP_STORE)
 -(void)tapProgrammingCredit {
     if(++debugTapCount<10) return;
     debugTapCount=0;

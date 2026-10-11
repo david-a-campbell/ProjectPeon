@@ -166,6 +166,7 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     [[NSNotificationCenter defaultCenter] postNotificationName:@"PeonLevelAccessChanged" object:nil];
 }
 - (void)toggleDebugMenu:(NSNotification *)notification {
+    if (!PeonDebugBuildEnabled()) { [self disableDebugOptions]; return; }
     BOOL visible=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"];
     PeonSetDebugMenuVisible([NSUserDefaults standardUserDefaults],visible);
     if(!visible) [self disableDebugOptions];
@@ -179,11 +180,13 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
         [NSString stringWithFormat:@"%@ %02ld",names[planet-1],(long)[level[@"level"] integerValue]] : @"";
 }
 - (void)toggleInspectionCamera:(NSMenuItem *)item {
+    if (!PeonDebugBuildEnabled()) return;
     [[(CCGLView *)self.window.contentView openGLContext] makeCurrentContext];
     BaseGameScene *scene=inspectionScene();
     [scene setInspectionCameraEnabled:!scene.inspectionCameraEnabled];
 }
 - (void)saveCameraScreenshot:(id)sender {
+    if (!PeonDebugBuildEnabled()) return;
     NSString *name=[NSString stringWithFormat:@"Project Peon Camera %.0f.png",NSDate.date.timeIntervalSince1970*1000];
 #ifdef PROJECTPEON_APP_STORE
     NSSavePanel *panel=[NSSavePanel savePanel];
@@ -230,21 +233,25 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
 }
 
 - (void)toggleTeleportCart:(NSMenuItem *)item {
+    if (!PeonDebugBuildEnabled()) return;
     BOOL enabled=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonTeleportCart"];
     [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:@"PeonTeleportCart"];
     item.state=enabled?NSControlStateValueOn:NSControlStateValueOff;
 }
 - (void)toggleShipFinishTrigger:(NSMenuItem *)item {
+    if (!PeonDebugBuildEnabled()) return;
     BOOL disabled=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDisableShipFinishTrigger"];
     [[NSUserDefaults standardUserDefaults] setBool:disabled forKey:@"PeonDisableShipFinishTrigger"];
     item.state=disabled?NSControlStateValueOn:NSControlStateValueOff;
 }
 - (void)togglePhysicsObjects:(NSMenuItem *)item {
+    if (!PeonDebugBuildEnabled()) return;
     BOOL enabled=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonShowPhysicsObjects"];
     [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:@"PeonShowPhysicsObjects"];
     item.state=enabled?NSControlStateValueOn:NSControlStateValueOff;
 }
 - (void)toggleFPS:(NSMenuItem *)item {
+    if (!PeonDebugBuildEnabled()) return;
     BOOL hidden=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonHideFPS"];
     [[NSUserDefaults standardUserDefaults] setBool:hidden forKey:@"PeonHideFPS"];
     item.state=hidden ? NSControlStateValueOff : NSControlStateValueOn;
@@ -268,6 +275,7 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     item.state=enabled?NSControlStateValueOn:NSControlStateValueOff;
 }
 - (void)toggleUnlockAllLevels:(NSMenuItem *)item {
+    if (!PeonDebugBuildEnabled()) return;
     [[(CCGLView *)self.window.contentView openGLContext] makeCurrentContext];
     BOOL enabled=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonUnlockAllLevels"];
     [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:@"PeonUnlockAllLevels"];
@@ -276,8 +284,10 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
 }
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"PeonHideFPS":@YES,@"PeonDebugMenuVisible":@NO}];
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"]) [self disableDebugOptions];
+    if(!PeonDebugBuildEnabled() || ![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"]) [self disableDebugOptions];
+#if DEBUG && !defined(PROJECTPEON_APP_STORE)
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toggleDebugMenu:) name:@"PeonToggleDebugMenu" object:nil];
+#endif
     NSMenu *menu=[[[NSMenu alloc] init] autorelease]; NSMenuItem *root=[[[NSMenuItem alloc] init] autorelease]; [menu addItem:root];
     NSMenu *appMenu=[[[NSMenu alloc] initWithTitle:@"Project Peon"] autorelease]; [root setSubmenu:appMenu];
     [appMenu addItemWithTitle:@"Controls…" action:@selector(showControls:) keyEquivalent:@"?"];
@@ -285,6 +295,7 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     privacyItem.target=self;
     [appMenu addItem:[NSMenuItem separatorItem]];
     [appMenu addItemWithTitle:@"Quit Project Peon" action:@selector(terminate:) keyEquivalent:@"q"];
+#if DEBUG && !defined(PROJECTPEON_APP_STORE)
     NSMenuItem *debugRoot=[[[NSMenuItem alloc] initWithTitle:@"Debug" action:nil keyEquivalent:@""] autorelease];
     NSMenu *debugMenu=[[[NSMenu alloc] initWithTitle:@"Debug"] autorelease];
     [debugRoot setSubmenu:debugMenu]; [menu addItem:debugRoot];
@@ -309,6 +320,7 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     inspect.target=self; inspect.keyEquivalentModifierMask=NSEventModifierFlagCommand|NSEventModifierFlagOption;
     NSMenuItem *shot=[debugMenu addItemWithTitle:@"Save Screenshot to Desktop" action:@selector(saveCameraScreenshot:) keyEquivalent:@"p"];
     shot.target=self; shot.keyEquivalentModifierMask=NSEventModifierFlagCommand|NSEventModifierFlagOption;
+#endif
     [NSApp setMainMenu:menu];
     self.window=[[[NSWindow alloc] initWithContentRect:NSMakeRect(0,0,1365.333333,768) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskResizable backing:NSBackingStoreBuffered defer:NO] autorelease];
     self.window.delegate=self;

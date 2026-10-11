@@ -4,6 +4,7 @@ import concurrent.futures, hashlib, json, os, pathlib, plistlib, shutil, subproc
 from build_icon import build_icon
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 STORE = os.environ.get('PEON_APP_STORE') == '1'
+DEBUG_BUILD = not STORE and os.environ.get('PEON_RELEASE') != '1' and (os.environ.get('PEON_DEBUG') == '1' or os.environ.get('PEON_UI_AUDIT') == '1')
 ARCH = os.environ.get('PEON_ARCH')
 OUT = pathlib.Path(os.environ.get('PEON_BUILD_DIR', ROOT / 'build/mac'))
 OBJ = OUT / 'objects'
@@ -36,13 +37,14 @@ include_dirs=[ROOT/'mac',ROOT/'mac/compat',ROOT/'rover',ROOT/'rover/libs',ROOT/'
 include_dirs += sorted({f.parent for f in (ROOT/'rover').rglob('*.h') if 'boost.framework' not in str(f) and '/FontLabel/' not in str(f) and '/CocosDenshion/' not in str(f) and '/Platforms/iOS' not in str(f)})
 common=['-isysroot',sdk,'-mmacosx-version-min=12.0','-DPROJECTPEON_MAC=1','-DCC_DIRECTOR_MAC_THREAD=2','-DCOCOS2D_DEBUG=1','-Wno-deprecated-declarations','-Wno-incompatible-pointer-types','-Wno-int-conversion','-Wno-shorten-64-to-32','-Wno-pointer-to-int-cast','-Wno-nullability-completeness','-Wno-objc-method-access','-Wno-format','-O1','-g']
 if ARCH: common += ['-arch', ARCH]
+if DEBUG_BUILD: common += ['-DDEBUG=1']
 if STORE: common += ['-DPROJECTPEON_APP_STORE=1', '-O2']
 for d in include_dirs: common += ['-I',str(d)]
 headers = list((ROOT/'rover').rglob('*.h')) + list((ROOT/'mac').rglob('*.h')) + [ROOT/'mac/Prefix.pch']
 header_time = max(f.stat().st_mtime for f in headers)
 def compile(source):
     cache_key = str(source.relative_to(ROOT))
-    if STORE or ARCH: cache_key += repr(common)
+    cache_key += repr(common)
     output = OBJ/(hashlib.sha1(cache_key.encode()).hexdigest()+'.o')
     if output.exists() and output.stat().st_mtime > max(header_time,source.stat().st_mtime): return output, ''
     command = ['xcrun','clang++' if source.suffix in ('.mm','.cpp') else 'clang', *common]
