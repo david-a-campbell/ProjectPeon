@@ -47,6 +47,8 @@
 -(BOOL)isRetinaEnabled;
 -(void)setUseTouchControl:(BOOL)value;
 -(BOOL)useTouchControl;
+-(BOOL)boostButtonOnRight;
+-(void)setBoostButtonOnRight:(BOOL)value;
 -(void)setMusicVolume:(float)musicVolume;
 -(float)getMusicVolume;
 -(void)setSfxVolume:(float)sfxVolume;

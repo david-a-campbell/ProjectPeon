@@ -423,6 +423,18 @@
     return [[playerSettings useTouchControl] boolValue];
 }
 
+// Absent preference means left, including existing installations.
+-(BOOL)boostButtonOnRight
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"PeonBoostButtonOnRight"];
+}
+
+-(void)setBoostButtonOnRight:(BOOL)value
+{
+    [[NSUserDefaults standardUserDefaults] setBool:value forKey:@"PeonBoostButtonOnRight"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CONTROL_TYPE_CHANGED object:nil];
+}
+
 -(void)setMusicVolume:(float)musicVolume
 {
     PlayerSettings *playerSettings = [self getPlayerSettingsObject];

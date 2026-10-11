@@ -128,13 +128,14 @@
 #ifdef PROJECTPEON_IOS
     // Reuse the clean captions and slider frames, retaining touch/tilt choices.
     musicVolumeBG.visible=NO; sfxVolumeBG.visible=NO;
-    PeonAddVolumeCaption([self nodeArray], @"MusicVolumeLabel.png", @"musicVolume.png", 135, SCREEN_SCALE);
-    PeonAddVolumeCaption([self nodeArray], @"EffectVolumeLabel.png", @"sfxVolume.png", 45, SCREEN_SCALE);
-    musicSlider.position=ccp(145,135); sfxSlider.position=ccp(145,45);
+    PeonAddVolumeCaption([self nodeArray], @"MusicVolumeLabel.png", @"musicVolume.png", 180, SCREEN_SCALE);
+    PeonAddVolumeCaption([self nodeArray], @"EffectVolumeLabel.png", @"sfxVolume.png", 90, SCREEN_SCALE);
+    musicSlider.position=ccp(145,180); sfxSlider.position=ccp(145,90);
     PeonInsetVolumeSlider(musicSlider); PeonInsetVolumeSlider(sfxSlider);
-    controlSwitchBG.position=ccp(0,-45);
-    controlTiltBtn.position=ccp(28,-45); controlTouchBtn.position=ccp(188,-45);
-    backBtn.position=ccp(0,-135);
+    controlSwitchBG.position=ccp(0,0);
+    controlTiltBtn.position=ccp(28,0); controlTouchBtn.position=ccp(188,0);
+    PeonAddBoostSideSetting([self nodeArray],self,-90,SCREEN_SCALE);
+    backBtn.position=ccp(0,-180);
 #endif
 
 #ifdef PROJECTPEON_MAC
@@ -178,6 +179,19 @@
 #endif
 
 }
+
+#ifdef PROJECTPEON_IOS
+-(void)boostLeftSelected:(CCMenuItemLabel *)sender
+{
+    [[SaveManager sharedManager] setBoostButtonOnRight:NO];
+    PeonRefreshBoostSideMenu((CCMenu *)sender.parent);
+}
+-(void)boostRightSelected:(CCMenuItemLabel *)sender
+{
+    [[SaveManager sharedManager] setBoostButtonOnRight:YES];
+    PeonRefreshBoostSideMenu((CCMenu *)sender.parent);
+}
+#endif
 
 -(void)switchRetina
 {
@@ -232,7 +246,7 @@
 -(int)numberOfPlanks
 {
 #ifdef PROJECTPEON_IOS
-    return 22;
+    return 27;
 #endif
 #ifdef PROJECTPEON_MAC
     return 32;

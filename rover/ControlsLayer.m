@@ -100,7 +100,14 @@
         [buttonBase.defaultSprite setOpacity:255];
         [buttonBase.activatedSprite setOpacity:255];
         [buttonBase.pressSprite setOpacity:255];
-        [buttonBase setPosition:ccp(874, 150)];
+        CGSize size=[[CCDirector sharedDirector] winSize];
+        CGFloat inset=0;
+#ifdef PROJECTPEON_WIDE_UI
+        inset=size.width/6.0;
+#endif
+        // Preserve the original distance from the visible edge, on either side.
+        CGFloat x=[[SaveManager sharedManager] boostButtonOnRight] ? size.width+inset-150 : 150-inset;
+        [buttonBase setPosition:ccp(x, 150)];
     }else
     {
         [buttonBase.defaultSprite setOpacity:0];
