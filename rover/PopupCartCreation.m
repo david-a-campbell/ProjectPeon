@@ -9,6 +9,11 @@
 #import "PopupCartCreation.h"
 #import "SaveManager.h"
 #import "GameManager.h"
+#ifdef PROJECTPEON_IOS
+#import "BaseGameScene.h"
+#import "PopupMenu.h"
+#import "PeonVolumeSettings.h"
+#endif
 
 @implementation PopupCartCreation
 
@@ -44,11 +49,34 @@
     [returnToTitleBtn setScale:2*(SCREEN_SCALE)];
     [checkBox setScale:2*SCREEN_SCALE];
     
-    CCMenu *menu = [CCMenu menuWithItems:levelSelBtn, settingsBtn, returnToTitleBtn, checkBox, nil];
+#ifdef PROJECTPEON_IOS
+    BaseGameScene *scene=(id)[CCDirector sharedDirector].runningScene;
+    BOOL panning=[scene isKindOfClass:[BaseGameScene class]] && scene.debugFreePanEnabled;
+    CCLabelBMFont *label=[CCLabelBMFont labelWithString:panning ? @"return to building" : @"pan camera" fntFile:@"font52.fnt"];
+    PeonInsetBitmapGlyphs(label); label.scale=SCREEN_SCALE;
+    CCMenuItemLabel *pan=[CCMenuItemLabel itemWithLabel:label target:self selector:@selector(panCamera)];
+    pan.contentSize=returnToTitleBtn.boundingBox.size;
+    label.anchorPoint=ccp(.5,.5); label.position=ccp(pan.contentSize.width/2,pan.contentSize.height/2);
+    [pan addChild:PeonSettingsTextGlow(label) z:-1];
+    CCMenu *menu=[CCMenu menuWithItems:levelSelBtn,settingsBtn,returnToTitleBtn,pan,checkBox,nil];
+#else
+    CCMenu *menu=[CCMenu menuWithItems:levelSelBtn,settingsBtn,returnToTitleBtn,checkBox,nil];
+#endif
     [menu alignItemsVerticallyWithPadding: 0];
     [menu setPosition:ccp(0, 0)];
     [[self nodeArray] addObject:menu];
 }
+
+#ifdef PROJECTPEON_IOS
+-(void)panCamera
+{
+    BaseGameScene *scene=(id)[CCDirector sharedDirector].runningScene;
+    if (![scene isKindOfClass:[BaseGameScene class]]) return;
+    [(PopupMenu *)self.popupDelegate hide];
+    // Wait for the popup's closing animation so modal input blocking still applies.
+    [scene performSelector:@selector(toggleCartCreationPan) withObject:nil afterDelay:.3];
+}
+#endif
 
 -(void)returnToLevelSelect
 {
@@ -70,6 +98,9 @@
 
 -(int)numberOfPlanks
 {
+#ifdef PROJECTPEON_IOS
+    return 30;
+#endif
     return 24;
 }
 

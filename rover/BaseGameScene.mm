@@ -50,6 +50,9 @@
     BOOL inspectionDirectorWasPaused;
 #endif
 }
+#ifdef PROJECTPEON_IOS
+-(void)setFreePanEnabled:(BOOL)enabled;
+#endif
 @end
 
 #ifdef PROJECTPEON_WIDE_UI
@@ -320,8 +323,24 @@ static BOOL PeonPanBlockedByMenu(CCNode *node) {
 }
 -(BOOL)debugPanBlocked { return PeonPanBlockedByMenu(self); }
 -(void)setDebugFreePanEnabled:(BOOL)enabled {
+    if (enabled && ![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"]) return;
+    [self setFreePanEnabled:enabled];
+}
+-(void)toggleCartCreationPan {
+    if (![[creationLayer valueForKey:@"cartCreationEnabled"] boolValue]) return;
+    [self setFreePanEnabled:!debugFreePanEnabled];
+}
+-(BOOL)cameraMenuContainsTouch:(UITouch *)touch {
+    CCMenu *menu=[creationLayer valueForKey:@"tabMenu"];
+    if (!menu.visible) return NO;
+    CGPoint point=[menu convertTouchToNodeSpace:touch];
+    for (CCMenuItem *item in menu.children)
+        if (item.visible && item.isEnabled && CGRectContainsPoint(item.boundingBox,point)) return YES;
+    return NO;
+}
+-(void)setFreePanEnabled:(BOOL)enabled {
     BaseActionLayer *layer=[self debugActionLayer];
-    if (enabled && (![self debugPanAvailable] || [self debugPanBlocked] || ![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"])) return;
+    if (enabled && (![self debugPanAvailable] || [self debugPanBlocked])) return;
     if (debugFreePanEnabled==enabled) return;
     debugFreePanEnabled=enabled;
     [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:@"PeonFreePan"];
@@ -387,6 +406,13 @@ static BOOL PeonPanBlockedByMenu(CCNode *node) {
     [defaults setBool:YES forKey:@"PeonDebugMenuVisible"];
     BaseActionLayer *layer=[self debugActionLayer];
     CGPoint original=layer.position; CGFloat scale=layer.scale;
+    [defaults setBool:NO forKey:@"PeonDebugMenuVisible"];
+    [self toggleCartCreationPan];
+    NSCAssert(self.debugFreePanEnabled && !creationLayer.visible,@"Regular camera preview requires debug mode");
+    [self toggleCartCreationPan];
+    NSCAssert(!self.debugFreePanEnabled && creationLayer.visible && ccpDistance(layer.position,original)<.1,@"Regular camera preview did not restore building");
+    fprintf(stderr,"PEON_CART_CREATION_PAN_AUDIT_PASS: preview works with debug disabled and restores building\n");
+    [defaults setBool:YES forKey:@"PeonDebugMenuVisible"];
     [self setDebugFreePanEnabled:YES];
     NSCAssert(self.debugFreePanEnabled && !creationLayer.visible,@"Build preview did not hide editor");
     NSCAssert(![self debugTeleportAvailable],@"Build preview exposed teleport");
@@ -418,8 +444,8 @@ static BOOL PeonPanBlockedByMenu(CCNode *node) {
     NSCAssert(![self debugTeleportAvailable],@"Teleport enabled without the option");
     [defaults setBool:YES forKey:@"PeonTeleportCart"]; [self refreshDebugControls];
     NSCAssert([self debugTeleportAvailable],@"Teleport unavailable during driving free pan");
-    CGFloat x=[[SaveManager sharedManager] boostButtonOnRight] ? 1044.6667 : -20.6667;
-    NSCAssert([self debugTeleportButtonContainsPoint:ccp(x,150)],@"Boost teleport target moved from its margin");
+    CGPoint boostPosition=[[SaveManager sharedManager] boostButtonPositionForSize:[CCDirector sharedDirector].winSize];
+    NSCAssert([self debugTeleportButtonContainsPoint:boostPosition],@"Boost teleport target moved from its saved position");
     layer.position=ccp(-3000,-2000);
     NSInteger joints=[layer getWorld]->GetJointCount();
     [self debugTeleportCart];

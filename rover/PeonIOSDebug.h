@@ -16,12 +16,12 @@
 -(void)optionsChanged;
 @end
 static inline void PeonIOSDebugAttach(CCNode *scene) {
-#if DEBUG && !defined(PROJECTPEON_APP_STORE)
+    // The gesture handler also supports the regular cart-creation camera preview.
+    // Debug controls retain their own build and visibility gates.
     if (![scene getChildByTag:9930]) {
         PeonIOSDebugLayer *layer=[PeonIOSDebugLayer node];
         layer.tag=9930;
         [scene addChild:layer z:2000000];
     }
-#endif
 }
 #endif

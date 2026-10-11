@@ -246,7 +246,7 @@ static BOOL PeonDebugAdjacentLevel(int planet,int level,int step,int *nextPlanet
     [[self gameScene] refreshDebugControls];
 }
 -(void)openDebug {
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"] || PeonDebugHasModal(self.parent)) return;
+    if (!PeonDebugBuildEnabled() || ![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"] || PeonDebugHasModal(self.parent)) return;
     [PopupMenu showPopupMenuType:kPopupDebug withDelegate:nil];
 }
 -(void)changeLevel:(CCMenuItemLabel *)sender {
@@ -284,6 +284,8 @@ static BOOL PeonDebugAdjacentLevel(int planet,int level,int step,int *nextPlanet
 -(BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
     BaseGameScene *scene=[self gameScene];
     if (!scene.debugFreePanEnabled || [scene debugPanBlocked]) return NO;
+    // Let the regular menu remain reachable so the player can leave camera preview.
+    if ([scene cameraMenuContainsTouch:touch]) return NO;
     CGPoint point=[self convertTouchToNodeSpace:touch];
     if ([scene debugTeleportButtonContainsPoint:point]) { [scene debugTeleportCart]; return YES; }
     if (!panTouch) { panTouch=touch; previousPanPoint=point; }

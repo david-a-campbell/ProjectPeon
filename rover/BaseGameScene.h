@@ -33,6 +33,8 @@
 #ifdef PROJECTPEON_IOS
 @property(nonatomic, readonly) BOOL debugFreePanEnabled;
 -(void)setDebugFreePanEnabled:(BOOL)enabled;
+-(void)toggleCartCreationPan;
+-(BOOL)cameraMenuContainsTouch:(UITouch *)touch;
 -(BOOL)debugPanAvailable;
 -(BOOL)debugPanBlocked;
 -(void)panDebugCameraBy:(CGPoint)delta;
