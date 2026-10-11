@@ -114,7 +114,7 @@ static void PeonDebugCenterItem(CCMenuItemLabel *item) {
         PeonDebugCenterItem(entry);
         debugBacking=[CCLayerColor layerWithColor:ccc4(0,0,0,160) width:160 height:80];
         CGSize canvas=[[CCDirector sharedDirector] winSize];
-        CGPoint debugCorner=ccp(-canvas.width/6+144,canvas.height-80);
+        CGPoint debugCorner=ccp(-canvas.width/6,canvas.height-80);
         debugBacking.position=debugCorner; debugBacking.visible=NO; [self addChild:debugBacking];
         debugEntry=[CCMenu menuWithItems:entry,nil]; debugEntry.position=ccp(debugCorner.x+80,debugCorner.y+40); debugEntry.visible=NO;
         [self addChild:debugEntry];

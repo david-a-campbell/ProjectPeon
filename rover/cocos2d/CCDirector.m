@@ -624,9 +624,9 @@ static CCDirector *_sharedDirector = nil;
 		}
 
 #ifdef PROJECTPEON_IOS
-        // Only FPS, aligned to the left edge of the expanded 16:9 canvas.
+        // Place the level and FPS panel directly to the right of the Debug button.
         CGSize canvas=[self winSize];
-        CGPoint corner=ccp(-canvas.width/6,canvas.height-_peonStatsPanel.contentSize.height);
+        CGPoint corner=ccp(-canvas.width/6+160,canvas.height-_peonStatsPanel.contentSize.height);
         _peonStatsPanel.position=corner;
         GameManager *game=[GameManager sharedGameManager];
         BOOL inLevel=[_runningScene isKindOfClass:NSClassFromString(@"BaseGameScene")];
