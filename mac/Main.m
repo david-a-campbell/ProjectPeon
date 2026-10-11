@@ -166,6 +166,7 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     [[NSNotificationCenter defaultCenter] postNotificationName:@"PeonLevelAccessChanged" object:nil];
 }
 - (void)toggleDebugMenu:(NSNotification *)notification {
+    if (!PeonDebugBuildEnabled()) { [self disableDebugOptions]; return; }
     BOOL visible=![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"];
     PeonSetDebugMenuVisible([NSUserDefaults standardUserDefaults],visible);
     if(!visible) [self disableDebugOptions];
@@ -276,7 +277,7 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
 }
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"PeonHideFPS":@YES,@"PeonDebugMenuVisible":@NO}];
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"]) [self disableDebugOptions];
+    if(!PeonDebugBuildEnabled() || ![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"]) [self disableDebugOptions];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toggleDebugMenu:) name:@"PeonToggleDebugMenu" object:nil];
     NSMenu *menu=[[[NSMenu alloc] init] autorelease]; NSMenuItem *root=[[[NSMenuItem alloc] init] autorelease]; [menu addItem:root];
     NSMenu *appMenu=[[[NSMenu alloc] initWithTitle:@"Project Peon"] autorelease]; [root setSubmenu:appMenu];

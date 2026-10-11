@@ -16,10 +16,12 @@
 -(void)optionsChanged;
 @end
 static inline void PeonIOSDebugAttach(CCNode *scene) {
+#if DEBUG
     if (![scene getChildByTag:9930]) {
         PeonIOSDebugLayer *layer=[PeonIOSDebugLayer node];
         layer.tag=9930;
         [scene addChild:layer z:2000000];
     }
+#endif
 }
 #endif

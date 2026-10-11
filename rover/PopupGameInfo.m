@@ -20,6 +20,7 @@
     [text setPosition:ccp(0, 0)];
     
     [[self nodeArray] addObject:text];
+#if DEBUG && !defined(PROJECTPEON_APP_STORE)
     CCLabelBMFont *label=(CCLabelBMFont *)text;
     NSRange nameRange=[label.string rangeOfString:@"David Campbell"];
     CGRect nameBounds=CGRectNull;
@@ -41,12 +42,15 @@
     CCMenu *tapMenu=[CCMenu menuWithItems:debugTap,nil];
     tapMenu.position=CGPointZero;
     [[self nodeArray] addObject:tapMenu];
+#endif
 }
 
 -(void)tapProgrammingCredit {
+#if DEBUG && !defined(PROJECTPEON_APP_STORE)
     if(++debugTapCount<10) return;
     debugTapCount=0;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"PeonToggleDebugMenu" object:nil];
+#endif
 }
 
 -(id)labelWithText:(NSString*)someText

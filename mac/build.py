@@ -39,7 +39,7 @@ sdk = subprocess.check_output(['xcrun','--sdk','macosx','--show-sdk-path'],text=
 include_dirs=[ROOT/'mac',ROOT/'mac/compat',ROOT/'rover',ROOT/'rover/libs',ROOT/'rover/libs/kazmath/include',ROOT/'rover/cocos2d/Platforms/iOS']
 include_dirs += sorted({f.parent for f in (ROOT/'rover').rglob('*.h') if 'boost.framework' not in str(f) and '/FontLabel/' not in str(f) and '/CocosDenshion/' not in str(f) and '/Platforms/iOS' not in str(f)})
 common=['-isysroot',sdk,'-mmacosx-version-min=12.0','-DPROJECTPEON_MAC=1','-DCC_DIRECTOR_MAC_THREAD=2','-DCOCOS2D_DEBUG=1','-Wno-deprecated-declarations','-Wno-incompatible-pointer-types','-Wno-int-conversion','-Wno-shorten-64-to-32','-Wno-pointer-to-int-cast','-Wno-nullability-completeness','-Wno-objc-method-access','-Wno-format','-O1','-g']
-if os.environ.get('PEON_UI_AUDIT') == '1': common += ['-DDEBUG=1']
+if not STORE: common += ['-DDEBUG=1']
 if ARCH: common += ['-arch', ARCH]
 if STORE: common += ['-DPROJECTPEON_APP_STORE=1', '-O2']
 for d in include_dirs: common += ['-I',str(d)]

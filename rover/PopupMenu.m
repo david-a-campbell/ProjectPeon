@@ -234,7 +234,7 @@ static BOOL PeonDebugAdjacentLevel(int planet,int level,int step,int *nextPlanet
     [toast runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1.8],[CCFadeOut actionWithDuration:.3],nil]];
 }
 -(void)toggleDebug:(NSNotification *)notification {
-    if (self.parent!=[CCDirector sharedDirector].runningScene) return;
+    if (!PeonDebugBuildEnabled() || self.parent!=[CCDirector sharedDirector].runningScene) return;
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     BOOL visible=![defaults boolForKey:@"PeonDebugMenuVisible"];
     PeonSetDebugMenuVisible(defaults,visible);
@@ -266,7 +266,7 @@ static BOOL PeonDebugAdjacentLevel(int planet,int level,int step,int *nextPlanet
     [self showToast:scene.debugFreePanEnabled ? @"Free Pan ON" : @"Follow Cart"];
 }
 -(void)update:(ccTime)delta {
-    debugEntry.visible=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"] && !PeonDebugHasModal(self.parent);
+    debugEntry.visible=PeonDebugBuildEnabled() && [[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"] && !PeonDebugHasModal(self.parent);
     debugBacking.visible=debugEntry.visible;
     BaseGameScene *scene=[self gameScene];
     levelNavigation.visible=debugEntry.visible && !navigatingLevel && [scene debugPanAvailable] && ![scene valueForKey:@"loadingLayer"];
@@ -419,6 +419,7 @@ static PopupMenu *_currentDisplay;
             break;
 #ifdef PROJECTPEON_IOS
         case kPopupDebug:
+            if (!PeonDebugBuildEnabled()) return nil;
             return [[[PeonDebugPopup alloc] initWithDelegate:self] autorelease];
 #endif
         case kPopupGameInfo:

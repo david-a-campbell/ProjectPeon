@@ -53,7 +53,7 @@
     NSUserDefaults *debugDefaults=[NSUserDefaults standardUserDefaults];
     [debugDefaults registerDefaults:@{@"PeonDebugMenuVisible":@NO,@"PeonHideFPS":@YES}];
     [debugDefaults setBool:NO forKey:@"PeonFreePan"];
-    if (![debugDefaults boolForKey:@"PeonDebugMenuVisible"]) PeonSetDebugMenuVisible(debugDefaults,NO);
+    if (!PeonDebugBuildEnabled() || ![debugDefaults boolForKey:@"PeonDebugMenuVisible"]) PeonSetDebugMenuVisible(debugDefaults,NO);
     [director_ setDisplayStats:![debugDefaults boolForKey:@"PeonHideFPS"]];
     
 	// set FPS at 60
