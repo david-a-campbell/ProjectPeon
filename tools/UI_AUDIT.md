@@ -99,3 +99,14 @@ to enter Earth 1 and test editor restoration, 2× pan movement, modal blocking,
 the boost hit target, and teleport centering with joints and motion reset.
 It prints `PEON_DEBUG_CAMERA_AUDIT_PASS` and restores debug preferences after
 three seconds. Relaunch normally after this test; the temporary cart is not saved.
+
+`tools/audit_light_beams.py` reads the actual tile colors and alpha across all
+36 maps. Decorative white light overlays must set `ExtendEdges=0`; reflecting
+these overlays creates V/W patterns near the ship. Their original tiles remain
+visible, while terrain layers continue filling the widescreen margins.
+
+Set `PEON_TILT_PAN_AUDIT=1` with both audit flags to check actual iPhone control
+handlers using an isolated ControlsLayer. The check forces free pan while the
+saved preference is Touch, feeds a tilt sample, verifies camera touches remain
+unclaimed and no boost is triggered, then verifies Touch is restored on exit.
+The test restores the original control preference and teleport setting.

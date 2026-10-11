@@ -10,6 +10,19 @@
 #import "GameManager.h"
 #import "SaveManager.h"
 
+#if DEBUG && defined(PROJECTPEON_IOS)
+@interface PeonTiltPanAuditInput : NSObject <JoystickDelegate>
+@property(nonatomic) double y;
+@property(nonatomic) CGPoint movement;
+@property(nonatomic) NSUInteger boosts;
+@end
+@implementation PeonTiltPanAuditInput
+-(void)movementDidOccur:(CGPoint)value { self.movement=value; }
+-(void)buttonPressBegan { self.boosts++; }
+-(void)buttonPressEnded {}
+@end
+#endif
+
 @implementation ControlsLayer
 
 -(id)init
@@ -92,7 +105,8 @@
 #ifdef PROJECTPEON_MAC
     useTouch = NO;
 #else
-    useTouch = [[SaveManager sharedManager] useTouchControl];
+    // Free pan reserves touch input for the camera; keep the saved preference.
+    useTouch = [[SaveManager sharedManager] useTouchControl] && !debugPanActive;
 #endif
     
     if ((controlsEnabled && useTouch && !debugPanActive) || (debugPanActive && [[NSUserDefaults standardUserDefaults] boolForKey:@"PeonTeleportCart"]))
@@ -154,7 +168,7 @@
 
 - (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
 {
-    if (debugPanActive || [[GameManager sharedGameManager] isPaused]) {return;}
+    if ([[GameManager sharedGameManager] isPaused]) {return;}
     if (!useTouch)
     {        
         float accelerationY = acceleration.y;
@@ -254,7 +268,7 @@
 
 -(void)update:(ccTime)delta
 {
-    if (debugPanActive || [[GameManager sharedGameManager] isPaused]){return;}
+    if ([[GameManager sharedGameManager] isPaused]){return;}
     
 #ifdef PROJECTPEON_MAC
     BOOL boost = PeonKeyDown(49);
@@ -280,6 +294,41 @@
 #endif
     [_actionLayer movementDidOccur:currentMovement];
 }
+
+#if DEBUG && defined(PROJECTPEON_IOS)
+// Opt-in device regression: exercise real input handlers without moving a cart.
+-(void)debugAuditTiltPan {
+    SaveManager *save=[SaveManager sharedManager]; BOOL savedTouch=[save useTouchControl];
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    id savedTeleport=[[defaults objectForKey:@"PeonTeleportCart"] retain];
+    NSObject<JoystickDelegate> *savedAction=_actionLayer;
+    PeonTiltPanAuditInput *input=[[[PeonTiltPanAuditInput alloc] init] autorelease];
+    _actionLayer=input;
+    @try {
+        [save setUseTouchControl:YES];
+        NSCAssert(useTouch,@"Touch preference was not applied");
+        [defaults setBool:NO forKey:@"PeonTeleportCart"];
+        [self setDebugPanActive:YES];
+        NSCAssert(!useTouch && [save useTouchControl],@"Free pan did not temporarily force tilt");
+        NSCAssert(![self ccTouchBegan:nil withEvent:nil],@"Free pan claimed camera touch input");
+        input.y=.6;
+        [self accelerometer:nil didAccelerate:(UIAcceleration *)input];
+        [self update:1.0/60];
+        NSCAssert(fabs(input.movement.y)>.1,@"Free pan suppressed tilt movement");
+        NSCAssert(input.boosts==0,@"Camera touch activated boost");
+        [defaults setBool:YES forKey:@"PeonTeleportCart"]; [self switchToCurrentMode];
+        NSCAssert(!useTouch,@"Teleport re-enabled touch controls");
+        [self setDebugPanActive:NO];
+        NSCAssert(useTouch && [save useTouchControl],@"Leaving free pan did not restore touch");
+        fprintf(stderr,"PEON_TILT_PAN_AUDIT_PASS: tilt movement, camera touch rejection, teleport, preference restoration\n");
+    } @finally {
+        [self setDebugPanActive:NO];
+        [save setUseTouchControl:savedTouch];
+        if(savedTeleport) [defaults setObject:savedTeleport forKey:@"PeonTeleportCart"]; else [defaults removeObjectForKey:@"PeonTeleportCart"];
+        [savedTeleport release]; _actionLayer=savedAction;
+    }
+}
+#endif
 
 -(void)dealloc
 {

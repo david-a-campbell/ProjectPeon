@@ -50,6 +50,14 @@ static CCNode *PeonUIAuditFixtureTick(CCNode *scene, NSString **label) {
         for(NSString *atlas in @[@"menuItemsAtlas.plist",@"popupBacking.plist",@"spriteAtlas.plist",@"spriteAtlas2.plist"])
             [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:atlas];
     }
+#ifdef PROJECTPEON_IOS
+    static BOOL auditedTiltPan=NO;
+    if (!auditedTiltPan && [[NSProcessInfo processInfo].environment[@"PEON_TILT_PAN_AUDIT"] boolValue]) {
+        auditedTiltPan=YES;
+        CCNode *controls=[NSClassFromString(@"ControlsLayer") node];
+        [controls performSelector:@selector(debugAuditTiltPan)];
+    }
+#endif
     NSInteger phase=(NSInteger)((now-started)/4);
     if([CCDirector sharedDirector].isPaused) { started+=now-(started+4*phase); *label=nil; return nil; }
     if(phase==previous) { *label=name; return fixture; }
