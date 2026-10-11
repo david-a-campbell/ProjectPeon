@@ -27,8 +27,8 @@
         [self setupImages];
 #ifdef PROJECTPEON_MAC
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshRecordingButton) name:@"PeonRecordingPreferenceChanged" object:nil];
-        [self refreshRecordingButton];
 #endif
+        [self refreshRecordingButton];
     }
     return self;
 }
@@ -72,24 +72,26 @@
     CCSprite *planetSel =  [CCSprite spriteWithSpriteFrameName:@"stageEnd_btn_planet_2.png"];
     CCSprite *replay =  [CCSprite spriteWithSpriteFrameName:@"stageEnd_btn_replay_1.png"];
     CCSprite *replaySel =  [CCSprite spriteWithSpriteFrameName:@"stageEnd_btn_replay_2.png"];
-    CCSprite *video = [CCSprite spriteWithSpriteFrameName:@"stageEnd_btn_video_1.png"];
-    CCSprite *videoSel = [CCSprite spriteWithSpriteFrameName:@"stageEnd_btn_video_2.png"];
     
     nextLevelBtn = [CCMenuItemSprite itemWithNormalSprite:nextLvl selectedSprite:nextLvlSel target:self selector:@selector(goToNextLevel)];
     planetSelectBtn = [CCMenuItemSprite itemWithNormalSprite:planet selectedSprite:planetSel target:self selector:@selector(goToPlanetSelect)];
     replayBtn = [CCMenuItemSprite itemWithNormalSprite:replay selectedSprite:replaySel target:self selector:@selector(replayLevel)];
-    videoBtn = [CCMenuItemSprite itemWithNormalSprite:video selectedSprite:videoSel target:self selector:@selector(showVideoMenu)];
-    
-    [videoBtn setPosition:ccp(151, 52)];
     [nextLevelBtn setPosition:ccp(417+127, 52)];
     [planetSelectBtn setPosition:ccp(151+127, 52)];
     [replayBtn setPosition:ccp(284+127, 52)];
-    [videoBtn setScale:2*SCREEN_SCALE];
     [nextLevelBtn setScale:2*SCREEN_SCALE];
     [planetSelectBtn setScale:2*SCREEN_SCALE];
     [replayBtn setScale:2*SCREEN_SCALE];
     
+#ifdef PROJECTPEON_MAC
+    CCSprite *video = [CCSprite spriteWithSpriteFrameName:@"stageEnd_btn_video_1.png"];
+    CCSprite *videoSel = [CCSprite spriteWithSpriteFrameName:@"stageEnd_btn_video_2.png"];
+    videoBtn = [CCMenuItemSprite itemWithNormalSprite:video selectedSprite:videoSel target:self selector:@selector(showVideoMenu)];
+    [videoBtn setScale:2*SCREEN_SCALE];
     scoreMenu = [CCMenu menuWithItems:videoBtn, nextLevelBtn, planetSelectBtn, replayBtn, nil];
+#else
+    scoreMenu = [CCMenu menuWithItems:nextLevelBtn, planetSelectBtn, replayBtn, nil];
+#endif
     
     [scoreMenu addChild:body z:-10];
     [scoreMenu setAnchorPoint:ccp(0, 0)];
@@ -302,25 +304,25 @@
 
 }
 
-#ifdef PROJECTPEON_MAC
 -(void)refreshRecordingButton {
-    BOOL enabled=[PeonRecorder recordingEnabled];
+    BOOL enabled=NO;
+#ifdef PROJECTPEON_MAC
+    enabled=[PeonRecorder recordingEnabled];
     videoBtn.visible=enabled;
     videoBtn.isEnabled=enabled;
     // Keep the visible actions centered in the same bottom button area.
     videoBtn.position=ccp(148,52);
+#endif
     planetSelectBtn.position=ccp(enabled ? 281 : 214.5,52);
     replayBtn.position=ccp(enabled ? 414 : 347.5,52);
     nextLevelBtn.position=ccp(enabled ? 547 : 480.5,52);
 }
-#endif
+#ifdef PROJECTPEON_MAC
 -(void)showVideoMenu
 {
-#ifdef PROJECTPEON_MAC
     [[PeonRecorder sharedRecorder] exportVideo];
-#endif
-
 }
+#endif
 
 -(void)saveData
 {

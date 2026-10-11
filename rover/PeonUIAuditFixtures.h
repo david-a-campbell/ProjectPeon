@@ -112,6 +112,26 @@ static CCNode *PeonUIAuditFixtureTick(CCNode *scene, NSString **label) {
         }
         *label=name; return fixture;
     }
+    if ([[NSProcessInfo processInfo].environment[@"PEON_UI_AUDIT_RESULTS"] boolValue]) {
+        if (!fixture) {
+            PeonAuditScore *score=[PeonAuditScore node];
+            [score showScore:28 peonCount:3 totalPeons:10 timerColor:(ColorStates)0 tmerState:kState5Fade timeElapsed:26];
+            [score stopAllActions]; [score slideMenuIn];
+#ifndef PROJECTPEON_MAC
+            NSCAssert(![score respondsToSelector:NSSelectorFromString(@"showVideoMenu")],@"iPhone exposes recording action");
+            CCMenu *menu=[score valueForKey:@"scoreMenu"];
+            NSUInteger actions=0;
+            for (CCNode *child in menu.children) if ([child class]==[CCMenuItemSprite class]) actions++;
+            NSCAssert(actions==3,@"iPhone results must have three actions");
+#endif
+            // Show the eligible-next-level state without writing player progress.
+            CCMenuItemSprite *next=[score valueForKey:@"nextLevelBtn"];
+            next.opacity=255;
+            fixture=[score retain]; name=[@"fixture-results" retain];
+            [scene addChild:fixture z:10000000];
+        }
+        *label=name; return fixture;
+    }
     if ([[NSProcessInfo processInfo].environment[@"PEON_UI_AUDIT_WORKSHOP"] boolValue]) {
         if (!fixture) {
             fixture=[[PopupMenu alloc] initForType:kPopupStore andDelegate:nil];

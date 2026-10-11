@@ -38,7 +38,9 @@
     CCMenuItemSprite *nextLevelBtn;
     CCMenuItemSprite *planetSelectBtn;
     CCMenuItemSprite *replayBtn;
+#ifdef PROJECTPEON_MAC
     CCMenuItemSprite *videoBtn;
+#endif
 }
 
 -(void)showScore:(int)score peonCount:(int)pC totalPeons:(int)tP timerColor:(ColorStates)colorState tmerState:(TimerStates)tS timeElapsed:(int)time;

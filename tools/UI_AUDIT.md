@@ -72,6 +72,11 @@ flags to open the workshop using the real upgrade artwork and animations.
 All workshop upgrades are included; no StoreKit observer, product request,
 payment, or restoration is registered by this screen.
 
+Set `PEON_UI_AUDIT_RESULTS=1` alongside the audit/fixtures flags to open the
+results screen without writing scores or unlocking levels. It shows the next-level
+action for layout review and checks that iPhone has only three actions and no
+recording action. This fixture, like the other audit hooks, is development-only.
+
 For background seams, set `PEON_UI_AUDIT_MAP=planet1Level1.tmx` together with
 both audit flags. The Debug fixture uses the real sky/background loaders and
 completion camera at 0.2 scale, without physics or saved progress changes.

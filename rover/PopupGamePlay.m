@@ -14,8 +14,6 @@
 
 -(void)createMenu
 {
-    CCSprite *video = [CCSprite spriteWithSpriteFrameName:@"menu_btn_shareVideo_1.png"];
-    CCSprite *videSel = [CCSprite spriteWithSpriteFrameName:@"menu_btn_shareVideo_2.png"];
     CCSprite *levelSel = [CCSprite spriteWithSpriteFrameName:@"menu_btn_levelSelect_1.png"];
     CCSprite *levelSelSel = [CCSprite spriteWithSpriteFrameName:@"menu_btn_levelSelect_2.png"];
     CCSprite *settings = [CCSprite spriteWithSpriteFrameName:@"menu_btn_settings_1.png"];
@@ -27,8 +25,6 @@
     CCSprite *cartCreation = [CCSprite spriteWithSpriteFrameName:@"menu_btn_cartCreation_1.png"];
     CCSprite *cartCreationSel = [CCSprite spriteWithSpriteFrameName:@"menu_btn_cartCreation_sel_1.png"];
     
-    CCMenuItemSprite *videoBtn = [CCMenuItemSprite itemWithNormalSprite:video selectedSprite:videSel disabledSprite:nil target:self selector:@selector(showVideoMenu)];
-    
     CCMenuItemSprite *levelSelBtn = [CCMenuItemSprite itemWithNormalSprite:levelSel selectedSprite:levelSelSel disabledSprite:nil target:self selector:@selector(returnToLevelSelect)];
     
     CCMenuItemSprite *relaunchBtn = [CCMenuItemSprite itemWithNormalSprite:relaunch selectedSprite:relaunchSel disabledSprite:nil target:[self popupDelegate] selector:@selector(relaunch)];
@@ -39,7 +35,6 @@
     
     CCMenuItemSprite *returnToTitleBtn = [CCMenuItemSprite itemWithNormalSprite:returnToTitle selectedSprite:returnToTitleSel disabledSprite:nil target:[self popupDelegate] selector:@selector(returnToTitle)];
     
-    [videoBtn setScale:2*SCREEN_SCALE];
     [settingsBtn setScale:2*(SCREEN_SCALE)];
     [returnToTitleBtn setScale:2*(SCREEN_SCALE)];
     [relaunchBtn setScale:2*SCREEN_SCALE];
@@ -50,11 +45,6 @@
     [menu alignItemsVerticallyWithPadding: 0];
     [menu setPosition:ccp(0, 0)];
     [[self nodeArray] addObject:menu];
-}
-
--(void)showVideoMenu
-{
-
 }
 
 -(void)returnToLevelSelect
