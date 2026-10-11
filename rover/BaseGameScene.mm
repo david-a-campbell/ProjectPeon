@@ -328,13 +328,6 @@ static BOOL PeonPanBlockedByMenu(CCNode *node) {
 }
 -(void)toggleCartCreationPan {
     if (![[creationLayer valueForKey:@"cartCreationEnabled"] boolValue]) return;
-    // The cart menu can be opened over the load/save strip. Finish dismissing
-    // that strip before the modal guard allows the camera preview to start.
-    if (creationLayer.saveMenu) {
-        [creationLayer.saveMenu dissmissMenu];
-        [self performSelector:@selector(toggleCartCreationPan) withObject:nil afterDelay:.3];
-        return;
-    }
     [self setFreePanEnabled:!debugFreePanEnabled];
 }
 -(BOOL)cameraMenuContainsTouch:(UITouch *)touch {
@@ -402,22 +395,6 @@ static BOOL PeonPanBlockedByMenu(CCNode *node) {
 }
 #endif
 #if DEBUG && defined(PROJECTPEON_IOS)
--(void)debugSaveMenuPanAudit {
-    [creationLayer showSaveMenu];
-    [self performSelector:@selector(debugSaveMenuPanAuditStart) withObject:nil afterDelay:.4];
-}
--(void)debugSaveMenuPanAuditStart {
-    NSCAssert(creationLayer.saveMenu && [self debugPanBlocked],@"Save menu did not block preview");
-    [self toggleCartCreationPan];
-    NSCAssert(!debugFreePanEnabled,@"Preview began before the save menu finished closing");
-    [self performSelector:@selector(debugSaveMenuPanAuditFinished) withObject:nil afterDelay:.6];
-}
--(void)debugSaveMenuPanAuditFinished {
-    NSCAssert(!creationLayer.saveMenu && debugFreePanEnabled && !creationLayer.visible,@"Save menu did not close and start preview");
-    [self toggleCartCreationPan];
-    NSCAssert(!debugFreePanEnabled && creationLayer.visible,@"Preview did not return to building");
-    fprintf(stderr,"PEON_SAVE_MENU_PAN_AUDIT_PASS: save menu dismissed before preview, building restored\n");
-}
 -(void)debugCameraAudit {
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     NSArray *keys=@[@"PeonDebugMenuVisible",@"PeonFreePan",@"PeonTeleportCart",@"PeonDisableShipFinishTrigger",@"PeonUnlockAllLevels",@"PeonShowPhysicsObjects",@"PeonHideFPS"];
