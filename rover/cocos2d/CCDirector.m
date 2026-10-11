@@ -631,9 +631,8 @@ static CCDirector *_sharedDirector = nil;
         GameManager *game=[GameManager sharedGameManager];
         BOOL inLevel=[_runningScene isKindOfClass:NSClassFromString(@"BaseGameScene")];
         [(CCLabelTTF *)[_peonStatsPanel getChildByTag:1] setString:inLevel ? [NSString stringWithFormat:@"%@ %02d",game.currentPlanetName,game.currentLevelNum] : @"Menu"];
+        [(CCLabelTTF *)[_peonStatsPanel getChildByTag:2] setString:_FPSLabel.string];
         [_peonStatsPanel visit];
-        [_FPSLabel setPosition:ccp(corner.x+12,corner.y+10)];
-        [_FPSLabel visit];
 #if DEBUG
         static BOOL capturedDebugFPS=NO;
         if (!capturedDebugFPS && _frameRate>0 && PeonUIAuditEnabled() && ([[NSProcessInfo processInfo].environment[@"PEON_UI_AUDIT_DEBUG"] boolValue] || (inLevel && [[NSProcessInfo processInfo].environment[@"PEON_DEBUG_CAMERA_AUDIT"] boolValue]))) {
@@ -674,6 +673,9 @@ static CCDirector *_sharedDirector = nil;
     CCLabelTTF *level=[CCLabelTTF labelWithString:@"" fontName:@"Helvetica-Bold" fontSize:22];
     level.anchorPoint=ccp(0,.5); level.position=ccp(12,60); level.tag=1;
     [_peonStatsPanel addChild:level];
+    CCLabelTTF *fps=[CCLabelTTF labelWithString:@"00.0" fontName:@"Helvetica-Bold" fontSize:20];
+    fps.anchorPoint=ccp(0,.5); fps.position=ccp(12,20); fps.tag=2;
+    [_peonStatsPanel addChild:fps];
 #endif
 	CCTexture2D *texture;
 	CCTextureCache *textureCache = [CCTextureCache sharedTextureCache];
