@@ -3,7 +3,7 @@
 Branch: `iphone-release`. Open `rover.xcodeproj` and select the shared
 `ProjectPeon` scheme. Requires Xcode 26 or newer. The app targets iOS 15+,
 supports both landscape orientations, and retains `com.digitalfury.rover`
-for the existing App Store listing. Version 2.0, build 200.
+for the existing App Store listing. Version 2.0, build 204.
 
 The centered 16:9 game canvas is fitted inside the screen's safe area.
 The original cart and level dimensions are preserved, with the wider viewport
@@ -26,8 +26,8 @@ The first two commands create unsigned simulator/device builds. The development
 command signs a Debug build for a connected iPhone with automatic provisioning.
 Development products are staged at `/private/tmp/projectpeon-ios-development`
 to keep iCloud metadata out of the signing process.
-The archive
-command uses automatic signing for team `K8BH4PM89R` and needs a signed-in
+The archive command also stages signing outside Documents, at
+`/private/tmp/projectpeon-ios-release/ProjectPeon.xcarchive`. It uses automatic signing for team `K8BH4PM89R` and needs a signed-in
 Xcode account, active developer membership, and valid provisioning. Products
 are in ignored `build/ios/`. The helper stages the project outside Documents
 to avoid an Xcode file-coordination stall; source and resources stay in this repo.
@@ -53,12 +53,13 @@ xcrun simctl launch booted com.digitalfury.rover
 
 Simulator checks and an unsigned Release build do not replace physical-device
 testing. Test cart creation, saving/loading, driving, audio interruptions,
-rotation, and purchases on an actual iPhone and iPad. Validate a signed archive
+rotation, and audio on an actual iPhone and iPad. All upgrades are included;
+there are no purchases in version 2.0. Validate a signed archive
 in Xcode Organizer, complete current App Store metadata/screenshots and privacy
 answers, and test through TestFlight before submitting for review.
 
-The privacy manifest declares no tracking, collected data, or required-reason
-APIs. Re-audit it if services or SDKs are added. Signing/upload remain dependent
+The privacy manifest declares no tracking or collected data. It declares
+UserDefaults reason `CA92.1` for local settings within the app. Re-audit it if services or SDKs are added. Signing/upload remain dependent
 on the renewed Apple Developer membership and local signing credentials.
 
 The shared 16:9 UI includes mirrored menu close buttons, inset bitmap fonts,

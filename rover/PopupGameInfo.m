@@ -20,6 +20,18 @@
     [text setPosition:ccp(0, 0)];
     
     [[self nodeArray] addObject:text];
+#ifdef PROJECTPEON_IOS
+    text.position=ccp(0,40);
+    CCLabelBMFont *privacy=[self labelWithText:@"Privacy Policy"];
+    privacy.scale=SCREEN_SCALE;
+    CCMenuItemLabel *privacyButton=[CCMenuItemLabel itemWithLabel:privacy target:self selector:@selector(openPrivacyPolicy)];
+    privacyButton.contentSize=CGSizeMake(privacy.contentSize.width*privacy.scale+24,70);
+    privacy.anchorPoint=ccp(.5,.5);
+    privacy.position=ccp(privacyButton.contentSize.width/2,35);
+    CCMenu *privacyMenu=[CCMenu menuWithItems:privacyButton,nil];
+    privacyMenu.position=ccp(0,40-text.contentSize.height*text.scale/2-50);
+    [[self nodeArray] addObject:privacyMenu];
+#endif
 #if DEBUG && !defined(PROJECTPEON_APP_STORE)
     CCLabelBMFont *label=(CCLabelBMFont *)text;
     NSRange nameRange=[label.string rangeOfString:@"David Campbell"];
@@ -44,6 +56,12 @@
     [[self nodeArray] addObject:tapMenu];
 #endif
 }
+
+#ifdef PROJECTPEON_IOS
+-(void)openPrivacyPolicy {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/david-a-campbell/ProjectPeon/blob/iphone-release/ios/AppStore/Privacy.md"] options:@{} completionHandler:nil];
+}
+#endif
 
 -(void)tapProgrammingCredit {
 #if DEBUG && !defined(PROJECTPEON_APP_STORE)
@@ -73,6 +91,9 @@
 
 -(int)numberOfPlanks
 {
+#ifdef PROJECTPEON_IOS
+    return 34;
+#endif
     return 30;
 }
 

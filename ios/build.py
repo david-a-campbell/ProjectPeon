@@ -14,7 +14,8 @@ repo = pathlib.Path(__file__).resolve().parents[1]
 output = repo / "build" / "ios"
 output.mkdir(parents=True, exist_ok=True)
 # Sign development products outside iCloud/File Provider to avoid Finder metadata.
-derived = pathlib.Path("/private/tmp/projectpeon-ios-development") if args.mode == "development" else output / args.mode
+derived = pathlib.Path("/private/tmp/projectpeon-ios-" + args.mode) if args.mode in ("development", "archive") else output / args.mode
+archive = pathlib.Path("/private/tmp/projectpeon-ios-release/ProjectPeon.xcarchive")
 with tempfile.TemporaryDirectory(prefix="peon-ios-project-") as staging:
     staging = pathlib.Path(staging)
     project = staging / "rover.xcodeproj"
@@ -37,7 +38,9 @@ with tempfile.TemporaryDirectory(prefix="peon-ios-project-") as staging:
                     "-allowProvisioningUpdates", "-allowProvisioningDeviceRegistration", "build"]
     else:
         command += ["-destination", "generic/platform=iOS", "-archivePath",
-                    str(output / "ProjectPeon.xcarchive"), "-allowProvisioningUpdates", "archive"]
+                    str(archive), "-allowProvisioningUpdates", "archive"]
     subprocess.run(command, cwd=repo, check=True)
 
 print("Build products:", derived / "Build/Products")
+if args.mode == "archive":
+    print("Signed archive:", archive)
