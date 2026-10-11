@@ -133,8 +133,9 @@
     PeonAddVolumeCaption([self nodeArray], @"EffectVolumeLabel.png", @"sfxVolume.png", 90, SCREEN_SCALE);
     musicSlider.position=ccp(145,180); sfxSlider.position=ccp(145,90);
     PeonInsetVolumeSlider(musicSlider); PeonInsetVolumeSlider(sfxSlider);
-    controlSwitchBG.position=ccp(0,0);
-    controlTiltBtn.position=ccp(28,0); controlTouchBtn.position=ccp(188,0);
+    controlSwitchBG.visible=NO; subMenu.visible=NO;
+    controlTiltBtn.isEnabled=NO; controlTouchBtn.isEnabled=NO;
+    controlChoiceMenu=PeonAddChoiceSetting([self nodeArray],self,0,SCREEN_SCALE,@"control:",@[@"tilt",@"touch"],@selector(switchToTiltControl),@selector(switchToTouchControl),useTouch);
     PeonAddBoostSideSetting([self nodeArray],self,-90,SCREEN_SCALE);
     tutorialBtn.position=ccp(0,-180);
 #endif
@@ -223,6 +224,10 @@
     [controlTiltBtn setIsEnabled:NO];
     [controlTouchBtn setIsEnabled:YES];
     [[SaveManager sharedManager] setUseTouchControl:NO];
+#ifdef PROJECTPEON_IOS
+    PeonRefreshChoiceSetting(controlChoiceMenu,NO);
+    PeonRefreshBoostAvailability([self nodeArray]);
+#endif
 }
 
 -(void)switchToTouchControl
@@ -230,6 +235,10 @@
     [controlTouchBtn setIsEnabled:NO];
     [controlTiltBtn setIsEnabled:YES];
     [[SaveManager sharedManager] setUseTouchControl:YES];
+#ifdef PROJECTPEON_IOS
+    PeonRefreshChoiceSetting(controlChoiceMenu,YES);
+    PeonRefreshBoostAvailability([self nodeArray]);
+#endif
 }
 
 -(void)musicValueChanged:(CCControlSlider*)sender

@@ -226,6 +226,7 @@
     [[SaveManager sharedManager] setUseTouchControl:NO];
 #ifdef PROJECTPEON_IOS
     PeonRefreshChoiceSetting(controlChoiceMenu,NO);
+    PeonRefreshBoostAvailability([self nodeArray]);
 #endif
 }
 
@@ -236,6 +237,7 @@
     [[SaveManager sharedManager] setUseTouchControl:YES];
 #ifdef PROJECTPEON_IOS
     PeonRefreshChoiceSetting(controlChoiceMenu,YES);
+    PeonRefreshBoostAvailability([self nodeArray]);
 #endif
 }
 
