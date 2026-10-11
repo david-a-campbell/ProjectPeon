@@ -51,7 +51,7 @@ def audit(root):
                                 data = column.get_flattened_data() if hasattr(column, "get_flattened_data") else column.getdata()
                                 counts.append(sum(v > 0 for v in data))
                         stacked = len({float(o.get('y')) for o in at_edge}) > 1
-                        threshold = 1 if enabled(props.get('CropEdgePadding')) else int(height / retina / 20)
+                        threshold = 1 if enabled(props.get('CropEdgePadding')) else int(height / 20)
                         occupied = [x for x, count in enumerate(counts) if count >= max(1, threshold)]
                         crop = (0, width) if stacked and not enabled(props.get('CropEdgePadding')) else ((occupied[0], occupied[-1] + 1) if occupied else (0, width))
                         bounds.append(crop)

@@ -39,5 +39,7 @@ static inline CGRect PeonTerrainVisibleRectWithMinimum(NSString *file, CGRect fa
 }
 
 static inline CGRect PeonTerrainVisibleRect(NSString *file, CGRect fallback) {
-    return PeonTerrainVisibleRectWithMinimum(file,fallback,(size_t)fallback.size.height/20);
+    // The occupancy threshold is measured in source pixels on both platforms.
+    // Retina point dimensions must not preserve tails the Mac crops away.
+    return PeonTerrainVisibleRectWithMinimum(file,fallback,(size_t)(fallback.size.height*CC_CONTENT_SCALE_FACTOR())/20);
 }

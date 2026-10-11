@@ -643,6 +643,9 @@
 @end
 @implementation PeonTerrainAudit
 +(CCNode *)endOfMap:(NSString *)map {
+    // Match the normal game scene: background animals use the planet atlas.
+    NSInteger planet=[[map substringWithRange:NSMakeRange(6,1)] integerValue];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"Planet%ld_AnimatedSprites.plist",(long)planet]];
     CCTMXMapInfo *info=[CCTMXMapInfo formatWithTMXFile:map];
     CGFloat width=info.mapSize.width*info.tileSize.width;
     CGPoint pod=ccp(width-2000,1000);

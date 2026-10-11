@@ -81,3 +81,9 @@ clouds to continue. Repeat with other map filenames for visual spot checks.
 mirrored edges at standard/Retina scales, including transparent-padding crops
 and stacked strips. Its JSON report is an asset/geometry check, not a substitute
 for framebuffer inspection.
+
+Terrain edge occupancy uses source-pixel counts, independently of Retina scale.
+Using `fallback.size.height/20` directly halves the iPhone threshold and can
+retain a low ground tail past a vertical cliff edge (Earth 4 is a regression
+case). The default threshold is source height/20; `CropEdgePadding` groups retain
+the explicit one-pixel threshold needed to align stacked mountain tiles.
