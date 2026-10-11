@@ -57,7 +57,11 @@ int main(int argc,const char **argv) {
     [CCFileUtils sharedFileUtils].enableFallbackSuffixes=NO;
     for(NSString *atlas in @[@"menuItemsAtlas.plist",@"popupBacking.plist"])
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:atlas];
-    UIImage *image=[[[UIImage alloc] initWithContentsOfFile:[@(argv[1]) stringByAppendingPathComponent:@"MenuGridWide.png"]] autorelease];
+    NSBitmapImageRep *pixels=[[[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL pixelsWide:512 pixelsHigh:288 bitsPerSample:8 samplesPerPixel:4 hasAlpha:YES isPlanar:NO colorSpaceName:NSDeviceRGBColorSpace bytesPerRow:2048 bitsPerPixel:32] autorelease];
+    memset(pixels.bitmapData,255,2048*288);
+    UIImage *image=[[[UIImage alloc] initWithSize:NSMakeSize(512,288)] autorelease];
+    [image addRepresentation:pixels];
+    NSCAssert(image.CGImage!=NULL,@"Missing preview image");
     InputItem *cart=[[[InputItem alloc] initWithImage:image andIndex:0] autorelease];
     InputItem *save=[[[InputItem alloc] initAsSaveItem] autorelease];
     SaveMenu *menu=[SaveMenu node];
