@@ -99,7 +99,7 @@ static CCNode *PeonUIAuditFixtureTick(CCNode *scene, NSString **label) {
             NSCAssert([defaults boolForKey:@"PeonDebugMenuVisible"]==(phase==2),@"Debug toggled before ten taps");
             [credits performSelector:@selector(tapProgrammingCredit)];
             NSCAssert([defaults boolForKey:@"PeonDebugMenuVisible"]==(phase==0),@"Credits did not toggle Debug");
-            if (phase==2) for (NSString *key in keys) NSCAssert([defaults boolForKey:key]==[key isEqualToString:@"PeonHideFPS"],@"Debug hide left an option active");
+            if (phase==2) for (NSString *key in keys) NSCAssert([defaults boolForKey:key]==!([key isEqualToString:@"PeonHideFPS"] || [key isEqualToString:@"PeonDebugMenuVisible"]),@"Debug hide changed a setting");
         }
         *label=name; return fixture;
     }

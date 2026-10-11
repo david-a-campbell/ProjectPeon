@@ -19,7 +19,14 @@ int main(void) {
 #endif
         PeonSetDebugMenuVisible(defaults,NO);
         NSCAssert(![defaults boolForKey:@"PeonDebugMenuVisible"],@"Debug hide failed");
-        for(NSString *key in options) NSCAssert(![defaults boolForKey:key],@"Debug hide left an option enabled");
+#if DEBUG && !defined(PROJECTPEON_APP_STORE)
+        NSCAssert(![defaults boolForKey:@"PeonHideFPS"],@"Debug hide reset FPS");
+        for(NSString *key in options) NSCAssert([defaults boolForKey:key],@"Debug hide reset an option");
+        PeonSetDebugMenuVisible(defaults,YES);
+        for(NSString *key in options) NSCAssert([defaults boolForKey:key],@"Debug reveal reset an option");
+#else
+        for(NSString *key in options) NSCAssert(![defaults boolForKey:key],@"Release left an option enabled");
+#endif
         [defaults removePersistentDomainForName:suite];
         [defaults release];
         puts("Debug build gate passed");

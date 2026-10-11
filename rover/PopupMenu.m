@@ -238,7 +238,6 @@ static BOOL PeonDebugAdjacentLevel(int planet,int level,int step,int *nextPlanet
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     BOOL visible=![defaults boolForKey:@"PeonDebugMenuVisible"];
     PeonSetDebugMenuVisible(defaults,visible);
-    if (!visible) [[self gameScene] setDebugFreePanEnabled:NO];
     [self optionsChanged]; [self showToast:visible ? @"Debug ON" : @"Debug OFF"];
 }
 -(void)optionsChanged {

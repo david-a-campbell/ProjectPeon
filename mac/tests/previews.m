@@ -483,10 +483,10 @@ int main(int argc,const char **argv) {
     for(NSString *key in debugKeys) [debugDefaults setBool:YES forKey:key];
     [debugDefaults setBool:NO forKey:@"PeonHideFPS"];
     PeonSetDebugMenuVisible(debugDefaults,NO);
-    NSCAssert(![debugDefaults boolForKey:@"PeonDebugMenuVisible"] && [debugDefaults boolForKey:@"PeonHideFPS"],@"Debug hide left the menu or FPS enabled");
-    for(NSString *key in debugKeys) NSCAssert(![debugDefaults boolForKey:key],@"Debug hide left an option enabled: %@",key);
+    NSCAssert(![debugDefaults boolForKey:@"PeonDebugMenuVisible"] && ![debugDefaults boolForKey:@"PeonHideFPS"],@"Debug hide reset FPS or left the menu visible");
+    for(NSString *key in debugKeys) NSCAssert([debugDefaults boolForKey:key],@"Debug hide reset an option: %@",key);
     [debugDefaults removePersistentDomainForName:suite];
-    puts("Debug settings: fresh install hidden, reveal saved, all utilities reset on hide: PASS");
+    puts("Debug settings: fresh install hidden, settings preserved on hide: PASS");
    }
    CCMenu *closeMenu=(CCMenu *)[top getChildByTag:9906];
    CCMenuItemSprite *close=(CCMenuItemSprite *)[closeMenu getChildByTag:9905];

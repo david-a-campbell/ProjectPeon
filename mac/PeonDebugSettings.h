@@ -12,7 +12,9 @@ static inline BOOL PeonDebugBuildEnabled(void) {
 static inline void PeonSetDebugMenuVisible(NSUserDefaults *defaults, BOOL visible) {
     visible=visible && PeonDebugBuildEnabled();
     [defaults setBool:visible forKey:@"PeonDebugMenuVisible"];
-    if(visible) return;
+    // Hiding the development menu changes visibility only. Release builds still
+    // clear every debug preference, including values from a development install.
+    if(PeonDebugBuildEnabled()) return;
     [defaults setBool:YES forKey:@"PeonHideFPS"];
     for(NSString *key in @[@"PeonShowPhysicsObjects",@"PeonDisableShipFinishTrigger",@"PeonTeleportCart",@"PeonUnlockAllLevels",@"PeonFreePan"])
         [defaults setBool:NO forKey:key];
