@@ -10,6 +10,11 @@
 #import "Constants.h"
 #import "SaveManager.h"
 #import "ToolTipMenu.h"
+#import "SWScrollView.h"
+
+@interface CCMenu (SaveHitTesting)
+-(CCMenuItem *)itemForTouch:(UITouch *)touch;
+@end
 
 @implementation SaveMenuItem
 @synthesize  index, saveDelegate;
@@ -240,6 +245,23 @@
 -(void)registerWithTouchDispatcher
 {
     [[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:-502 swallowsTouches:NO];
+}
+
+-(CCMenuItem *)itemForTouch:(UITouch *)touch
+{
+    // CCMenu does not know that the thumbnail row is clipped by its scroll view.
+    // Expanded previews intentionally extend below that row.
+    if (!isExpanded) {
+        for (CCNode *ancestor=self.parent; ancestor; ancestor=ancestor.parent) {
+            if ([ancestor isKindOfClass:[SWScrollView class]]) {
+                CGSize size=((SWScrollView *)ancestor).viewSize;
+                if (!CGRectContainsPoint(CGRectMake(0,0,size.width,size.height),
+                                         [ancestor convertTouchToNodeSpace:touch])) return nil;
+                break;
+            }
+        }
+    }
+    return [super itemForTouch:touch];
 }
 
 @end

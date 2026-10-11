@@ -108,6 +108,7 @@
 @synthesize clipsToBounds  = clipsToBounds_;
 @synthesize viewSize      = viewSize_;
 @synthesize bounces       = bounces_;
+@synthesize minimumDragDistance = minimumDragDistance_;
 @synthesize isDragging    = isDragging_;
 @synthesize delegate      = delegate_;
 @synthesize touchPoint_;
@@ -488,11 +489,11 @@
     }
     CGRect frame;
 
-    frame = CGRectMake(self.position.x, self.position.y, viewSize_.width, viewSize_.height);
+    frame = CGRectMake(0, 0, viewSize_.width, viewSize_.height);
     //dispatcher does not know about clipping. reject touches outside visible bounds.
     if ([touches_ count] > 2 ||
         touchMoved_          ||
-        !CGRectContainsPoint(frame, [container_ convertToWorldSpace:[container_ convertTouchToNodeSpace:touch]])) {
+        !CGRectContainsPoint(frame, [self convertTouchToNodeSpace:touch])) {
         return NO;
     }
 
@@ -500,6 +501,8 @@
         [touches_ addObject:touch];
     }
     if ([touches_ count] == 1) { // scrolling
+        // A new press must stop inertia before it can move a button out from under it.
+        [self unschedule:@selector(deaccelerateScrolling:)];
         touchPoint_     = [self convertTouchToNodeSpace:touch];
         touchMoved_     = NO;
         isDragging_     = YES; //dragging started
@@ -524,23 +527,27 @@
             CGRect  frame;
             CGFloat newX, newY;
 
-            touchMoved_  = YES;
-            frame        = CGRectMake(self.position.x, self.position.y, viewSize_.width, viewSize_.height);
+            frame        = CGRectMake(0, 0, viewSize_.width, viewSize_.height);
             newPoint     = [self convertTouchToNodeSpace:[touches_ objectAtIndex:0]];
             moveDistance = ccpSub(newPoint, touchPoint_);
-            touchPoint_  = newPoint;
+            switch (direction_) {
+                case SWScrollViewDirectionVertical:
+                    moveDistance = ccp(0.0f, moveDistance.y);
+                    break;
+                case SWScrollViewDirectionHorizontal:
+                    moveDistance = ccp(moveDistance.x, 0.0f);
+                    break;
+                default:
+                    break;
+            }
+            // Until the threshold is crossed, retain the starting point so small
+            // moves accumulate, and do not notify the delegate or disable taps.
+            if (!touchMoved_ && minimumDragDistance_ > 0 &&
+                ccpLength(moveDistance) < minimumDragDistance_) return;
+            touchMoved_ = YES;
+            touchPoint_ = newPoint;
 
-            if (CGRectContainsPoint(frame, [self convertToWorldSpace:newPoint])) {
-                switch (direction_) {
-                    case SWScrollViewDirectionVertical:
-                        moveDistance = ccp(0.0f, moveDistance.y);
-                        break;
-                    case SWScrollViewDirectionHorizontal:
-                        moveDistance = ccp(moveDistance.x, 0.0f);
-                        break;
-                    default:
-                        break;
-                }
+            if (CGRectContainsPoint(frame, newPoint)) {
                 container_.position = ccpAdd(container_.position, moveDistance);
 
                 maxInset = maxInset_;
@@ -588,6 +595,9 @@
     if ([touches_ count] == 0) {
         isDragging_ = NO;
         touchMoved_ = NO;
+        if([delegate_ respondsToSelector:@selector(scrollViewDidEndTouch)]) {
+            [delegate_ scrollViewDidEndTouch];
+        }
     }
 }
 -(void) setHandlerPriority:(NSInteger)newPriority
