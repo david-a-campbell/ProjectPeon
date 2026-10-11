@@ -28,28 +28,31 @@ static void PeonRefreshBoostSideMenu(CCMenu *menu) {
         BOOL selected=(item.tag==2)==right;
         item.isEnabled=!selected;
         item.label.color=selected ? ccWHITE : ccc3(65,104,145);
-        for (CCLabelBMFont *glow in [item getChildByTag:9777].children) glow.opacity=selected ? 70 : 20;
+        for (CCLabelBMFont *glow in [item getChildByTag:9777].children) glow.opacity=selected ? 5 : 2;
     }
 }
 
 static void PeonAddBoostSideSetting(NSMutableArray *nodes,id target,CGFloat y,CGFloat scale) {
     CCLabelBMFont *caption=[CCLabelBMFont labelWithString:@"boost:" fntFile:@"font52.fnt"];
     PeonInsetBitmapGlyphs(caption);
-    caption.scale=scale; caption.anchorPoint=ccp(1,0.5); caption.position=ccp(-92,y+6);
+    caption.scale=scale*.9; caption.anchorPoint=ccp(1,0.5); caption.position=ccp(-92,y+6);
+    // Keep the glow's own alpha when the popup fades its top-level nodes.
+    CCLayerRGBA *captionGlows=[CCLayerRGBA node]; captionGlows.cascadeOpacityEnabled=YES;
+    [nodes addObject:captionGlows];
     // Match the original Control row's white bitmap text and blue glow.
     for (int direction=0;direction<8;direction++) {
         CGFloat angle=direction*M_PI/4;
         CCLabelBMFont *glow=[CCLabelBMFont labelWithString:@"boost:" fntFile:@"font52.fnt"];
-        PeonInsetBitmapGlyphs(glow); glow.scale=scale; glow.anchorPoint=caption.anchorPoint;
-        glow.color=ccc3(6,149,255); glow.opacity=25;
+        PeonInsetBitmapGlyphs(glow); glow.scale=caption.scale; glow.anchorPoint=caption.anchorPoint;
+        glow.color=ccc3(6,149,255); glow.opacity=3;
         glow.position=ccp(caption.position.x+cos(angle)*3,caption.position.y+sin(angle)*3);
-        [nodes addObject:glow];
+        [captionGlows addChild:glow];
     }
     [nodes addObject:caption];
     NSMutableArray *items=[NSMutableArray array];
     for (NSUInteger index=0;index<2;index++) {
         CCLabelBMFont *label=[CCLabelBMFont labelWithString:index ? @"right" : @"left" fntFile:@"font52.fnt"];
-        PeonInsetBitmapGlyphs(label); label.scale=scale;
+        PeonInsetBitmapGlyphs(label); label.scale=scale*.9;
         CCMenuItemLabel *item=[CCMenuItemLabel itemWithLabel:label target:target selector:index ? @selector(boostRightSelected:) : @selector(boostLeftSelected:)];
         label.anchorPoint=ccp(0.5,0.5);
         item.tag=(int)index+1;
@@ -60,7 +63,7 @@ static void PeonAddBoostSideSetting(NSMutableArray *nodes,id target,CGFloat y,CG
         for (int direction=0;direction<8;direction++) {
             CGFloat angle=direction*M_PI/4;
             CCLabelBMFont *glow=[CCLabelBMFont labelWithString:label.string fntFile:@"font52.fnt"];
-            PeonInsetBitmapGlyphs(glow); glow.scale=scale; glow.color=ccc3(6,149,255);
+            PeonInsetBitmapGlyphs(glow); glow.scale=label.scale; glow.color=ccc3(6,149,255);
             glow.position=ccp(label.position.x+cos(angle)*4*scale,label.position.y+sin(angle)*4*scale);
             [glows addChild:glow];
         }
