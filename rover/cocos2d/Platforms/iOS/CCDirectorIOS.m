@@ -205,7 +205,7 @@ float	__ccContentScaleFactor = 1;
 
 			kmMat4 orthoMatrix;
 #ifdef PROJECTPEON_IOS
-            kmMat4OrthographicProjection(&orthoMatrix, 0, 1024, 0, 768, -1024, 1024);
+            kmMat4OrthographicProjection(&orthoMatrix, -1024.0/6.0, 1024+1024.0/6.0, 0, 768, -1024, 1024);
 #else
 			kmMat4OrthographicProjection(&orthoMatrix, 0, size.width / CC_CONTENT_SCALE_FACTOR(), 0, size.height / CC_CONTENT_SCALE_FACTOR(), -1024, 1024 );
 #endif

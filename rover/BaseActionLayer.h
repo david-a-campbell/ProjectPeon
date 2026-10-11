@@ -28,7 +28,7 @@
     b2World * world;
     b2Draw * debugDraw;
     b2Body *offscreenSensorBody;
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     CGPoint startingGroundEdge;
 #endif
     CCArray *accelerationArray;

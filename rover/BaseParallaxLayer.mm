@@ -27,7 +27,7 @@
 #import "SpriteTrigger.h"
 #import "CompositeSprite.h"
 #import "SplashZone.h"
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 #import "PeonSkybox.h"
 #import "PeonTerrainEdges.h"
 #endif
@@ -187,7 +187,7 @@
     }
     
     BOOL extendTerrainEdges=NO;
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     extendTerrainEdges=groupXRatio>0 && groupXRatio<1 &&
         [@[@"Parallax2",@"Parallax3",@"Parallax4",@"Parallax5"] containsObject:layerPlaceHolderGroup.groupName];
 #endif
@@ -222,7 +222,7 @@
                 if(otherY!=tileY && otherX==tileX) stacked=YES;
             }
             CGRect edgeBounds=CGRectZero;
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
             if(extendTerrainEdges && (tileX==firstTileX || tileX==lastTileX) &&
                [[layerPlaceHolderGroup propertyNamed:@"CropEdgePadding"] boolValue]) {
                 // Use one join for stacked tiles, including thin mountain tails.
@@ -257,12 +257,12 @@
             [layerSprite setScale:(2*scale*SCREEN_SCALE)];
             float x = [[placeholder valueForKey:@"x"] floatValue] * scale;
             float y = [[placeholder valueForKey:@"y"] floatValue] * scale;
-#ifdef PROJECTPEON_MAC
-            if ([layerFileName hasSuffix:@"_P0.png"] && layerSprite.contentSize.height == 576) {
+#ifdef PROJECTPEON_WIDE_UI
+            if ([layerFileName hasSuffix:@"_P0.png"] && layerSprite.texture.contentSizeInPixels.height == 576) {
                 // The original 256x192 sky is centered in a 1024x576 extension.
                 // Preserve its scale and position in both window formats.
                 layerSprite.scale /= 3;
-                x -= 128 * layerSprite.scale;
+                x -= CC_CONTENT_SCALE_FACTOR() > 0 ? 128 * layerSprite.scale / CC_CONTENT_SCALE_FACTOR() : 0;
             }
 #endif
 
@@ -281,9 +281,9 @@
             }
 
             CCNode *layerNode=layerSprite;
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
             // Use matching landscape edge samples; preserve the Moon's outpainted globe.
-            if(layerSprite.contentSize.height==576 && [layerFileName hasSuffix:@"_P0.png"] &&
+            if(layerSprite.texture.contentSizeInPixels.height==576 && [layerFileName hasSuffix:@"_P0.png"] &&
                ([layerFileName hasPrefix:@"P1"] || [layerFileName hasPrefix:@"P3"]))
                 layerNode=PeonLandscapeSkybox(layerSprite);
 #endif
@@ -309,7 +309,7 @@
     [[tileSprite texture] setAliasTexParameters];
     
     [parrallaxNode addChild:tileSprite z:groupZOrder parallaxRatio:ccp(groupXRatio, groupYRatio) positionOffset:ccp(x, y)];
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     // Only add neighbors beyond the strip's outer ends; interior tile joins stay exact.
     CGRect visibleRect=tileSprite.textureRect;
     // Vertically stacked parts must share their original horizontal coordinates.

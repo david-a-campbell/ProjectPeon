@@ -54,7 +54,7 @@
 
     float x = 0;
     float shift = 548;
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     x = -548;
     [scrollview setClipsToBounds:NO];
     for (int i = -1; i<5; i++)
@@ -162,7 +162,7 @@
     [nextPlanet setPosition:ccp(949+35, 39)];
     [prevPlanet setPosition:ccp(75-35, 39)];
     
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     const CGFloat extra = 1024.0 / 6.0;
     rightBackground.position = ccp(rightBackground.position.x + extra,39);
     leftBackground.position = ccp(leftBackground.position.x - extra,39);
@@ -258,7 +258,7 @@
     [tabMenuSprite setScale:2.0*(SCREEN_SCALE)];
     
     tabMenu = [CCMenu menuWithItems:tabMenuSprite, nil];
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     [tabMenu setPosition:ccp(966.5 + 1024.0/6.0, 735.5)];
 #else
     [tabMenu setPosition:ccp(966.5, 735.5)];

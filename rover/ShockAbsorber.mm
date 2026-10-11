@@ -81,7 +81,7 @@
 -(void)setupJoint
 {
     setupSuccessful = NO;
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     // Also guard saved carts and points that collapse after snapping to pivots.
     if (ccpDistance(start, end) < 0.001) return;
 #endif
@@ -136,7 +136,7 @@
             }
             
             b2DistanceJointDef jointDef = [self getJointDef];
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
             if ((adjPivot2-adjPivot1).Length()*pixelsToMeterRatio() < 0.001) return;
 #endif
             jointDef.Initialize(fixture1->GetBody(), fixture2->GetBody(), adjPivot1, adjPivot2);

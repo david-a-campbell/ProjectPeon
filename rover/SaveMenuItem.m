@@ -52,21 +52,21 @@
 {
     savedImage = [[CCSprite spriteWithCGImage:[image CGImage] key:nil] retain];
     // Saved PNGs can have Retina pixel dimensions independent of their point size.
-    // Fit to the preview canvas before scaling the menu.
+    // Fit to the preview canvas in logical points, independent of Retina scale.
     CGSize previewSize = savedImage.contentSize;
     CGFloat previewHeight = 384;
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     previewHeight = 288;
 #endif
     CGFloat previewScale = MIN(512.0 / previewSize.width, previewHeight / previewSize.height);
-    [savedImage setScale:previewScale * 0.28*2*(SCREEN_SCALE)];
+    [savedImage setScale:previewScale * 0.28];
     [savedImage setAnchorPoint:ccp(0,0)];
     [savedImage setPosition:ccp(24.25*0.28, 24.25*0.28)];
     CCSprite *backing = [CCSprite spriteWithSpriteFrameName:@"blueprints_loadGlow_1.png"];
-    [backing setScale:0.28*2*(SCREEN_SCALE)];
+    [backing setScale:0.28*CC_CONTENT_SCALE_FACTOR()];
     CCSprite *backingSel = [CCSprite spriteWithSpriteFrameName:@"blueprints_loadGlow_sel_1.png"];
-    [backingSel setScale:0.28*2*(SCREEN_SCALE)];
-#ifdef PROJECTPEON_MAC
+    [backingSel setScale:0.28*CC_CONTENT_SCALE_FACTOR()];
+#ifdef PROJECTPEON_WIDE_UI
     backing.scaleY *= 0.75;
     backingSel.scaleY *= 0.75;
 #endif
@@ -91,30 +91,26 @@
     CCSprite *dbtnsel = [CCSprite spriteWithSpriteFrameName:@"blueprints_selectDelete_sel_1.png"];
     CCSprite *sbtn = [CCSprite spriteWithSpriteFrameName:@"blueprints_selectConfirm_1.png"];
     CCSprite *sbtnsel = [CCSprite spriteWithSpriteFrameName:@"blueprints_selectConfirm_sel_1.png"];
-#ifdef PROJECTPEON_MAC
     dbtn = [CCSprite spriteWithFile:@"CartDelete.png"];
     dbtnsel = [CCSprite spriteWithFile:@"CartDeleteDown.png"];
     sbtn = [CCSprite spriteWithFile:@"CartLoad.png"];
     sbtnsel = [CCSprite spriteWithFile:@"CartLoadDown.png"];
-#endif
     deleteButton = [CCMenuItemSprite itemWithNormalSprite:dbtn selectedSprite:dbtnsel target:self selector:@selector(deleteCart)];
     saveButton = [CCMenuItemSprite itemWithNormalSprite:sbtn selectedSprite:sbtnsel target:self selector:@selector(loadCart)];
     [saveButton setAnchorPoint:ccp(0, 0)];
     [deleteButton setAnchorPoint:ccp(0, 0)];
     [saveButton setPosition:ccp(-71.75, -53.50)];
     [deleteButton setPosition:ccp(36.75, -53.50)];
-    [deleteButton setScale:0.33*2*(SCREEN_SCALE)];
-    [saveButton setScale:0.33*2*(SCREEN_SCALE)];
-#ifdef PROJECTPEON_MAC
-    CGFloat buttonWidth = 106*0.33*2*SCREEN_SCALE;
-    CGFloat buttonHeight = 51*0.33*2*SCREEN_SCALE;
+    [deleteButton setScale:0.33*CC_CONTENT_SCALE_FACTOR()];
+    [saveButton setScale:0.33*CC_CONTENT_SCALE_FACTOR()];
+    CGFloat buttonWidth = 106*0.33;
+    CGFloat buttonHeight = 51*0.33;
     CGRect preview = savedImage.boundingBox;
     CGFloat left = button.position.x+CGRectGetMinX(preview);
     CGFloat right = button.position.x+CGRectGetMaxX(preview);
     CGFloat bottom = button.position.y+CGRectGetMinY(preview);
     saveButton.position = ccp(left,bottom-buttonHeight);
     deleteButton.position = ccp(right-buttonWidth,bottom-buttonHeight);
-#endif
     [saveButton setOpacity:0];
     [deleteButton setOpacity:0];
     [deleteButton setIsEnabled:NO];

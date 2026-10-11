@@ -8,8 +8,8 @@ static inline CCNode *PeonLandscapeSkybox(CCSprite *source) {
     CGRect rectangles[]={CGRectMake(128,0,128,576),CGRectMake(128,0,768,576),CGRectMake(768,0,128,576)};
     CGFloat positions[]={0,128,896};
     for(int i=0;i<3;i++) {
-        CCSprite *part=[CCSprite spriteWithTexture:source.texture rect:rectangles[i]];
-        part.anchorPoint=ccp(0,0); part.position=ccp(positions[i],0);
+        CCSprite *part=[CCSprite spriteWithTexture:source.texture rect:CC_RECT_PIXELS_TO_POINTS(rectangles[i])];
+        part.anchorPoint=ccp(0,0); part.position=CC_POINT_PIXELS_TO_POINTS(ccp(positions[i],0));
         part.flipX=(i!=1);
         [sky addChild:part];
     }

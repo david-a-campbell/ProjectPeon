@@ -10,6 +10,7 @@
 #import "Constants.h"
 #import "SaveManager.h"
 #import "GameManager.h"
+#import "PeonViewport.h"
 #ifdef PROJECTPEON_MAC
 #import "PeonMac.h"
 #import "PeonViewport.h"
@@ -117,7 +118,7 @@
 {
     // Both device families use the original game maps.
     {
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
         tileMapNode = [CCTMXTiledMap tiledMapWithTMXFile:[NSString stringWithFormat:@"planet%iMenuWide.tmx", planetNumber]];
 #else
         tileMapNode = [CCTMXTiledMap tiledMapWithTMXFile:[NSString stringWithFormat:@"planet%iMenuTileMap.tmx", planetNumber]];
@@ -220,7 +221,7 @@
         }
     }
     [parallaxNode addChild:layer z:zOrder parallaxRatio:ccp(parallaxRatioX, parallaxRatioY) positionOffset:
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
      ccp(-512,0)
 #else
      ccp(0,0)

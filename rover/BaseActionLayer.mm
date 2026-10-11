@@ -23,13 +23,13 @@
 #import "SaveManager.h"
 #import "Elevator.h"
 #import "UIImage+Extras.h"
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 #import "kazmath/GL/matrix.h"
 #endif
 #import "DeleteAble.h"
 #import "Rock.h"
 #import "Ground.h"
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 #import "PlayerClipGround.h"
 #import "PeonStartingGround.h"
 #include <float.h>
@@ -39,7 +39,7 @@
 #import "ForceArea.h"
 #import "CompositeSprite.h"
 #import "PunkParallax.h"
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 #import "PeonViewport.h"
 #endif
 
@@ -165,7 +165,7 @@
     CCTMXObjectGroup *collisionsGroup = [tileMapNode objectGroupNamed:[self collisionsLayerName]];
     if (collisionsGroup != nil)
     {
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
         // Ground renders and creates its edge fixtures from the same outline.
         for (NSMutableDictionary *object in collisionsGroup.objects) {
             if (![object[@"type"] isEqualToString:@"TexturedGround"]) continue;
@@ -177,7 +177,7 @@
         }
 #endif
         [self processCollisionGroup:collisionsGroup];
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
         [self clearShipsFromRightBoundary];
 #endif
     }
@@ -266,7 +266,7 @@
     
 
     shape.SetAsBox(winSize.width, halfBoxHeight);
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     startingGroundEdge = ccp((location.x+winSize.width)*pixelsToMeterRatio(),
                             (location.y+halfBoxHeight)*pixelsToMeterRatio());
 #endif
@@ -384,7 +384,7 @@
     float newY = fixedPositionY - [playerCart averagePosition].y;
     
     float wideInset = 0;
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     wideInset = (PeonPresentationSize([CCDirector sharedDirector].winSize).width - [CCDirector sharedDirector].winSize.width) / (2 * scale);
 #endif
     // Keep the expanded viewport inside the same map boundaries.
@@ -459,18 +459,23 @@
     position.y=MAX(-mapHeight*self.scaleY+768,MIN(position.y,-256*self.scaleY));
     self.position=position;
 }
+#endif
+
+#ifdef PROJECTPEON_WIDE_UI
 -(void)visit
 {
     // Apply the left boundary before the first widescreen frame is drawn.
     [self setPosition:self.position];
     [super visit];
+#ifdef PROJECTPEON_MAC
     [self drawPhysicsOverlay];
+#endif
 }
 #endif
 
 -(void)setPosition:(CGPoint)position
 {
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     CGFloat inset=(PeonPresentationSize([CCDirector sharedDirector].winSize).width-[CCDirector sharedDirector].winSize.width)/2;
     if (inset > 0 && (shouldFollowSprite || levelWasCompleted)) position.x=MIN(position.x,-256*self.scale-inset);
 #endif
@@ -691,7 +696,7 @@
 {
     UIImage *saveImage = [saveCartRender getUIImage];
     saveImage = [saveImage imageByScalingProportionallyToSize:CGSizeMake(512.0,
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
                                                             288.0
 #else
                                                             384.0
@@ -704,7 +709,7 @@
 {
     [CCDirector sharedDirector].nextDeltaTimeZero = YES;
     CGSize winSize = [CCDirector sharedDirector].winSize;
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     winSize.width = ceil(winSize.height*16.0/9);
 #endif
     CCRenderTexture* rtx = [CCRenderTexture renderTextureWithWidth:winSize.width height:winSize.height];
@@ -713,12 +718,12 @@
     [saveBacking setScale:2*(SCREEN_SCALE)];
     [saveBacking setPosition: ccp(512.0, 384.0)];
     
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     GLboolean wasScissoring = glIsEnabled(GL_SCISSOR_TEST);
     glDisable(GL_SCISSOR_TEST);
 #endif
     [rtx begin];
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     // Render in the same world coordinates as the building viewport. The render
     // texture's default projection otherwise adjusts the widescreen projection twice.
     kmGLMatrixMode(KM_GL_PROJECTION);
@@ -732,7 +737,6 @@
     saveBacking.scaleX *= winSize.width/1024;
 #endif
     [saveBacking visit];
-#ifdef PROJECTPEON_MAC
     // Frame the cart itself, independent of the editor camera or its zoom.
     // Sprite bounds include each part's size, rotation and scale.
     NSArray *parts=[playerCart componentsInOrderOfZ];
@@ -749,15 +753,8 @@
     }
     for(CartPart *part in parts) [part visit];
     kmGLPopMatrix();
-#else
-    for (CartPart *part in [playerCart componentsInOrderOfZ])
-    {
-        [part setSnapshotPosition:ccp(part.position.x+[self position].x, part.position.y+[self position].y)];
-        [part visit];
-    }
-#endif
     [rtx end];
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     if (wasScissoring) glEnable(GL_SCISSOR_TEST);
 #endif
     return rtx;
@@ -916,7 +913,7 @@
     [self beginGameplay];
 }
 
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 -(void)clearShipsFromRightBoundary
 {
     float shipRight = -FLT_MAX;
@@ -995,7 +992,7 @@
 
 -(void)beginGameplay
 {
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     [self clearStartingCartFromLeftBoundary];
 #endif
     shouldFollowSprite = YES;
@@ -1066,7 +1063,7 @@
     float newY = fixedPositionY - [[self getPod] position].y;
     
     float wideInset = 0;
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     wideInset = (PeonPresentationSize([CCDirector sharedDirector].winSize).width - [CCDirector sharedDirector].winSize.width) / (2 * newScale);
 #endif
     // Keep the expanded viewport inside the same map boundaries.

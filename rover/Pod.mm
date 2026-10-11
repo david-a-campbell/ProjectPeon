@@ -14,7 +14,7 @@
 // Match the extra width available for cart construction. Keep the iPad size.
 static CGFloat podBodyScale(void)
 {
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     return 4.0f / 3.0f;
 #else
     return 1.0f;
@@ -142,7 +142,7 @@ static void scalePodVertices(b2Vec2 *vertices, int count)
     
     
     b2PolygonShape shape2;
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     // A narrow strip at the far right delays completion without requiring
     // detached parts elsewhere in the level to enter the ship.
     b2Vec2 verts2[] = {

@@ -1447,6 +1447,23 @@
 		6DFF5D113ABC68CC957B06A3 /* space tech 1-337.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA42F997F4A337401FA14708 /* space tech 1-337.mp3 */; };
 		202BF3AF81B0736105452564 = {isa = PBXBuildFile; fileRef = 4EAE2CAF68237036049A0323; };
 		FD3AD62B845DEDA1C6451086 = {isa = PBXBuildFile; fileRef = D9E80C54853224DDC0F4934C; };
+		F03000000000000000000000 /* MenuClose.png in Resources */ = {isa = PBXBuildFile; fileRef = F02000000000000000000000 /* MenuClose.png */; };
+		F03000000000000000000001 /* MenuCloseDown.png in Resources */ = {isa = PBXBuildFile; fileRef = F02000000000000000000001 /* MenuCloseDown.png */; };
+		F03000000000000000000002 /* MenuGridWide.png in Resources */ = {isa = PBXBuildFile; fileRef = F02000000000000000000002 /* MenuGridWide.png */; };
+		F03000000000000000000003 /* CartLoad.png in Resources */ = {isa = PBXBuildFile; fileRef = F02000000000000000000003 /* CartLoad.png */; };
+		F03000000000000000000004 /* CartLoadDown.png in Resources */ = {isa = PBXBuildFile; fileRef = F02000000000000000000004 /* CartLoadDown.png */; };
+		F03000000000000000000005 /* CartDelete.png in Resources */ = {isa = PBXBuildFile; fileRef = F02000000000000000000005 /* CartDelete.png */; };
+		F03000000000000000000006 /* CartDeleteDown.png in Resources */ = {isa = PBXBuildFile; fileRef = F02000000000000000000006 /* CartDeleteDown.png */; };
+		F04000000000000000000001 /* PeonWideScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = F04000000000000000000002; };
+		F06000000000000000000000 /* titleBackdropWide.png in Resources */ = {isa = PBXBuildFile; fileRef = F05000000000000000000000; };
+		F06000000000000000000001 /* planet1MenuWide.tmx in Resources */ = {isa = PBXBuildFile; fileRef = F05000000000000000000001; };
+		F06000000000000000000002 /* planet2MenuWide.tmx in Resources */ = {isa = PBXBuildFile; fileRef = F05000000000000000000002; };
+		F06000000000000000000003 /* planet3MenuWide.tmx in Resources */ = {isa = PBXBuildFile; fileRef = F05000000000000000000003; };
+		F06000000000000000000004 /* loadingScreen1Wide.png in Resources */ = {isa = PBXBuildFile; fileRef = F05000000000000000000004; };
+		F06000000000000000000005 /* loadingScreen2Wide.png in Resources */ = {isa = PBXBuildFile; fileRef = F05000000000000000000005; };
+		F06000000000000000000006 /* loadingScreen3Wide.png in Resources */ = {isa = PBXBuildFile; fileRef = F05000000000000000000006; };
+		F08000000000000000000000 /* MusicVolumeLabel.png in Resources */ = {isa = PBXBuildFile; fileRef = F07000000000000000000000; };
+		F08000000000000000000001 /* EffectVolumeLabel.png in Resources */ = {isa = PBXBuildFile; fileRef = F07000000000000000000001; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -3229,6 +3246,23 @@
 		EA42F997F4A337401FA14708 /* space tech 1-337.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "space tech 1-337.mp3"; sourceTree = "<group>"; };
 		4EAE2CAF68237036049A0323 = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "ios/Assets.xcassets"; sourceTree = SOURCE_ROOT; };
 		D9E80C54853224DDC0F4934C = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "ios/PrivacyInfo.xcprivacy"; sourceTree = SOURCE_ROOT; };
+		F02000000000000000000000 /* MenuClose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mac/Assets/MenuClose.png; sourceTree = SOURCE_ROOT; };
+		F02000000000000000000001 /* MenuCloseDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mac/Assets/MenuCloseDown.png; sourceTree = SOURCE_ROOT; };
+		F02000000000000000000002 /* MenuGridWide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mac/Assets/MenuGridWide.png; sourceTree = SOURCE_ROOT; };
+		F02000000000000000000003 /* CartLoad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mac/Assets/CartLoad.png; sourceTree = SOURCE_ROOT; };
+		F02000000000000000000004 /* CartLoadDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mac/Assets/CartLoadDown.png; sourceTree = SOURCE_ROOT; };
+		F02000000000000000000005 /* CartDelete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mac/Assets/CartDelete.png; sourceTree = SOURCE_ROOT; };
+		F02000000000000000000006 /* CartDeleteDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mac/Assets/CartDeleteDown.png; sourceTree = SOURCE_ROOT; };
+		F04000000000000000000002 /* PeonWideScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mac/PeonWideScreen.m; sourceTree = SOURCE_ROOT; };
+		F05000000000000000000000 /* titleBackdropWide.png */ = {isa = PBXFileReference; path = mac/Assets/titleBackdropWide.png; sourceTree = SOURCE_ROOT; };
+		F05000000000000000000001 /* planet1MenuWide.tmx */ = {isa = PBXFileReference; path = mac/Assets/planet1MenuWide.tmx; sourceTree = SOURCE_ROOT; };
+		F05000000000000000000002 /* planet2MenuWide.tmx */ = {isa = PBXFileReference; path = mac/Assets/planet2MenuWide.tmx; sourceTree = SOURCE_ROOT; };
+		F05000000000000000000003 /* planet3MenuWide.tmx */ = {isa = PBXFileReference; path = mac/Assets/planet3MenuWide.tmx; sourceTree = SOURCE_ROOT; };
+		F05000000000000000000004 /* loadingScreen1Wide.png */ = {isa = PBXFileReference; path = mac/Assets/loadingScreen1Wide.png; sourceTree = SOURCE_ROOT; };
+		F05000000000000000000005 /* loadingScreen2Wide.png */ = {isa = PBXFileReference; path = mac/Assets/loadingScreen2Wide.png; sourceTree = SOURCE_ROOT; };
+		F05000000000000000000006 /* loadingScreen3Wide.png */ = {isa = PBXFileReference; path = mac/Assets/loadingScreen3Wide.png; sourceTree = SOURCE_ROOT; };
+		F07000000000000000000000 /* MusicVolumeLabel.png */ = {isa = PBXFileReference; path = mac/Assets/MusicVolumeLabel.png; sourceTree = SOURCE_ROOT; };
+		F07000000000000000000001 /* EffectVolumeLabel.png */ = {isa = PBXFileReference; path = mac/Assets/EffectVolumeLabel.png; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -5928,6 +5962,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F08000000000000000000001 /* EffectVolumeLabel.png in Resources */,
+				F08000000000000000000000 /* MusicVolumeLabel.png in Resources */,
+				F06000000000000000000006 /* loadingScreen3Wide.png in Resources */,
+				F06000000000000000000005 /* loadingScreen2Wide.png in Resources */,
+				F06000000000000000000004 /* loadingScreen1Wide.png in Resources */,
+				F06000000000000000000003 /* planet3MenuWide.tmx in Resources */,
+				F06000000000000000000002 /* planet2MenuWide.tmx in Resources */,
+				F06000000000000000000001 /* planet1MenuWide.tmx in Resources */,
+				F06000000000000000000000 /* titleBackdropWide.png in Resources */,
+				F03000000000000000000000 /* MenuClose.png in Resources */,
+				F03000000000000000000001 /* MenuCloseDown.png in Resources */,
+				F03000000000000000000002 /* MenuGridWide.png in Resources */,
+				F03000000000000000000003 /* CartLoad.png in Resources */,
+				F03000000000000000000004 /* CartLoadDown.png in Resources */,
+				F03000000000000000000005 /* CartDelete.png in Resources */,
+				F03000000000000000000006 /* CartDeleteDown.png in Resources */,
 				202BF3AF81B0736105452564,
 				FD3AD62B845DEDA1C6451086,
 				A147B5B715027DAF005C0284 /* iTunesArtwork in Resources */,
@@ -7074,6 +7124,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F04000000000000000000001 /* PeonWideScreen.m in Sources */,
 				F01000000000000000000005 /* Audio.m in Sources */,
 				A147B6CC15027DB1005C0284 /* CDataScanner.m in Sources */,
 				A147B6D015027DB1005C0284 /* CDataScanner_Extensions.m in Sources */,
@@ -7476,6 +7527,7 @@
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/mac",
 					"\"rover/libs/MonkSVG\"",
 					"\"rover/libs/kazmath/include\"",
 					"\"rover/libs\"",
@@ -7526,6 +7578,7 @@
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/mac",
 					"\"rover/libs/MonkSVG\"",
 					"\"rover/libs/kazmath/include\"",
 					"\"rover/libs\"",

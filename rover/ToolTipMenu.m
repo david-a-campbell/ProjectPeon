@@ -7,8 +7,8 @@
 //
 
 #import "ToolTipMenu.h"
-#ifdef PROJECTPEON_MAC
-#import "PeonCloseButton.h"
+#import "../mac/PeonCloseButton.h"
+#ifdef PROJECTPEON_WIDE_UI
 #import "PeonViewport.h"
 #endif
 #import "GameManager.h"
@@ -105,30 +105,29 @@ static ToolTipMenu *_currentDisplay;
     
     top = [CCSprite spriteWithFile:@"toolTip_1.png"];
     bottom = [CCSprite spriteWithFile:@"toolTip_3.png"];
-#ifdef PROJECTPEON_MAC
     background = [CCSprite spriteWithFile:@"MenuGridWide.png"];
-#else
-    background = [CCSprite spriteWithFile:@"darkOverlayOpaque.png"];
-#endif
     backgroundBacking = [CCSprite spriteWithFile:@"darkOverlay93.png"];
     
     CCMenuItemImage *on = [CCMenuItemImage itemWithNormalImage:@"checkbox_2.png" selectedImage:@"checkbox_2.png"];
     CCMenuItemImage *off = [CCMenuItemImage itemWithNormalImage:@"checkbox_1.png" selectedImage:@"checkbox_1.png"];
     
     [top setScale:2*SCREEN_SCALE];
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     top.scaleX *= 4.0/3;
 #endif
     [bottom setScale:2*SCREEN_SCALE];
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     bottom.scaleX *= 4.0/3;
 #endif
     [background setScale:2*SCREEN_SCALE];
     [backgroundBacking setScale:2*SCREEN_SCALE];
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     [background setScaleX:(1024.0*4/3)/background.contentSize.width];
     [background setScaleY:768.0/background.contentSize.height];
     [backgroundBacking setScaleX:(1024.0*4/3)/backgroundBacking.contentSize.width];
+#else
+    background.scaleX=1024.0/background.contentSize.width;
+    background.scaleY=768.0/background.contentSize.height;
 #endif
 
     [top setPosition:ccp(0, 24-15 +offsetY)];
@@ -141,9 +140,7 @@ static ToolTipMenu *_currentDisplay;
     [backgroundBacking setOpacity:0];
     
     [self addChild:top z:1];
-#ifdef PROJECTPEON_MAC
     PeonAddCloseButton(top, NO, self, @selector(animateClosed), -2002);
-#endif
     [self addChild:bottom z:0];
     [self addChild:background z:-10];
     [self addChild:backgroundBacking z:-11];
@@ -154,7 +151,7 @@ static ToolTipMenu *_currentDisplay;
     {
         CCSprite *plank = [CCSprite spriteWithFile:@"toolTip_2.png"];
         [plank setScale:2*SCREEN_SCALE];
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
         plank.scaleX *= 4.0/3;
 #endif
         [plank setPosition:ccp(0, 0)];
@@ -227,7 +224,7 @@ static ToolTipMenu *_currentDisplay;
     CCSprite *fuel = [CCSprite spriteWithFile:@"boostMeter_tip.png"];
     CCSprite *booster = [CCSprite spriteWithFile:@"createMenu_btn_booster_tip.png"];
     CCSprite *boosterUpgrade = [CCSprite spriteWithFile:@"createMenu_btn_boosterUpgrade_tip.png"];
-    #ifdef PROJECTPEON_MAC
+    #ifdef PROJECTPEON_WIDE_UI
     [fuel setPosition:ccp(40-1024.0/6-512,728-384)];
 #else
     [fuel setPosition:[self adjustForOrigin:ccp(40, 728)]];
@@ -404,9 +401,7 @@ static ToolTipMenu *_currentDisplay;
 
 -(void)animateClosed
 {
-#ifdef PROJECTPEON_MAC
     PeonDisableCloseButton(top);
-#endif
     isClosing = YES;
     CCFadeTo *fade = [CCFadeTo actionWithDuration:0.2 opacity:0];
     CCFadeTo *backGroundFade = [CCFadeTo actionWithDuration:0.2 opacity:0];
@@ -508,7 +503,7 @@ static ToolTipMenu *_currentDisplay;
 
 -(CGPoint)adjustForOrigin:(CGPoint)point
 {
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     point.x = PeonCartToolX(point.x);
 #endif
     return ccp(point.x -512, point.y -384);
@@ -522,7 +517,6 @@ static ToolTipMenu *_currentDisplay;
         factor = 1;
     }
     CCLabelBMFont *label = [CCLabelBMFont labelWithString:someText fntFile:@"font42.fnt" width:500*factor alignment:kCCTextAlignmentLeft];
-#ifdef PROJECTPEON_MAC
     // Keep filtering inside each glyph so adjacent atlas pixels cannot bleed in.
     for (CCSprite *glyph in label.children)
     {
@@ -531,7 +525,6 @@ static ToolTipMenu *_currentDisplay;
         [glyph setTextureRect:CGRectInset(rect, 0.5, 0.5)
                      rotated:glyph.textureRectRotated untrimmedSize:size];
     }
-#endif
     return label;
 }
 

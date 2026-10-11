@@ -1,4 +1,4 @@
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 #import "PeonWideScreen.h"
 #import "PeonViewport.h"
 #endif
@@ -21,10 +21,11 @@
 #import "SaveManager.h"
 #import "FuelGauge.h"
 #import "ToolTipMenu.h"
+#import "PeonUIAudit.h"
 #import "CartPart.h"
 #import "ShockImageSet.h"
 
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 static CGPoint PeonBoosterDirectionEnd(CGPoint start, CGPoint end)
 {
     // A click can place a booster without a direction drag. Its artwork and
@@ -199,7 +200,7 @@ static CGPoint PeonBoosterDirectionEnd(CGPoint start, CGPoint end)
                                                 {
                                                     [timer pauseSchedulerAndActions];
                                                 }
-                                                [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+                                                [[UIApplication sharedApplication] setIdleTimerDisabled:PeonUIAuditEnabled()];
                                                 [self slideDeleteMenuOut];
                                                 [self slideMotorMenuOut];
                                                 [self slideDeleteMenuOut];
@@ -363,7 +364,7 @@ static CGPoint PeonBoosterDirectionEnd(CGPoint start, CGPoint end)
     [deleteSubMenu addChild:deleteAllBacking z:-10];
     deleteAllMenuUp = ccp(876, 165);
     deleteAllMenuDown = ccp(876, -65);
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     deleteAllMenuUp.x = PeonCartToolX(deleteAllMenuUp.x);
     deleteAllMenuDown.x = PeonCartToolX(deleteAllMenuDown.x);
 #endif
@@ -406,7 +407,7 @@ static CGPoint PeonBoosterDirectionEnd(CGPoint start, CGPoint end)
     [motorSubMenu addChild:motorMenuBacking z:-10];
     motorMenuUp = ccp(372, 165);
     motorMenuDown = ccp(372, -65);
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     motorMenuUp.x = PeonCartToolX(motorMenuUp.x);
     motorMenuDown.x = PeonCartToolX(motorMenuDown.x);
 #endif
@@ -485,7 +486,7 @@ static CGPoint PeonBoosterDirectionEnd(CGPoint start, CGPoint end)
     [boosterSubMenu addChild:boosterMenuBacking z:-10];
     boosterMenuUp = ccp(270, 165);
     boosterMenuDown = ccp(270, -65);
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     boosterMenuUp.x = PeonCartToolX(boosterMenuUp.x);
     boosterMenuDown.x = PeonCartToolX(boosterMenuDown.x);
 #endif
@@ -693,7 +694,7 @@ static CGPoint PeonBoosterDirectionEnd(CGPoint start, CGPoint end)
     [popupUpArrowBooster setIsEnabled:NO];
     [popupUpArrowBooster setPosition:ccp(270, 91.5)];
     
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     // Spread the tools without changing icon sizes or the camera origin.
     for (CCNode *item in toolMenu.children)
         item.position = ccp(PeonCartToolX(item.position.x), item.position.y);
@@ -921,7 +922,7 @@ static CGPoint PeonBoosterDirectionEnd(CGPoint start, CGPoint end)
     [[PeonWideScreen sharedPresentation] setDriving:NO];
     [[PeonRecorder sharedRecorder] discard];
 #endif
-    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+    [[UIApplication sharedApplication] setIdleTimerDisabled:PeonUIAuditEnabled()];
     [cartCreationDelegate stopAction];
     [timer resetTimer];
     [fuelGauge fadeOut];
@@ -980,7 +981,7 @@ static CGPoint PeonBoosterDirectionEnd(CGPoint start, CGPoint end)
 -(BOOL)touchIsValidForCreation:(CGPoint)touchLocation
 {
     CGFloat inset = 0;
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     inset = 1024.0/6;
 #endif
     if (touchLocation.y >= GroundHeight && touchLocation.y <=768 && touchLocation.x >= -inset && touchLocation.x <= 1024+inset)
@@ -994,7 +995,7 @@ static CGPoint PeonBoosterDirectionEnd(CGPoint start, CGPoint end)
 {
     CGPoint validLocation = touchLocation;
     CGFloat inset = 0;
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     inset = 1024.0/6;
 #endif
     if (touchLocation.y < GroundHeight)
@@ -1552,7 +1553,7 @@ static CGPoint PeonBoosterDirectionEnd(CGPoint start, CGPoint end)
 
 -(void)createShockEndedStart:(CGPoint)start end:(CGPoint)end
 {
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     // A spring needs two distinct attachment points to have a direction.
     if (ccpDistance(start, end) < 0.001) return;
 #endif
@@ -1614,7 +1615,7 @@ static CGPoint PeonBoosterDirectionEnd(CGPoint start, CGPoint end)
 
 -(void)createBoosterEnded
 {
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     touchEndLocation = PeonBoosterDirectionEnd(touchStartLocation, touchEndLocation);
 #endif
     [cartCreationDelegate createBoosterWithStart:touchStartLocation andEnd:touchEndLocation andType:[self gameObjectTypeFromTool:currentBoosterType]];
@@ -2104,7 +2105,7 @@ static CGPoint PeonBoosterDirectionEnd(CGPoint start, CGPoint end)
     return output;
 }
 
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 -(void)visit {
     CGFloat inset=(PeonPresentationSize(CGSizeMake(1024,768)).width-1024)/2;
     timer.position=ccp(40-inset,728);

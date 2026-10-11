@@ -14,3 +14,7 @@
 #import <CoreData/CoreData.h>
 
 #endif
+
+#if defined(PROJECTPEON_MAC) || defined(PROJECTPEON_IOS)
+#define PROJECTPEON_WIDE_UI 1
+#endif

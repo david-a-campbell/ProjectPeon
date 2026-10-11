@@ -1,3 +1,4 @@
+#define PROJECTPEON_WIDE_UI 1
 #ifdef __OBJC__
 #import <UIKit/UIKit.h>
 #import "Platforms/Mac/CCEventDispatcher.h"

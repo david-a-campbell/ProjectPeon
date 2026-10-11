@@ -13,7 +13,7 @@
     CCLabelAtlas *scoreLabel;
     CCLabelAtlas *levelLabel;
     CCSprite *screen;
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     CCSprite *activityIndicatorSprite;
 #else
     UIImageView *activityIndicatorView;

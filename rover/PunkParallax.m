@@ -10,7 +10,7 @@
 #import "CGPointExtension.h"
 #import "Constants.h"
 #import "CCSprite.h"
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 #import "PeonViewport.h"
 #endif
 
@@ -103,7 +103,7 @@
 
     obj.child.position = ccp(x,y);
 
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     if (motion.x != 0 && motion.y == 0 && [child isKindOfClass:[CCSprite class]]) {
         obj.repeatsHorizontally = YES;
         ccArrayAppendObjectWithResize(_motionArray, obj);
@@ -215,7 +215,7 @@
     _lastPosition = position;
 }
 
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 -(void)visit
 {
     CGSize presentation = PeonPresentationSize([CCDirector sharedDirector].winSize);
@@ -249,7 +249,7 @@
         float xUpperLimit = obj.originalOffset.x + xLimit;
         float xLowerLimit = obj.originalOffset.x - xLimit;
         
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
         if (obj.repeatsHorizontally && xLimit > 0)
             obj.offset = ccp(obj.originalOffset.x + fmod(obj.offset.x - obj.originalOffset.x, xLimit), obj.offset.y);
         else

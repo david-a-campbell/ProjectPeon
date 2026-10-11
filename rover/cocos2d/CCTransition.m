@@ -833,7 +833,7 @@ const NSInteger kSceneFade = 0xFADEFADE;
 	[super onEnter];
 
 	CCLayerColor *l = [CCLayerColor layerWithColor:color];
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     // Cover the entire wide canvas, including while the cart viewport animates.
     // The director's scissor handles any narrower presentation.
     CGSize logicalSize = [[CCDirector sharedDirector] winSize];

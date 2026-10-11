@@ -10,13 +10,13 @@
 #import "Constants.h"
 #import "AnimatedSprite.h"
 #import "SaveManager.h"
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 #import "PeonWideScreen.h"
 #endif
 
 @implementation InstructionLayer
 
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 -(void)onEnter
 {
     [super onEnter];
@@ -39,7 +39,7 @@
         [self setTouchEnabled:YES];
         [self setupSprites];
         [self setupCheckbox];
-#if PROJECTPEON_MAC
+#if PROJECTPEON_WIDE_UI
         // Fit the visible panel and footer (artwork rows 84 through 737),
         // rather than centering the image's unused top padding.
         menu.anchorPoint = CGPointZero;
@@ -161,7 +161,7 @@
 -(void)fadeAway
 {
     isFading = YES;
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     [[self getChildByTag:9920] runAction:[CCFadeTo actionWithDuration:0.2 opacity:0]];
 #endif
     [background runAction:[CCFadeTo actionWithDuration:0.2 opacity:0]];

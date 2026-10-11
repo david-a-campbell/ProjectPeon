@@ -160,7 +160,8 @@
         [self initIndices];
 		
 		// clean VAO
-		glDeleteBuffers(2, &_buffersVBO[0]);
+		ccGLBindVAO(0);
+        glDeleteBuffers(2, &_buffersVBO[0]);
 		glDeleteVertexArrays(1, &_VAOname);
 
         [self initVAO];
@@ -225,7 +226,8 @@
 		free(_quads);
 		free(_indices);
 
-		glDeleteBuffers(2, &_buffersVBO[0]);
+		ccGLBindVAO(0);
+        glDeleteBuffers(2, &_buffersVBO[0]);
 		glDeleteVertexArrays(1, &_VAOname);
 	}
 
@@ -447,8 +449,21 @@
 
 	NSAssert( _particleIdx == _particleCount, @"Abnormal error in particle quad");
 
+    ccGLEnableVertexAttribs(kCCVertexAttribFlag_PosColorTex);
 	ccGLBindVAO( _VAOname );
+    // Some modern iPhones do not provide shareable VAOs. Re-establish the
+    // particle buffers/attributes rather than relying on another UI node's state.
+    glBindBuffer(GL_ARRAY_BUFFER, _buffersVBO[0]);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffersVBO[1]);
+    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, sizeof(_quads[0].bl), (GLvoid*)offsetof(ccV3F_C4B_T2F, vertices));
+    glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(_quads[0].bl), (GLvoid*)offsetof(ccV3F_C4B_T2F, colors));
+    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, sizeof(_quads[0].bl), (GLvoid*)offsetof(ccV3F_C4B_T2F, texCoords));
 	glDrawElements(GL_TRIANGLES, (GLsizei) _particleIdx*6, GL_UNSIGNED_SHORT, 0);
+    // Sprite rendering uses client-memory pointers. Leaving the particle VBO
+    // bound makes those pointers become buffer offsets and hides the next UI.
+    ccGLBindVAO(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	
 	CC_INCREMENT_GL_DRAWS(1);
 
@@ -487,7 +502,8 @@
 				free(_indices);
 			_indices = NULL;
 
-			glDeleteBuffers(2, &_buffersVBO[0]);
+			ccGLBindVAO(0);
+        glDeleteBuffers(2, &_buffersVBO[0]);
 			glDeleteVertexArrays(1, &_VAOname);
 		}
 	}

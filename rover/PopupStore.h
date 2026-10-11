@@ -8,18 +8,11 @@
 
 #import "BasePopupMenu.h"
 #import "GameObject.h"
-#import <StoreKit/StoreKit.h>
 
-@interface PopupStore : BasePopupMenu <SKProductsRequestDelegate, SKPaymentTransactionObserver>
+@interface PopupStore : BasePopupMenu
 {
-    SKProductsRequest *productReq;
     CCMenuItemSprite *wheelUpgradeBtn;
     CCMenuItemSprite *boostUpgradeBtn;
-    SKProduct *wheelProduct;
-    SKProduct *boosterProduct;
-    CCLabelAtlas *boosterLabel;
-    CCLabelAtlas *wheelLabel;
-    BOOL isMakingPayment;
     
     CCMenuItemImage *motorImage;
     CCMenuItemImage *motorHubImage;

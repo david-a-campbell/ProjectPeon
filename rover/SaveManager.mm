@@ -539,13 +539,8 @@
 -(Purchases*)createPurchasesData
 {
     Purchases *purchases = [NSEntityDescription insertNewObjectForEntityForName:@"Purchases" inManagedObjectContext:context];
-#ifdef PROJECTPEON_MAC
     [purchases setHasBooster50:@YES];
     [purchases setHasMotor50:@YES];
-#else
-    [purchases setHasBooster50:@NO];
-    [purchases setHasMotor50:@NO];
-#endif
     [self saveContext];
     return purchases;
 }

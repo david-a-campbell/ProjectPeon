@@ -7,8 +7,13 @@
 //
 
 #import "PopupMenu.h"
-#ifdef PROJECTPEON_MAC
-#import "PeonCloseButton.h"
+#import "../mac/PeonCloseButton.h"
+#ifdef PROJECTPEON_IOS
+@implementation PeonCloseMenu
+-(void)registerWithTouchDispatcher {
+    [[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:self.closePriority swallowsTouches:YES];
+}
+@end
 #endif
 #import "cocos2d.h"
 #import "Constants.h"
@@ -87,21 +92,20 @@ static PopupMenu *_currentDisplay;
         top = [CCSprite spriteWithFile:@"toolTip_1.png"];
         bottom = [CCSprite spriteWithFile:@"toolTip_3.png"];
     }
-#ifdef PROJECTPEON_MAC
     overlay = [CCSprite spriteWithFile:@"MenuGridWide.png"];
-#else
-    overlay = [CCSprite spriteWithFile:@"darkOverlayOpaque.png"];
-#endif
     backOverlay = [CCSprite spriteWithFile:@"darkOverlay93.png"];
     
     [top setScale:2*SCREEN_SCALE];
     [bottom setScale:2*SCREEN_SCALE];
     [overlay setScale:2*(SCREEN_SCALE)];
     [backOverlay setScale:2*(SCREEN_SCALE)];
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     [overlay setScaleX:(1024.0*4/3)/overlay.contentSize.width];
     [overlay setScaleY:768.0/overlay.contentSize.height];
     [backOverlay setScaleX:(1024.0*4/3)/backOverlay.contentSize.width];
+#else
+    overlay.scaleX=1024.0/overlay.contentSize.width;
+    overlay.scaleY=768.0/overlay.contentSize.height;
 #endif
     topOriginalPos = ccp(0, 24-15);
     bottomOriginalPos = ccp(0, -23.5+7);
@@ -114,9 +118,7 @@ static PopupMenu *_currentDisplay;
     [overlay setOpacity:0];
     [backOverlay setOpacity:0];
     [self addChild:top z:1];
-#ifdef PROJECTPEON_MAC
     PeonAddCloseButton(top, [self isWide], self, @selector(hide), -1002);
-#endif
     [self addChild:bottom z:0];
     [self addChild:overlay z:-10];
     [self addChild:backOverlay z:-12];
@@ -323,9 +325,7 @@ static PopupMenu *_currentDisplay;
 
 -(void)hide
 {
-#ifdef PROJECTPEON_MAC
     PeonDisableCloseButton(top);
-#endif
     if (volumeChanged)
     {
         [[SaveManager sharedManager] setMusicVolume:[[SimpleAudioEngine sharedEngine] backgroundMusicVolume]];

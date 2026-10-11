@@ -5,9 +5,9 @@ Branch: `iphone-release`. Open `rover.xcodeproj` and select the shared
 supports both landscape orientations, and retains `com.digitalfury.rover`
 for the existing App Store listing. Version 2.0, build 200.
 
-The original 1024 × 768 game is fitted inside the screen's safe area with
-black side margins on wide iPhones. Touch coordinates use the same logical
-canvas, preserving the original cart and level dimensions. New installs use
+The centered 16:9 game canvas is fitted inside the screen's safe area.
+The original cart and level dimensions are preserved, with the wider viewport
+showing more of the map and spreading the toolbar and HUD to its edges. New installs use
 touch driving controls. Retina assets are always enabled. The app icon reuses
 the existing `rover/Icon1024.png` artwork.
 
@@ -18,10 +18,15 @@ From the repository root:
 ```sh
 python3 ios/build.py simulator
 python3 ios/build.py device
+python3 ios/build.py development --device-id YOUR_CONNECTED_DEVICE_ID
 python3 ios/build.py archive
 ```
 
-The first two commands create unsigned simulator/device builds. The archive
+The first two commands create unsigned simulator/device builds. The development
+command signs a Debug build for a connected iPhone with automatic provisioning.
+Development products are staged at `/private/tmp/projectpeon-ios-development`
+to keep iCloud metadata out of the signing process.
+The archive
 command uses automatic signing for team `K8BH4PM89R` and needs a signed-in
 Xcode account, active developer membership, and valid provisioning. Products
 are in ignored `build/ios/`. The helper stages the project outside Documents
@@ -55,3 +60,7 @@ answers, and test through TestFlight before submitting for review.
 The privacy manifest declares no tracking, collected data, or required-reason
 APIs. Re-audit it if services or SDKs are added. Signing/upload remain dependent
 on the renewed Apple Developer membership and local signing credentials.
+
+The shared 16:9 UI includes mirrored menu close buttons, inset bitmap fonts,
+updated credits and volume captions, and centered cart thumbnails. Touch driving,
+tilt driving, and two-finger part rotation remain iOS controls.

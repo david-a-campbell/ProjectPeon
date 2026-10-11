@@ -1,11 +1,20 @@
+#ifdef PROJECTPEON_MAC
 #import <Cocoa/Cocoa.h>
+#else
+#import <UIKit/UIKit.h>
+#endif
 #import "cocos2d.h"
 
 // Transparent padding is part of the texture, but is not a usable tile join.
 static inline CGRect PeonTerrainVisibleRectWithMinimum(NSString *file, CGRect fallback, size_t minimumPixels) {
     NSString *path=[[CCFileUtils sharedFileUtils] fullPathFromRelativePath:file];
+#ifdef PROJECTPEON_MAC
     NSImage *image=[[[NSImage alloc] initWithContentsOfFile:path] autorelease];
     CGImageRef source=[image CGImageForProposedRect:NULL context:nil hints:nil];
+#else
+    UIImage *image=[UIImage imageWithContentsOfFile:path];
+    CGImageRef source=image.CGImage;
+#endif
     if(!source) return fallback;
     size_t width=CGImageGetWidth(source),height=CGImageGetHeight(source);
     unsigned char *pixels=(unsigned char *)calloc(width*height,4);
@@ -24,7 +33,9 @@ static inline CGRect PeonTerrainVisibleRectWithMinimum(NSString *file, CGRect fa
     }
     CGContextRelease(context); free(pixels);
     if(first==width) return fallback;
-    return CGRectMake(first,0,last-first+1,height);
+    // Sprite texture rectangles use points; alpha scanning uses image pixels.
+    CGFloat pointsPerPixel=fallback.size.height/height;
+    return CGRectMake(first*pointsPerPixel,0,(last-first+1)*pointsPerPixel,fallback.size.height);
 }
 
 static inline CGRect PeonTerrainVisibleRect(NSString *file, CGRect fallback) {

@@ -22,7 +22,7 @@
 
 @interface SaveMenu : CCLayer <saveCartMenuItemDelegate, SWScrollViewDelegate>
 {
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     CCLayerGradient *blueprints_background;
 #else
     CCSprite *blueprints_background;

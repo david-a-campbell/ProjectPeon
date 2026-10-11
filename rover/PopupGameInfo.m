@@ -57,7 +57,6 @@
         factor = 1;
     }
     CCLabelBMFont *label=[CCLabelBMFont labelWithString:someText fntFile:@"font42.fnt" width:500*factor alignment:kCCTextAlignmentCenter];
-#ifdef PROJECTPEON_MAC
     // Keep filtering inside each glyph so neighboring atlas pixels cannot bleed in.
     // Preserve the layout boxes, as with the recording toggle's ON/OFF label.
     for(CCSprite *glyph in label.children) {
@@ -65,7 +64,6 @@
         CGSize size=glyph.contentSize;
         [glyph setTextureRect:CGRectInset(rect,0.5,0.5) rotated:glyph.textureRectRotated untrimmedSize:size];
     }
-#endif
     return label;
 }
 

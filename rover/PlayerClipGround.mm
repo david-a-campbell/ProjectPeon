@@ -7,7 +7,7 @@
 //
 
 #import "PlayerClipGround.h"
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 #import "PeonViewport.h"
 #import "Box2DHelpers.h"
 #endif
@@ -23,7 +23,7 @@
     return self;
 }
 
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 -(void)setupBody
 {
     [super setupBody];

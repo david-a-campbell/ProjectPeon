@@ -9,7 +9,7 @@
 #import "SaveMenu.h"
 #import "Constants.h"
 #import "SaveManager.h"
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 #define SAVE_INSET (1024.0f/6)
 #else
 #define SAVE_INSET 0.0f
@@ -50,25 +50,19 @@
 
 -(void)setupMenuImages
 {
-#ifdef PROJECTPEON_MAC
     blueprints_background = [CCLayerGradient layerWithColor:ccc4(14,43,66,255)
                                                    fadingTo:ccc4(3,15,30,255)
                                                 alongVector:ccp(0,-1)];
-    blueprints_background.contentSize = CGSizeMake(1024,120);
+    blueprints_background.contentSize = CGSizeMake(1024+2*SAVE_INSET,120);
     blueprints_background.anchorPoint = ccp(0.5,0.5);
     blueprints_background.ignoreAnchorPointForPosition = NO;
-#else
-    blueprints_background = [CCMenuItemImage itemWithNormalImage:@"blueprints_background.png" selectedImage:nil];
-#endif
     blueprints_left_1 = [CCSprite spriteWithSpriteFrameName:@"blueprints_left_1.png"];
     blueprints_left_2 = [CCSprite spriteWithSpriteFrameName:@"blueprints_left_2.png"];
     blueprints_right_1 = [CCSprite spriteWithSpriteFrameName:@"blueprints_right_1.png"];
     blueprints_right_2 = [CCSprite spriteWithSpriteFrameName:@"blueprints_right_2.png"];
     
-    [blueprints_background setScale:2*(SCREEN_SCALE)];
-#ifdef PROJECTPEON_MAC
-    blueprints_background.scaleX *= (1024+2*SAVE_INSET)/1024;
-#endif
+    // The gradient is already sized in game points, unlike the frame sprites.
+    [blueprints_background setScale:1];
     [blueprints_left_1 setScale:2*(SCREEN_SCALE)];
     [blueprints_left_2 setScale:2*(SCREEN_SCALE)];
     [blueprints_right_1 setScale:2*(SCREEN_SCALE)];

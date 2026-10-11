@@ -17,6 +17,10 @@ def walk(key, parent):
     paths[key] = current
     for child in obj.get('children',[]): walk(child,current)
 walk(objects[p['rootObject']]['mainGroup'], ROOT)
+# SOURCE_ROOT references need not be children of a PBXGroup.
+for key, obj in objects.items():
+    if obj.get('isa') == 'PBXFileReference' and obj.get('sourceTree') == 'SOURCE_ROOT':
+        paths[key] = ROOT / obj['path']
 excluded = {'main.m','AppDelegate.mm','GameNavControllerViewController.m','UIDevice-Hardware.m'}
 sources=[]; resources=[]
 for obj in objects.values():
@@ -30,11 +34,12 @@ for obj in objects.values():
         if '/Platforms/iOS/' in relative and source.name not in ('CCTouchDispatcher.m','CCTouchHandler.m'): continue
         if '/glu/' in relative: continue # macOS supplies GLU.
         if source.suffix in ('.m','.mm','.c','.cpp'): sources.append(source)
-sources += list((ROOT/'mac').glob('*.m'))
+sources += [source for source in (ROOT/'mac').glob('*.m') if source not in sources]
 sdk = subprocess.check_output(['xcrun','--sdk','macosx','--show-sdk-path'],text=True).strip()
 include_dirs=[ROOT/'mac',ROOT/'mac/compat',ROOT/'rover',ROOT/'rover/libs',ROOT/'rover/libs/kazmath/include',ROOT/'rover/cocos2d/Platforms/iOS']
 include_dirs += sorted({f.parent for f in (ROOT/'rover').rglob('*.h') if 'boost.framework' not in str(f) and '/FontLabel/' not in str(f) and '/CocosDenshion/' not in str(f) and '/Platforms/iOS' not in str(f)})
 common=['-isysroot',sdk,'-mmacosx-version-min=12.0','-DPROJECTPEON_MAC=1','-DCC_DIRECTOR_MAC_THREAD=2','-DCOCOS2D_DEBUG=1','-Wno-deprecated-declarations','-Wno-incompatible-pointer-types','-Wno-int-conversion','-Wno-shorten-64-to-32','-Wno-pointer-to-int-cast','-Wno-nullability-completeness','-Wno-objc-method-access','-Wno-format','-O1','-g']
+if os.environ.get('PEON_UI_AUDIT') == '1': common += ['-DDEBUG=1']
 if ARCH: common += ['-arch', ARCH]
 if STORE: common += ['-DPROJECTPEON_APP_STORE=1', '-O2']
 for d in include_dirs: common += ['-I',str(d)]
@@ -42,7 +47,7 @@ headers = list((ROOT/'rover').rglob('*.h')) + list((ROOT/'mac').rglob('*.h')) + 
 header_time = max(f.stat().st_mtime for f in headers)
 def compile(source):
     cache_key = str(source.relative_to(ROOT))
-    if STORE or ARCH: cache_key += repr(common)
+    if STORE or ARCH or os.environ.get('PEON_UI_AUDIT') == '1': cache_key += repr(common)
     output = OBJ/(hashlib.sha1(cache_key.encode()).hexdigest()+'.o')
     if output.exists() and output.stat().st_mtime > max(header_time,source.stat().st_mtime): return output, ''
     command = ['xcrun','clang++' if source.suffix in ('.mm','.cpp') else 'clang', *common]

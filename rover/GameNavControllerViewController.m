@@ -19,9 +19,12 @@
 }
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    CGRect safe = UIEdgeInsetsInsetRect(self.view.bounds, self.view.safeAreaInsets);
-    CGFloat scale = MIN(safe.size.width / 1024.0, safe.size.height / 768.0);
-    CGSize size = CGSizeMake(1024.0 * scale, 768.0 * scale);
+    // Keep the notch clear without reserving an empty strip for the home indicator.
+    UIEdgeInsets insets = self.view.safeAreaInsets;
+    insets.top = 0; insets.bottom = 0;
+    CGRect safe = UIEdgeInsetsInsetRect(self.view.bounds, insets);
+    CGFloat scale = MIN(safe.size.width / (768.0 * 16.0 / 9.0), safe.size.height / 768.0);
+    CGSize size = CGSizeMake((768.0 * 16.0 / 9.0) * scale, 768.0 * scale);
     self.childViewControllers.firstObject.view.frame = CGRectMake(
         CGRectGetMidX(safe) - size.width / 2, CGRectGetMidY(safe) - size.height / 2,
         size.width, size.height);

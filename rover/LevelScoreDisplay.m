@@ -1,4 +1,4 @@
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 #import "PeonWideScreen.h"
 #import "PeonViewport.h"
 #endif
@@ -95,12 +95,12 @@
     [scoreMenu setAnchorPoint:ccp(0, 0)];
     [scoreMenu setPosition:ccp(-871, 151.5)];
     
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     // Extract the baked-in face and cover its old location with matching panel pixels.
-    CCSprite *faceCover=[CCSprite spriteWithTexture:((CCSprite *)body.normalImage).texture rect:CGRectMake(80,20,42,42)];
+    CCSprite *faceCover=[CCSprite spriteWithTexture:((CCSprite *)body.normalImage).texture rect:CC_RECT_PIXELS_TO_POINTS(CGRectMake(80,20,42,42))];
     faceCover.position=ccp(149/(2*SCREEN_SCALE),169/(2*SCREEN_SCALE));
     [body addChild:faceCover z:1];
-    CCSprite *topFace=[CCSprite spriteWithTexture:((CCSprite *)body.normalImage).texture rect:CGRectMake(128,20,42,42)];
+    CCSprite *topFace=[CCSprite spriteWithTexture:((CCSprite *)body.normalImage).texture rect:CC_RECT_PIXELS_TO_POINTS(CGRectMake(128,20,42,42))];
     topFace.position=faceCover.position;
     [body addChild:topFace z:2 tag:9910];
 #endif
@@ -197,7 +197,7 @@
     [peonLabel setString:[NSString stringWithFormat:@"%i/%i", peonCount, totalPeons]];
     
     [self setupTimerImage];
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     CCNode *topFace=[body getChildByTag:9910];
     CGFloat unit=2*SCREEN_SCALE;
     topFace.position=ccp(149/unit,169/unit);
@@ -413,7 +413,7 @@
 
 -(void)visit
 {
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     CGFloat inset=(PeonPresentationSize(CGSizeMake(1024,768)).width-1024)/2;
     self.position=ccp(-inset,self.position.y);
 #endif

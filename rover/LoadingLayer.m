@@ -9,13 +9,13 @@
 #import "LoadingLayer.h"
 #import "SaveManager.h"
 #import "Constants.h"
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 #import "PeonWideScreen.h"
 #endif
 
 
 @implementation LoadingLayer
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 -(void)onEnter
 {
     [super onEnter];
@@ -43,7 +43,7 @@
         [self setTouchEnabled:YES];
         [self setAnchorPoint:ccp(0,0)];
         [self setPosition:ccp(0, 0)];
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
         screen = [CCSprite spriteWithFile:[NSString stringWithFormat:@"loadingScreen%iWide.png", planetNum]];
 #else
         screen = [CCSprite spriteWithFile:[NSString stringWithFormat:@"loadingScreen%i.png", planetNum]];
@@ -51,7 +51,7 @@
         [screen setAnchorPoint:ccp(0, 0)];
         [screen setPosition:ccp(0, 0)];
         [screen setScale:(2*SCREEN_SCALE)];
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
         screen.position = ccp(-1024.0/6.0,0);
         screen.scaleX = (1024.0*4.0/3.0)/screen.contentSize.width;
         screen.scaleY = 768.0/screen.contentSize.height;
@@ -102,7 +102,7 @@
 -(void)showActivityIndicator
 {
     if (isFadingOut) return;
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     activityIndicatorSprite = [CCSprite spriteWithFile:@"loadingIcon.png"];
     activityIndicatorSprite.position = ccp(946 + (1024.0/6.0)*PeonWideScreenAmount(), 78);
     activityIndicatorSprite.scale = 2*SCREEN_SCALE;
@@ -126,7 +126,7 @@
 -(void)fadeOut
 {
     isFadingOut = YES;
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     [activityIndicatorSprite removeFromParentAndCleanup:YES];
     activityIndicatorSprite = nil;
 #else

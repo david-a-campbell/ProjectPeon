@@ -14,6 +14,7 @@
 #import "GameManager.h"
 #import "ToolTipMenu.h"
 #import "CCControlExtension.h"
+#import "PeonVolumeSettings.h"
 #ifdef PROJECTPEON_MAC
 #import "PeonBitmapFont.h"
 #endif
@@ -124,6 +125,18 @@
     [[self nodeArray] addObject:sfxSlider];
     [[self nodeArray] addObject:menu];
     [[self nodeArray] addObject:subMenu];
+#ifdef PROJECTPEON_IOS
+    // Reuse the clean captions and slider frames, retaining touch/tilt choices.
+    musicVolumeBG.visible=NO; sfxVolumeBG.visible=NO;
+    PeonAddVolumeCaption([self nodeArray], @"MusicVolumeLabel.png", @"musicVolume.png", 135, SCREEN_SCALE);
+    PeonAddVolumeCaption([self nodeArray], @"EffectVolumeLabel.png", @"sfxVolume.png", 45, SCREEN_SCALE);
+    musicSlider.position=ccp(145,135); sfxSlider.position=ccp(145,45);
+    PeonInsetVolumeSlider(musicSlider); PeonInsetVolumeSlider(sfxSlider);
+    controlSwitchBG.position=ccp(0,-45);
+    controlTiltBtn.position=ccp(28,-45); controlTouchBtn.position=ccp(188,-45);
+    backBtn.position=ccp(0,-135);
+#endif
+
 #ifdef PROJECTPEON_MAC
     // Mac input uses the keyboard; the old tilt and touch switches do not apply.
     [controlSwitchBG setVisible:NO];
@@ -218,6 +231,9 @@
 
 -(int)numberOfPlanks
 {
+#ifdef PROJECTPEON_IOS
+    return 22;
+#endif
 #ifdef PROJECTPEON_MAC
     return 32;
 #endif

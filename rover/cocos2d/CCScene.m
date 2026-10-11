@@ -28,9 +28,20 @@
 #import "CCScene.h"
 #import "Support/CGPointExtension.h"
 #import "CCDirector.h"
+#ifdef PROJECTPEON_WIDE_UI
+#import "../PeonUIAuditFixtures.h"
+#endif
 
 
 @implementation CCScene
+#ifdef PROJECTPEON_WIDE_UI
+-(void)visit {
+    [super visit];
+    NSString *auditName=nil;
+    CCNode *fixture=PeonUIAuditFixtureTick(self,&auditName);
+    PeonUIAuditCaptureNamed(fixture ?: self,auditName);
+}
+#endif
 -(id) init
 {
 	if( (self=[super init]) ) {

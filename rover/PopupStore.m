@@ -8,92 +8,13 @@
 
 #import "PopupStore.h"
 #import "ToolTipMenu.h"
-#import "Reachability.h"
 #import "SaveManager.h"
+#import "../mac/PeonBitmapFont.h"
 
 @implementation PopupStore
 
--(void)requestStoreItems
-{
-#ifdef PROJECTPEON_MAC
-    return; // The repository already includes both upgrades; no store needed.
-#endif
-    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
-    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
-    if (networkStatus == NotReachable)
-    {
-        double delayInSeconds = 0.7;
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            [ToolTipMenu displayWithMessage:@"No internet connection available." plankCount:10];
-        });
-    }else
-    {
-        NSSet *idSet = [NSSet setWithObjects:PRODUCT_BOOST_50, PRODUCT_MOTOR_50,nil];
-        productReq = [[SKProductsRequest alloc] initWithProductIdentifiers:idSet];
-        [productReq setDelegate:self];
-        [productReq start];
-    }
-}
-
--(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response
-{
-    for (SKProduct *product in [response products])
-    {
-        if ([[product productIdentifier] isEqualToString:PRODUCT_BOOST_50])
-        {
-            if (![[SaveManager sharedManager] hasBooster50Unlocked])
-            {
-                [boosterImage runAction:[CCFadeTo actionWithDuration:0.1 opacity:255]];
-                boosterLabel = [self setupButton:boostUpgradeBtn forProduct:product];
-                [boosterLabel setPosition:ccp(358-[boosterLabel boundingBox].size.width/2.0f, -118)];
-                boosterProduct = [product retain];
-            }
-        }else if ([[product productIdentifier] isEqualToString:PRODUCT_MOTOR_50])
-        {
-            if (![[SaveManager sharedManager] hasMotor50Unlocked])
-            {
-                [motorImage runAction:[CCFadeTo actionWithDuration:0.1 opacity:255]];
-                [motorHubImage runAction:[CCFadeTo actionWithDuration:0.1 opacity:255]];
-                wheelLabel = [self setupButton:wheelUpgradeBtn forProduct:product];
-                [wheelLabel setPosition:ccp(358-[wheelLabel boundingBox].size.width/2.0f, 43)];
-                wheelProduct = [product retain];
-            }
-        }
-    }
-    
-    if (![[response products] count])
-    {
-        [ToolTipMenu displayWithMessage:@"Cannot connect to iTunes Store" plankCount:10];
-    }
-    
-    [productReq release];
-    productReq = nil;
-}
-
--(CCLabelAtlas*)setupButton:(CCMenuItemSprite*)button forProduct:(SKProduct*)product
-{
-    CCNode *parent = [[[self nodeArray] objectAtIndex:0] parent];
-    [button runAction:[CCFadeTo actionWithDuration:0.1 opacity:255]];
-    [button setIsEnabled:YES];
-    NSString *price = [self priceAsString:[product price] locale:[product priceLocale]];
-    CCLabelAtlas *priceLabel = [self labelWithText:price];
-    [priceLabel setScale:SCREEN_SCALE];
-    [parent addChild:priceLabel];
-    [[self nodeArray] addObject:priceLabel];
-
-    [priceLabel setOpacity:0];
-    [priceLabel runAction:[CCFadeTo actionWithDuration:0.1 opacity:255]];
-    
-    return priceLabel;
-}
-
 -(void)createMenu
 {
-#ifndef PROJECTPEON_MAC
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
-#endif
-    isMakingPayment = NO;
     
     CCMenuItemImage *logo = [CCMenuItemImage itemWithNormalImage:@"shopLogo.png" selectedImage:@"shopLogo.png"];
     CCMenuItemImage *adNote = [CCMenuItemImage itemWithNormalImage:@"adNote.png" selectedImage:@"adNote.png"];
@@ -142,140 +63,31 @@
     [self createMotorSpriteOnMenu:menu];
     [menu setPosition:ccp(0, 0)];
     
-#ifdef PROJECTPEON_MAC
     [restoreBtn setVisible:NO]; [restoreBtn setIsEnabled:NO];
     [adNote setVisible:NO];
     CCLabelBMFont *included = [CCLabelBMFont labelWithString:@"All upgrades\nincluded" fntFile:@"font42.fnt"];
     included.alignment = kCCTextAlignmentCenter;
+    PeonInsetBitmapGlyphs(included);
     included.scale = SCREEN_SCALE * 0.85;
     included.position = ccp(-274.5, -25);
     [[self nodeArray] addObject:included];
     CCLabelBMFont *purchases = [CCLabelBMFont labelWithString:@"No purchases\nrequired" fntFile:@"font42.fnt"];
     purchases.alignment = kCCTextAlignmentCenter;
+    PeonInsetBitmapGlyphs(purchases);
     purchases.scale = SCREEN_SCALE * 0.85;
     purchases.position = ccp(-274.5, -105);
     [[self nodeArray] addObject:purchases];
-#endif
     [[self nodeArray] addObject:menu];
-    [self requestStoreItems];
 }
 
--(void)wheelUpgradeSelected
-{
-#ifdef PROJECTPEON_MAC
-    return; // Included upgrades never start a payment.
-#endif
-    if (isMakingPayment) {return;}
-    isMakingPayment = YES;
-    
-    if (![SKPaymentQueue canMakePayments])
-    {
-        [ToolTipMenu displayWithMessage:@"You must enable payments in your device settings." plankCount:5];
-    }else
-    {
-        SKPayment *payment = [SKPayment paymentWithProduct:wheelProduct];
-        [[SKPaymentQueue defaultQueue] addPayment:payment];
-    }
-}
-
--(void)boostUpgradeSelected
-{
-#ifdef PROJECTPEON_MAC
-    return; // Included upgrades never start a payment.
-#endif
-    if (isMakingPayment) {return;}
-    isMakingPayment = YES;
-    
-    if (![SKPaymentQueue canMakePayments])
-    {
-        [ToolTipMenu displayWithMessage:@"You must enable payments in your device settings." plankCount:5];
-    }else
-    {
-        SKPayment *payment = [SKPayment paymentWithProduct:boosterProduct];
-        [[SKPaymentQueue defaultQueue] addPayment:payment];
-    }
-}
-
--(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
-{
-    [self processTransactions:transactions];
-}
-
--(void)paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue
-{
-    [self processTransactions:[queue transactions]];
-}
-
--(void)processTransactions:(NSArray *)transactions
-{
-    for (SKPaymentTransaction *transaction in transactions)
-    {
-        if([transaction transactionState] == SKPaymentTransactionStatePurchased
-           || [transaction transactionState] == SKPaymentTransactionStateRestored)
-        {            
-            if ([[[transaction payment] productIdentifier] isEqualToString:PRODUCT_BOOST_50])
-            {
-                [[SaveManager sharedManager] setHasBooster50Unlocked:YES];
-                [boostUpgradeBtn setIsEnabled:NO];
-                [boosterLabel setOpacity:0];
-            }else if ([[[transaction payment] productIdentifier] isEqualToString:PRODUCT_MOTOR_50])
-            {
-                [[SaveManager sharedManager] setHasMotor50Unlocked:YES];
-                [wheelUpgradeBtn setIsEnabled:NO];
-                [wheelLabel setOpacity:0];
-            }
-            NSMutableDictionary* userInfo = [NSMutableDictionary dictionary];
-            [userInfo setObject:[[transaction payment] productIdentifier] forKey:@"ProductID"];
-            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_PURCHASED_ITEM object:nil userInfo:userInfo];
-            [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-            isMakingPayment = NO;
-        }
-        else if([transaction transactionState] == SKPaymentTransactionStateFailed)
-        {
-            if ([[transaction error] code] != SKErrorPaymentCancelled)
-            {
-                [ToolTipMenu displayWithMessage:[[transaction error] localizedDescription] plankCount:10];
-            }
-            [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-            isMakingPayment = NO;
-        }
-    }
-}
-
--(void)restorePurchases
-{
-#ifdef PROJECTPEON_MAC
-    [ToolTipMenu displayWithMessage:@"All upgrades are included in this Mac version." plankCount:5];
-#else
-    [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
-#endif
-}
+// Upgrade cards are informational: all upgrades are included offline.
+-(void)wheelUpgradeSelected {}
+-(void)boostUpgradeSelected {}
+-(void)restorePurchases {}
 
 -(int)numberOfPlanks
 {
     return 20;
-}
-
-- (NSString *)priceAsString:(NSDecimalNumber*)price locale:(NSLocale*)priceLocale
-{
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-    [formatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
-    [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-    [formatter setLocale:priceLocale];
-    
-    NSString *str = [formatter stringFromNumber:price];
-    [formatter release];
-    return str;
-}
-
--(id)labelWithText:(NSString*)someText
-{
-    float factor = 4*SCREEN_SCALE;
-    if (SCREEN_SCALE == 1)
-    {
-        factor = 1;
-    }
-    return [CCLabelBMFont labelWithString:someText fntFile:@"fontBlk.fnt" width:500*factor alignment:kCCTextAlignmentLeft];
 }
 
 -(void)createMotorSpriteOnMenu:(CCMenu*)menu
@@ -324,22 +136,6 @@
     }
     [menu addChild:boosterImage z:100];
     [boosterSprite release];
-}
-
--(void)dealloc
-{
-#ifndef PROJECTPEON_MAC
-    [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
-#endif
-    [productReq setDelegate:nil];
-    [productReq release];
-    productReq = nil;
-    [wheelProduct release];
-    wheelProduct = nil;
-    [boosterProduct release];
-    boosterProduct = nil;
-    
-    [super dealloc];
 }
 
 @end

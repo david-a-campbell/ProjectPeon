@@ -11,10 +11,12 @@ static void PeonAddCloseButton(CCSprite *frame, BOOL wide, id target, SEL action
     CCSprite *up = [CCSprite spriteWithFile:@"MenuClose.png"];
     CCSprite *down = [CCSprite spriteWithFile:@"MenuCloseDown.png"];
     CCMenuItemSprite *button = [CCMenuItemSprite itemWithNormalSprite:up selectedSprite:down target:target selector:action];
-    button.scale = 24.0 / button.contentSize.width;
+    // Cancel frame stretching so every menu uses a circular 48-point button.
+    button.scaleX = 48.0 / (button.contentSize.width * fabs(frame.scaleX));
+    button.scaleY = 48.0 / (button.contentSize.height * fabs(frame.scaleY));
     frame.flipX = YES;
-    CGFloat xRatio = 1.0 - (wide ? 227.0 / 839.0 : 117.0 / 623.0);
-    button.position = ccp(frame.contentSize.width * xRatio, frame.contentSize.height * 28.0 / 48.0);
+    CGFloat xRatio = 1.0 - (wide ? 227.0 / 839.0 : 118.0 / 623.0);
+    button.position = ccp(frame.contentSize.width * xRatio, frame.contentSize.height * 28.0 / (wide ? 47.0 : 48.0));
     button.tag = 9905;
     PeonCloseMenu *menu = [PeonCloseMenu menuWithItems:button, nil];
     menu.position = CGPointZero;
