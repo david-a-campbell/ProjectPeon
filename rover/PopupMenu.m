@@ -173,9 +173,10 @@ static BOOL PeonDebugAdjacentLevel(int planet,int level,int step,int *nextPlanet
             [self performSelector:@selector(launchCameraAudit) withObject:nil afterDelay:.5];
         }
     }
-    if ([[NSProcessInfo processInfo].environment[@"PEON_DEBUG_CAMERA_AUDIT"] boolValue]) {
+    BOOL savePanAudit=[[NSProcessInfo processInfo].environment[@"PEON_SAVE_MENU_PAN_AUDIT"] boolValue];
+    if ([[NSProcessInfo processInfo].environment[@"PEON_DEBUG_CAMERA_AUDIT"] boolValue] || savePanAudit) {
         static BOOL launched=NO;
-        if ([self gameScene]) [[self gameScene] performSelector:@selector(debugCameraAudit) withObject:nil afterDelay:3];
+        if ([self gameScene]) [[self gameScene] performSelector:savePanAudit ? @selector(debugSaveMenuPanAudit) : @selector(debugCameraAudit) withObject:nil afterDelay:3];
         else if (!launched && [NSStringFromClass(self.parent.class) isEqualToString:@"TitleScene"]) {
             launched=YES; [self performSelector:@selector(launchCameraAudit) withObject:nil afterDelay:.5];
         }
