@@ -52,6 +52,7 @@ typedef enum {
 
 
 @class CCLabelAtlas;
+@class CCNode;
 @class CCScene;
 @class CCScheduler;
 @class CCActionManager;
@@ -99,6 +100,9 @@ and when to execute the Scenes.
 	CCLabelAtlas *_FPSLabel;
 	CCLabelAtlas *_SPFLabel;
 	CCLabelAtlas *_drawsLabel;
+#ifdef PROJECTPEON_IOS
+    CCNode *_peonStatsPanel;
+#endif
 
 	/* is the running scene paused */
 	BOOL _isPaused;

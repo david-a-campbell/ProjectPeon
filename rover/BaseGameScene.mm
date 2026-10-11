@@ -382,6 +382,8 @@ static BOOL PeonPanBlockedByMenu(CCNode *node) {
     NSMutableDictionary *snapshot=[NSMutableDictionary dictionary];
     for (NSString *key in keys) snapshot[key]=[defaults objectForKey:key] ?: [NSNull null];
     debugAuditDefaults=[snapshot copy];
+    [defaults setBool:NO forKey:@"PeonHideFPS"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"PeonDebugOptionsChanged" object:nil];
     [defaults setBool:YES forKey:@"PeonDebugMenuVisible"];
     BaseActionLayer *layer=[self debugActionLayer];
     CGPoint original=layer.position; CGFloat scale=layer.scale;

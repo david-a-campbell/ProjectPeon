@@ -48,6 +48,9 @@
 #import "ccFPSImages.h"
 #ifdef PROJECTPEON_IOS
 #import "../PeonUIAudit.h"
+#import "../GameManager.h"
+#import "CCLabelTTF.h"
+#import "CCLayer.h"
 #endif
 #import "CCDrawingPrimitives.h"
 #import "CCConfiguration.h"
@@ -190,6 +193,9 @@ static CCDirector *_sharedDirector = nil;
 	[_FPSLabel release];
 	[_SPFLabel release];
 	[_drawsLabel release];
+#ifdef PROJECTPEON_IOS
+    [_peonStatsPanel release];
+#endif
 	[_runningScene release];
 	[_notificationNode release];
 	[_scenesStack release];
@@ -477,6 +483,9 @@ static CCDirector *_sharedDirector = nil;
 	[_SPFLabel release];
 	[_drawsLabel release];
 	_FPSLabel = nil, _SPFLabel=nil, _drawsLabel=nil;
+#ifdef PROJECTPEON_IOS
+    [_peonStatsPanel release]; _peonStatsPanel=nil;
+#endif
 
 	_delegate = nil;
 
@@ -617,11 +626,17 @@ static CCDirector *_sharedDirector = nil;
 #ifdef PROJECTPEON_IOS
         // Only FPS, aligned to the left edge of the expanded 16:9 canvas.
         CGSize canvas=[self winSize];
-        [_FPSLabel setPosition:ccp(-canvas.width/6+12,canvas.height-44)];
+        CGPoint corner=ccp(-canvas.width/6+12,canvas.height-92);
+        _peonStatsPanel.position=corner;
+        GameManager *game=[GameManager sharedGameManager];
+        BOOL inLevel=[_runningScene isKindOfClass:NSClassFromString(@"BaseGameScene")];
+        [(CCLabelTTF *)[_peonStatsPanel getChildByTag:1] setString:inLevel ? [NSString stringWithFormat:@"%@ %02d",game.currentPlanetName,game.currentLevelNum] : @"Menu"];
+        [_peonStatsPanel visit];
+        [_FPSLabel setPosition:ccp(corner.x+12,corner.y+10)];
         [_FPSLabel visit];
 #if DEBUG
         static BOOL capturedDebugFPS=NO;
-        if (!capturedDebugFPS && _frameRate>0 && PeonUIAuditEnabled() && [[NSProcessInfo processInfo].environment[@"PEON_UI_AUDIT_DEBUG"] boolValue]) {
+        if (!capturedDebugFPS && _frameRate>0 && PeonUIAuditEnabled() && ([[NSProcessInfo processInfo].environment[@"PEON_UI_AUDIT_DEBUG"] boolValue] || (inLevel && [[NSProcessInfo processInfo].environment[@"PEON_DEBUG_CAMERA_AUDIT"] boolValue]))) {
             PeonAuditScreenshot(@"debug-fps"); capturedDebugFPS=YES;
         }
 #endif
@@ -653,6 +668,13 @@ static CCDirector *_sharedDirector = nil;
 
 -(void) createStatsLabel
 {
+#ifdef PROJECTPEON_IOS
+    [_peonStatsPanel release];
+    _peonStatsPanel=[[CCLayerColor alloc] initWithColor:ccc4(0,0,0,160) width:144 height:80];
+    CCLabelTTF *level=[CCLabelTTF labelWithString:@"" fontName:@"Helvetica-Bold" fontSize:22];
+    level.anchorPoint=ccp(0,.5); level.position=ccp(12,60); level.tag=1;
+    [_peonStatsPanel addChild:level];
+#endif
 	CCTexture2D *texture;
 	CCTextureCache *textureCache = [CCTextureCache sharedTextureCache];
 	
