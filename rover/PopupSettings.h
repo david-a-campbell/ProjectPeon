@@ -15,6 +15,9 @@
     CCMenuItemToggle *retinaSwitch;
     CCMenuItemSprite *controlTiltBtn;
     CCMenuItemSprite *controlTouchBtn;
+#ifdef PROJECTPEON_IOS
+    CCMenu *controlChoiceMenu;
+#endif
 }
 -(id)initWithDelegate:(id<popupMenuDelegate>)delegate forGameplay:(BOOL)gameplay;
 @end

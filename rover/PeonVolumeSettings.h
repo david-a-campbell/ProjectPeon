@@ -63,20 +63,19 @@ static CCSprite *PeonSettingsTextGlow(CCLabelBMFont *label) {
     glow.opacity=128;
     return glow;
 }
-static void PeonRefreshBoostSideMenu(CCMenu *menu) {
-    BOOL right=[[SaveManager sharedManager] boostButtonOnRight];
+static void PeonRefreshChoiceSetting(CCMenu *menu, BOOL secondSelected) {
     for (CCMenuItemLabel *item in menu.children) {
-        BOOL selected=(item.tag==2)==right;
+        BOOL selected=(item.tag==2)==secondSelected;
         item.isEnabled=!selected;
         item.label.color=selected ? ccWHITE : ccc3(65,104,145);
         [(CCSprite *)[item getChildByTag:9777] setOpacity:selected ? 128 : 40];
     }
 }
 
-static void PeonAddBoostSideSetting(NSMutableArray *nodes,id target,CGFloat y,CGFloat scale) {
-    CCLabelBMFont *caption=[CCLabelBMFont labelWithString:@"boost:" fntFile:@"font52.fnt"];
+static CCMenu *PeonAddChoiceSetting(NSMutableArray *nodes,id target,CGFloat y,CGFloat scale,NSString *title,NSArray *choices,SEL firstAction,SEL secondAction,BOOL secondSelected) {
+    CCLabelBMFont *caption=[CCLabelBMFont labelWithString:title fntFile:@"font52.fnt"];
     PeonInsetBitmapGlyphs(caption);
-    caption.scale=scale*.9; caption.anchorPoint=ccp(1,0.5); caption.position=ccp(-92,y+6);
+    caption.scale=scale; caption.anchorPoint=ccp(1,0.5); caption.position=ccp(-92,y+6);
     // Keep the glow's own alpha when the popup fades its top-level nodes.
     CCLayerRGBA *captionGlows=[CCLayerRGBA node]; captionGlows.cascadeOpacityEnabled=YES;
     [nodes addObject:captionGlows];
@@ -84,9 +83,9 @@ static void PeonAddBoostSideSetting(NSMutableArray *nodes,id target,CGFloat y,CG
     [nodes addObject:caption];
     NSMutableArray *items=[NSMutableArray array];
     for (NSUInteger index=0;index<2;index++) {
-        CCLabelBMFont *label=[CCLabelBMFont labelWithString:index ? @"right" : @"left" fntFile:@"font52.fnt"];
-        PeonInsetBitmapGlyphs(label); label.scale=scale*.9;
-        CCMenuItemLabel *item=[CCMenuItemLabel itemWithLabel:label target:target selector:index ? @selector(boostRightSelected:) : @selector(boostLeftSelected:)];
+        CCLabelBMFont *label=[CCLabelBMFont labelWithString:choices[index] fntFile:@"font52.fnt"];
+        PeonInsetBitmapGlyphs(label); label.scale=scale;
+        CCMenuItemLabel *item=[CCMenuItemLabel itemWithLabel:label target:target selector:index ? secondAction : firstAction];
         label.anchorPoint=ccp(0.5,0.5);
         item.tag=(int)index+1;
         // Use the same 160-by-90 switch boxes and centers as Tilt/Touch.
@@ -98,6 +97,13 @@ static void PeonAddBoostSideSetting(NSMutableArray *nodes,id target,CGFloat y,CG
         [items addObject:item];
     }
     CCMenu *menu=[CCMenu menuWithArray:items]; menu.position=ccp(0,y);
-    PeonRefreshBoostSideMenu(menu); [nodes addObject:menu];
+    PeonRefreshChoiceSetting(menu,secondSelected); [nodes addObject:menu];
+    return menu;
+}
+static void PeonRefreshBoostSideMenu(CCMenu *menu) {
+    PeonRefreshChoiceSetting(menu,[[SaveManager sharedManager] boostButtonOnRight]);
+}
+static void PeonAddBoostSideSetting(NSMutableArray *nodes,id target,CGFloat y,CGFloat scale) {
+    PeonAddChoiceSetting(nodes,target,y,scale,@"boost:",@[@"left",@"right"],@selector(boostLeftSelected:),@selector(boostRightSelected:),[[SaveManager sharedManager] boostButtonOnRight]);
 }
 #endif
