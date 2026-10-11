@@ -138,7 +138,7 @@ static BOOL PeonDebugAdjacentLevel(int planet,int level,int step,int *nextPlanet
             CCLabelTTF *label=[CCLabelTTF labelWithString:title fontName:@"Helvetica-Bold" fontSize:20];
             label.scale=MIN(1,136/label.contentSize.width);
             CCMenuItemLabel *item=[CCMenuItemLabel itemWithLabel:label target:self selector:@selector(changeLevel:)];
-            item.tag=navigationItems.count==0 ? 1 : -1;
+            item.tag=navigationItems.count==0 ? 1 : 2;
             item.contentSize=CGSizeMake(160,80);
             label.anchorPoint=ccp(.5,.5); label.position=ccp(80,40);
             item.position=ccp(0,-80*(NSInteger)navigationItems.count);
@@ -203,7 +203,7 @@ static BOOL PeonDebugAdjacentLevel(int planet,int level,int step,int *nextPlanet
     NSCAssert(levelNavigation.visible && navigationBacking.visible,@"Level buttons missing during building");
     if(phase==0 || phase==1) {
         NSCAssert(game.currentPlanetNum==1 && game.currentLevelNum==(phase==0 ? 1 : 2),@"Level button loaded wrong map");
-        CCMenuItemLabel *item=(id)[levelNavigation getChildByTag:phase==0 ? 1 : -1];
+        CCMenuItemLabel *item=(id)[levelNavigation getChildByTag:phase==0 ? 1 : 2];
         phase++;
         [self changeLevel:item]; return;
     }
@@ -253,7 +253,7 @@ static BOOL PeonDebugAdjacentLevel(int planet,int level,int step,int *nextPlanet
     BaseGameScene *scene=[self gameScene];
     if (navigatingLevel || !levelNavigation.visible || ![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"] || ![scene debugPanAvailable] || [scene valueForKey:@"loadingLayer"] || PeonDebugHasModal(self.parent)) return;
     GameManager *game=[GameManager sharedGameManager]; int planet,level;
-    if(!PeonDebugAdjacentLevel(game.currentPlanetNum,game.currentLevelNum,sender.tag,&planet,&level)) return;
+    if(!PeonDebugAdjacentLevel(game.currentPlanetNum,game.currentLevelNum,sender.tag==1 ? 1 : -1,&planet,&level)) return;
     navigatingLevel=YES; panTouch=nil;
     [scene setDebugFreePanEnabled:NO];
     game.currentPlanetNum=planet; game.currentLevelNum=level;
@@ -274,7 +274,7 @@ static BOOL PeonDebugAdjacentLevel(int planet,int level,int step,int *nextPlanet
     GameManager *game=[GameManager sharedGameManager];
     for (CCMenuItemLabel *item in levelNavigation.children) {
         int planet,level;
-        item.isEnabled=PeonDebugAdjacentLevel(game.currentPlanetNum,game.currentLevelNum,item.tag,&planet,&level);
+        item.isEnabled=PeonDebugAdjacentLevel(game.currentPlanetNum,game.currentLevelNum,item.tag==1 ? 1 : -1,&planet,&level);
     }
     if (scene.debugFreePanEnabled && ![scene debugPanAvailable]) [scene setDebugFreePanEnabled:NO];
 }
