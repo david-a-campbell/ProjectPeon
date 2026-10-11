@@ -330,6 +330,9 @@ static BOOL PeonPanBlockedByMenu(CCNode *node) {
     if (![[creationLayer valueForKey:@"cartCreationEnabled"] boolValue]) return;
     [self setFreePanEnabled:!debugFreePanEnabled];
 }
+-(BOOL)cartSaveMenuOpen {
+    return creationLayer.saveMenu!=nil;
+}
 -(BOOL)cameraMenuContainsTouch:(UITouch *)touch {
     CCMenu *menu=[creationLayer valueForKey:@"tabMenu"];
     if (!menu.visible) return NO;

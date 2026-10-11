@@ -52,13 +52,19 @@
 #ifdef PROJECTPEON_IOS
     BaseGameScene *scene=(id)[CCDirector sharedDirector].runningScene;
     BOOL panning=[scene isKindOfClass:[BaseGameScene class]] && scene.debugFreePanEnabled;
-    CCLabelBMFont *label=[CCLabelBMFont labelWithString:panning ? @"return to building" : @"pan camera" fntFile:@"font52.fnt"];
-    PeonInsetBitmapGlyphs(label); label.scale=SCREEN_SCALE;
-    CCMenuItemLabel *pan=[CCMenuItemLabel itemWithLabel:label target:self selector:@selector(panCamera)];
-    pan.contentSize=returnToTitleBtn.boundingBox.size;
-    label.anchorPoint=ccp(.5,.5); label.position=ccp(pan.contentSize.width/2,pan.contentSize.height/2);
-    [pan addChild:PeonSettingsTextGlow(label) z:-1];
-    CCMenu *menu=[CCMenu menuWithItems:levelSelBtn,settingsBtn,returnToTitleBtn,pan,checkBox,nil];
+    BOOL showPan=![scene isKindOfClass:[BaseGameScene class]] || ![scene cartSaveMenuOpen];
+    NSMutableArray *items=[NSMutableArray arrayWithObjects:levelSelBtn,settingsBtn,returnToTitleBtn,nil];
+    if (showPan) {
+        CCLabelBMFont *label=[CCLabelBMFont labelWithString:panning ? @"return to building" : @"pan camera" fntFile:@"font52.fnt"];
+        PeonInsetBitmapGlyphs(label); label.scale=SCREEN_SCALE;
+        CCMenuItemLabel *pan=[CCMenuItemLabel itemWithLabel:label target:self selector:@selector(panCamera)];
+        pan.contentSize=returnToTitleBtn.boundingBox.size;
+        label.anchorPoint=ccp(.5,.5); label.position=ccp(pan.contentSize.width/2,pan.contentSize.height/2);
+        [pan addChild:PeonSettingsTextGlow(label) z:-1];
+        [items addObject:pan];
+    }
+    [items addObject:checkBox];
+    CCMenu *menu=[CCMenu menuWithArray:items];
 #else
     CCMenu *menu=[CCMenu menuWithItems:levelSelBtn,settingsBtn,returnToTitleBtn,checkBox,nil];
 #endif
@@ -71,7 +77,7 @@
 -(void)panCamera
 {
     BaseGameScene *scene=(id)[CCDirector sharedDirector].runningScene;
-    if (![scene isKindOfClass:[BaseGameScene class]]) return;
+    if (![scene isKindOfClass:[BaseGameScene class]] || [scene cartSaveMenuOpen]) return;
     [(PopupMenu *)self.popupDelegate hide];
     // Wait for the popup's closing animation so modal input blocking still applies.
     [scene performSelector:@selector(toggleCartCreationPan) withObject:nil afterDelay:.3];
@@ -99,7 +105,8 @@
 -(int)numberOfPlanks
 {
 #ifdef PROJECTPEON_IOS
-    return 30;
+    BaseGameScene *scene=(id)[CCDirector sharedDirector].runningScene;
+    if (![scene isKindOfClass:[BaseGameScene class]] || ![scene cartSaveMenuOpen]) return 30;
 #endif
     return 24;
 }

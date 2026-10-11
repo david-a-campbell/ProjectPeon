@@ -34,6 +34,7 @@
 @property(nonatomic, readonly) BOOL debugFreePanEnabled;
 -(void)setDebugFreePanEnabled:(BOOL)enabled;
 -(void)toggleCartCreationPan;
+-(BOOL)cartSaveMenuOpen;
 -(BOOL)cameraMenuContainsTouch:(UITouch *)touch;
 -(BOOL)debugPanAvailable;
 -(BOOL)debugPanBlocked;
