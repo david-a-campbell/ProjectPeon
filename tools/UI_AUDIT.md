@@ -110,3 +110,8 @@ handlers using an isolated ControlsLayer. The check forces free pan while the
 saved preference is Touch, feeds a tilt sample, verifies camera touches remain
 unclaimed and no boost is triggered, then verifies Touch is restored on exit.
 The test restores the original control preference and teleport setting.
+
+`PEON_DEBUG_NAV_AUDIT=1` with `PEON_UI_AUDIT=1` launches Earth 01, activates
+the real Next Level button to load Earth 02, then activates Previous Level to
+return. It checks planet boundaries, visibility in building/free pan, and hiding
+with debug off. Disable the other fixture flags for this walkthrough.

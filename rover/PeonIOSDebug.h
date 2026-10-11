@@ -3,6 +3,9 @@
 @interface PeonIOSDebugLayer : CCLayer {
     CCMenu *debugEntry;
     CCLayerColor *debugBacking;
+    CCMenu *levelNavigation;
+    CCLayerColor *navigationBacking;
+    BOOL navigatingLevel;
     CCLabelTTF *toast;
     CCLayerColor *toastBacking;
     UITouch *panTouch;

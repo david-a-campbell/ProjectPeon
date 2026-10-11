@@ -107,6 +107,21 @@ static void PeonDebugCenterItem(CCMenuItemLabel *item) {
 }
 @end
 
+// Debug navigation crosses planet boundaries, without marking levels complete.
+static BOOL PeonDebugAdjacentLevel(int planet,int level,int step,int *nextPlanet,int *nextLevel) {
+    static NSArray *levelCounts=nil;
+    if (!levelCounts) {
+        SaveManager *save=[SaveManager sharedManager]; NSMutableArray *counts=[NSMutableArray array];
+        for(int p=1;p<=[save numberOfPlanets];p++) [counts addObject:@([save numberOfLevelsForPlanetNumber:p])];
+        levelCounts=[counts copy];
+    }
+    if(planet<1 || planet>(int)levelCounts.count || level<1 || level>[levelCounts[planet-1] intValue]) return NO;
+    int target=level+step;
+    if (target<1) { planet--; if(planet<1) return NO; target=[levelCounts[planet-1] intValue]; }
+    else if(target>[levelCounts[planet-1] intValue]) { planet++; if(planet>(int)levelCounts.count) return NO; target=1; }
+    *nextPlanet=planet; *nextLevel=target; return YES;
+}
+
 @implementation PeonIOSDebugLayer
 -(id)init {
     if ((self=[super init])) {
@@ -118,6 +133,23 @@ static void PeonDebugCenterItem(CCMenuItemLabel *item) {
         debugBacking.position=debugCorner; debugBacking.visible=NO; [self addChild:debugBacking];
         debugEntry=[CCMenu menuWithItems:entry,nil]; debugEntry.position=ccp(debugCorner.x+80,debugCorner.y+40); debugEntry.visible=NO;
         [self addChild:debugEntry];
+        NSMutableArray *navigationItems=[NSMutableArray array];
+        for (NSString *title in @[@"Next Level",@"Previous Level"]) {
+            CCLabelTTF *label=[CCLabelTTF labelWithString:title fontName:@"Helvetica-Bold" fontSize:20];
+            label.scale=MIN(1,136/label.contentSize.width);
+            CCMenuItemLabel *item=[CCMenuItemLabel itemWithLabel:label target:self selector:@selector(changeLevel:)];
+            item.tag=navigationItems.count==0 ? 1 : -1;
+            item.contentSize=CGSizeMake(160,80);
+            label.anchorPoint=ccp(.5,.5); label.position=ccp(80,40);
+            item.position=ccp(0,-80*(NSInteger)navigationItems.count);
+            [navigationItems addObject:item];
+        }
+        navigationBacking=[CCLayerColor layerWithColor:ccc4(0,0,0,160) width:160 height:160];
+        navigationBacking.position=ccp(debugCorner.x,debugCorner.y-160); navigationBacking.visible=NO;
+        [self addChild:navigationBacking];
+        levelNavigation=[CCMenu menuWithArray:navigationItems];
+        levelNavigation.position=ccp(debugCorner.x+80,debugCorner.y-40); levelNavigation.visible=NO;
+        [self addChild:levelNavigation];
         toastBacking=[CCLayerColor layerWithColor:ccc4(0,0,0,210) width:360 height:56];
         toastBacking.position=ccp(332,662); toastBacking.visible=NO; [self addChild:toastBacking z:1];
         toast=[CCLabelTTF labelWithString:@"" fontName:@"Helvetica-Bold" fontSize:28];
@@ -131,7 +163,16 @@ static void PeonDebugCenterItem(CCMenuItemLabel *item) {
 -(void)onEnter {
     [super onEnter];
     [debugEntry setHandlerPriority:-950];
+    [levelNavigation setHandlerPriority:-950];
 #if DEBUG
+    if ([[NSProcessInfo processInfo].environment[@"PEON_DEBUG_NAV_AUDIT"] boolValue]) {
+        static BOOL launchedNavigation=NO;
+        if ([self gameScene]) [self performSelector:@selector(debugNavigationAudit) withObject:nil afterDelay:4];
+        else if(!launchedNavigation && [NSStringFromClass(self.parent.class) isEqualToString:@"TitleScene"]) {
+            launchedNavigation=YES;
+            [self performSelector:@selector(launchCameraAudit) withObject:nil afterDelay:.5];
+        }
+    }
     if ([[NSProcessInfo processInfo].environment[@"PEON_DEBUG_CAMERA_AUDIT"] boolValue]) {
         static BOOL launched=NO;
         if ([self gameScene]) [[self gameScene] performSelector:@selector(debugCameraAudit) withObject:nil afterDelay:3];
@@ -142,6 +183,41 @@ static void PeonDebugCenterItem(CCMenuItemLabel *item) {
 #endif
 }
 #if DEBUG
+-(void)debugNavigationAudit {
+    static int phase=0;
+    static id savedDebug=nil;
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    GameManager *game=[GameManager sharedGameManager];
+    if(phase>=3) return;
+    if(phase==0) {
+        savedDebug=[[defaults objectForKey:@"PeonDebugMenuVisible"] retain];
+        int planet,level;
+        NSCAssert(!PeonDebugAdjacentLevel(1,1,-1,&planet,&level),@"Previous escaped Earth 01");
+        int earthEnd=[[SaveManager sharedManager] numberOfLevelsForPlanetNumber:1];
+        NSCAssert(PeonDebugAdjacentLevel(1,earthEnd,1,&planet,&level) && planet==2 && level==1,@"Next did not cross planets");
+        NSCAssert(PeonDebugAdjacentLevel(2,1,-1,&planet,&level) && planet==1 && level==earthEnd,@"Previous did not cross planets");
+        int lastPlanet=[[SaveManager sharedManager] numberOfPlanets];
+        NSCAssert(!PeonDebugAdjacentLevel(lastPlanet,[[SaveManager sharedManager] numberOfLevelsForPlanetNumber:lastPlanet],1,&planet,&level),@"Next escaped the last level");
+    }
+    [defaults setBool:YES forKey:@"PeonDebugMenuVisible"]; [self update:0];
+    NSCAssert(levelNavigation.visible && navigationBacking.visible,@"Level buttons missing during building");
+    if(phase==0 || phase==1) {
+        NSCAssert(game.currentPlanetNum==1 && game.currentLevelNum==(phase==0 ? 1 : 2),@"Level button loaded wrong map");
+        CCMenuItemLabel *item=(id)[levelNavigation getChildByTag:phase==0 ? 1 : -1];
+        phase++;
+        [self changeLevel:item]; return;
+    }
+    NSCAssert(game.currentPlanetNum==1 && game.currentLevelNum==1,@"Previous did not return to Earth 01");
+    [[self gameScene] setDebugFreePanEnabled:YES]; [self update:0];
+    NSCAssert(levelNavigation.visible,@"Free pan hid level navigation");
+    [[self gameScene] setDebugFreePanEnabled:NO];
+    [defaults setBool:NO forKey:@"PeonDebugMenuVisible"]; [self update:0];
+    NSCAssert(!levelNavigation.visible,@"Navigation remained visible with debug off");
+    if(savedDebug) [defaults setObject:savedDebug forKey:@"PeonDebugMenuVisible"]; else [defaults removeObjectForKey:@"PeonDebugMenuVisible"];
+    [savedDebug release]; savedDebug=nil; phase++;
+    [self update:0];
+    fprintf(stderr,"PEON_DEBUG_NAV_AUDIT_PASS: real next/previous launches, planet boundaries, build/free-pan visibility, debug-off hiding\n");
+}
 -(void)launchCameraAudit {
     SaveManager *save=[SaveManager sharedManager]; BOOL tutorial=[save getShowTutorialState];
     [save setShowTutorialState:NO];
@@ -173,6 +249,17 @@ static void PeonDebugCenterItem(CCMenuItemLabel *item) {
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"] || PeonDebugHasModal(self.parent)) return;
     [PopupMenu showPopupMenuType:kPopupDebug withDelegate:nil];
 }
+-(void)changeLevel:(CCMenuItemLabel *)sender {
+    BaseGameScene *scene=[self gameScene];
+    if (navigatingLevel || !levelNavigation.visible || ![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"] || ![scene debugPanAvailable] || [scene valueForKey:@"loadingLayer"] || PeonDebugHasModal(self.parent)) return;
+    GameManager *game=[GameManager sharedGameManager]; int planet,level;
+    if(!PeonDebugAdjacentLevel(game.currentPlanetNum,game.currentLevelNum,sender.tag,&planet,&level)) return;
+    navigatingLevel=YES; panTouch=nil;
+    [scene setDebugFreePanEnabled:NO];
+    game.currentPlanetNum=planet; game.currentLevelNum=level;
+    game.isPaused=NO;
+    [game runPlanet:planet level:level];
+}
 -(void)toggleFreePan {
     BaseGameScene *scene=[self gameScene];
     [scene setDebugFreePanEnabled:!scene.debugFreePanEnabled];
@@ -182,6 +269,13 @@ static void PeonDebugCenterItem(CCMenuItemLabel *item) {
     debugEntry.visible=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"] && !PeonDebugHasModal(self.parent);
     debugBacking.visible=debugEntry.visible;
     BaseGameScene *scene=[self gameScene];
+    levelNavigation.visible=debugEntry.visible && !navigatingLevel && [scene debugPanAvailable] && ![scene valueForKey:@"loadingLayer"];
+    navigationBacking.visible=levelNavigation.visible;
+    GameManager *game=[GameManager sharedGameManager];
+    for (CCMenuItemLabel *item in levelNavigation.children) {
+        int planet,level;
+        item.isEnabled=PeonDebugAdjacentLevel(game.currentPlanetNum,game.currentLevelNum,item.tag,&planet,&level);
+    }
     if (scene.debugFreePanEnabled && ![scene debugPanAvailable]) [scene setDebugFreePanEnabled:NO];
 }
 -(void)registerWithTouchDispatcher {
