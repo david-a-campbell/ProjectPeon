@@ -103,6 +103,19 @@ static CCNode *PeonUIAuditFixtureTick(CCNode *scene, NSString **label) {
         }
         *label=name; return fixture;
     }
+    if ([[NSProcessInfo processInfo].environment[@"PEON_UI_AUDIT_BOOST_POSITION"] boolValue]) {
+        if (!fixture) {
+            // Reproduce opening from title settings, before gameplay artwork is loaded.
+            [[CCSpriteFrameCache sharedSpriteFrameCache] removeSpriteFrameByName:@"controlBoost1.png"];
+            [[CCSpriteFrameCache sharedSpriteFrameCache] removeSpriteFrameByName:@"controlBoost2.png"];
+            id settings=[[[NSClassFromString(@"PopupTitleSettings") alloc] initWithDelegate:nil forGameplay:NO] autorelease];
+            [settings performSelector:@selector(positionBoostButton)];
+            fixture=[[scene getChildByTag:9940] retain];
+            [fixture performSelector:@selector(debugAuditPositioning)];
+            name=[@"fixture-boost-position" retain];
+        }
+        *label=name; return fixture;
+    }
     NSString *map=[NSProcessInfo processInfo].environment[@"PEON_UI_AUDIT_MAP"];
     if (map.length) {
         if (!fixture) {

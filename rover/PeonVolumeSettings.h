@@ -75,7 +75,7 @@ static void PeonRefreshChoiceSetting(CCMenu *menu, BOOL secondSelected) {
 static CCMenu *PeonAddChoiceSetting(NSMutableArray *nodes,id target,CGFloat y,CGFloat scale,NSString *title,NSArray *choices,SEL firstAction,SEL secondAction,BOOL secondSelected) {
     CCLabelBMFont *caption=[CCLabelBMFont labelWithString:title fntFile:@"font52.fnt"];
     PeonInsetBitmapGlyphs(caption);
-    caption.scale=scale; caption.anchorPoint=ccp(1,0.5); caption.position=ccp(-4,y+6);
+    caption.scale=scale; caption.anchorPoint=ccp(0,0.5); caption.position=ccp(-258,y+6);
     // Keep the glow's own alpha when the popup fades its top-level nodes.
     CCLayerRGBA *captionGlows=[CCLayerRGBA node]; captionGlows.cascadeOpacityEnabled=YES;
     [nodes addObject:captionGlows];
@@ -102,27 +102,29 @@ static CCMenu *PeonAddChoiceSetting(NSMutableArray *nodes,id target,CGFloat y,CG
     PeonRefreshChoiceSetting(menu,secondSelected); [nodes addObject:menu];
     return menu;
 }
-static void PeonRefreshBoostSideMenu(CCMenu *menu) {
-    PeonRefreshChoiceSetting(menu,[[SaveManager sharedManager] boostButtonOnRight]);
-}
-// Keep the saved side while disabling every part of the row in Tilt mode.
+// Boost positioning remains unavailable while Tilt is selected.
 static void PeonRefreshBoostAvailability(NSArray *nodes) {
     BOOL enabled=[[SaveManager sharedManager] useTouchControl];
     for (CCNode *node in nodes) {
-        if (node.tag==9780) [(CCLabelBMFont *)node setColor:enabled ? ccWHITE : ccc3(100,100,100)];
-        if (node.tag==9781) for (CCSprite *glow in node.children) glow.opacity=enabled ? 128 : 0;
         if (node.tag!=9782) continue;
-        CCMenu *menu=(CCMenu *)node;
-        PeonRefreshBoostSideMenu(menu);
-        if (!enabled) for (CCMenuItemLabel *item in menu.children) {
-            item.isEnabled=NO; item.label.color=ccc3(100,100,100);
-            [(CCSprite *)[item getChildByTag:9777] setOpacity:0];
+        for (CCMenuItemLabel *item in node.children) {
+            item.isEnabled=enabled;
+            item.label.color=enabled ? ccWHITE : ccc3(100,100,100);
+            [(CCSprite *)[item getChildByTag:9777] setOpacity:enabled ? 128 : 0];
         }
     }
 }
-static void PeonAddBoostSideSetting(NSMutableArray *nodes,id target,CGFloat y,CGFloat scale) {
-    CCMenu *menu=PeonAddChoiceSetting(nodes,target,y,scale,@"boost:",@[@"left",@"right"],@selector(boostLeftSelected:),@selector(boostRightSelected:),[[SaveManager sharedManager] boostButtonOnRight]);
-    menu.tag=9782;
-    PeonRefreshBoostAvailability(nodes);
+static void PeonAddBoostPositionSetting(NSMutableArray *nodes,id target,CGFloat y,CGFloat scale) {
+    CCLabelBMFont *label=[CCLabelBMFont labelWithString:@"Position Boost Button" fntFile:@"font52.fnt"];
+    PeonInsetBitmapGlyphs(label);
+    label.scale=MIN(scale,500/label.contentSize.width);
+    CCMenuItemLabel *item=[CCMenuItemLabel itemWithLabel:label target:target selector:@selector(positionBoostButton)];
+    item.contentSize=CGSizeMake(label.contentSize.width*label.scale+24,70);
+    label.anchorPoint=ccp(.5,.5);
+    label.position=ccp(item.contentSize.width/2,item.contentSize.height/2);
+    CCSprite *glow=PeonSettingsTextGlow(label); glow.tag=9777;
+    [item addChild:glow z:-1];
+    CCMenu *menu=[CCMenu menuWithItems:item,nil]; menu.position=ccp(0,y); menu.tag=9782;
+    [nodes addObject:menu]; PeonRefreshBoostAvailability(nodes);
 }
 #endif

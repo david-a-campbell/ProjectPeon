@@ -48,6 +48,8 @@
 -(void)setUseTouchControl:(BOOL)value;
 -(BOOL)useTouchControl;
 -(BOOL)boostButtonOnRight;
+-(CGPoint)boostButtonPositionForSize:(CGSize)size;
+-(void)saveBoostButtonPosition:(CGPoint)position forSize:(CGSize)size;
 -(void)setBoostButtonOnRight:(BOOL)value;
 -(void)setMusicVolume:(float)musicVolume;
 -(float)getMusicVolume;

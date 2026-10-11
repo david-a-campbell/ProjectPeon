@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B001B0050000000000000001 /* BoostPositionLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B001B0050000000000000002 /* BoostPositionLayer.m */; };
 		F01000000000000000000005 /* Audio.m in Sources */ = {isa = PBXBuildFile; fileRef = F01000000000000000000006 /* Audio.m */; };
 		A100F2A11776775900962A8D /* boostMeter_tip.png in Resources */ = {isa = PBXBuildFile; fileRef = A100F2941776775900962A8D /* boostMeter_tip.png */; };
 		A100F2A41776775900962A8D /* createMenu_btn_bar_tip.png in Resources */ = {isa = PBXBuildFile; fileRef = A100F2971776775900962A8D /* createMenu_btn_bar_tip.png */; };
@@ -1467,6 +1468,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B001B0050000000000000002 /* BoostPositionLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoostPositionLayer.m; sourceTree = "<group>"; };
+		B001B0050000000000000003 /* BoostPositionLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoostPositionLayer.h; sourceTree = "<group>"; };
+		B001B0050000000000000004 /* PeonBoostPlacement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PeonBoostPlacement.h; sourceTree = "<group>"; };
 		F01000000000000000000006 /* Audio.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mac/Audio.m; sourceTree = SOURCE_ROOT; };
 		A100F2941776775900962A8D /* boostMeter_tip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boostMeter_tip.png; sourceTree = "<group>"; };
 		A100F2971776775900962A8D /* createMenu_btn_bar_tip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = createMenu_btn_bar_tip.png; sourceTree = "<group>"; };
@@ -3723,6 +3727,9 @@
 				A14A3C28177A916100E125C3 /* popupMenuDelegate.h */,
 				A1F2F2B1157343EB001F85B2 /* PopupMenu.h */,
 				A1F2F2B2157343EB001F85B2 /* PopupMenu.m */,
+				B001B0050000000000000002 /* BoostPositionLayer.m */,
+				B001B0050000000000000003 /* BoostPositionLayer.h */,
+				B001B0050000000000000004 /* PeonBoostPlacement.h */,
 				A14A3C3F177D323300E125C3 /* PopupSettings.h */,
 				A14A3C40177D323300E125C3 /* PopupSettings.m */,
 				A14A3C25177A8A1700E125C3 /* PopupLevelSelect.h */,
@@ -7367,6 +7374,7 @@
 				A14A3C2E177AAE0E00E125C3 /* PlankObject.m in Sources */,
 				A14A3C31177AB4C700E125C3 /* PopupCartCreation.m in Sources */,
 				A14A3C3E177AC26B00E125C3 /* PopupGamePlay.m in Sources */,
+				B001B0050000000000000001 /* BoostPositionLayer.m in Sources */,
 				A14A3C41177D323300E125C3 /* PopupSettings.m in Sources */,
 				A14A3D09177E74F300E125C3 /* CCControl.m in Sources */,
 				A14A3D0A177E74F300E125C3 /* CCControlButton.m in Sources */,

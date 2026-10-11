@@ -1,3 +1,4 @@
+#import "PeonBoostPlacement.h"
 //
 //  SaveManager.m
 //  rover
@@ -427,6 +428,29 @@
 -(BOOL)boostButtonOnRight
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"PeonBoostButtonOnRight"];
+}
+
+-(CGPoint)boostButtonPositionForSize:(CGSize)size
+{
+    NSDictionary *saved=[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"PeonBoostButtonPosition"];
+    CGRect bounds=PeonBoostBounds(size);
+    if ([saved[@"x"] isKindOfClass:[NSNumber class]] && [saved[@"y"] isKindOfClass:[NSNumber class]]) {
+        double x=[saved[@"x"] doubleValue],y=[saved[@"y"] doubleValue];
+        if (isfinite(x) && isfinite(y))
+            return PeonClampBoostPosition(ccp(bounds.origin.x+x*bounds.size.width,y*size.height),size);
+    }
+    // Preserve the old side preference; a fresh install still defaults to left.
+    if ([self boostButtonOnRight]) return PeonClampBoostPosition(ccp(CGRectGetMaxX(bounds)-150,150),size);
+    return PeonDefaultBoostPosition(size);
+}
+
+-(void)saveBoostButtonPosition:(CGPoint)position forSize:(CGSize)size
+{
+    if (size.width<=0 || size.height<=0 || !isfinite(position.x) || !isfinite(position.y)) return;
+    position=PeonClampBoostPosition(position,size);
+    CGRect bounds=PeonBoostBounds(size);
+    [[NSUserDefaults standardUserDefaults] setObject:@{@"x":@((position.x-bounds.origin.x)/bounds.size.width),@"y":@(position.y/size.height)} forKey:@"PeonBoostButtonPosition"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CONTROL_TYPE_CHANGED object:nil];
 }
 
 -(void)setBoostButtonOnRight:(BOOL)value

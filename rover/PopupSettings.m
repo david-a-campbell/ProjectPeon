@@ -15,6 +15,7 @@
 #import "ToolTipMenu.h"
 #import "CCControlExtension.h"
 #import "PeonVolumeSettings.h"
+#import "BoostPositionLayer.h"
 #ifdef PROJECTPEON_MAC
 #import "PeonBitmapFont.h"
 #endif
@@ -135,8 +136,8 @@
     // Both choice rows share their font, glow, spacing and selection treatment.
     controlSwitchBG.visible=NO; subMenu.visible=NO;
     controlTiltBtn.isEnabled=NO; controlTouchBtn.isEnabled=NO;
-    controlChoiceMenu=PeonAddChoiceSetting([self nodeArray],self,0,SCREEN_SCALE,@"control:",@[@"tilt",@"touch"],@selector(switchToTiltControl),@selector(switchToTouchControl),useTouch);
-    PeonAddBoostSideSetting([self nodeArray],self,-90,SCREEN_SCALE);
+    controlChoiceMenu=PeonAddChoiceSetting([self nodeArray],self,0,SCREEN_SCALE,@"control",@[@"tilt",@"touch"],@selector(switchToTiltControl),@selector(switchToTouchControl),useTouch);
+    PeonAddBoostPositionSetting([self nodeArray],self,-90,SCREEN_SCALE);
     backBtn.position=ccp(0,-180);
 #endif
 
@@ -183,15 +184,9 @@
 }
 
 #ifdef PROJECTPEON_IOS
--(void)boostLeftSelected:(CCMenuItemLabel *)sender
+-(void)positionBoostButton
 {
-    [[SaveManager sharedManager] setBoostButtonOnRight:NO];
-    PeonRefreshBoostSideMenu((CCMenu *)sender.parent);
-}
--(void)boostRightSelected:(CCMenuItemLabel *)sender
-{
-    [[SaveManager sharedManager] setBoostButtonOnRight:YES];
-    PeonRefreshBoostSideMenu((CCMenu *)sender.parent);
+    [BoostPositionLayer show];
 }
 #endif
 

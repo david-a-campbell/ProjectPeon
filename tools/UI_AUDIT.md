@@ -77,6 +77,11 @@ results screen without writing scores or unlocking levels. It shows the next-lev
 action for layout review and checks that iPhone has only three actions and no
 recording action. This fixture, like the other audit hooks, is development-only.
 
+Set `PEON_UI_AUDIT_BOOST_POSITION=1` with the audit/fixtures flags to open the
+boost placement screen and check dragging, pressed state, saved position, viewport
+resize, Reset, screen bounds, and cancellation. The check restores the previous
+position preferences and leaves the editor open for visual review.
+
 For background seams, set `PEON_UI_AUDIT_MAP=planet1Level1.tmx` together with
 both audit flags. The Debug fixture uses the real sky/background loaders and
 completion camera at 0.2 scale, without physics or saved progress changes.
