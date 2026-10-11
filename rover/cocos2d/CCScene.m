@@ -41,10 +41,13 @@
     PeonIOSDebugAttach(self);
 #endif
     [super visit];
+
+#if PEON_DEVELOPMENT_AUDIT
     PeonDebugSnapshotTick(self);
     NSString *auditName=nil;
     CCNode *fixture=PeonUIAuditFixtureTick(self,&auditName);
     PeonUIAuditCaptureNamed(fixture ?: self,auditName);
+#endif
 }
 #endif
 -(id) init

@@ -127,3 +127,14 @@ This writes a unique request into the local app container; the next rendered
 scene saves its framebuffer and matching receipt. The helper waits for that
 receipt so it cannot return an old capture. It also saves the receipt beside the
 PNG. The request hook is compiled out of Release builds.
+
+Release builds also omit the framebuffer capture implementation, audit fixtures,
+request-file polling and audit keep-awake code. The iPhone Release configuration
+defines `PROJECTPEON_APP_STORE`, so these hooks stay disabled even if `DEBUG` is
+accidentally inherited. Cart preview images remain a normal game feature.
+
+After building Release and development, verify the binary boundary with:
+
+```sh
+python3 tools/check_production_audit.py --development /private/tmp/projectpeon-ios-development/Build/Products/Debug-iphoneos/rover.app/rover
+```

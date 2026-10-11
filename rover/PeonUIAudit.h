@@ -1,15 +1,22 @@
 #import "cocos2d.h"
 #import <Foundation/Foundation.h>
 
+#if DEBUG && !defined(PROJECTPEON_APP_STORE)
+#define PEON_DEVELOPMENT_AUDIT 1
+#else
+#define PEON_DEVELOPMENT_AUDIT 0
+#endif
+
 // Opt-in instrumentation. Shipping builds never record UI or disable auto-lock.
 static inline BOOL PeonUIAuditEnabled(void) {
-#if DEBUG
+#if PEON_DEVELOPMENT_AUDIT
     return [[[NSProcessInfo processInfo] environment][@"PEON_UI_AUDIT"] boolValue];
 #else
     return NO;
 #endif
 }
 
+#if PEON_DEVELOPMENT_AUDIT
 #ifdef PROJECTPEON_IOS
 static void PeonAuditScreenshot(NSString *name) {
     GLint viewport[4]; glGetIntegerv(GL_VIEWPORT,viewport);
@@ -138,3 +145,5 @@ static inline void PeonUIAuditCaptureNamed(CCNode *scene, NSString *fixtureName)
         fprintf(stderr,"PEON_UI_AUDIT_CAPTURE %s\n",key.UTF8String);
     }
 }
+
+#endif // PEON_DEVELOPMENT_AUDIT

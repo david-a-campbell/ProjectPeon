@@ -1,4 +1,5 @@
 #import "PeonUIAudit.h"
+#if PEON_DEVELOPMENT_AUDIT
 #import "ToolTipMenu.h"
 #import "PopupMenu.h"
 #import "SaveMenu.h"
@@ -163,3 +164,5 @@ static CCNode *PeonUIAuditFixtureTick(CCNode *scene, NSString **label) {
     name=[name retain]; // Keep the label across autorelease pools.
     *label=name; return fixture;
 }
+
+#endif // PEON_DEVELOPMENT_AUDIT

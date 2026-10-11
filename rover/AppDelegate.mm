@@ -26,7 +26,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+
+#if PEON_DEVELOPMENT_AUDIT
     if(PeonUIAuditEnabled()) application.idleTimerDisabled=YES;
+#endif
     //[TestFlight takeOff:@"a2f10111-7331-4f2c-9dd4-4816dc6d5bb4"];
     
     [SaveManager sharedManager];
@@ -128,7 +131,10 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
 #ifdef PROJECTPEON_IOS
     [[SimpleAudioEngine sharedEngine] resumeAudio];
+
+#if PEON_DEVELOPMENT_AUDIT
     if(PeonUIAuditEnabled()) application.idleTimerDisabled=YES;
+#endif
 #endif
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_DID_BECOME_ACTIVE object:nil];
     [director_ resume];

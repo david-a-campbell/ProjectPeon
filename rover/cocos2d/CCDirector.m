@@ -633,7 +633,7 @@ static CCDirector *_sharedDirector = nil;
         [(CCLabelTTF *)[_peonStatsPanel getChildByTag:1] setString:inLevel ? [NSString stringWithFormat:@"%@ %02d",game.currentPlanetName,game.currentLevelNum] : @"Menu"];
         [(CCLabelTTF *)[_peonStatsPanel getChildByTag:2] setString:_FPSLabel.string];
         [_peonStatsPanel visit];
-#if DEBUG
+#if PEON_DEVELOPMENT_AUDIT
         static BOOL capturedDebugFPS=NO;
         if (!capturedDebugFPS && _frameRate>0 && PeonUIAuditEnabled() && ([[NSProcessInfo processInfo].environment[@"PEON_UI_AUDIT_DEBUG"] boolValue] || (inLevel && [[NSProcessInfo processInfo].environment[@"PEON_DEBUG_CAMERA_AUDIT"] boolValue]))) {
             PeonAuditScreenshot(@"debug-fps"); capturedDebugFPS=YES;

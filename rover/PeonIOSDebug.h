@@ -16,7 +16,7 @@
 -(void)optionsChanged;
 @end
 static inline void PeonIOSDebugAttach(CCNode *scene) {
-#if DEBUG
+#if DEBUG && !defined(PROJECTPEON_APP_STORE)
     if (![scene getChildByTag:9930]) {
         PeonIOSDebugLayer *layer=[PeonIOSDebugLayer node];
         layer.tag=9930;
