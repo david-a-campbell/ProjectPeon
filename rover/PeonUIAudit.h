@@ -90,7 +90,13 @@ static inline void PeonUIAuditCaptureNamed(CCNode *scene, NSString *fixtureName)
             key=[key stringByAppendingString:[panel valueForKey:@"expandedItem"] ? @":expanded" : @":row"];
         NSMutableArray *rows=[NSMutableArray array]; PeonAuditNodes(panel,key,rows);
         NSData *geometry=[NSJSONSerialization dataWithJSONObject:rows options:NSJSONWritingSortedKeys error:nil];
-        if(![candidates[key] isEqual:geometry]) { candidates[key]=geometry; since[key]=@(now); continue; }
+        BOOL terrainCapture=[key hasPrefix:@"terrain-end-"];
+        if (terrainCapture && emitted[key]) continue;
+        if(![candidates[key] isEqual:geometry]) {
+            candidates[key]=geometry;
+            if (!terrainCapture || !since[key]) since[key]=@(now);
+            if (!terrainCapture) continue;
+        }
         if(now-[since[key] doubleValue]<1 || [emitted[key] isEqual:geometry]) continue;
         emitted[key]=geometry;
 #ifdef PROJECTPEON_IOS

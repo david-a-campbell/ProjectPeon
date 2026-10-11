@@ -6,6 +6,10 @@
 #import "LevelScoreDisplay.h"
 #import "Constants.h"
 
+@interface NSObject (TerrainUIAudit)
++(CCNode *)endOfMap:(NSString *)map;
+@end
+
 @interface PopupMenu (UIAudit)
 -(void)switchToMenu:(PopupType)type;
 -(void)showPreviousMenu;
@@ -49,6 +53,15 @@ static CCNode *PeonUIAuditFixtureTick(CCNode *scene, NSString **label) {
     if([CCDirector sharedDirector].isPaused) { started+=now-(started+4*phase); *label=nil; return nil; }
     if(phase==previous) { *label=name; return fixture; }
     previous=phase;
+    NSString *map=[NSProcessInfo processInfo].environment[@"PEON_UI_AUDIT_MAP"];
+    if (map.length) {
+        if (!fixture) {
+            fixture=[[NSClassFromString(@"PeonTerrainAudit") endOfMap:map] retain];
+            [scene addChild:fixture z:10000000];
+            name=[[@"terrain-end-" stringByAppendingString:map] retain];
+        }
+        *label=name; return fixture;
+    }
     if ([[NSProcessInfo processInfo].environment[@"PEON_UI_AUDIT_WORKSHOP"] boolValue]) {
         if (!fixture) {
             fixture=[[PopupMenu alloc] initForType:kPopupStore andDelegate:nil];

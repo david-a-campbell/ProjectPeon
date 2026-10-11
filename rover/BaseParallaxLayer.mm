@@ -321,11 +321,15 @@
         CGFloat viewportSpan=1024.0*16/9/.2;
         CGFloat requiredSpan=side<0 ? viewportSpan :
             MAX(viewportSpan,mapWidth*groupXRatio+viewportSpan-(x+CGRectGetMaxX(visibleRect)*tileSprite.scaleX));
-        NSInteger copies=MAX(1,(NSInteger)ceil(requiredSpan/(visibleRect.size.width*tileSprite.scaleX)));
+        // Cropped transparent textures can expose a raster-sized crack at a
+        // reflected join. Share one source pixel across every extension join.
+        CGFloat overlap=1.0/CC_CONTENT_SCALE_FACTOR();
+        CGFloat repeatWidth=MAX(overlap,visibleRect.size.width-overlap);
+        NSInteger copies=MAX(1,(NSInteger)ceil(requiredSpan/(repeatWidth*tileSprite.scaleX)));
         for(NSInteger copy=1;copy<=copies;copy++) {
         CCSprite *edge=[CCSprite spriteWithTexture:tileSprite.texture rect:visibleRect];
         edge.anchorPoint=tileSprite.anchorPoint; edge.scale=tileSprite.scale; edge.flipX=(copy%2)==1;
-        CGFloat edgeX=x+(side<0 ? CGRectGetMinX(visibleRect)-copy*visibleRect.size.width : CGRectGetMaxX(visibleRect)+(copy-1)*visibleRect.size.width)*tileSprite.scaleX;
+        CGFloat edgeX=x+(side<0 ? CGRectGetMinX(visibleRect)-copy*repeatWidth : CGRectGetMaxX(visibleRect)-overlap+(copy-1)*repeatWidth)*tileSprite.scaleX;
         [parrallaxNode addChild:edge z:groupZOrder parallaxRatio:ccp(groupXRatio,groupYRatio) positionOffset:ccp(edgeX,y)];
         }
     }
@@ -628,3 +632,33 @@
 {CCLOG(@"Must Be Overriden");}
 
 @end
+
+#if DEBUG
+#import "BacgroundParallaxLayer.h"
+#import "SkyboxParallaxLayer.h"
+// Opt-in capture of the actual background at the completion camera, with no
+// cart/physics simulation or changes to saved level progress.
+@interface PeonTerrainAudit : NSObject
++(CCNode *)endOfMap:(NSString *)map;
+@end
+@implementation PeonTerrainAudit
++(CCNode *)endOfMap:(NSString *)map {
+    CCTMXMapInfo *info=[CCTMXMapInfo formatWithTMXFile:map];
+    CGFloat width=info.mapSize.width*info.tileSize.width;
+    CGPoint pod=ccp(width-2000,1000);
+    for (CCTMXObjectGroup *group in info.objectGroups)
+        for (NSDictionary *object in group.objects)
+            if ([object[@"type"] isEqualToString:@"PodSprite"]) pod=ccp([object[@"x"] doubleValue],[object[@"y"] doubleValue]);
+    CGFloat x=MAX(2560-pod.x,-width+5120+256+1024.0/6/.2);
+    CGFloat y=MIN(1920-pod.y,-256);
+    CCNode *root=[CCNode node];
+    SkyboxParallaxLayer *sky=[[[SkyboxParallaxLayer alloc] initWithTileMap:map] autorelease];
+    BacgroundParallaxLayer *background=[[[BacgroundParallaxLayer alloc] initWithTileMap:map] autorelease];
+    [root addChild:sky]; [root addChild:background];
+    [background setParallaxScaleX:.2]; [background setParallaxScaleY:.2];
+    [sky setParallaxPosition:ccp(x*.2,y*.2)];
+    [background setParallaxPosition:ccp(x*.2,y*.2)];
+    return root;
+}
+@end
+#endif

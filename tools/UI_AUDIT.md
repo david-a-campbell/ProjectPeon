@@ -71,3 +71,13 @@ Set `DEVICECTL_CHILD_PEON_UI_AUDIT_WORKSHOP=1` alongside the audit/fixtures
 flags to open the workshop using the real upgrade artwork and animations.
 All workshop upgrades are included; no StoreKit observer, product request,
 payment, or restoration is registered by this screen.
+
+For background seams, set `PEON_UI_AUDIT_MAP=planet1Level1.tmx` together with
+both audit flags. The Debug fixture uses the real sky/background loaders and
+completion camera at 0.2 scale, without physics or saved progress changes.
+It captures `terrain-end-planet1Level1.tmx.png` after one second, allowing moving
+clouds to continue. Repeat with other map filenames for visual spot checks.
+`tools/audit_terrain_edges.py` (Pillow required) scans all 36 maps' enabled
+mirrored edges at standard/Retina scales, including transparent-padding crops
+and stacked strips. Its JSON report is an asset/geometry check, not a substitute
+for framebuffer inspection.
