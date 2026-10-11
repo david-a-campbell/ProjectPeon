@@ -1,15 +1,15 @@
-# Project Peon for Mac — Privacy Policy
+# Project Peon — Privacy Policy
 
-Effective October 10, 2026.
+Effective October 11, 2026. Applies to version 2.0 for iPhone, iPad and Mac.
 
-The Mac version of Project Peon does not collect, transmit, sell, or track personal data. It has no account system, advertisements, or analytics service. Gameplay works offline.
+Project Peon does not collect, transmit, sell, or track personal data. It has no account system, advertisements, or analytics service. Gameplay works offline.
 
-Saved carts, level progress, and settings are stored locally on your Mac in the app's sandbox. The game does not upload them to a server. This local data is retained until you delete it. You can delete individual saved carts in the load/save menu; removing the app's local sandbox data removes saved carts, progress, and settings. Exported recordings and screenshots remain in your chosen location until you delete those files.
+Saved carts, level progress and settings are stored locally in the app's sandbox. The game does not upload them to a server. This local data is retained until you delete it. You can delete individual saved carts in the load/save menu. On iPhone and iPad, deleting the app removes its local data; on Mac, removing the app's sandbox data removes saved carts, progress and settings.
 
-Optional gameplay recording captures the game view only, without sound. Recordings are temporarily stored locally; exporting a recording saves it to a location you choose using the macOS Save dialog. Unexported recordings are discarded when you restart, change levels, return to building, or quit. The app does not access your camera or microphone.
+Gameplay recording is unavailable on iPhone and iPad. The native Mac version offers optional, silent recording of the game view only. Unexported recordings are discarded when you restart, change levels, return to building or quit. Exported recordings and screenshots remain in your chosen location until you delete them. The game does not access your camera or microphone.
 
-Apple operates the Mac App Store and may process purchase, download, and diagnostic information under [Apple's privacy policy](https://www.apple.com/legal/privacy/). This is separate from data collected by the game.
+Apple operates the App Store and may process purchase, download, backup and diagnostic information under [Apple's privacy policy](https://www.apple.com/legal/privacy/). This is separate from data collected by the game.
 
 If you contact us through [GitHub Issues](https://github.com/david-a-campbell/ProjectPeon/issues), GitHub processes your submission under its own privacy policy. Issues are public, so do not include private information. Information you voluntarily provide is used to respond to your support request.
 
-This policy applies specifically to the native Mac release. Older iPad releases and the separate iPhone development branch are outside its scope.
+Older releases are outside this policy's scope.
