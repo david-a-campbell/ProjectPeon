@@ -39,7 +39,11 @@
 {
     b2Vec2 location = b2Vec2(start.x/pixelsToMeterRatio(),start.y/pixelsToMeterRatio());
     b2Body *lastBody;
-    int max = floor(width/(plankSize.width*3/4));
+    // Fit overlapping planks to the authored span. Rounding down a fixed
+    // stride can stop the final plank before the bank, depending on width.
+    float preferredStride = plankSize.width*3/4;
+    int max = MAX(1, (int)ceil(MAX(0.0f, width-plankSize.width)/preferredStride)+1);
+    float stride = max>1 ? (width-plankSize.width)/(max-1) : 0;
     for(int i = 0; i < max; i++) 
     {        
         Box2DSprite *plank = [Box2DSprite spriteWithFile:fileName]; 
@@ -74,7 +78,7 @@
             b2Vec2 anchorLoc = location;
             if (i==max-1)
             {
-                anchorLoc.x += ((plankSize.width*3/4))/pixelsToMeterRatio();
+                anchorLoc.x += stride/pixelsToMeterRatio();
             }
             b2BodyDef fixedBodyDef;
             fixedBodyDef.type = b2_staticBody;
@@ -98,7 +102,7 @@
             jd.enableLimit = true;
             world->CreateJoint(&jd); 
         }
-        location.x += ((plankSize.width*3/4))/pixelsToMeterRatio();
+        location.x = (start.x+(i+1)*stride)/pixelsToMeterRatio();
         lastBody = plank.body; 
         [self addChild:plank z:(i%2 == 0?0:1)];
     }   
