@@ -92,14 +92,13 @@
 
 -(void)setupButtons
 {
-    CCSprite *dbtn = [CCSprite spriteWithSpriteFrameName:@"blueprints_selectDelete_1.png"];
-    CCSprite *dbtnsel = [CCSprite spriteWithSpriteFrameName:@"blueprints_selectDelete_sel_1.png"];
-    CCSprite *sbtn = [CCSprite spriteWithSpriteFrameName:@"blueprints_selectConfirm_1.png"];
-    CCSprite *sbtnsel = [CCSprite spriteWithSpriteFrameName:@"blueprints_selectConfirm_sel_1.png"];
-    dbtn = [CCSprite spriteWithFile:@"CartDelete.png"];
-    dbtnsel = [CCSprite spriteWithFile:@"CartDeleteDown.png"];
-    sbtn = [CCSprite spriteWithFile:@"CartLoad.png"];
-    sbtnsel = [CCSprite spriteWithFile:@"CartLoadDown.png"];
+    // These 106x51 assets have a transparent one-pixel border. Align their
+    // visible edges to the preview, rather than leaving that border as a seam.
+    CGRect actionRect = CC_RECT_PIXELS_TO_POINTS(CGRectMake(1,1,104,49));
+    CCSprite *dbtn = [CCSprite spriteWithFile:@"CartDelete.png" rect:actionRect];
+    CCSprite *dbtnsel = [CCSprite spriteWithFile:@"CartDeleteDown.png" rect:actionRect];
+    CCSprite *sbtn = [CCSprite spriteWithFile:@"CartLoad.png" rect:actionRect];
+    CCSprite *sbtnsel = [CCSprite spriteWithFile:@"CartLoadDown.png" rect:actionRect];
     deleteButton = [CCMenuItemSprite itemWithNormalSprite:dbtn selectedSprite:dbtnsel target:self selector:@selector(deleteCart)];
     saveButton = [CCMenuItemSprite itemWithNormalSprite:sbtn selectedSprite:sbtnsel target:self selector:@selector(loadCart)];
     [saveButton setAnchorPoint:ccp(0, 0)];
@@ -108,8 +107,8 @@
     [deleteButton setPosition:ccp(36.75, -53.50)];
     [deleteButton setScale:0.33*CC_CONTENT_SCALE_FACTOR()];
     [saveButton setScale:0.33*CC_CONTENT_SCALE_FACTOR()];
-    CGFloat buttonWidth = 106*0.33;
-    CGFloat buttonHeight = 51*0.33;
+    CGFloat buttonWidth = deleteButton.boundingBox.size.width;
+    CGFloat buttonHeight = saveButton.boundingBox.size.height;
     CGRect preview = savedImage.boundingBox;
     CGFloat left = button.position.x+CGRectGetMinX(preview);
     CGFloat right = button.position.x+CGRectGetMaxX(preview);
