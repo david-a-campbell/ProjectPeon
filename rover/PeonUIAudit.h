@@ -27,6 +27,25 @@ static void PeonAuditScreenshot(NSString *name) {
 }
 #endif
 
+// A local request file allows a developer to capture the current frame without
+// restarting the app or enabling the automatic walkthrough. Never ships.
+static inline void PeonDebugSnapshotTick(CCNode *scene) {
+#if DEBUG && defined(PROJECTPEON_IOS)
+    static NSTimeInterval checked=0;
+    NSTimeInterval now=[NSDate timeIntervalSinceReferenceDate];
+    if(now-checked<0.25) return;
+    checked=now;
+    NSString *requestPath=[NSTemporaryDirectory() stringByAppendingPathComponent:@"PeonSnapshotRequest.txt"];
+    NSString *request=[NSString stringWithContentsOfFile:requestPath encoding:NSUTF8StringEncoding error:nil];
+    if(!request.length) return;
+    PeonAuditScreenshot(@"PeonLiveSnapshot");
+    NSDictionary *receipt=@{@"request":request,@"scene":NSStringFromClass(scene.class),@"capturedAt":@([[NSDate date] timeIntervalSince1970])};
+    NSData *data=[NSJSONSerialization dataWithJSONObject:receipt options:0 error:nil];
+    [data writeToFile:[NSTemporaryDirectory() stringByAppendingPathComponent:@"PeonLiveSnapshot.json"] atomically:YES];
+    [[NSFileManager defaultManager] removeItemAtPath:requestPath error:nil];
+#endif
+}
+
 static inline double PeonAuditRound(double value) { return round(value*100)/100; }
 static inline void PeonAuditNodes(CCNode *node, NSString *path, NSMutableArray *rows) {
     if (!node.visible || [NSStringFromClass(node.class) hasPrefix:@"CCParticle"]) return;

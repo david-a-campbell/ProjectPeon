@@ -115,3 +115,15 @@ The test restores the original control preference and teleport setting.
 the real Next Level button to load Earth 02, then activates Previous Level to
 return. It checks planet boundaries, visibility in building/free pan, and hiding
 with debug off. Disable the other fixture flags for this walkthrough.
+
+For a snapshot of the current live game view, use a development build and leave
+it running in the foreground. No audit flags or USB screen preview are needed:
+
+```sh
+python3 tools/snapshot_iphone.py --device COREDEVICE_ID --output /tmp/peon-live.png
+```
+
+This writes a unique request into the local app container; the next rendered
+scene saves its framebuffer and matching receipt. The helper waits for that
+receipt so it cannot return an old capture. It also saves the receipt beside the
+PNG. The request hook is compiled out of Release builds.
