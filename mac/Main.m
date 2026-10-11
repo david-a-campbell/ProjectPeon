@@ -6,6 +6,7 @@
 #import "PeonCloseButton.h"
 #import "GameManager.h"
 #import "BaseGameScene.h"
+#import "CartCreationLayer.h"
 #import "SaveManager.h"
 #import "PeonMac.h"
 #import "PeonViewport.h"
@@ -18,10 +19,30 @@ static BaseGameScene *inspectionScene(void) {
     return [scene isKindOfClass:[BaseGameScene class]] ? (BaseGameScene *)scene : nil;
 }
 BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCameraEnabled] && code < 128 && keys[code]; }
-@interface PeonView : CCGLView { UITouch *pointer; BOOL panningMap; CGPoint previousPanPoint; }
+@interface PeonView : CCGLView {
+    UITouch *pointer;
+    BOOL panningMap, shiftRotating;
+    CGPoint previousPanPoint, previousRotationPoint;
+}
 @end
 @implementation PeonView
 - (BOOL)acceptsFirstResponder { return YES; }
+- (CartCreationLayer *)rotationEditor {
+    BaseGameScene *scene=inspectionScene();
+    if (!scene || scene.inspectionCameraEnabled || ![scene canChangeMousePanState] || panningMap) return nil;
+    for (CCNode *child in scene.children)
+        if ([child isKindOfClass:[CartCreationLayer class]] && [(CartCreationLayer *)child canRotateFromMac])
+            return (CartCreationLayer *)child;
+    return nil;
+}
+- (void)flagsChanged:(NSEvent *)event {
+    shiftRotating=(event.modifierFlags & NSEventModifierFlagShift)!=0;
+}
+// Part rotation is controlled only by Shift during a primary-button drag.
+- (void)beginGestureWithEvent:(NSEvent *)event {}
+- (void)rotateWithEvent:(NSEvent *)event {}
+- (void)scrollWheel:(NSEvent *)event {}
+- (void)endGestureWithEvent:(NSEvent *)event {}
 - (void)keyDown:(NSEvent *)event {
     if(event.keyCode==35 &&
        !(event.modifierFlags & (NSEventModifierFlagCommand | NSEventModifierFlagControl | NSEventModifierFlagOption)) &&
@@ -74,6 +95,7 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
 - (void)mouseDown:(NSEvent *)event {
     if ([inspectionScene() inspectionCameraEnabled] && ![inspectionScene() mousePanPreviewEnabled]) return;
     [self.openGLContext makeCurrentContext];
+    shiftRotating=(event.modifierFlags & NSEventModifierFlagShift)!=0;
     CGPoint point = [self convertPoint:event.locationInWindow fromView:nil];
     if (!CGRectContainsPoint(PeonGameViewport(self.bounds, [[CCDirector sharedDirector] winSize]), point)) return;
     CGPoint gamePoint=PeonGamePoint(point,PeonGameViewport(self.bounds,[[CCDirector sharedDirector] winSize]),[[CCDirector sharedDirector] winSize]);
@@ -85,6 +107,7 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     [pointer release]; pointer = [UITouch new]; pointer.view = self; pointer.tapCount = event.clickCount;
     pointer.location = [self convertPoint:event.locationInWindow fromView:nil]; pointer.previousLocation = pointer.location;
     [[[CCDirector sharedDirector] touchDispatcher] touchesBegan:[NSSet setWithObject:pointer] withEvent:event];
+    previousRotationPoint=point;
 }
 - (void)mouseDragged:(NSEvent *)event {
     [self.openGLContext makeCurrentContext];
@@ -94,19 +117,43 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
         previousPanPoint=point; return;
     }
     if (!pointer) return;
-    pointer.previousLocation=pointer.location; pointer.location=[self convertPoint:event.locationInWindow fromView:nil];
+    CGPoint point=[self convertPoint:event.locationInWindow fromView:nil];
+    CGPoint delta=ccpSub(point,previousRotationPoint);
+    previousRotationPoint=point;
+    // Read modifiers on every drag as well as flagsChanged so Shift can be
+    // pressed or released at any point during the same edit transaction.
+    shiftRotating=(event.modifierFlags & NSEventModifierFlagShift)!=0;
+    CartCreationLayer *editor=[self rotationEditor];
+    if (editor && shiftRotating) {
+        [editor rotateFromMacByDegrees:delta.x*0.5];
+        return;
+    }
+    // Only movement deltas outside rotation mode translate the held part.
+    // This avoids a jump to the cursor when Shift is released.
+    pointer.previousLocation=pointer.location;
+    pointer.location=ccpAdd(pointer.location,delta);
     [[[CCDirector sharedDirector] touchDispatcher] touchesMoved:[NSSet setWithObject:pointer] withEvent:event];
 }
 - (void)mouseUp:(NSEvent *)event {
     if(panningMap) { panningMap=NO; return; }
     [self.openGLContext makeCurrentContext];
     if (!pointer) return;
-    pointer.previousLocation=pointer.location; pointer.location=[self convertPoint:event.locationInWindow fromView:nil];
+    CGPoint point=[self convertPoint:event.locationInWindow fromView:nil];
+    pointer.previousLocation=pointer.location;
+    if (![self rotationEditor]) pointer.location=point;
+    else if (!(event.modifierFlags & NSEventModifierFlagShift))
+        pointer.location=ccpAdd(pointer.location,ccpSub(point,previousRotationPoint));
     [[[CCDirector sharedDirector] touchDispatcher] touchesEnded:[NSSet setWithObject:pointer] withEvent:event];
     [pointer release]; pointer=nil;
+    shiftRotating=NO;
 }
 - (void)cancelInput {
     panningMap=NO;
+    if (pointer && [self rotationEditor]) {
+        [[[CCDirector sharedDirector] touchDispatcher] touchesEnded:[NSSet setWithObject:pointer] withEvent:nil];
+        [pointer release]; pointer=nil;
+    }
+    shiftRotating=NO;
     memset(keys,0,sizeof(keys));
     if(pointer) { [[[CCDirector sharedDirector] touchDispatcher] touchesCancelled:[NSSet setWithObject:pointer] withEvent:nil]; [pointer release]; pointer=nil; }
 }
@@ -138,7 +185,15 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
 }
 - (void)saveCameraScreenshot:(id)sender {
     NSString *name=[NSString stringWithFormat:@"Project Peon Camera %.0f.png",NSDate.date.timeIntervalSince1970*1000];
+#ifdef PROJECTPEON_APP_STORE
+    NSSavePanel *panel=[NSSavePanel savePanel];
+    panel.nameFieldStringValue=name;
+    [panel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse response) {
+        if(response==NSModalResponseOK) PeonRequestScreenshot(panel.URL.path);
+    }];
+#else
     PeonRequestScreenshot([[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:name]);
+#endif
 }
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
     if(item.menu==self.debugMenuItem.submenu && self.debugMenuItem.hidden) return NO;
@@ -226,6 +281,8 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     NSMenu *menu=[[[NSMenu alloc] init] autorelease]; NSMenuItem *root=[[[NSMenuItem alloc] init] autorelease]; [menu addItem:root];
     NSMenu *appMenu=[[[NSMenu alloc] initWithTitle:@"Project Peon"] autorelease]; [root setSubmenu:appMenu];
     [appMenu addItemWithTitle:@"Controls…" action:@selector(showControls:) keyEquivalent:@"?"];
+    NSMenuItem *privacyItem=[appMenu addItemWithTitle:@"Privacy Policy…" action:@selector(showPrivacyPolicy:) keyEquivalent:@""];
+    privacyItem.target=self;
     [appMenu addItem:[NSMenuItem separatorItem]];
     [appMenu addItemWithTitle:@"Quit Project Peon" action:@selector(terminate:) keyEquivalent:@"q"];
     NSMenuItem *debugRoot=[[[NSMenuItem alloc] initWithTitle:@"Debug" action:nil keyEquivalent:@""] autorelease];
@@ -286,9 +343,12 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     [director startAnimation];
     [NSApp activateIgnoringOtherApps:YES];
 }
+- (void)showPrivacyPolicy:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/david-a-campbell/ProjectPeon/blob/widescreen-16-9/mac/AppStore/Privacy.md"]];
+}
 - (void)showControls:(id)sender {
     NSAlert *alert=[[[NSAlert alloc] init] autorelease]; alert.messageText=@"Project Peon controls";
-    alert.informativeText=@"Level selection: move the mouse or use W/A/S/D to move the parallax.\nClick and drag to build your rover.\nA / D or Left / Right arrows: drive\nSpace: booster\nR: relaunch rover\nC: return to cart creation\nM: next music track\nP: toggle Mouse Pan Map (cart-free preview while building)\nUse the on-screen menus to play, pause, reset and save.\nCommand-Q: quit"; [alert runModal];
+    alert.informativeText=@"Level selection: move the mouse or use W/A/S/D to move the parallax.\nClick and drag to build your rover.\nMove tool: hold Shift during a drag to rotate; release Shift to move again.\nA / D or Left / Right arrows: drive\nSpace: booster\nR: relaunch rover\nC: return to cart creation\nM: next music track\nP: toggle Mouse Pan Map (cart-free preview while building)\nUse the on-screen menus to play, pause, reset and save.\nCommand-Q: quit"; [alert runModal];
 }
 - (void)applicationWillResignActive:(NSNotification *)n {
     [(PeonView *)self.window.contentView cancelInput];

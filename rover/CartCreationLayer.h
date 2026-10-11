@@ -139,4 +139,8 @@
 -(void)slideToolMenuIn;
 -(void)relaunchFromKeyboard;
 -(void)cartCreationFromKeyboard;
+#ifdef PROJECTPEON_MAC
+-(BOOL)canRotateFromMac;
+-(void)rotateFromMacByDegrees:(CGFloat)degrees;
+#endif
 @end

@@ -24,6 +24,15 @@
 #import "CartPart.h"
 #import "ShockImageSet.h"
 
+#ifdef PROJECTPEON_MAC
+static CGPoint PeonBoosterDirectionEnd(CGPoint start, CGPoint end)
+{
+    // A click can place a booster without a direction drag. Its artwork and
+    // fixture still point right, but a zero vector cannot be rotated later.
+    return ccpDistance(start, end) < 0.001 ? ccpAdd(start, ccp(1, 0)) : end;
+}
+#endif
+
 @interface CartCreationLayer(Private)
 -(void)setupTempToolImages;
 -(void)createBarEnded;
@@ -1543,6 +1552,10 @@
 
 -(void)createShockEndedStart:(CGPoint)start end:(CGPoint)end
 {
+#ifdef PROJECTPEON_MAC
+    // A spring needs two distinct attachment points to have a direction.
+    if (ccpDistance(start, end) < 0.001) return;
+#endif
     [cartCreationDelegate createShockWithStart:start andEnd:end];
 }
 
@@ -1601,6 +1614,9 @@
 
 -(void)createBoosterEnded
 {
+#ifdef PROJECTPEON_MAC
+    touchEndLocation = PeonBoosterDirectionEnd(touchStartLocation, touchEndLocation);
+#endif
     [cartCreationDelegate createBoosterWithStart:touchStartLocation andEnd:touchEndLocation andType:[self gameObjectTypeFromTool:currentBoosterType]];
 }
 
@@ -1851,6 +1867,30 @@
     CGPoint endLocation = [self convertToCreationSpace:[self convertTouchToNodeSpace:rotateEditTouch]];
     rotateEditAngleStart = -[self pointPairToBearingDegrees:startLocation secondPoint:endLocation];
 }
+
+#ifdef PROJECTPEON_MAC
+-(BOOL)canRotateFromMac
+{
+    return selectedTool == toolTypeEdit && [self shouldAllowCartCreation] &&
+        !isDeleteAllMenuUp && !isMotorMenuUp && !isBoosterMenuUp;
+}
+
+-(void)rotateFromMacByDegrees:(CGFloat)degrees
+{
+    if (![self canRotateFromMac] || !editingPart || !moveEditTouch || !isfinite(degrees)) return;
+    // The original touch helpers amplify finger angles by three. Mac input
+    // already supplies degrees, so compensate for that and retain their pivots,
+    // connected shocks and construction-area validation.
+    rotateEditAngleStart = 0;
+    rotateEditAngleMove = -degrees / 3.0;
+    GameObjectType type = editingPart.gameObjectType;
+    if (type == kBoosterPartType || type == kBooster50PartType)
+        editingPart.end = PeonBoosterDirectionEnd(editingPart.start, editingPart.end);
+    BOOL valid = (type == kBarPartType || type == kShockPartType) ?
+        [self rotateEditPartAroundCenter] : [self rotateEditPartAroundStart];
+    if (valid) [self editPartMoved];
+}
+#endif
 
 -(void)rotatePartMoved
 {
