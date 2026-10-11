@@ -134,7 +134,7 @@
     [self regainFuel];
 }
 
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 -(void)teleportToPosition:(CGPoint)position
 {
     if (!body || world->IsLocked()) return;

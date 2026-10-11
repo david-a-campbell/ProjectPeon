@@ -46,6 +46,9 @@
 #import "ccGLStateCache.h"
 #import "CCShaderCache.h"
 #import "ccFPSImages.h"
+#ifdef PROJECTPEON_IOS
+#import "../PeonUIAudit.h"
+#endif
 #import "CCDrawingPrimitives.h"
 #import "CCConfiguration.h"
 
@@ -611,9 +614,22 @@ static CCDirector *_sharedDirector = nil;
 			[draws release];
 		}
 
-		[_drawsLabel visit];
-		[_FPSLabel visit];
-		[_SPFLabel visit];
+#ifdef PROJECTPEON_IOS
+        // Only FPS, aligned to the left edge of the expanded 16:9 canvas.
+        CGSize canvas=[self winSize];
+        [_FPSLabel setPosition:ccp(-canvas.width/6+12,canvas.height-44)];
+        [_FPSLabel visit];
+#if DEBUG
+        static BOOL capturedDebugFPS=NO;
+        if (!capturedDebugFPS && _frameRate>0 && PeonUIAuditEnabled() && [[NSProcessInfo processInfo].environment[@"PEON_UI_AUDIT_DEBUG"] boolValue]) {
+            PeonAuditScreenshot(@"debug-fps"); capturedDebugFPS=YES;
+        }
+#endif
+#else
+        [_drawsLabel visit];
+        [_FPSLabel visit];
+        [_SPFLabel visit];
+#endif
 	}
 	
 	__ccNumberOfDraws = 0;

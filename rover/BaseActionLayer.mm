@@ -428,6 +428,9 @@
 
 - (void)followSprite
 {   
+#ifdef PROJECTPEON_IOS
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"PeonFreePan"]) return;
+#endif
 #ifdef PROJECTPEON_MAC
     if([self drivingCameraAvailable] && [[NSUserDefaults standardUserDefaults] boolForKey:@"PeonMousePan"]) return;
 #endif
@@ -440,7 +443,7 @@
     [self setPosition:newPos];
 }
 
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 -(void)teleportCartToScreenCenter {
     if (![self drivingCameraAvailable]) return;
     CGSize canvas = [CCDirector sharedDirector].winSize;
@@ -467,7 +470,7 @@
     // Apply the left boundary before the first widescreen frame is drawn.
     [self setPosition:self.position];
     [super visit];
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     [self drawPhysicsOverlay];
 #endif
 }
@@ -644,7 +647,7 @@
     //[playerCart applybreakableJoints];
 }
 
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 -(void)drawPhysicsOverlay
 {
     if (!self.visible || !world || ![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonShowPhysicsObjects"]) return;
@@ -661,7 +664,7 @@
 
 -(void)draw
 {
-#ifndef PROJECTPEON_MAC
+#ifndef PROJECTPEON_WIDE_UI
     if (debugDraw)
     {
         ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );

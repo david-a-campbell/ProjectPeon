@@ -30,12 +30,16 @@
 #import "CCDirector.h"
 #ifdef PROJECTPEON_WIDE_UI
 #import "../PeonUIAuditFixtures.h"
+#import "../PeonIOSDebug.h"
 #endif
 
 
 @implementation CCScene
 #ifdef PROJECTPEON_WIDE_UI
 -(void)visit {
+#ifdef PROJECTPEON_IOS
+    PeonIOSDebugAttach(self);
+#endif
     [super visit];
     NSString *auditName=nil;
     CCNode *fixture=PeonUIAuditFixtureTick(self,&auditName);

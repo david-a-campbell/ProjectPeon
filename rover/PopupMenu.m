@@ -29,6 +29,181 @@
 #import "PopupGameInfo.h"
 #import "InstructionLayer.h"
 
+#ifdef PROJECTPEON_IOS
+#import "PeonIOSDebug.h"
+#import "BaseGameScene.h"
+#import "ToolTipMenu.h"
+#import "SaveMenu.h"
+#import "../mac/PeonDebugSettings.h"
+
+static BOOL PeonDebugHasModal(CCNode *node) {
+    if ([node isKindOfClass:[PopupMenu class]] || [node isKindOfClass:[ToolTipMenu class]] ||
+        [node isKindOfClass:[SaveMenu class]] || [node isKindOfClass:[InstructionLayer class]]) return YES;
+    for (CCNode *child in node.children) if (PeonDebugHasModal(child)) return YES;
+    return NO;
+}
+static CCLabelBMFont *PeonDebugLabel(NSString *text) {
+    CCLabelBMFont *label=[CCLabelBMFont labelWithString:text fntFile:@"font42.fnt"];
+    label.scale=1;
+    for (CCSprite *glyph in label.children) {
+        CGRect rect=glyph.textureRect; CGSize size=glyph.contentSize;
+        [glyph setTextureRect:CGRectInset(rect,.5,.5) rotated:glyph.textureRectRotated untrimmedSize:size];
+    }
+    return label;
+}
+static void PeonDebugCenterItem(CCMenuItemLabel *item) {
+    CCLabelBMFont *label=(id)item.label;
+    item.contentSize=CGSizeMake(label.contentSize.width*label.scale+24,80);
+    label.anchorPoint=ccp(.5,.5); label.position=ccp(item.contentSize.width/2,40);
+}
+@interface PeonDebugPopup : BasePopupMenu {
+    CCMenu *options;
+}
+-(void)refresh;
+@end
+@implementation PeonDebugPopup
+-(void)createMenu {
+    CCLabelBMFont *title=PeonDebugLabel(@"DEBUG"); title.scale=1.2; title.position=ccp(0,255);
+    [self.nodeArray addObject:title];
+    options=[CCMenu menuWithItems:nil]; options.position=CGPointZero;
+    NSArray *keys=@[@"PeonHideFPS",@"PeonShowPhysicsObjects",@"PeonDisableShipFinishTrigger",@"PeonUnlockAllLevels",@"PeonFreePan",@"PeonTeleportCart"];
+    for (NSUInteger index=0;index<keys.count;index++) {
+        CCMenuItemLabel *item=[CCMenuItemLabel itemWithLabel:PeonDebugLabel(@" ") target:self selector:@selector(toggleOption:)];
+        item.tag=index; item.position=ccp(0,200-(NSInteger)index*80); [options addChild:item];
+    }
+    [self.nodeArray addObject:options];
+    CCLabelTTF *hint=[CCLabelTTF labelWithString:@"Teleport: free pan while driving, then tap boost." fontName:@"Helvetica" fontSize:18];
+    hint.position=ccp(0,-255); [self.nodeArray addObject:hint];
+    [self refresh];
+}
+-(int)numberOfPlanks { return 32; }
+-(void)refresh {
+    NSArray *keys=@[@"PeonHideFPS",@"PeonShowPhysicsObjects",@"PeonDisableShipFinishTrigger",@"PeonUnlockAllLevels",@"PeonFreePan",@"PeonTeleportCart"];
+    NSArray *names=@[@"Show FPS",@"Show Box2D Objects",@"Disable Ship Finish Trigger",@"Unlock All Levels",@"Free Pan Map (2x)",@"Enable Cart Teleport"];
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    BaseGameScene *scene=[[CCDirector sharedDirector].runningScene isKindOfClass:[BaseGameScene class]] ? (id)[CCDirector sharedDirector].runningScene : nil;
+    for (CCMenuItemLabel *item in options.children) {
+        BOOL on=[defaults boolForKey:keys[item.tag]]; if (item.tag==0) on=!on;
+        [(CCLabelBMFont *)item.label setString:[NSString stringWithFormat:@"%@  %@",on ? @"[x]" : @"[ ]",names[item.tag]]];
+        for (CCSprite *glyph in item.label.children) {
+            CGRect rect=glyph.textureRect; CGSize size=glyph.contentSize;
+            [glyph setTextureRect:CGRectInset(rect,.5,.5) rotated:glyph.textureRectRotated untrimmedSize:size];
+        }
+        PeonDebugCenterItem(item);
+        item.isEnabled=item.tag==4 ? [scene debugPanAvailable] : (item.tag==5 ? [scene debugFreePanEnabled] : YES);
+    }
+}
+-(void)toggleOption:(CCMenuItemLabel *)item {
+    NSArray *keys=@[@"PeonHideFPS",@"PeonShowPhysicsObjects",@"PeonDisableShipFinishTrigger",@"PeonUnlockAllLevels",@"PeonFreePan",@"PeonTeleportCart"];
+    if (item.tag==4) {
+        [(PopupMenu *)self.popupDelegate hide];
+        [(PeonIOSDebugLayer *)[[CCDirector sharedDirector].runningScene getChildByTag:9930] performSelector:@selector(toggleFreePan) withObject:nil afterDelay:.3];
+        return;
+    }
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    NSString *key=keys[item.tag]; [defaults setBool:![defaults boolForKey:key] forKey:key];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"PeonDebugOptionsChanged" object:nil];
+    [self refresh];
+}
+@end
+
+@implementation PeonIOSDebugLayer
+-(id)init {
+    if ((self=[super init])) {
+        CCMenuItemLabel *entry=[CCMenuItemLabel itemWithLabel:PeonDebugLabel(@"Debug") target:self selector:@selector(openDebug)];
+        PeonDebugCenterItem(entry);
+        debugBacking=[CCLayerColor layerWithColor:ccc4(0,0,0,160) width:160 height:80];
+        debugBacking.position=ccp(750,686); debugBacking.visible=NO; [self addChild:debugBacking];
+        debugEntry=[CCMenu menuWithItems:entry,nil]; debugEntry.position=ccp(830,726); debugEntry.visible=NO;
+        [self addChild:debugEntry];
+        toastBacking=[CCLayerColor layerWithColor:ccc4(0,0,0,210) width:360 height:56];
+        toastBacking.position=ccp(332,662); toastBacking.visible=NO; [self addChild:toastBacking z:1];
+        toast=[CCLabelTTF labelWithString:@"" fontName:@"Helvetica-Bold" fontSize:28];
+        toast.position=ccp(512,690); toast.visible=NO; [self addChild:toast z:2];
+        self.touchEnabled=YES; [self scheduleUpdate];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toggleDebug:) name:@"PeonToggleDebugMenu" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(optionsChanged) name:@"PeonDebugOptionsChanged" object:nil];
+    }
+    return self;
+}
+-(void)onEnter {
+    [super onEnter];
+    [debugEntry setHandlerPriority:-950];
+#if DEBUG
+    if ([[NSProcessInfo processInfo].environment[@"PEON_DEBUG_CAMERA_AUDIT"] boolValue]) {
+        static BOOL launched=NO;
+        if ([self gameScene]) [[self gameScene] performSelector:@selector(debugCameraAudit) withObject:nil afterDelay:3];
+        else if (!launched && [NSStringFromClass(self.parent.class) isEqualToString:@"TitleScene"]) {
+            launched=YES; [self performSelector:@selector(launchCameraAudit) withObject:nil afterDelay:.5];
+        }
+    }
+#endif
+}
+#if DEBUG
+-(void)launchCameraAudit {
+    SaveManager *save=[SaveManager sharedManager]; BOOL tutorial=[save getShowTutorialState];
+    [save setShowTutorialState:NO];
+    GameManager *manager=[GameManager sharedGameManager]; manager.currentPlanetNum=1; manager.currentLevelNum=1;
+    [manager runPlanet:1 level:1];
+    [save setShowTutorialState:tutorial];
+}
+#endif
+-(BaseGameScene *)gameScene { return [self.parent isKindOfClass:[BaseGameScene class]] ? (id)self.parent : nil; }
+-(void)showToast:(NSString *)message {
+    toast.string=message; toast.visible=YES; toast.opacity=255; [toast stopAllActions];
+    toastBacking.visible=YES; toastBacking.opacity=210; [toastBacking stopAllActions];
+    [toastBacking runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1.8],[CCFadeOut actionWithDuration:.3],nil]];
+    [toast runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1.8],[CCFadeOut actionWithDuration:.3],nil]];
+}
+-(void)toggleDebug:(NSNotification *)notification {
+    if (self.parent!=[CCDirector sharedDirector].runningScene) return;
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    BOOL visible=![defaults boolForKey:@"PeonDebugMenuVisible"];
+    PeonSetDebugMenuVisible(defaults,visible);
+    if (!visible) [[self gameScene] setDebugFreePanEnabled:NO];
+    [self optionsChanged]; [self showToast:visible ? @"Debug ON" : @"Debug OFF"];
+}
+-(void)optionsChanged {
+    [[CCDirector sharedDirector] setDisplayStats:![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonHideFPS"]];
+    [[self gameScene] refreshDebugControls];
+}
+-(void)openDebug {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"] || PeonDebugHasModal(self.parent)) return;
+    [PopupMenu showPopupMenuType:kPopupDebug withDelegate:nil];
+}
+-(void)toggleFreePan {
+    BaseGameScene *scene=[self gameScene];
+    [scene setDebugFreePanEnabled:!scene.debugFreePanEnabled];
+    [self showToast:scene.debugFreePanEnabled ? @"Free Pan ON" : @"Follow Cart"];
+}
+-(void)update:(ccTime)delta {
+    debugEntry.visible=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"] && !PeonDebugHasModal(self.parent);
+    debugBacking.visible=debugEntry.visible;
+    BaseGameScene *scene=[self gameScene];
+    if (scene.debugFreePanEnabled && ![scene debugPanAvailable]) [scene setDebugFreePanEnabled:NO];
+}
+-(void)registerWithTouchDispatcher {
+    [[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:-900 swallowsTouches:YES];
+}
+-(BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+    BaseGameScene *scene=[self gameScene];
+    if (!scene.debugFreePanEnabled || [scene debugPanBlocked]) return NO;
+    CGPoint point=[self convertTouchToNodeSpace:touch];
+    if ([scene debugTeleportButtonContainsPoint:point]) { [scene debugTeleportCart]; return YES; }
+    if (!panTouch) { panTouch=touch; previousPanPoint=point; }
+    return YES;
+}
+-(void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
+    if (touch!=panTouch) return;
+    CGPoint point=[self convertTouchToNodeSpace:touch];
+    [[self gameScene] panDebugCameraBy:ccpSub(point,previousPanPoint)]; previousPanPoint=point;
+}
+-(void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event { if (touch==panTouch) panTouch=nil; }
+-(void)ccTouchCancelled:(UITouch *)touch withEvent:(UIEvent *)event { [self ccTouchEnded:touch withEvent:event]; }
+-(void)dealloc { [[NSNotificationCenter defaultCenter] removeObserver:self]; [NSObject cancelPreviousPerformRequestsWithTarget:self]; [super dealloc]; }
+@end
+#endif
+
 static PopupMenu *_currentDisplay;
 
 @implementation PopupMenu
@@ -146,6 +321,10 @@ static PopupMenu *_currentDisplay;
         case kPopupStore:
             return [[[PopupStore alloc] initWithDelegate:self] autorelease];
             break;
+#ifdef PROJECTPEON_IOS
+        case kPopupDebug:
+            return [[[PeonDebugPopup alloc] initWithDelegate:self] autorelease];
+#endif
         case kPopupGameInfo:
             return [[[PopupGameInfo alloc] initWithDelegate:self] autorelease];
             break;

@@ -5,6 +5,7 @@
 #import "SaveMenuItem.h"
 #import "LevelScoreDisplay.h"
 #import "Constants.h"
+#import "GameManager.h"
 
 @interface NSObject (TerrainUIAudit)
 +(CCNode *)endOfMap:(NSString *)map;
@@ -53,6 +54,46 @@ static CCNode *PeonUIAuditFixtureTick(CCNode *scene, NSString **label) {
     if([CCDirector sharedDirector].isPaused) { started+=now-(started+4*phase); *label=nil; return nil; }
     if(phase==previous) { *label=name; return fixture; }
     previous=phase;
+    if ([[NSProcessInfo processInfo].environment[@"PEON_UI_AUDIT_DEBUG"] boolValue]) {
+        static NSDictionary *savedDebug=nil;
+        static BOOL debugFinished=NO;
+        if (debugFinished) { *label=nil; return nil; }
+        NSArray *keys=@[@"PeonDebugMenuVisible",@"PeonHideFPS",@"PeonShowPhysicsObjects",@"PeonDisableShipFinishTrigger",@"PeonTeleportCart",@"PeonUnlockAllLevels",@"PeonFreePan"];
+        NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+        if (!savedDebug) {
+            NSMutableDictionary *saved=[NSMutableDictionary dictionary];
+            for (NSString *key in keys) saved[key]=[defaults objectForKey:key] ?: [NSNull null];
+            savedDebug=[saved copy];
+            for (NSString *key in keys) [defaults setBool:[key isEqualToString:@"PeonHideFPS"] forKey:key];
+        }
+        [fixture removeFromParentAndCleanup:YES]; [fixture release]; fixture=nil; [name release]; name=nil;
+        if (phase>=3) {
+            debugFinished=YES;
+            [[GameManager sharedGameManager] setIsPaused:NO];
+            for (NSString *key in keys) {
+                if (savedDebug[key]==[NSNull null]) [defaults removeObjectForKey:key]; else [defaults setObject:savedDebug[key] forKey:key];
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"PeonDebugOptionsChanged" object:nil];
+            fprintf(stderr,"PEON_DEBUG_AUDIT_PASS: ten-tap reveal/hide and option reset\n"); *label=nil; return nil;
+        }
+        if (phase==1) {
+            [defaults setBool:NO forKey:@"PeonHideFPS"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"PeonDebugOptionsChanged" object:nil];
+        }
+        fixture=[[PopupMenu alloc] initForType:phase==1 ? kPopupDebug : kPopupGameInfo andDelegate:nil];
+        name=[[NSString stringWithFormat:@"fixture-debug-%ld",(long)phase] retain];
+        [scene addChild:fixture z:1000000];
+        if (phase!=1) {
+            if (phase==2) for (NSString *key in keys) [defaults setBool:![key isEqualToString:@"PeonHideFPS"] forKey:key];
+            id credits=[fixture valueForKey:@"currentOptions"];
+            for (int tap=0;tap<9;tap++) [credits performSelector:@selector(tapProgrammingCredit)];
+            NSCAssert([defaults boolForKey:@"PeonDebugMenuVisible"]==(phase==2),@"Debug toggled before ten taps");
+            [credits performSelector:@selector(tapProgrammingCredit)];
+            NSCAssert([defaults boolForKey:@"PeonDebugMenuVisible"]==(phase==0),@"Credits did not toggle Debug");
+            if (phase==2) for (NSString *key in keys) NSCAssert([defaults boolForKey:key]==[key isEqualToString:@"PeonHideFPS"],@"Debug hide left an option active");
+        }
+        *label=name; return fixture;
+    }
     NSString *map=[NSProcessInfo processInfo].environment[@"PEON_UI_AUDIT_MAP"];
     if (map.length) {
         if (!fixture) {

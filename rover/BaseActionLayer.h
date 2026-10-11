@@ -44,7 +44,7 @@
 }
 @property (nonatomic, assign) NSObject<ControlsDelegate> *controlsDelegate;
 @property (nonatomic, retain) PlayerCart* playerCart;
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 -(BOOL)drivingCameraAvailable;
 -(void)teleportCartToScreenCenter;
 -(void)panDrivingCameraBy:(CGPoint)delta;

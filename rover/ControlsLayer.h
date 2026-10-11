@@ -23,9 +23,12 @@
     BOOL useTouch;
     BOOL buttonBecameActive;
     BOOL controlsEnabled;
+    BOOL debugPanActive;
     UIAcceleration *accel;
     UITouch *joystickTouch;
     CGPoint currentMovement;
 }
 @property (nonatomic, assign) NSObject<JoystickDelegate> *actionLayer;
+-(void)setDebugPanActive:(BOOL)active;
+-(BOOL)debugTeleportButtonContainsPoint:(CGPoint)point;
 @end

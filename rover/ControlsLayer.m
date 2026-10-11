@@ -95,7 +95,7 @@
     useTouch = [[SaveManager sharedManager] useTouchControl];
 #endif
     
-    if (controlsEnabled && useTouch)
+    if ((controlsEnabled && useTouch && !debugPanActive) || (debugPanActive && [[NSUserDefaults standardUserDefaults] boolForKey:@"PeonTeleportCart"]))
     {
         [buttonBase.defaultSprite setOpacity:255];
         [buttonBase.activatedSprite setOpacity:255];
@@ -120,6 +120,21 @@
     }
 }
 
+-(void)setDebugPanActive:(BOOL)active {
+    debugPanActive=active;
+    [_actionLayer buttonPressEnded];
+    [_actionLayer movementDidOccur:CGPointZero];
+    [button ccTouchEnded:nil withEvent:nil];
+    buttonBecameActive=NO;
+    [self removeJoystick];
+    [self switchToCurrentMode];
+}
+-(BOOL)debugTeleportButtonContainsPoint:(CGPoint)point {
+    if (!debugPanActive || buttonBase.defaultSprite.opacity==0) return NO;
+    CGPoint offset=ccpSub(point,buttonBase.position);
+    return ccpLength(offset)<58.75;
+}
+
 -(void)gameWasPaused
 {
     if (controlsEnabled)
@@ -139,7 +154,7 @@
 
 - (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
 {
-    if ([[GameManager sharedGameManager] isPaused]) {return;}
+    if (debugPanActive || [[GameManager sharedGameManager] isPaused]) {return;}
     if (!useTouch)
     {        
         float accelerationY = acceleration.y;
@@ -177,6 +192,7 @@
 
 -(BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
+    if (debugPanActive || [[NSUserDefaults standardUserDefaults] boolForKey:@"PeonFreePan"]) return NO;
     if ([[GameManager sharedGameManager] isPaused]) {return YES;}
     if (!useTouch)
     {
@@ -198,7 +214,7 @@
 
 -(void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    if ([[GameManager sharedGameManager] isPaused]) {return;}
+    if (debugPanActive || [[GameManager sharedGameManager] isPaused]) {return;}
     if (useTouch)
     {
         if (touch == joystickTouch)
@@ -238,7 +254,7 @@
 
 -(void)update:(ccTime)delta
 {
-    if ([[GameManager sharedGameManager] isPaused]){return;}
+    if (debugPanActive || [[GameManager sharedGameManager] isPaused]){return;}
     
 #ifdef PROJECTPEON_MAC
     BOOL boost = PeonKeyDown(49);

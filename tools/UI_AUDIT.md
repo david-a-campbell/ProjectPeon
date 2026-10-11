@@ -87,3 +87,15 @@ Using `fallback.size.height/20` directly halves the iPhone threshold and can
 retain a low ground tail past a vertical cliff edge (Earth 4 is a regression
 case). The default threshold is source height/20; `CropEdgePadding` groups retain
 the explicit one-pixel threshold needed to align stacked mountain tiles.
+
+For iPhone debug controls, use `PEON_UI_AUDIT_DEBUG=1` with the audit and
+fixtures flags. The walkthrough checks that nine credit taps leave Debug
+unchanged, ten toggle it, and hiding resets every option. It captures credits
+and the Debug menu, then restores the original preferences. The credits text
+stays unchanged; its invisible hit area has a minimum height of 44 UIKit points.
+
+Use `PEON_DEBUG_CAMERA_AUDIT=1` with `PEON_UI_AUDIT=1` (without fixtures)
+to enter Earth 1 and test editor restoration, 2× pan movement, modal blocking,
+the boost hit target, and teleport centering with joints and motion reset.
+It prints `PEON_DEBUG_CAMERA_AUDIT_PASS` and restores debug preferences after
+three seconds. Relaunch normally after this test; the temporary cart is not saved.

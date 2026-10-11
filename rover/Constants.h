@@ -39,7 +39,8 @@ typedef enum
     kPopupSettings,
     kPopupTitleSettings,
     kPopupGameInfo,
-    kPopupStore
+    kPopupStore,
+    kPopupDebug
 } PopupType;
 
 // Debug Enemy States with Labels

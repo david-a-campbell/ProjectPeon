@@ -9,6 +9,7 @@
 #import "cocos2d.h"
 
 #import "AppDelegate.h"
+#import "../mac/PeonDebugSettings.h"
 #import "GameConfig.h"
 #import "GameManager.h"
 #import "SaveManager.h"
@@ -49,6 +50,11 @@
     
 	// Display FPS and SPF
 	//[director_ setDisplayStats:YES];
+    NSUserDefaults *debugDefaults=[NSUserDefaults standardUserDefaults];
+    [debugDefaults registerDefaults:@{@"PeonDebugMenuVisible":@NO,@"PeonHideFPS":@YES}];
+    [debugDefaults setBool:NO forKey:@"PeonFreePan"];
+    if (![debugDefaults boolForKey:@"PeonDebugMenuVisible"]) PeonSetDebugMenuVisible(debugDefaults,NO);
+    [director_ setDisplayStats:![debugDefaults boolForKey:@"PeonHideFPS"]];
     
 	// set FPS at 60
 	[director_ setAnimationInterval:1.0/60];

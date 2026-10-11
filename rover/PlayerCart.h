@@ -24,7 +24,7 @@
 
 - (id)initWithWorld:(b2World *)world atLocation:(CGPoint)location;
 - (float32)fullMass;
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 -(void)teleportToPosition:(CGPoint)position;
 #endif
 -(void)createCartPhysics;

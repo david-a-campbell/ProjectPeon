@@ -257,7 +257,7 @@
 
 -(int)getHighestPlanetUnlocked
 {
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"PeonUnlockAllLevels"]) return [self numberOfPlanets];
 #endif
     int highestPlanet = 1;
@@ -282,7 +282,7 @@
 
 -(int)getHighestLevelUnlockedForPlanet:(int)planetNum
 {    
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"PeonUnlockAllLevels"]) return [self numberOfLevelsForPlanetNumber:planetNum];
 #endif
     int highestLevelUnlocked = 0;

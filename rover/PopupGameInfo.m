@@ -8,10 +8,8 @@
 
 #import "PopupGameInfo.h"
 
-#ifdef PROJECTPEON_MAC
 @interface PopupGameInfo () { NSUInteger debugTapCount; }
 @end
-#endif
 
 @implementation PopupGameInfo
 
@@ -22,7 +20,6 @@
     [text setPosition:ccp(0, 0)];
     
     [[self nodeArray] addObject:text];
-#ifdef PROJECTPEON_MAC
     CCLabelBMFont *label=(CCLabelBMFont *)text;
     NSRange nameRange=[label.string rangeOfString:@"David Campbell"];
     CGRect nameBounds=CGRectNull;
@@ -33,21 +30,24 @@
     nameBounds=CGRectApplyAffineTransform(nameBounds,[label nodeToParentTransform]);
     CCMenuItem *debugTap=[CCMenuItem itemWithTarget:self selector:@selector(tapProgrammingCredit)];
     debugTap.contentSize=CGSizeMake(nameBounds.size.width+8,nameBounds.size.height+4);
+#ifdef PROJECTPEON_IOS
+    // Expand only the invisible hit area; the credit text and layout stay intact.
+    CGSize viewSize=[CCDirector sharedDirector].view.bounds.size;
+    CGFloat minimumTouch=44.0*768/MAX(1,MIN(viewSize.width,viewSize.height));
+    debugTap.contentSize=CGSizeMake(MAX(nameBounds.size.width+32,minimumTouch),MAX(nameBounds.size.height+12,minimumTouch));
+#endif
     debugTap.position=ccp(CGRectGetMidX(nameBounds),CGRectGetMidY(nameBounds));
     debugTap.tag=9920;
     CCMenu *tapMenu=[CCMenu menuWithItems:debugTap,nil];
     tapMenu.position=CGPointZero;
     [[self nodeArray] addObject:tapMenu];
-#endif
 }
 
-#ifdef PROJECTPEON_MAC
 -(void)tapProgrammingCredit {
     if(++debugTapCount<10) return;
     debugTapCount=0;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"PeonToggleDebugMenu" object:nil];
 }
-#endif
 
 -(id)labelWithText:(NSString*)someText
 {

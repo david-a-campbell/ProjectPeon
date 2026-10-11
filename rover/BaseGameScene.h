@@ -30,6 +30,17 @@
 -(void)zoomInspectionCameraBy:(CGFloat)factor;
 -(void)setInspectionCameraPosition:(CGPoint)position zoom:(CGFloat)zoom;
 #endif
+#ifdef PROJECTPEON_IOS
+@property(nonatomic, readonly) BOOL debugFreePanEnabled;
+-(void)setDebugFreePanEnabled:(BOOL)enabled;
+-(BOOL)debugPanAvailable;
+-(BOOL)debugPanBlocked;
+-(void)panDebugCameraBy:(CGPoint)delta;
+-(BOOL)debugTeleportAvailable;
+-(BOOL)debugTeleportButtonContainsPoint:(CGPoint)point;
+-(void)debugTeleportCart;
+-(void)refreshDebugControls;
+#endif
 -(void)relaunchFromKeyboard;
 -(void)cartCreationFromKeyboard;
 -(id)initWithPlanet:(int)pNum andLevel:(int)lNum;

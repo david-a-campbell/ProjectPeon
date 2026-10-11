@@ -7,6 +7,8 @@
 //
 
 #import "BaseGameScene.h"
+#include <algorithm>
+#include <vector>
 #import "BaseActionLayer.h"
 #import "PlayerCart.h"
 #import "CartCreationLayer.h"
@@ -28,6 +30,16 @@
 @interface BaseGameScene()
 {
     CartCreationLayer *creationLayer;
+#ifdef PROJECTPEON_IOS
+    BOOL debugFreePanEnabled;
+    BOOL debugPanWasBuilding;
+    CGPoint debugOriginalPosition;
+    CGFloat debugOriginalScale;
+    NSMutableArray *debugHiddenNodes;
+#if DEBUG
+    NSDictionary *debugAuditDefaults;
+#endif
+#endif
 #ifdef PROJECTPEON_MAC
     BOOL inspectionCameraEnabled;
     BOOL mousePanPreviewEnabled;
@@ -40,7 +52,7 @@
 }
 @end
 
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
 static BOOL PeonPanBlockedByMenu(CCNode *node) {
     if([node isKindOfClass:[PopupMenu class]] || [node isKindOfClass:[ToolTipMenu class]] ||
        [node isKindOfClass:[SaveMenu class]] || [node isKindOfClass:[LoadingLayer class]] ||
@@ -273,6 +285,10 @@ static BOOL PeonPanBlockedByMenu(CCNode *node) {
 #ifdef PROJECTPEON_MAC
     if(inspectionCameraEnabled) [self setInspectionCameraEnabled:NO];
 #endif
+
+#ifdef PROJECTPEON_IOS
+    [self setDebugFreePanEnabled:NO];
+#endif
     [super onExit];
 }
 
@@ -281,8 +297,166 @@ static BOOL PeonPanBlockedByMenu(CCNode *node) {
 #ifdef PROJECTPEON_MAC
     [mousePanHiddenNodes release];
 #endif
+
+#ifdef PROJECTPEON_IOS
+    [debugHiddenNodes release];
+#endif
     [super dealloc];
 }
 
+#ifdef PROJECTPEON_IOS
+@synthesize debugFreePanEnabled;
+-(BaseActionLayer *)debugActionLayer {
+    for (CCNode *node in self.children) if ([node isKindOfClass:[BaseActionLayer class]]) return (BaseActionLayer *)node;
+    return nil;
+}
+-(ControlsLayer *)debugControlsLayer {
+    for (CCNode *node in self.children) if ([node isKindOfClass:[ControlsLayer class]]) return (ControlsLayer *)node;
+    return nil;
+}
+-(BOOL)debugPanAvailable {
+    BaseActionLayer *layer=[self debugActionLayer];
+    return layer && ![[layer valueForKey:@"levelWasCompleted"] boolValue];
+}
+-(BOOL)debugPanBlocked { return PeonPanBlockedByMenu(self); }
+-(void)setDebugFreePanEnabled:(BOOL)enabled {
+    BaseActionLayer *layer=[self debugActionLayer];
+    if (enabled && (![self debugPanAvailable] || [self debugPanBlocked] || ![[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDebugMenuVisible"])) return;
+    if (debugFreePanEnabled==enabled) return;
+    debugFreePanEnabled=enabled;
+    [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:@"PeonFreePan"];
+    if (enabled) {
+        debugOriginalPosition=layer.position; debugOriginalScale=layer.scale;
+        debugPanWasBuilding=[[creationLayer valueForKey:@"cartCreationEnabled"] boolValue];
+        if (debugPanWasBuilding) {
+            debugHiddenNodes=[[NSMutableArray alloc] init];
+            NSMutableArray *nodes=[NSMutableArray arrayWithArray:[layer.playerCart componentsInOrderOfZ] ?: @[]];
+            [nodes addObject:creationLayer];
+            for (CCNode *node in nodes) {
+                [debugHiddenNodes addObject:@{@"node":node,@"visible":@(node.visible)}]; node.visible=NO;
+            }
+            CGFloat ratio=.35/layer.scale;
+            layer.scaleX=.35; layer.scaleY=.35;
+            layer.position=ccp(512+(debugOriginalPosition.x-512)*ratio,384+(debugOriginalPosition.y-384)*ratio);
+        }
+    } else {
+        if (debugPanWasBuilding) {
+            for (NSDictionary *state in debugHiddenNodes) [(CCNode *)state[@"node"] setVisible:[state[@"visible"] boolValue]];
+            [debugHiddenNodes release]; debugHiddenNodes=nil;
+            layer.scaleX=debugOriginalScale; layer.scaleY=debugOriginalScale; layer.position=debugOriginalPosition;
+        }
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"PeonTeleportCart"];
+    }
+    [self refreshDebugControls];
+    if (enabled) [self panDebugCameraBy:CGPointZero];
+}
+-(void)refreshDebugControls {
+    // The preview hides the cart. Teleport is meaningful only for a driving cart.
+    [[self debugControlsLayer] setDebugPanActive:debugFreePanEnabled && !debugPanWasBuilding];
+}
+-(void)panDebugCameraBy:(CGPoint)delta {
+    if (!debugFreePanEnabled || [self debugPanBlocked] || ![self debugPanAvailable]) return;
+    BaseActionLayer *layer=[self debugActionLayer];
+    CGFloat inset=1024.0/6;
+    CGFloat width=[[layer valueForKey:@"mapWidth"] doubleValue], height=[[layer valueForKey:@"mapHeight"] doubleValue];
+    CGPoint p=ccpAdd(layer.position,ccpMult(delta,2));
+    p.x=MAX(-width*layer.scale+1024+256*layer.scale+inset,MIN(p.x,-256*layer.scale-inset));
+    p.y=MAX(-height*layer.scale+768,MIN(p.y,-256*layer.scale));
+    layer.position=p;
+}
+-(BOOL)debugTeleportAvailable {
+    return debugFreePanEnabled && !debugPanWasBuilding && [self debugPanAvailable] &&
+        [[NSUserDefaults standardUserDefaults] boolForKey:@"PeonTeleportCart"];
+}
+-(BOOL)debugTeleportButtonContainsPoint:(CGPoint)point {
+    return [self debugTeleportAvailable] && [[self debugControlsLayer] debugTeleportButtonContainsPoint:point];
+}
+-(void)debugTeleportCart {
+    if ([self debugTeleportAvailable] && ![self debugPanBlocked]) [[self debugActionLayer] teleportCartToScreenCenter];
+}
+#endif
+#if DEBUG && defined(PROJECTPEON_IOS)
+-(void)debugCameraAudit {
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    NSArray *keys=@[@"PeonDebugMenuVisible",@"PeonFreePan",@"PeonTeleportCart",@"PeonDisableShipFinishTrigger",@"PeonUnlockAllLevels",@"PeonShowPhysicsObjects",@"PeonHideFPS"];
+    NSMutableDictionary *snapshot=[NSMutableDictionary dictionary];
+    for (NSString *key in keys) snapshot[key]=[defaults objectForKey:key] ?: [NSNull null];
+    debugAuditDefaults=[snapshot copy];
+    [defaults setBool:YES forKey:@"PeonDebugMenuVisible"];
+    BaseActionLayer *layer=[self debugActionLayer];
+    CGPoint original=layer.position; CGFloat scale=layer.scale;
+    [self setDebugFreePanEnabled:YES];
+    NSCAssert(self.debugFreePanEnabled && !creationLayer.visible,@"Build preview did not hide editor");
+    NSCAssert(![self debugTeleportAvailable],@"Build preview exposed teleport");
+    layer.position=ccp(-1500,-1500);
+    [self panDebugCameraBy:ccp(-13,-7)];
+    NSCAssert(ccpDistance(layer.position,ccp(-1526,-1514))<.1,@"Pan speed is not 2x");
+    [self setDebugFreePanEnabled:NO];
+    NSCAssert(creationLayer.visible && ccpDistance(layer.position,original)<.1 && fabs(layer.scale-scale)<.001,@"Preview did not restore editor");
+    [PopupMenu showPopupMenuType:kPopupDebug withDelegate:nil];
+    [self setDebugFreePanEnabled:YES];
+    NSCAssert(!self.debugFreePanEnabled,@"Free pan started behind a menu");
+    [NSClassFromString(@"PopupMenu") performSelector:@selector(dismissPopup)];
+    [[GameManager sharedGameManager] setIsPaused:NO];
+    if (![layer cartHasParts]) [layer createBarWithStart:ccp(1200,1500) andEnd:ccp(1500,1500)];
+    [creationLayer performSelector:@selector(startGameplay)];
+    [self performSelector:@selector(debugDrivingAudit) withObject:nil afterDelay:2.5];
+}
+-(void)debugDrivingAudit {
+    [PopupMenu dismissPopup];
+    [[GameManager sharedGameManager] setIsPaused:NO];
+    BaseActionLayer *layer=[self debugActionLayer];
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    [self setDebugFreePanEnabled:YES];
+    NSCAssert(self.debugFreePanEnabled,@"Driving free pan did not start");
+    ControlsLayer *controls=[self debugControlsLayer];
+    NSCAssert(![controls ccTouchBegan:nil withEvent:nil],@"Free pan allowed joystick input");
+    CCNode *joystickBase=[controls valueForKey:@"joystickBase"];
+    NSCAssert([[joystickBase valueForKey:@"backgroundSprite"] opacity]==0,@"Free pan left the joystick visible");
+    NSCAssert(![self debugTeleportAvailable],@"Teleport enabled without the option");
+    [defaults setBool:YES forKey:@"PeonTeleportCart"]; [self refreshDebugControls];
+    NSCAssert([self debugTeleportAvailable],@"Teleport unavailable during driving free pan");
+    CGFloat x=[[SaveManager sharedManager] boostButtonOnRight] ? 1044.6667 : -20.6667;
+    NSCAssert([self debugTeleportButtonContainsPoint:ccp(x,150)],@"Boost teleport target moved from its margin");
+    layer.position=ccp(-3000,-2000);
+    NSInteger joints=[layer getWorld]->GetJointCount();
+    [self debugTeleportCart];
+    NSCAssert([layer getWorld]->GetJointCount()==joints,@"Teleport destroyed joints");
+    // Check the connected assembly's center rather than a single component.
+    std::vector<b2Body *> bodies(1,layer.playerCart.body);
+    for (size_t i=0;i<bodies.size();i++) for (b2JointEdge *edge=bodies[i]->GetJointList();edge;edge=edge->next) {
+        if (edge->other->GetUserData()!=layer.playerCart) continue;
+        if (std::find(bodies.begin(),bodies.end(),edge->other)==bodies.end()) bodies.push_back(edge->other);
+    }
+    b2AABB bounds; BOOL found=NO;
+    for (b2Body *body:bodies) for (b2Fixture *f=body->GetFixtureList();f;f=f->GetNext()) {
+        if (f->IsSensor()) continue;
+        for (int child=0;child<f->GetShape()->GetChildCount();child++) {
+            b2AABB part; f->GetShape()->ComputeAABB(&part,body->GetTransform(),child);
+            if (found) bounds.Combine(part); else { bounds=part; found=YES; }
+        }
+        NSCAssert(body->GetLinearVelocity().Length()<.001 && fabs(body->GetAngularVelocity())<.001,@"Teleport kept stale motion");
+    }
+    CGPoint center=[layer convertToNodeSpace:ccp(512,384)];
+    NSCAssert(found && ccpDistance(center,ccp(bounds.GetCenter().x*32,bounds.GetCenter().y*32))<.1,@"Teleport missed the viewport center");
+    [PopupMenu showPopupMenuType:kPopupDebug withDelegate:nil];
+    CGPoint paused=layer.position; [self panDebugCameraBy:ccp(-20,-10)];
+    NSCAssert(ccpDistance(paused,layer.position)<.1,@"Panning continued behind a menu");
+    [self performSelector:@selector(debugCameraAuditCleanup) withObject:nil afterDelay:3];
+    fprintf(stderr,"PEON_DEBUG_CAMERA_AUDIT_PASS: preview restore, 2x pan, modal guard, boost hit target, teleport center/joints/motion\n");
+}
+-(void)debugCameraAuditCleanup {
+    [self setDebugFreePanEnabled:NO];
+    [NSClassFromString(@"PopupMenu") performSelector:@selector(dismissPopup)];
+    [[GameManager sharedGameManager] setIsPaused:NO];
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    for (NSString *key in debugAuditDefaults) {
+        id value=debugAuditDefaults[key];
+        if (value==[NSNull null]) [defaults removeObjectForKey:key]; else [defaults setObject:value forKey:key];
+    }
+    [debugAuditDefaults release]; debugAuditDefaults=nil;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"PeonDebugOptionsChanged" object:nil];
+}
+#endif
 @end
 

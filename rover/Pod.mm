@@ -282,7 +282,7 @@ static void scalePodVertices(b2Vec2 *vertices, int count)
         return;
     }
     
-#ifdef PROJECTPEON_MAC
+#ifdef PROJECTPEON_WIDE_UI
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"PeonDisableShipFinishTrigger"]) return;
 #endif
     if(isBodyCollidingWithObjectType(cartTouchBody, kPlayerCartType))
