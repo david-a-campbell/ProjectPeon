@@ -113,6 +113,7 @@
         return;
     }
     [scrollview setDirection: SWScrollViewDirectionHorizontal];
+    scrollview.minimumDragDistance = 12;
     [scrollview setPosition:ccp(44.5-SAVE_INSET, 554.835)];
     [scrollview setContentOffset:ccp(0,0)];
     for (SaveMenuItem *item in [saveMenuItemList reverseObjectEnumerator])
