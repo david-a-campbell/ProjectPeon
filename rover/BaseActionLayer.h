@@ -21,6 +21,7 @@
 @class Ground;
 
 @class Cart;
+@class AVAudioPlayer;
 
 @interface BaseActionLayer : BaseParallaxLayer <cartCreationDelegate, JoystickDelegate>
 {
@@ -36,6 +37,8 @@
     CCArray *morphGroundArray;
     CCArray *parallaxHolderArray;
     BOOL shouldFollowSprite;
+    BOOL boostPressed;
+    AVAudioPlayer *boostSoundPlayer;
     BOOL levelWasCompleted;
     CCRenderTexture *saveCartRender;
     CGPoint resetPosition;

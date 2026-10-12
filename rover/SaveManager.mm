@@ -527,7 +527,7 @@
     [playerSettings setUseTouchControl:@NO];
 #endif
     [playerSettings setMusicVolume:[NSNumber numberWithFloat:0.75f]];
-    [playerSettings setSfxVolume:[NSNumber numberWithFloat:0.25f]];
+    [playerSettings setSfxVolume:[NSNumber numberWithFloat:0.50f]];
     [self saveContext];
     return playerSettings;
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B00570000000000000000001 /* boost.wav in Resources */ = {isa = PBXBuildFile; fileRef = B00570000000000000000002 /* boost.wav */; };
 		B001B0050000000000000001 /* BoostPositionLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B001B0050000000000000002 /* BoostPositionLayer.m */; };
 		F01000000000000000000005 /* Audio.m in Sources */ = {isa = PBXBuildFile; fileRef = F01000000000000000000006 /* Audio.m */; };
 		A100F2A11776775900962A8D /* boostMeter_tip.png in Resources */ = {isa = PBXBuildFile; fileRef = A100F2941776775900962A8D /* boostMeter_tip.png */; };
@@ -1468,6 +1469,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B00570000000000000000002 /* boost.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = boost.wav; sourceTree = "<group>"; };
 		B001B0050000000000000002 /* BoostPositionLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoostPositionLayer.m; sourceTree = "<group>"; };
 		B001B0050000000000000003 /* BoostPositionLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoostPositionLayer.h; sourceTree = "<group>"; };
 		B001B0050000000000000004 /* PeonBoostPlacement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PeonBoostPlacement.h; sourceTree = "<group>"; };
@@ -5305,6 +5307,7 @@
 		A1D2F62F177002EB0026ECB9 /* SFX */ = {
 			isa = PBXGroup;
 			children = (
+				B00570000000000000000002 /* boost.wav */,
 				A1D2F630177002F40026ECB9 /* SoundEffects.plist */,
 				A1DE07FC180FB2D500FD6077 /* mothership.mp3 */,
 				A1DE07FE180FB4A500FD6077 /* peon_dizzy.mp3 */,
@@ -5969,6 +5972,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B00570000000000000000001 /* boost.wav in Resources */,
 				F08000000000000000000001 /* EffectVolumeLabel.png in Resources */,
 				F08000000000000000000000 /* MusicVolumeLabel.png in Resources */,
 				F06000000000000000000006 /* loadingScreen3Wide.png in Resources */,

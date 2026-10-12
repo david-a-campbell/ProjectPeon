@@ -1,4 +1,11 @@
 #import "CDAudioManager.h"
+
+// Peon voices sit at half the selected effects level, including live slider changes.
+static float PeonVoiceGain(AVAudioPlayer *player) {
+    NSString *file = player.url.lastPathComponent;
+    return ([file isEqualToString:@"peon_dizzy.mp3"] || [file isEqualToString:@"whachuuuu.mp3"]) ? 0.5f : 1.0f;
+}
+
 @implementation CDSoundEngine
 + (void)setMixerSampleRate:(int)rate {}
 @end
@@ -43,12 +50,12 @@
 - (void)preloadEffect:(NSString *)file {}
 - (ALuint)playEffect:(NSString *)file {
     @synchronized(self) { AVAudioPlayer *player=[self playerForFile:file]; if(!player) return 0;
-        ALuint identifier=++nextID; player.volume=_effectsVolume; player.delegate=self; effects[@(identifier)]=player; [player play]; return identifier; }
+        ALuint identifier=++nextID; player.volume=_effectsVolume*PeonVoiceGain(player); player.delegate=self; effects[@(identifier)]=player; [player play]; return identifier; }
 }
 - (void)stopEffect:(ALuint)identifier { @synchronized(self) { [effects[@(identifier)] stop]; [effects removeObjectForKey:@(identifier)]; } }
 - (void)unloadEffect:(NSString *)file {}
 - (void)setBackgroundMusicVolume:(float)value { _backgroundMusicVolume=value; music.volume=value; }
-- (void)setEffectsVolume:(float)value { @synchronized(self) { _effectsVolume=value; for(AVAudioPlayer *player in effects.allValues) player.volume=value; } }
+- (void)setEffectsVolume:(float)value { @synchronized(self) { _effectsVolume=value; for(AVAudioPlayer *player in effects.allValues) player.volume=value*PeonVoiceGain(player); } }
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
     if(player==music) { CDAudioManager *manager=[CDAudioManager sharedManager]; if(manager.completionTarget && manager.completionSelector) [manager.completionTarget performSelectorOnMainThread:manager.completionSelector withObject:nil waitUntilDone:NO]; }
     else { @synchronized(self) { for(NSNumber *key in [[effects.allKeys copy] autorelease]) if(effects[key]==player) [effects removeObjectForKey:key]; } }
