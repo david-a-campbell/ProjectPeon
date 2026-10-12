@@ -15,6 +15,7 @@
 
 @interface LevelScoreDisplay : CCLayer
 {
+    BOOL hasPendingScore;
     int playerScore;
     int peonCount;
     int totalPeons;
@@ -42,6 +43,8 @@
 }
 
 -(void)showScore:(int)score peonCount:(int)pC totalPeons:(int)tP timerColor:(ColorStates)colorState tmerState:(TimerStates)tS timeElapsed:(int)time;
+
+-(void)resetDisplay;
 
 @property (nonatomic, assign) id<scoreDisplayDelegate> delegate;
 

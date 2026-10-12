@@ -59,6 +59,7 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=min(8,os.cpu_count() or 4
         else:
             failed+=1; print(f'FAILED: {source.relative_to(ROOT)}\n{log}',flush=True)
 if failed: sys.exit(f'{failed} compilation units failed. See errors above.')
+(OUT/'objects.json').write_text(json.dumps({str(source.relative_to(ROOT)):str(output) for source,output in zip(sources,outputs)},indent=2))
 staging = tempfile.TemporaryDirectory(prefix='projectpeon-build-')
 app = pathlib.Path(staging.name)/'Project Peon.app'; contents=app/'Contents'; binary=contents/'MacOS'; assets=contents/'Resources'
 binary.mkdir(parents=True,exist_ok=True); assets.mkdir(parents=True,exist_ok=True)

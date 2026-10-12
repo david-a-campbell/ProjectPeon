@@ -900,6 +900,12 @@ static CGPoint PeonBoosterDirectionEnd(CGPoint start, CGPoint end)
 -(void)relaunch
 {
 #ifdef PROJECTPEON_MAC
+    [levelScoreDisplay resetDisplay];
+    [tabMenu stopAllActions];
+    tabMenu.opacity = 255;
+    tabMenu.touchEnabled = YES;
+#endif
+#ifdef PROJECTPEON_MAC
     [[PeonWideScreen sharedPresentation] setDriving:YES];
     [[PeonRecorder sharedRecorder] beginGameplay];
 #endif
@@ -917,6 +923,12 @@ static CGPoint PeonBoosterDirectionEnd(CGPoint start, CGPoint end)
 
 -(void)endGameplay
 {
+#ifdef PROJECTPEON_MAC
+    [levelScoreDisplay resetDisplay];
+    [tabMenu stopAllActions];
+    tabMenu.opacity = 255;
+    tabMenu.touchEnabled = YES;
+#endif
 #ifdef PROJECTPEON_MAC
     [[PeonWideScreen sharedPresentation] setDriving:NO];
     [[PeonRecorder sharedRecorder] discard];

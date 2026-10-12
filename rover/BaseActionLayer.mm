@@ -906,6 +906,11 @@
     [playerCart moveBodyToCart];
     
     id moveAction = [CCMoveTo actionWithDuration:[self timeToTravel] position:resetPosition];
+#ifdef PROJECTPEON_MAC
+    // Results use a wider zoom than driving. Restore both camera properties.
+    moveAction = [CCSpawn actions:moveAction,
+                  [CCScaleTo actionWithDuration:0.5f scale:0.35f], nil];
+#endif
     id sequence = [CCSequence actions:moveAction, [CCCallFunc actionWithTarget:self selector:@selector(endResetAction)], nil];
     [self runAction:sequence];
 }
@@ -1029,6 +1034,10 @@
     id moveAction = [CCMoveTo actionWithDuration:[self timeToTravel] position:resetPosition];
     id moveAction2 = [CCMoveTo actionWithDuration:0.5f position:originalPosition];
     id spawn = [CCSpawn actions:scaleAction, moveAction2, nil];
+#ifdef PROJECTPEON_MAC
+    moveAction = [CCSpawn actions:moveAction,
+                  [CCScaleTo actionWithDuration:0.5f scale:0.35f], nil];
+#endif
     id sequence = [CCSequence actions:moveAction, spawn, [CCCallFunc actionWithTarget:self selector:@selector(endZoomIn)], nil];
     [self runAction:sequence];
 }
@@ -1102,6 +1111,10 @@
     [self stopAllActions];
     [_controlsDelegate dissableControls];
     shouldFollowSprite = NO;
+#ifdef PROJECTPEON_MAC
+    if (levelWasCompleted) [[self getPod] resetPod];
+    levelWasCompleted = NO;
+#endif
     [playerCart dissapear];
     [playerCart resetCartBody];
     [self resetWormhole];

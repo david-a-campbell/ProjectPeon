@@ -139,6 +139,7 @@
 
 -(void)showScore:(int)score peonCount:(int)pC totalPeons:(int)tP timerColor:(ColorStates)colorState tmerState:(TimerStates)tS timeElapsed:(int)time
 {
+    hasPendingScore = YES;
     timerColor = colorState;
     timerState = tS;
     playerScore = score;
@@ -287,6 +288,22 @@
     [scoreMenu runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.6], moveEffectBody, [CCCallFunc actionWithTarget:self selector:@selector(saveData)], nil]];
 }
 
+-(void)resetDisplay
+{
+    // Cancel delayed entry and exit animations before another run begins.
+    // Preserve a completed score even if the shortcut precedes card entry.
+    if (hasPendingScore) [self saveData];
+    [self stopAllActions];
+    [scoreMenu stopAllActions];
+    [leftPanelTop stopAllActions];
+    [leftPanelBottom stopAllActions];
+    [nextLevelBtn stopAllActions];
+    scoreMenu.touchEnabled = NO;
+    scoreMenu.position = ccp(-871, 151.5);
+    leftPanelTop.position = ccp(-37, 256);
+    leftPanelBottom.position = ccp(-120, 256);
+}
+
 -(void)slideMenuOut
 {
     id leftTopMove = [CCMoveTo actionWithDuration:0.5 position:ccp(-37, 256)];
@@ -324,6 +341,7 @@
 
 -(void)saveData
 {
+    hasPendingScore = NO;
     [[GameManager sharedGameManager] playSoundEffect:@"score.mp3"];
     [[SaveManager sharedManager] addScore:playerScore forLevel:[[GameManager sharedGameManager] currentLevelNum] onPlanet:[[GameManager sharedGameManager] currentPlanetNum]];
     [[SaveManager sharedManager] addTime:timeElapsed forLevel:[[GameManager sharedGameManager] currentLevelNum] onPlanet:[[GameManager sharedGameManager] currentPlanetNum]];

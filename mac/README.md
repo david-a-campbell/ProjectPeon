@@ -34,6 +34,7 @@ Saves and progress are stored in `~/Library/Application Support/Project Peon/Car
 Build first, then run:
 
 ```sh
+python3 mac/tests/check_restart.py
 python3 mac/tests/check_saves.py
 python3 mac/tests/check_music.py
 python3 mac/tests/check_viewport.py
@@ -73,3 +74,5 @@ The Mac app icon is generated from the original `rover/Icon512.png` and `rover/I
 P toggles Mouse Pan Map when no popup, tooltip, load/save cart panel or level-entry screen is open. While those overlays are open, the pan-map state stays unchanged. Mouse Pan Map in cart creation opens a paused map preview at the driving zoom, with the cart and building controls hidden. Drag to pan; turn the toggle off, press C, or press Escape to restore the editor camera and cart. During driving, the toggle continues to pan the live driving camera.
 
 The standard build is a release build: Debug is omitted, its credits tap target is omitted, and saved debug options are cleared at startup. Use `PEON_DEBUG=1 python3 mac/build.py` for a development build with Debug support. `PEON_RELEASE=1` and App Store builds always disable Debug, even if development or audit flags are also set. In development builds, click David Campbell ten times to show Debug; ten more clicks clear its options and hide it.
+
+C and R also work from level results. Both clear the results card and cancel pending results animations. C restores the original editor camera at full scale; R restores the launch camera at driving scale and resets the ship completion state.
