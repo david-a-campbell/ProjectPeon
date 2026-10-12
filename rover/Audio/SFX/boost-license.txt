@@ -1,0 +1,6 @@
+Jet engine startup by SamsterBirdies
+Source: https://freesound.org/people/SamsterBirdies/sounds/491407/
+License: CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Downloaded source: Freesound high-quality MP3 preview (original FLAC requires login).
+Edit: 0.90 to 16.00 seconds; duration 15.10 seconds.
+Export: 24-bit WAV; gain tripled (+9.54 dB total; 1.5x above the previous 2x version), with peak limiting to prevent clipping.

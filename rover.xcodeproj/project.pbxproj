@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B00570000000000000000001 /* boost.wav in Resources */ = {isa = PBXBuildFile; fileRef = B00570000000000000000002 /* boost.wav */; };
 		A100F2A11776775900962A8D /* boostMeter_tip.png in Resources */ = {isa = PBXBuildFile; fileRef = A100F2941776775900962A8D /* boostMeter_tip.png */; };
 		A100F2A41776775900962A8D /* createMenu_btn_bar_tip.png in Resources */ = {isa = PBXBuildFile; fileRef = A100F2971776775900962A8D /* createMenu_btn_bar_tip.png */; };
 		A100F2A51776775900962A8D /* createMenu_btn_booster_tip.png in Resources */ = {isa = PBXBuildFile; fileRef = A100F2981776775900962A8D /* createMenu_btn_booster_tip.png */; };
@@ -1447,6 +1448,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B00570000000000000000002 /* boost.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = boost.wav; sourceTree = "<group>"; };
 		A100F2941776775900962A8D /* boostMeter_tip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boostMeter_tip.png; sourceTree = "<group>"; };
 		A100F2971776775900962A8D /* createMenu_btn_bar_tip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = createMenu_btn_bar_tip.png; sourceTree = "<group>"; };
 		A100F2981776775900962A8D /* createMenu_btn_booster_tip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = createMenu_btn_booster_tip.png; sourceTree = "<group>"; };
@@ -5258,6 +5260,7 @@
 		A1D2F62F177002EB0026ECB9 /* SFX */ = {
 			isa = PBXGroup;
 			children = (
+				B00570000000000000000002 /* boost.wav */,
 				A1D2F630177002F40026ECB9 /* SoundEffects.plist */,
 				A1DE07FC180FB2D500FD6077 /* mothership.mp3 */,
 				A1DE07FE180FB4A500FD6077 /* peon_dizzy.mp3 */,
@@ -5922,6 +5925,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B00570000000000000000001 /* boost.wav in Resources */,
 				A147B5B715027DAF005C0284 /* iTunesArtwork in Resources */,
 				A147B77615027DB2005C0284 /* blocks.png in Resources */,
 				A11171DF15686A0A007094B3 /* Thingy.plist in Resources */,

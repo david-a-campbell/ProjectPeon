@@ -7,6 +7,12 @@
 //
 
 #import "BaseActionLayer.h"
+#import <AVFoundation/AVFoundation.h>
+#if defined(PROJECTPEON_MAC) || defined(PROJECTPEON_IOS)
+#import "../mac/SimpleAudioEngine.h"
+#else
+#import "libs/CocosDenshion/SimpleAudioEngine.h"
+#endif
 #import "Box2DSprite.h"
 #import "SimpleQueryCallback.h"
 #import "Box2DHelpers.h"
@@ -69,6 +75,12 @@
         [self setAnchorPoint:CGPointMake(0, 0)];
         [self setupParallaxLayers];
         
+#ifdef PROJECTPEON_MAC
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(boostApplicationInactive:) name:NSApplicationWillResignActiveNotification object:nil];
+#else
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(boostApplicationInactive:) name:UIApplicationWillResignActiveNotification object:nil];
+#endif
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(boostPaused:) name:NOTIFICATION_PAUSE object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveCartComplete) name:NOTIFICATION_FADE_SAVE_BACKING object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(levelComplete) name:NOTIFICATION_LEVEL_COMPLETE object:nil];
     }
@@ -77,6 +89,8 @@
 
 -(void)dealloc
 {
+    [self stopBoostSound];
+    [boostSoundPlayer release];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [playerVelocities release];
     playerVelocities = nil;
@@ -519,6 +533,7 @@
 
 -(void)buttonPressBegan
 {
+    boostPressed = YES;
     CCArray *removeArray = [[CCArray alloc] init];
     for (id touchObject in touchArray)
     {
@@ -533,10 +548,88 @@
     }
     [touchArray removeObjectsInArray:removeArray];
     [removeArray release];
+    [self updateBoostSound];
+}
+
+
+// One voice for the whole cart, including visible detached booster parts.
+-(BOOL)hasVisibleBooster
+{
+    CGSize size = [CCDirector sharedDirector].winSize;
+    CGRect screen = CGRectMake(0, 0, size.width, size.height);
+#ifdef PROJECTPEON_MAC
+    CGSize presentation = PeonPresentationSize(size);
+    screen.origin.x = -(presentation.width-size.width)/2;
+    screen.size.width = presentation.width;
+#endif
+    for (CartPart *part in playerCart.components) {
+        if ((part.gameObjectType != kBoosterPartType && part.gameObjectType != kBooster50PartType)
+            || part.isReadyForRemoval || !part.parent) continue;
+        BOOL visible = YES;
+        for (CCNode *node = part; node; node = node.parent)
+            if (!node.visible) { visible = NO; break; }
+        if (!visible) continue;
+        CGRect bounds = part.boundingBox;
+        CGPoint corners[] = {
+            ccp(CGRectGetMinX(bounds), CGRectGetMinY(bounds)),
+            ccp(CGRectGetMaxX(bounds), CGRectGetMinY(bounds)),
+            ccp(CGRectGetMinX(bounds), CGRectGetMaxY(bounds)),
+            ccp(CGRectGetMaxX(bounds), CGRectGetMaxY(bounds))
+        };
+        CGRect worldBounds = CGRectNull;
+        for (int i=0; i<4; i++) {
+            CGPoint point = [part.parent convertToWorldSpace:corners[i]];
+            worldBounds = CGRectUnion(worldBounds, CGRectMake(point.x, point.y, 0, 0));
+        }
+        if (CGRectIntersectsRect(screen, worldBounds)) return YES;
+    }
+    return NO;
+}
+
+-(void)boostApplicationInactive:(NSNotification *)notification
+{
+    [self buttonPressEnded];
+}
+
+-(void)boostPaused:(NSNotification *)notification
+{
+    [self stopBoostSound];
+}
+
+-(void)stopBoostSound
+{
+    [boostSoundPlayer stop];
+    boostSoundPlayer.currentTime = 0;
+}
+
+-(void)updateBoostSound
+{
+    if (!boostPressed || !shouldFollowSprite || [[GameManager sharedGameManager] isPaused]
+        || ![playerCart hasFuel] || ![self hasVisibleBooster]) {
+        [self stopBoostSound];
+        return;
+    }
+    if (!boostSoundPlayer) {
+        NSString *path = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:@"boost.wav"];
+        boostSoundPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:NULL];
+        boostSoundPlayer.numberOfLoops = -1;
+        [boostSoundPlayer prepareToPlay];
+    }
+    boostSoundPlayer.volume = [SimpleAudioEngine sharedEngine].effectsVolume;
+    if (!boostSoundPlayer.playing) [boostSoundPlayer play];
+}
+
+-(void)onExit
+{
+    boostPressed = NO;
+    [self stopBoostSound];
+    [super onExit];
 }
 
 -(void)buttonPressEnded
 {
+    boostPressed = NO;
+    [self stopBoostSound];
     CCArray *removeArray = [[CCArray alloc] init];
     for (id touchObject in touchArray)
     {
@@ -562,6 +655,7 @@
 {
     if ([[GameManager sharedGameManager] isPaused])
     {
+        [self stopBoostSound];
         return;
     }
     
@@ -635,6 +729,7 @@
         }
     }
     [self followSprite];
+    [self updateBoostSound];
     
     //[playerCart applybreakableJoints];
 }
@@ -1062,6 +1157,8 @@
 
 -(void)levelComplete
 {
+    boostPressed = NO;
+    [self stopBoostSound];
     levelWasCompleted = YES;
     shouldFollowSprite = NO;
     CGFloat newScale = 0.20;
@@ -1108,6 +1205,8 @@
 
 -(void)resetGamePlay
 {
+    boostPressed = NO;
+    [self stopBoostSound];
     [self stopAllActions];
     [_controlsDelegate dissableControls];
     shouldFollowSprite = NO;
