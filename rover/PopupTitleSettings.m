@@ -16,6 +16,7 @@
 #import "CCControlExtension.h"
 #import "PeonVolumeSettings.h"
 #import "BoostPositionLayer.h"
+#import "PeonSettingsSpacing.h"
 #ifdef PROJECTPEON_MAC
 #import "PeonBitmapFont.h"
 #endif
@@ -139,6 +140,13 @@
     controlChoiceMenu=PeonAddChoiceSetting([self nodeArray],self,0,SCREEN_SCALE,@"control",@[@"tilt",@"touch"],@selector(switchToTiltControl),@selector(switchToTouchControl),useTouch);
     PeonAddBoostPositionSetting([self nodeArray],self,-90,SCREEN_SCALE);
     tutorialBtn.position=ccp(0,-180);
+    CGFloat musicTop=186+20.0*SCREEN_SCALE;
+    CGFloat lastRowBottom=-90;
+    for(CCNode *node in [self nodeArray]) if(node.tag==9782) {
+        CCMenuItemLabel *item=(CCMenuItemLabel *)[node.children objectAtIndex:0];
+        lastRowBottom=node.position.y-item.label.contentSize.height*item.label.scale/2;
+    }
+    settingsPlanks=PeonSpaceTutorial([self nodeArray],tutorialBtn,musicTop,lastRowBottom,27);
 #endif
 
 #ifdef PROJECTPEON_MAC
@@ -251,7 +259,7 @@
 -(int)numberOfPlanks
 {
 #ifdef PROJECTPEON_IOS
-    return 27;
+    return settingsPlanks;
 #endif
 #ifdef PROJECTPEON_MAC
     return 32;

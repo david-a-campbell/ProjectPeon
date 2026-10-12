@@ -10,6 +10,7 @@
 
 @interface PopupTitleSettings : BasePopupMenu
 {
+    int settingsPlanks;
     BOOL retinaOn;
     BOOL forGameplay;
     CCMenuItemToggle *retinaSwitch;
