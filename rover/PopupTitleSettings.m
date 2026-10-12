@@ -16,6 +16,7 @@
 #import "CCControlExtension.h"
 #ifdef PROJECTPEON_MAC
 #import "PeonBitmapFont.h"
+#import "PeonSettingsSpacing.h"
 #endif
 
 @implementation PopupTitleSettings
@@ -144,6 +145,7 @@
     [[self nodeArray] addObject:heading];
     NSArray *keys = @[@"A / D or arrows", @"Space", @"R", @"Click and drag", @"Shift + drag", @"C", @"M", @"P"];
     NSArray *actions = @[@"Drive", @"Boost", @"Relaunch", @"Build cart", @"Rotate (Move tool)", @"Return to building", @"Next song", @"Toggle map pan"];
+    CGFloat lastRowBottom=0;
     for (NSUInteger row = 0; row < keys.count; row++) {
         CGFloat y = 6 - row * 32.0;
         CCLabelBMFont *key = [CCLabelBMFont labelWithString:keys[row] fntFile:@"font42.fnt"];
@@ -158,7 +160,10 @@
         key.color = ccc3(155, 222, 255);
         [[self nodeArray] addObject:key];
         [[self nodeArray] addObject:action];
+        lastRowBottom=MIN(CGRectGetMinY(key.boundingBox),CGRectGetMinY(action.boundingBox));
     }
+    CGFloat musicTop=240+20.0*SCREEN_SCALE;
+    settingsPlanks=PeonSpaceTutorial([self nodeArray],tutorialBtn,musicTop,lastRowBottom,32);
 #endif
 
 }
@@ -216,7 +221,7 @@
 -(int)numberOfPlanks
 {
 #ifdef PROJECTPEON_MAC
-    return 32;
+    return settingsPlanks;
 #endif
     if (!IS_RETINA)
     {
