@@ -32,7 +32,6 @@ static float PeonVoiceGain(AVAudioPlayer *player) {
 - (void)audioInterrupted:(NSNotification *)notification {
     if ([notification.userInfo[AVAudioSessionInterruptionTypeKey] unsignedIntegerValue] == AVAudioSessionInterruptionTypeBegan) [self pauseAudio];
     else if ([notification.userInfo[AVAudioSessionInterruptionOptionKey] unsignedIntegerValue] & AVAudioSessionInterruptionOptionShouldResume) {
-        [[AVAudioSession sharedInstance] setActive:YES error:NULL];
         [self resumeAudio];
     }
 }
@@ -45,7 +44,7 @@ static float PeonVoiceGain(AVAudioPlayer *player) {
 - (BOOL)isBackgroundMusicPlaying { return music.playing; }
 - (void)preloadBackgroundMusic:(NSString *)file {}
 - (void)playBackgroundMusic:(NSString *)file loop:(BOOL)loop {
-    [music stop]; [music release]; music=[[self playerForFile:file] retain]; music.delegate=self; music.volume=_backgroundMusicVolume; music.numberOfLoops=loop?-1:0; [music play];
+    [music stop]; [music release]; music=[[self playerForFile:file] retain]; music.delegate=self; music.volume=_backgroundMusicVolume; music.numberOfLoops=loop?-1:0; musicWasPlaying=NO; [music play];
 }
 - (void)preloadEffect:(NSString *)file {}
 - (ALuint)playEffect:(NSString *)file {
@@ -60,6 +59,17 @@ static float PeonVoiceGain(AVAudioPlayer *player) {
     if(player==music) { CDAudioManager *manager=[CDAudioManager sharedManager]; if(manager.completionTarget && manager.completionSelector) [manager.completionTarget performSelectorOnMainThread:manager.completionSelector withObject:nil waitUntilDone:NO]; }
     else { @synchronized(self) { for(NSNumber *key in [[effects.allKeys copy] autorelease]) if(effects[key]==player) [effects removeObjectForKey:key]; } }
 }
-- (void)pauseAudio { musicWasPlaying=music.playing; [music pause]; @synchronized(self) { for(AVAudioPlayer *player in effects.allValues) [player pause]; } }
-- (void)resumeAudio { if(musicWasPlaying) [music play]; @synchronized(self) { for(AVAudioPlayer *player in effects.allValues) [player play]; } }
+// App lifecycle and interruption callbacks can pause the same track more than once.
+- (void)pauseAudio { musicWasPlaying=musicWasPlaying || music.playing; [music pause]; @synchronized(self) { for(AVAudioPlayer *player in effects.allValues) [player pause]; } }
+- (void)resumeAudio {
+#ifdef PROJECTPEON_IOS
+    NSError *error=nil;
+    if (![[AVAudioSession sharedInstance] setActive:YES error:&error]) {
+        NSLog(@"Unable to resume audio session: %@", error);
+        return; // Keep the pending music resume for the next activation.
+    }
+#endif
+    if(musicWasPlaying && [music play]) musicWasPlaying=NO;
+    @synchronized(self) { for(AVAudioPlayer *player in effects.allValues) [player play]; }
+}
 @end
