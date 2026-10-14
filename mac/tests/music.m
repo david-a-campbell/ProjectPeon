@@ -15,14 +15,22 @@ int main(int argc,const char **argv) {
   for(NSString *planet in @[@"Planet1",@"Planet2",@"Planet3"])
    NSCAssert([levelTracks isEqual:[NSSet setWithArray:playlists[planet]]],@"Gameplay soundtrack mismatch");
   GameManager *manager=[GameManager sharedGameManager]; manager.musicTracksByScene=playlists;
-  for(NSString *scene in playlists) {
-   [manager setValue:scene forKey:@"currentSceneName"];
-   [manager playRandomTrackForCurrentScene];
-   NSArray *tracks=playlists[scene]; NSUInteger first=[tracks indexOfObject:played];
-   NSCAssert(first!=NSNotFound,@"Random song missing");
-   for(NSUInteger step=1;step<=tracks.count;step++) {
-    [manager playNextTrackForCurrentScene];
-    NSCAssert([played isEqual:tracks[(first+step)%tracks.count]],@"Skip did not cycle or wrap correctly");
+  // Alternate scenes with identical playlists to ensure scene changes preserve progress.
+  for(NSArray *scenes in @[@[@"TitleScene",@"MainMenuScene"], @[@"Planet1",@"Planet2",@"Planet3"]]) {
+   NSArray *tracks=playlists[scenes[0]];
+   NSString *previous=nil;
+   for(NSUInteger cycle=0;cycle<30;cycle++) {
+    NSMutableSet *seen=[NSMutableSet set];
+    for(NSUInteger step=0;step<tracks.count;step++) {
+     [manager setValue:scenes[step%scenes.count] forKey:@"currentSceneName"];
+     if(step%2) [manager playNextTrackForCurrentScene];
+     else [manager playRandomTrackForCurrentScene];
+     NSCAssert([tracks containsObject:played],@"Song outside playlist");
+     NSCAssert(![seen containsObject:played],@"Repeated song before playlist exhausted");
+     NSCAssert(![previous isEqual:played],@"Repeated song at cycle boundary");
+     [seen addObject:played]; previous=[[played copy] autorelease];
+    }
+    NSCAssert(seen.count==tracks.count,@"Playlist did not play every song");
    }
   }
   manager.musicTracksByScene=[NSMutableDictionary dictionaryWithDictionary:@{@"Empty":@[],@"Single":@[@"one.mp3"]}];
@@ -30,7 +38,7 @@ int main(int argc,const char **argv) {
   NSCAssert([played isEqual:@"one.mp3"],@"Single track failed");
   [manager setValue:@"Empty" forKey:@"currentSceneName"]; [manager playNextTrackForCurrentScene];
   NSCAssert([played isEqual:@"one.mp3"],@"Empty playlist changed playback");
-  puts("Music cycling across all scenes, wraparound, random-to-next, single and empty playlists: PASS");
+  puts("Shuffled cycles, scene changes, manual skips, boundaries, single and empty playlists: PASS");
  }
  return 0;
 }

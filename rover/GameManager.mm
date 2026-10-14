@@ -74,35 +74,49 @@ static GameManager* _sharedGameManager = nil;                      // 1
         
         [[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:trackFileName];
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:trackFileName loop:NO];
-        currentTrackName = trackFileName;
+        [currentTrackName release];
+        currentTrackName = [trackFileName copy];
     }
 }
 
 -(void)playRandomTrackForCurrentScene
 {
+    if (![self waitForAudioManager]) return;
     NSArray *tracks = [self getMusicTracksForScene:[self shortSceneName:currentSceneName]];
-    if (![tracks count]){return;}
-    if ([tracks count] == 1)
-    {
-        [self playBackgroundTrack:[tracks objectAtIndex:0]];
-        return;
+    // Identical playlists share progress across menus, planets, and level changes.
+    NSArray *playlist = [[NSOrderedSet orderedSetWithArray:tracks ?: @[]] array];
+    if (!playlist.count) return;
+    if (!musicShuffleBags) musicShuffleBags = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *state = [musicShuffleBags objectForKey:playlist];
+    if (!state) {
+        state = [NSMutableDictionary dictionary];
+        [musicShuffleBags setObject:state forKey:playlist];
     }
-    
-    int random = arc4random_uniform([tracks count]);
-    while ([currentTrackName isEqualToString:[tracks objectAtIndex:random]])
-    {
-        random = arc4random_uniform([tracks count]);
+    NSMutableArray *remaining = [state objectForKey:@"remaining"];
+    if (!remaining.count) {
+        remaining = [NSMutableArray arrayWithArray:playlist];
+        for (NSUInteger count = remaining.count; count > 1; count--) {
+            [remaining exchangeObjectAtIndex:count - 1
+                           withObjectAtIndex:arc4random_uniform((uint32_t)count)];
+        }
+        NSString *last = [state objectForKey:@"last"];
+        // Keep cycle boundaries from repeating the playlist's last song.
+        if (remaining.count > 1 && [[remaining firstObject] isEqual:last]) {
+            NSUInteger next = 1 + arc4random_uniform((uint32_t)remaining.count - 1);
+            [remaining exchangeObjectAtIndex:0 withObjectAtIndex:next];
+        }
+        [state setObject:remaining forKey:@"remaining"];
     }
-    [self playBackgroundTrack:[tracks objectAtIndex:random]];
+    NSString *track = [[[remaining firstObject] retain] autorelease];
+    [remaining removeObjectAtIndex:0];
+    [state setObject:track forKey:@"last"];
+    [self playBackgroundTrack:track];
 }
 
 -(void)playNextTrackForCurrentScene
 {
-    NSArray *tracks = [self getMusicTracksForScene:[self shortSceneName:currentSceneName]];
-    if (!tracks.count) return;
-    NSUInteger index = currentTrackName ? [tracks indexOfObject:currentTrackName] : NSNotFound;
-    NSUInteger next = index == NSNotFound ? 0 : (index + 1) % tracks.count;
-    [self playBackgroundTrack:[tracks objectAtIndex:next]];
+    // Manual skips consume the same shuffled playlist as automatic completion.
+    [self playRandomTrackForCurrentScene];
 }
 
 -(void)stopSoundEffect:(ALuint)soundEffectID
@@ -411,6 +425,8 @@ static GameManager* _sharedGameManager = nil;                      // 1
     [self setMusicTracksByScene:nil];
     [currentSceneName release];
     currentSceneName = nil;
+    [currentTrackName release];
+    [musicShuffleBags release];
     [super dealloc];
 }
 
