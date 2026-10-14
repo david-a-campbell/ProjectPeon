@@ -18,6 +18,7 @@
     BOOL hasPlayerDied;
     NSString* currentSceneName;
     NSString* currentTrackName;
+    NSMutableDictionary *musicShuffleBags;
 }
 @property (readwrite) BOOL isMusicON;
 @property (readwrite) BOOL isSoundEffectsON;
