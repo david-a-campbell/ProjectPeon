@@ -4,6 +4,8 @@ Native AppKit port of the original cocos2d/Box2D iPad game, targeting Apple sili
 
 ## Build
 
+Open `rover.xcodeproj`, select the **Project Peon macOS** scheme and **My Mac**, then press Run (Command-R). The shared scheme uses the existing Mac build script, enables development features in Debug, and builds the standard release app in Release. It targets Apple silicon and requires no signing team for local development.
+
 Install Xcode and its command-line tools, then run from the repository root:
 
 ```sh
