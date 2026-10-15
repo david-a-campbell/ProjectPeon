@@ -46,5 +46,3 @@ Design: Daniel Campbell
 Programming: David Campbell  
 Audio and menu music: Juan Sajche  
 Game music: W1NGY
-
-Copyright 2013 Digital Fury. All rights reserved.
