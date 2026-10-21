@@ -448,9 +448,10 @@ int main(int argc,const char **argv) {
    printf("Popup type %d: PASS (centered, width %.2f)\n",type,frame.size.width);
    if(type==kPopupGameInfo) {
     BasePopupMenu *credits=[popup valueForKey:@"currentOptions"];
-    NSCAssert(credits.nodeArray.count==2,@"Credits still contain the website link");
+    NSCAssert(credits.nodeArray.count==3,@"Credits must contain text, version and debug menu");
     CCNode *text=credits.nodeArray[0];
-    CGRect bounds=text.boundingBox;
+    CCLabelBMFont *version=(CCLabelBMFont *)credits.nodeArray[1];
+    CGRect bounds=CGRectUnion(text.boundingBox,version.boundingBox);
     CGFloat halfHeight=credits.numberOfPlanks*9;
     CGFloat topPadding=halfHeight-CGRectGetMaxY(bounds);
     CGFloat bottomPadding=CGRectGetMinY(bounds)+halfHeight;
@@ -458,7 +459,7 @@ int main(int argc,const char **argv) {
     NSCAssert(topPadding>=20 && topPadding<=50,@"Credits panel height leaves incorrect padding: %f",topPadding);
     NSCAssert(popup.position.y==384,@"Credits panel moved off screen center");
     printf("Credits layout: centered panel and text, %.1f matching top/bottom padding: PASS\n",topPadding);
-    CCMenu *creditMenu=(CCMenu *)credits.nodeArray[1];
+    CCMenu *creditMenu=(CCMenu *)credits.nodeArray[2];
     CCMenuItem *creditButton=(CCMenuItem *)[creditMenu getChildByTag:9920];
     NSCAssert(creditButton && creditButton.position.y>100 && creditButton.position.x>0,@"Secret credit target is not over the programming name");
     DebugCreditObserver *observer=[[[DebugCreditObserver alloc] init] autorelease];
