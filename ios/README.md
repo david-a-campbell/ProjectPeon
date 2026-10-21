@@ -3,7 +3,7 @@
 Branch: `iphone-release`. Open `rover.xcodeproj` and select the shared
 `ProjectPeon` scheme. Requires Xcode 26 or newer. The app targets iOS 15+,
 supports both landscape orientations, and retains `com.digitalfury.rover`
-for the existing App Store listing. Version 2.0, build 204.
+for the existing App Store listing. Version 2.0.1, build 211.
 
 The centered 16:9 game canvas is fitted inside the screen's safe area.
 The original cart and level dimensions are preserved, with the wider viewport
