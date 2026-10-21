@@ -37,6 +37,7 @@ Build first, then run:
 python3 mac/tests/check_saves.py
 python3 mac/tests/check_music.py
 python3 mac/tests/check_pivot_compression.py
+python3 mac/tests/check_round_friction.py
 python3 mac/tests/check_viewport.py
 python3 mac/tests/check_previews.py
 python3 mac/tests/check_ship.py
