@@ -41,5 +41,36 @@ int main(void) { @autoreleasepool {
  NSCAssert(top.blueComponent>0.8 && bottom.redComponent>0.8,@"Capture colors or vertical orientation incorrect");
  CGImageRelease(image);
  NSLog(@"PASS: 1024x768 MP4 %.2fs; average capture %.2fms",CMTimeGetSeconds(asset.duration),total/140*1000); [[NSFileManager defaultManager] removeItemAtURL:output error:NULL]; [rec beginGameplay]; [rec discard];
+#if DEBUG && !defined(PROJECTPEON_APP_STORE)
+ [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"PeonRecordingEnabled"];
+ PeonRecorder *screen=[PeonRecorder sharedScreenRecorder];
+ NSCAssert(screen!=rec,@"Manual and gameplay capture must have independent lifecycles");
+ [screen startScreenRecording];
+ NSCAssert(screen.isScreenRecording && ![PeonRecorder recordingEnabled],@"Manual capture depends on gameplay recording preference");
+ for(int frame=0;frame<50;frame++) {
+  if(frame==25) { [rec beginGameplay]; [rec finishGameplay]; [rec discard]; }
+  NSCAssert(screen.isScreenRecording,@"Gameplay reset interrupted manual recording");
+  [screen captureFrame];
+  [NSThread sleepForTimeInterval:.02];
+ }
+ [screen stopScreenRecording];
+ NSCAssert(!screen.isScreenRecording,@"Manual stop left capture running");
+ output=nil; deadline=[NSDate dateWithTimeIntervalSinceNow:15];
+ while(!output && deadline.timeIntervalSinceNow>0) {
+  [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:.05]];
+  for(NSString *name in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:desktop.path error:NULL])
+   if(![before containsObject:name] && [name hasPrefix:@"Project Peon "] && [name hasSuffix:@".mp4"])
+    output=[desktop URLByAppendingPathComponent:name];
+ }
+ NSCAssert(output,@"Manual recording was not exported on stop");
+ asset=[AVURLAsset URLAssetWithURL:output options:nil];
+ track=[[asset tracksWithMediaType:AVMediaTypeVideo] firstObject];
+ NSCAssert(track && CMTimeGetSeconds(asset.duration)>.5,@"Manual export is not a playable recording");
+ [[NSFileManager defaultManager] removeItemAtURL:output error:NULL];
+ [screen startScreenRecording]; [screen stopScreenRecording]; [screen stopScreenRecording];
+ [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:.2]];
+ NSCAssert(!screen.isScreenRecording && ![screen valueForKey:@"writer"],@"Immediate stop left an empty recording open");
+ NSLog(@"PASS: manual capture exports, survives gameplay resets, works with gameplay recording off, and can restart/stop immediately");
+#endif
  [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"PeonRecordingEnabled"];
  } return 0; }

@@ -9,4 +9,10 @@
 - (void)exportVideo;
 - (void)discard;
 - (void)captureFrame;
+#if DEBUG && !defined(PROJECTPEON_APP_STORE)
++ (instancetype)sharedScreenRecorder;
+@property(nonatomic, readonly, getter=isScreenRecording) BOOL screenRecording;
+- (void)startScreenRecording;
+- (void)stopScreenRecording;
+#endif
 @end

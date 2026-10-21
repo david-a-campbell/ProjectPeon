@@ -65,6 +65,8 @@ Escape dismisses the topmost open menu, including tooltips and the load/save car
 
 Gameplay recording is off by default and the export button is hidden while disabled. The recording preference is remembered.
 
+In a development build, Debug → Start Screen Recording (Command-Option-R) records the game window from any screen. The item changes to Stop Screen Recording while active; stopping saves a silent MP4 to the Desktop. This recording continues across menus, restarts and level changes independently of the gameplay-recording setting. Hiding the Debug menu also stops and saves it.
+
 Use Debug → Show Box2D Objects to overlay physics bodies and joints in cart creation and gameplay. It is off by default and remembered between launches.
 
 Debug → Disable Ship Finish Trigger keeps driving active when the cart reaches the ship. Uncheck it to restore normal completion; it is off by default and remembered between launches.

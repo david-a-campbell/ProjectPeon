@@ -641,6 +641,9 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 #endif
     PeonCaptureRequestedScreenshot();
 	[[PeonRecorder sharedRecorder] captureFrame];
+#if DEBUG && !defined(PROJECTPEON_APP_STORE)
+    [[PeonRecorder sharedScreenRecorder] captureFrame];
+#endif
 	// flush buffer
 	[self.view.openGLContext flushBuffer];	
 

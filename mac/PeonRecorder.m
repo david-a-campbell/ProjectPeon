@@ -32,17 +32,23 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"PeonRecordingPreferenceChanged" object:nil];
 }
 - (id)init { if((self=[super init])) { queue=dispatch_queue_create("com.projectpeon.recorder",DISPATCH_QUEUE_SERIAL); slot=dispatch_semaphore_create(1); } return self; }
+- (void)clearWriter {
+    [writer cancelWriting]; [writer release]; writer=nil;
+    [input release]; input=nil; [adaptor release]; adaptor=nil;
+    if(file) [[NSFileManager defaultManager] removeItemAtURL:file error:NULL];
+    [file release]; file=nil;
+}
 - (void)discard {
     capturing=NO; generation++;
-    dispatch_async(queue,^{
-        [writer cancelWriting]; [writer release]; writer=nil;
-        [input release]; input=nil; [adaptor release]; adaptor=nil;
-        if(file) [[NSFileManager defaultManager] removeItemAtURL:file error:NULL];
-        [file release]; file=nil;
-    });
+    dispatch_async(queue,^{ [self clearWriter]; });
 }
 - (void)beginGameplay {
-    [self discard]; if(![[self class] recordingEnabled]) return; started=CACurrentMediaTime(); lastCaptureTick=-1; capturing=YES;
+    [self discard]; if(![[self class] recordingEnabled]) return;
+    [self beginCapture];
+}
+- (void)beginCapture {
+    started=CACurrentMediaTime(); lastCaptureTick=-1; capturing=YES;
+    NSUInteger run=generation;
     dispatch_async(queue,^{
         file=[[NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Peon-%@.mp4",NSUUID.UUID.UUIDString]]] retain];
         writer=[[AVAssetWriter alloc] initWithURL:file fileType:AVFileTypeMPEG4 error:NULL];
@@ -52,9 +58,34 @@
         if([writer canAddInput:input]) [writer addInput:input];
         sessionStarted=NO;
         firstFrameTime=kCMTimeInvalid;
-        [writer startWriting];
+        if(![writer startWriting]) {
+            NSError *error=writer.error;
+            dispatch_async(dispatch_get_main_queue(),^{
+                if(generation==run) {
+                    capturing=NO;
+                    if(error) [NSApp presentError:error];
+                }
+            });
+            [self clearWriter];
+        }
     });
 }
+#if DEBUG && !defined(PROJECTPEON_APP_STORE)
++ (instancetype)sharedScreenRecorder {
+    static id instance; static dispatch_once_t once;
+    dispatch_once(&once,^{instance=[self new];});
+    return instance;
+}
+- (BOOL)isScreenRecording { return capturing; }
+- (void)startScreenRecording {
+    if(capturing) return;
+    [self discard];
+    [self beginCapture];
+}
+- (void)stopScreenRecording {
+    if(capturing) [self exportVideo];
+}
+#endif
 - (void)finishGameplay { capturing=NO; }
 - (void)finishScorePresentation {
     NSUInteger run=generation;
@@ -147,7 +178,10 @@
 - (void)exportVideo {
     capturing=NO;
     dispatch_async(queue,^{
-        if(!writer || writer.status!=AVAssetWriterStatusWriting || !sessionStarted) return;
+        if(!writer || writer.status!=AVAssetWriterStatusWriting || !sessionStarted) {
+            [self clearWriter];
+            return;
+        }
         AVAssetWriter *completed=writer; writer=nil;
         NSURL *source=file; file=nil;
         [input markAsFinished]; [input release]; input=nil; [adaptor release]; adaptor=nil;

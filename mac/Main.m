@@ -162,6 +162,9 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
 @implementation AppDelegate
 - (void)disableDebugOptions {
     PeonSetDebugMenuVisible([NSUserDefaults standardUserDefaults],NO);
+#if DEBUG && !defined(PROJECTPEON_APP_STORE)
+    [[PeonRecorder sharedScreenRecorder] stopScreenRecording];
+#endif
     if(![inspectionScene() mousePanPreviewEnabled]) [inspectionScene() setInspectionCameraEnabled:NO];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"PeonLevelAccessChanged" object:nil];
 }
@@ -200,6 +203,12 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
 }
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
     if(item.menu==self.debugMenuItem.submenu && self.debugMenuItem.hidden) return NO;
+#if DEBUG && !defined(PROJECTPEON_APP_STORE)
+    if(item.action==@selector(toggleScreenRecording:)) {
+        item.title=[PeonRecorder sharedScreenRecorder].isScreenRecording ? @"Stop Screen Recording" : @"Start Screen Recording";
+        return YES;
+    }
+#endif
     if(item.action==@selector(toggleFPS:)) {
         item.state=[[NSUserDefaults standardUserDefaults] boolForKey:@"PeonHideFPS"] ? NSControlStateValueOff : NSControlStateValueOn;
         return YES;
@@ -231,6 +240,15 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     if(item.action==@selector(saveCameraScreenshot:)) return inspectionScene().inspectionCameraEnabled;
     return YES;
 }
+
+#if DEBUG && !defined(PROJECTPEON_APP_STORE)
+- (void)toggleScreenRecording:(NSMenuItem *)item {
+    PeonRecorder *recorder=[PeonRecorder sharedScreenRecorder];
+    if(recorder.isScreenRecording) [recorder stopScreenRecording];
+    else [recorder startScreenRecording];
+    item.title=recorder.isScreenRecording ? @"Stop Screen Recording" : @"Start Screen Recording";
+}
+#endif
 
 - (void)toggleTeleportCart:(NSMenuItem *)item {
     if (!PeonDebugBuildEnabled()) return;
@@ -320,6 +338,8 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     inspect.target=self; inspect.keyEquivalentModifierMask=NSEventModifierFlagCommand|NSEventModifierFlagOption;
     NSMenuItem *shot=[debugMenu addItemWithTitle:@"Save Screenshot to Desktop" action:@selector(saveCameraScreenshot:) keyEquivalent:@"p"];
     shot.target=self; shot.keyEquivalentModifierMask=NSEventModifierFlagCommand|NSEventModifierFlagOption;
+    NSMenuItem *screenRecording=[debugMenu addItemWithTitle:@"Start Screen Recording" action:@selector(toggleScreenRecording:) keyEquivalent:@"r"];
+    screenRecording.target=self; screenRecording.keyEquivalentModifierMask=NSEventModifierFlagCommand|NSEventModifierFlagOption;
 #endif
     [NSApp setMainMenu:menu];
     self.window=[[[NSWindow alloc] initWithContentRect:NSMakeRect(0,0,1365.333333,768) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskResizable backing:NSBackingStoreBuffered defer:NO] autorelease];
@@ -372,7 +392,13 @@ BOOL PeonKeyDown(unsigned short code) { return ![inspectionScene() inspectionCam
     [[CCDirector sharedDirector] resume]; [[GameManager sharedGameManager] becomeActive];
 }
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender { return YES; }
-- (void)applicationWillTerminate:(NSNotification *)n { [[PeonRecorder sharedRecorder] discard]; [self saveContext]; [[CCDirector sharedDirector] end]; }
+- (void)applicationWillTerminate:(NSNotification *)n {
+    [[PeonRecorder sharedRecorder] discard];
+#if DEBUG && !defined(PROJECTPEON_APP_STORE)
+    [[PeonRecorder sharedScreenRecorder] discard];
+#endif
+    [self saveContext]; [[CCDirector sharedDirector] end];
+}
 - (NSURL *)applicationDocumentsDirectory {
     NSString *testDirectory = [[[NSProcessInfo processInfo] environment] objectForKey:@"PEON_SAVE_DIR"];
     if(testDirectory) { NSURL *testURL=[NSURL fileURLWithPath:testDirectory isDirectory:YES]; [[NSFileManager defaultManager] createDirectoryAtURL:testURL withIntermediateDirectories:YES attributes:nil error:NULL]; return testURL; }
