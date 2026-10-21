@@ -1,6 +1,6 @@
 # Mac App Store release
 
-The store build uses `com.digitalfury.rover`, matching the existing Project Peon listing. Version 2.0, build 200 supports arm64 and x86_64, with macOS 12 as the minimum version. Original icon artwork is reused.
+The store build uses `com.digitalfury.rover`, matching the existing Project Peon listing. Version 2.0.1, build 208 supports arm64 and x86_64, with macOS 12 as the minimum version. Original icon artwork is reused.
 
 Local sandbox validation build:
 
