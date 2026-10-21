@@ -16,6 +16,7 @@
 #import "Box2DSprite.h"
 #import "SimpleQueryCallback.h"
 #import "Box2DHelpers.h"
+#import "PeonPhysicsStep.h"
 #import "GameManager.h"
 #import "PlayerCart.h"
 #import "Bar.h"
@@ -667,8 +668,7 @@
         return;
     }
     
-    //Best so far - world->Step(dt*2.0f, 7, 5);
-    world->Step(dt*2.0f, 10, 8);
+    PeonStepPhysics(world, dt);
     
     for(b2Body *b=world->GetBodyList(); b!=NULL; b=b->GetNext()) 
     {    
