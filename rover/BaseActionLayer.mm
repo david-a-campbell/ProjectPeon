@@ -1001,6 +1001,9 @@
     [playerCart moveBodyToCart];
     
     id moveAction = [CCMoveTo actionWithDuration:[self timeToTravel] position:resetPosition];
+    // Results use a wider zoom; restore driving scale while returning to launch.
+    moveAction = [CCSpawn actions:moveAction,
+                  [CCScaleTo actionWithDuration:0.5f scale:0.35f], nil];
     id sequence = [CCSequence actions:moveAction, [CCCallFunc actionWithTarget:self selector:@selector(endResetAction)], nil];
     [self runAction:sequence];
 }
@@ -1122,6 +1125,9 @@
 {
     id scaleAction = [CCScaleTo actionWithDuration:0.5f scale:1.0f];
     id moveAction = [CCMoveTo actionWithDuration:[self timeToTravel] position:resetPosition];
+    // Results use a wider zoom; restore driving scale while returning to launch.
+    moveAction = [CCSpawn actions:moveAction,
+                  [CCScaleTo actionWithDuration:0.5f scale:0.35f], nil];
     id moveAction2 = [CCMoveTo actionWithDuration:0.5f position:originalPosition];
     id spawn = [CCSpawn actions:scaleAction, moveAction2, nil];
     id sequence = [CCSequence actions:moveAction, spawn, [CCCallFunc actionWithTarget:self selector:@selector(endZoomIn)], nil];
@@ -1201,6 +1207,8 @@
     [self stopAllActions];
     [_controlsDelegate dissableControls];
     shouldFollowSprite = NO;
+    if (levelWasCompleted) [[self getPod] resetPod];
+    levelWasCompleted = NO;
     [playerCart dissapear];
     [playerCart resetCartBody];
     [self resetWormhole];
