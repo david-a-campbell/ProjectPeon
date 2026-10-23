@@ -1,4 +1,6 @@
 #import "BaseActionLayer.h"
+#import "Pod.h"
+#import "PlayerCart.h"
 #import "LevelScoreDisplay.h"
 #import "CartCreationLayer.h"
 #import "PeonWideScreen.h"
@@ -101,6 +103,29 @@ int main(int argc, const char **argv) {
    NSCAssert(ccpDistance(camera.position,expected)<.01,@"Wrong mode camera after results");
    NSCAssert(![[camera valueForKey:@"levelWasCompleted"] boolValue],@"Completion state survived reset");
   }
+  // Use real ship/ramp physics: the former camera stub missed dangling ramp bodies.
+  b2World world(b2Vec2(0,-10));
+  CCLayer *shipLayer=[CCLayer node];
+  [shipLayer onEnter];
+  Pod *ship=[[[Pod alloc] initWithWorld:&world atLocation:ccp(4000,1500) andLayer:shipLayer] autorelease];
+  [shipLayer addChild:ship];
+  PlayerCart *cart=[[[PlayerCart alloc] initWithWorld:&world atLocation:ccp(320,320)] autorelease];
+  const int bodyCount=world.GetBodyCount(), jointCount=world.GetJointCount();
+  for (double delay : {0.0, 0.3, 0.8, 2.0, 4.0}) {
+   [ship closeDoor];
+   advance(manager,delay);
+   [ship resetPod];
+   [cart resetCartBody];
+   advance(manager,5);
+   NSCAssert(world.GetBodyCount()==bodyCount,@"Restart leaked ship/ramp bodies");
+   NSCAssert(world.GetJointCount()==jointCount,@"Restart leaked ramp joints");
+   CCSprite *door=[ship valueForKey:@"podDoor"];
+   NSCAssert(door.opacity==0 && fabs(door.position.x-157.0/(2*SCREEN_SCALE))<.01,@"Closing animation survived reset");
+   CCParticleSystem *blast=[ship valueForKey:@"blastEmitter"];
+   NSCAssert(!blast.active,@"Cancelled ramp started ship booster");
+   world.Step(1.0/60,10,8);
+  }
+  puts("Interrupted ship completion at 0/0.3/0.8/2/4 seconds: PASS");
   puts("Results reset before/during/after entry, restart and editor camera/zoom: PASS");
  }
 }

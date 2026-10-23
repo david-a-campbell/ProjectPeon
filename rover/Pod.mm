@@ -63,6 +63,10 @@ static void scalePodVertices(b2Vec2 *vertices, int count)
     [[GameManager sharedGameManager] stopSoundEffect:soundEffectKey];
     shouldFireBooster = NO;
     [blastEmitter stopSystem];
+    // Remove the ramp before its sprite or attached ship body is replaced.
+    // Retraction may already have removed its physics.
+    [podRamp removeRampPhysics];
+    [podDoor stopAllActions];
     body->SetUserData(nil);
     world->DestroyBody(body);
     [self setPosition:originalPosition];
@@ -257,6 +261,7 @@ static void scalePodVertices(b2Vec2 *vertices, int count)
 {
     if (podRamp != nil)
     {
+        [podRamp removeRampPhysics];
         [podRamp removeFromParentAndCleanup:YES];
         podRamp = nil;
     }

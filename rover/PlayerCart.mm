@@ -304,13 +304,15 @@
             worldBodies = worldBodies->GetNext();
             continue;
         }
+        // DestroyBody invalidates this node; save the successor before removal.
+        b2Body *nextBody = worldBodies->GetNext();
         GameObject* object = (GameObject*)worldBodies->GetUserData();
         if (object.gameObjectType == kPlayerCartType)
         {
             worldBodies->SetUserData(nil);
             world->DestroyBody(worldBodies);
         }
-        worldBodies = worldBodies->GetNext();
+        worldBodies = nextBody;
     }
 }
 

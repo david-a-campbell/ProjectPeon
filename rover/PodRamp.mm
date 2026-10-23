@@ -103,9 +103,15 @@
 
 -(void)removeRampPhysics
 {
-    body->SetUserData(nil);
-    world->DestroyBody(body);
-    world->DestroyBody(limitBody);
+    if (body) {
+        body->SetUserData(nil);
+        world->DestroyBody(body);
+        body = NULL;
+    }
+    if (limitBody) {
+        world->DestroyBody(limitBody);
+        limitBody = NULL;
+    }
 }
 
 -(void)dealloc
