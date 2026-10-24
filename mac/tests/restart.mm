@@ -1,5 +1,6 @@
 #import "BaseActionLayer.h"
 #import "Pod.h"
+#import "Booster.h"
 #import "PlayerCart.h"
 #import "LevelScoreDisplay.h"
 #import "CartCreationLayer.h"
@@ -19,6 +20,16 @@ BOOL PeonKeyDown(unsigned short code) { return NO; }
 @end
 @implementation RestartCamera
 -(void)beginGameplay { shouldFollowSprite=YES; self.beganDriving=YES; }
+@end
+@interface ResetBooster : Booster
+@end
+@implementation ResetBooster
+-(void)setupFixture {} // This test exercises emitter lifecycle without cart geometry.
+@end
+@interface FueledCart : PlayerCart
+@end
+@implementation FueledCart
+-(BOOL)hasFuel { return YES; }
 @end
 @interface PreviewView : NSObject
 @property(retain) NSOpenGLPixelFormat *pixelFormat;
@@ -103,6 +114,26 @@ int main(int argc, const char **argv) {
    NSCAssert(ccpDistance(camera.position,expected)<.01,@"Wrong mode camera after results");
    NSCAssert(![[camera valueForKey:@"levelWasCompleted"] boolValue],@"Completion state survived reset");
   }
+  for (NSString *file in @[@"RocketBlast.plist", @"RocketBlastUpgrade.plist"]) {
+   ResetBooster *booster=[ResetBooster node];
+   FueledCart *fuelCart=[FueledCart node];
+   [booster setValue:fuelCart forKey:@"cart"];
+   CCParticleSystemQuad *flame=[CCParticleSystemQuad particleWithFile:file];
+   [booster setValue:flame forKey:@"blastEmitter"];
+   for (NSNumber *hide in @[@YES,@NO]) {
+    [booster buttonPressBegan];
+    [flame update:0.1];
+    NSCAssert(flame.active && flame.particleCount>0,@"Fixture must have a firing flame");
+    [booster setValue:@YES forKey:@"ranOutOfFuel"];
+    if (hide.boolValue) [booster dissapear]; else [booster resetPart];
+    NSCAssert(!flame.active && flame.particleCount==0,@"Flame survived cart transition");
+    NSCAssert(![[booster valueForKey:@"shouldFireBooster"] boolValue],@"Boost input survived reset");
+    NSCAssert(![[booster valueForKey:@"ranOutOfFuel"] boolValue],@"Fuel latch survived reset");
+    [flame update:1];
+    NSCAssert(flame.particleCount==0,@"Flame restarted in editor");
+   }
+  }
+  puts("Standard/upgraded booster flames clear on hide/reset and can fire again: PASS");
   // Use real ship/ramp physics: the former camera stub missed dangling ramp bodies.
   b2World world(b2Vec2(0,-10));
   CCLayer *shipLayer=[CCLayer node];

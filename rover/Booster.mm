@@ -176,8 +176,25 @@
     return fixtureDef;
 }
 
+// The flame is a sibling node, so hiding/resetting the cart does not stop it.
+-(void)clearBoostForReset
+{
+    shouldFireBooster = NO;
+    ranOutOfFuel = NO;
+    [blastEmitter resetSystem]; // Expire existing particles as well as emission.
+    [blastEmitter stopSystem];
+    [blastEmitter update:0];
+}
+
+-(void)dissapear
+{
+    [self clearBoostForReset];
+    [super dissapear];
+}
+
 -(void)resetPart;
 {
+    [self clearBoostForReset];
     [super resetPart];
     [self setupFixture];
     shouldFireBooster = NO;
