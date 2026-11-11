@@ -48,6 +48,35 @@
 #import "Platforms/Mac/CCDirectorMac.h"
 #endif
 
+#ifdef PROJECTPEON_IOS
+#import <CoreMotion/CoreMotion.h>
+// Preserve the existing layer callback while using the supported motion API.
+@interface PeonAccelerationSample : NSObject
+@property(nonatomic) double x, y, z, timestamp;
+@end
+@implementation PeonAccelerationSample
+@end
+static CMMotionManager *peonMotionManager;
+static CCLayer *peonMotionLayer; // Cleared when the running layer exits.
+static void PeonSetMotionLayer(CCLayer *layer) {
+    if (!peonMotionManager) {
+        peonMotionManager = [CMMotionManager new];
+        peonMotionManager.accelerometerUpdateInterval = 1.0/60;
+    }
+    peonMotionLayer = layer;
+    [peonMotionManager stopAccelerometerUpdates];
+    if (layer && peonMotionManager.accelerometerAvailable)
+        [peonMotionManager startAccelerometerUpdatesToQueue:[NSOperationQueue mainQueue]
+            withHandler:^(CMAccelerometerData *data, NSError *error) {
+                if (!peonMotionLayer || !data || error) return;
+                PeonAccelerationSample *sample = [[[PeonAccelerationSample alloc] init] autorelease];
+                sample.x=data.acceleration.x; sample.y=data.acceleration.y;
+                sample.z=data.acceleration.z; sample.timestamp=data.timestamp;
+                [(id<UIAccelerometerDelegate>)peonMotionLayer accelerometer:nil didAccelerate:(UIAcceleration *)sample];
+            }];
+}
+#endif
+
 // extern
 #import "kazmath/GL/matrix.h"
 
@@ -110,20 +139,25 @@
 
 -(void) setAccelerometerEnabled:(BOOL)enabled
 {
-	if( enabled != _accelerometerEnabled ) {
-		_accelerometerEnabled = enabled;
-		if( _isRunning ) {
-			if( enabled )
-				[[UIAccelerometer sharedAccelerometer] setDelegate:(id<UIAccelerometerDelegate>)self];
-			else
-				[[UIAccelerometer sharedAccelerometer] setDelegate:nil];
-		}
-	}
+    if (enabled == _accelerometerEnabled) return;
+    _accelerometerEnabled=enabled;
+    if (!_isRunning) return;
+#ifdef PROJECTPEON_IOS
+    if (enabled) PeonSetMotionLayer(self);
+    else if (peonMotionLayer == self) PeonSetMotionLayer(nil);
+#else
+    [[UIAccelerometer sharedAccelerometer] setDelegate:enabled ? (id<UIAccelerometerDelegate>)self : nil];
+#endif
 }
 
 -(void) setAccelerometerInterval:(float)interval
 {
-	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:interval];
+#ifdef PROJECTPEON_IOS
+    if (!peonMotionManager) PeonSetMotionLayer(nil);
+    peonMotionManager.accelerometerUpdateInterval=interval;
+#else
+    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:interval];
+#endif
 }
 
 -(BOOL) isTouchEnabled
@@ -383,9 +417,11 @@
 // Can't register mouse, touches here because of #issue #1018, and #1021
 -(void) onEnterTransitionDidFinish
 {
-#if defined(__CC_PLATFORM_IOS) || defined(PROJECTPEON_MAC)
-	if( _accelerometerEnabled )
-		[[UIAccelerometer sharedAccelerometer] setDelegate:(id<UIAccelerometerDelegate>)self];
+#ifdef PROJECTPEON_IOS
+    if (_accelerometerEnabled) PeonSetMotionLayer(self);
+#elif defined(PROJECTPEON_MAC) || defined(__CC_PLATFORM_IOS)
+    if (_accelerometerEnabled)
+        [[UIAccelerometer sharedAccelerometer] setDelegate:(id<UIAccelerometerDelegate>)self];
 #endif
 
 	[super onEnterTransitionDidFinish];
@@ -400,8 +436,11 @@
 	if( _touchEnabled )
 		[[director touchDispatcher] removeDelegate:self];
 
-	if( _accelerometerEnabled )
-		[[UIAccelerometer sharedAccelerometer] setDelegate:nil];
+#ifdef PROJECTPEON_IOS
+    if (peonMotionLayer == self) PeonSetMotionLayer(nil);
+#else
+    if (_accelerometerEnabled) [[UIAccelerometer sharedAccelerometer] setDelegate:nil];
+#endif
 
 #elif defined(__CC_PLATFORM_MAC)
 	CCEventDispatcher *eventDispatcher = [director eventDispatcher];

@@ -19,14 +19,13 @@
 }
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    // Keep the notch clear without reserving an empty strip for the home indicator.
-    UIEdgeInsets insets = self.view.safeAreaInsets;
-    insets.top = 0; insets.bottom = 0;
-    CGRect safe = UIEdgeInsetsInsetRect(self.view.bounds, insets);
-    CGFloat scale = MIN(safe.size.width / (768.0 * 16.0 / 9.0), safe.size.height / 768.0);
+    // Fit the complete 16:9 canvas to the display itself. Insets around the
+    // entire drawable introduce unwanted side bars on the Duo's inner screen.
+    CGRect screen = self.view.bounds;
+    CGFloat scale = MIN(screen.size.width / (768.0 * 16.0 / 9.0), screen.size.height / 768.0);
     CGSize size = CGSizeMake((768.0 * 16.0 / 9.0) * scale, 768.0 * scale);
     self.childViewControllers.firstObject.view.frame = CGRectMake(
-        CGRectGetMidX(safe) - size.width / 2, CGRectGetMidY(safe) - size.height / 2,
+        CGRectGetMidX(screen) - size.width / 2, CGRectGetMidY(screen) - size.height / 2,
         size.width, size.height);
 }
 @end

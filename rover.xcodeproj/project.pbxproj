@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D00100000000000000000001 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D00100000000000000000002; };
 		B00570000000000000000001 /* boost.wav in Resources */ = {isa = PBXBuildFile; fileRef = B00570000000000000000002 /* boost.wav */; };
 		B001B0050000000000000001 /* BoostPositionLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B001B0050000000000000002 /* BoostPositionLayer.m */; };
 		F01000000000000000000005 /* Audio.m in Sources */ = {isa = PBXBuildFile; fileRef = F01000000000000000000006 /* Audio.m */; };
@@ -1469,6 +1470,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D00100000000000000000002 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		B00570000000000000000002 /* boost.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = boost.wav; sourceTree = "<group>"; };
 		B001B0050000000000000002 /* BoostPositionLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoostPositionLayer.m; sourceTree = "<group>"; };
 		B001B0050000000000000003 /* BoostPositionLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoostPositionLayer.h; sourceTree = "<group>"; };
@@ -3282,6 +3284,7 @@
 				A1F19E4518340AA400D10EBF /* Security.framework in Frameworks */,
 				A1F19E4318340A9500D10EBF /* MessageUI.framework in Frameworks */,
 				A1F19E4118340A7400D10EBF /* CoreVideo.framework in Frameworks */,
+				D00100000000000000000001 /* CoreMotion.framework in Frameworks */,
 				A1F19E3F18340A6900D10EBF /* CoreMedia.framework in Frameworks */,
 				A147B59A15027DAE005C0284 /* AudioToolbox.framework in Frameworks */,
 				A19A022C1800E4DC002B9D87 /* MediaPlayer.framework in Frameworks */,

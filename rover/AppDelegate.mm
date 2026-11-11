@@ -16,6 +16,32 @@
 #import "GameNavControllerViewController.h"
 #import "PeonUIAudit.h"
 
+#ifdef PROJECTPEON_IOS
+@interface AppDelegate (PeonSceneSetup)
+- (void)setupGameInWindowScene:(UIWindowScene *)scene;
+@end
+@interface PeonSceneDelegate : UIResponder <UIWindowSceneDelegate>
+@end
+@implementation PeonSceneDelegate
+- (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)options {
+    if ([scene isKindOfClass:[UIWindowScene class]])
+        [(AppDelegate *)UIApplication.sharedApplication.delegate setupGameInWindowScene:(UIWindowScene *)scene];
+}
+- (void)sceneWillResignActive:(UIScene *)scene {
+    [UIApplication.sharedApplication.delegate applicationWillResignActive:UIApplication.sharedApplication];
+}
+- (void)sceneDidBecomeActive:(UIScene *)scene {
+    [UIApplication.sharedApplication.delegate applicationDidBecomeActive:UIApplication.sharedApplication];
+}
+- (void)sceneDidEnterBackground:(UIScene *)scene {
+    [UIApplication.sharedApplication.delegate applicationDidEnterBackground:UIApplication.sharedApplication];
+}
+- (void)sceneWillEnterForeground:(UIScene *)scene {
+    [UIApplication.sharedApplication.delegate applicationWillEnterForeground:UIApplication.sharedApplication];
+}
+@end
+#endif
+
 @implementation AppDelegate
 
 @synthesize window=window_;
@@ -26,6 +52,18 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+#ifdef PROJECTPEON_IOS
+    return YES; // The scene supplies the current display and window geometry.
+}
+- (void)setupGameInWindowScene:(UIWindowScene *)scene {
+    UIApplication *application=UIApplication.sharedApplication;
+    if (window_) {
+        window_.windowScene=scene;
+        [window_ makeKeyAndVisible];
+        return;
+    }
+#endif
+
 
 #if PEON_DEVELOPMENT_AUDIT
     if(PeonUIAuditEnabled()) application.idleTimerDisabled=YES;
@@ -36,7 +74,12 @@
 //    [[SaveManager sharedManager] forceLockState:YES forLevel:1 planet:1];
     
 	// Create the main window
-	window_ = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+	#ifdef PROJECTPEON_IOS
+    window_ = [[UIWindow alloc] initWithWindowScene:scene];
+    window_.frame=scene.coordinateSpace.bounds;
+#else
+    window_ = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+#endif
 
     // Create an CCGLView with a RGB565 color buffer, and a depth buffer of 0-bits
 	glView = [CCGLView viewWithFrame:[window_ bounds]
@@ -110,7 +153,9 @@
     
     [[GameManager sharedGameManager] setupAudioEngine];
     [[GameManager sharedGameManager] runSceneWithName:TitleSceneID];
-	return YES;
+#ifndef PROJECTPEON_IOS
+    return YES;
+#endif
 }
 
 // Supported orientations: Landscape. Customize it for your own needs

@@ -1,11 +1,17 @@
 # Project Peon for iPhone and iPad
 
 Branch: `iphone-release`. Open `rover.xcodeproj` and select the shared
-`ProjectPeon` scheme. Requires Xcode 26 or newer. The app targets iOS 15+,
+`ProjectPeon` scheme. Requires Xcode 27.2 or newer. The app targets iOS 15+,
 supports both landscape orientations, and retains `com.digitalfury.rover`
-for the existing App Store listing. Version 2.0.2, build 213.
+for the existing App Store listing. Version 2.0.3, build 214.
 
-The centered 16:9 game canvas is fitted inside the screen's safe area.
+The centered 16:9 game canvas is fitted inside the full screen bounds.
+The window uses UIKit's scene lifecycle, so the Duo's folded and unfolded
+screens supply their actual window size. The full game canvas is always visible.
+Both Duo displays fit the canvas flush to the left and right edges, with
+letterboxing above and below. Wider phone displays retain the bars needed
+to show the complete 16:9 canvas. Folding and
+rotation resize the presentation without stretching or cropping the game.
 The original cart and level dimensions are preserved, with the wider viewport
 showing more of the map and spreading the toolbar and HUD to its edges. New installs use
 touch driving controls. Retina assets are always enabled. The app icon reuses
@@ -41,6 +47,10 @@ xcrun simctl launch booted com.digitalfury.rover
 
 ## Compatibility fixes
 
+- UIKit scene-based window creation supports the current SDK and the Duo's
+  changing display geometry, while preserving background pause/resume.
+- Tilt input uses Core Motion; the removed `UIAccelerometer` implementation
+  is no longer linked on iOS.
 - Shader extension directives are emitted before injected GLSL declarations.
 - iOS uses the shared AVFoundation audio adapter instead of legacy OpenAL,
   which aborted during simulator startup. Music/effects, volume controls,
@@ -65,3 +75,15 @@ on the renewed Apple Developer membership and local signing credentials.
 The shared 16:9 UI includes mirrored menu close buttons, inset bitmap fonts,
 updated credits and volume captions, and centered cart thumbnails. Touch driving,
 tilt driving, and two-finger part rotation remain iOS controls.
+
+## Viewport regression checks
+
+```sh
+python3 ios/tests/check_viewport.py
+```
+
+This checks a centered, uncropped 16:9 aspect fit and input-coordinate round
+trips at both Duo display sizes, standard phone sizes, and iPad dimensions.
+Use the iPhone Duo simulator in Device Hub to verify Closed, Partially Open,
+and Open states, rotate into both landscape orientations, and inspect the
+menus and builder toolbar. Black bars outside the fitted canvas are intentional.

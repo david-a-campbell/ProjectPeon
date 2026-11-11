@@ -1,0 +1,1 @@
+Improved support for iPhone Duo: the full 16:9 game canvas fits both folded and unfolded screens, with no cropping or stretching. The original pixel-art style is preserved.
