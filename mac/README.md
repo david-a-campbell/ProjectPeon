@@ -25,7 +25,7 @@ The standalone app is generated at `build/mac/Project Peon.app`. The build signs
 
 The blueprint panel saves carts using the cart-plus button. Select a saved thumbnail and its green check mark to load it.
 
-All motor/booster purchases are included by default. The eight original music tracks play in the title and level-select menus; the nine new tracks play only in levels. Sound effects retain their original assets.
+All motor/booster purchases are included by default. The eight original music tracks play in the title and level-select menus; the ten new tracks play only in levels. Sound effects retain their original assets.
 
 Saves and progress are stored in `~/Library/Application Support/Project Peon/CartSave.sqlite`. The window stays 16:9. The home screen fills the window with an expanded background. Popup menus fill the window with a continuous hexagon backdrop while their panels retain the original centered layout. Planet selection also fills the 16:9 window with extended parallax backgrounds and corner navigation. Cart building and driving both use the full 16:9 view, with the original construction camera position preserved. Results retain the wide view. Fullscreen preserves proportions, and input matches the viewport.
 

@@ -9,7 +9,8 @@ int main(int argc,const char **argv) {
   NSMutableDictionary *playlists=[NSMutableDictionary dictionaryWithContentsOfFile:@(argv[1])];
   NSSet *menuTracks=[NSSet setWithArray:playlists[@"TitleScene"]];
   NSSet *levelTracks=[NSSet setWithArray:playlists[@"Planet1"]];
-  NSCAssert(menuTracks.count==8 && levelTracks.count==9,@"Soundtrack counts changed");
+  NSCAssert(menuTracks.count==8 && levelTracks.count==10,@"Soundtrack counts changed");
+  NSCAssert([levelTracks containsObject:@"Looking For You 4.mp3"],@"New gameplay track missing");
   NSCAssert(![menuTracks intersectsSet:levelTracks],@"Menu and gameplay soundtracks overlap");
   NSCAssert([menuTracks isEqual:[NSSet setWithArray:playlists[@"MainMenuScene"]]],@"Level select uses wrong soundtrack");
   for(NSString *planet in @[@"Planet1",@"Planet2",@"Planet3"])

@@ -1467,6 +1467,7 @@
 		F06000000000000000000006 /* loadingScreen3Wide.png in Resources */ = {isa = PBXBuildFile; fileRef = F05000000000000000000006; };
 		F08000000000000000000000 /* MusicVolumeLabel.png in Resources */ = {isa = PBXBuildFile; fileRef = F07000000000000000000000; };
 		F08000000000000000000001 /* EffectVolumeLabel.png in Resources */ = {isa = PBXBuildFile; fileRef = F07000000000000000000001; };
+		8BABE599F624D2950DE0A19E /* Looking For You 4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 63F019521E8F6180293D59B9 /* Looking For You 4.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -3271,6 +3272,7 @@
 		F05000000000000000000006 /* loadingScreen3Wide.png */ = {isa = PBXFileReference; path = mac/Assets/loadingScreen3Wide.png; sourceTree = SOURCE_ROOT; };
 		F07000000000000000000000 /* MusicVolumeLabel.png */ = {isa = PBXFileReference; path = mac/Assets/MusicVolumeLabel.png; sourceTree = SOURCE_ROOT; };
 		F07000000000000000000001 /* EffectVolumeLabel.png */ = {isa = PBXFileReference; path = mac/Assets/EffectVolumeLabel.png; sourceTree = SOURCE_ROOT; };
+		63F019521E8F6180293D59B9 /* Looking For You 4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Looking For You 4.mp3"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -5301,6 +5303,7 @@
 				0A49669BB6AB2E96F4682542 /* Get Enough.mp3 */,
 				487E4787D3C382E4D178E3DC /* Atmosphere.mp3 */,
 				E62AE4A422D561CB9076D52C /* All Time 2.mp3 */,
+				63F019521E8F6180293D59B9 /* Looking For You 4.mp3 */,
 				A1D2F63617700D4C0026ECB9 /* Satellite 2.mp3 */,
 				A1D2F63717700D4C0026ECB9 /* Mutual.mp3 */,
 			);
@@ -6058,6 +6061,7 @@
 				DA9C453FBD5F794E828D349C /* Get Enough.mp3 in Resources */,
 				AC5E582CE98AFBE9B053981E /* Atmosphere.mp3 in Resources */,
 				C2A3FA6CF576DE29A72BC73C /* All Time 2.mp3 in Resources */,
+				8BABE599F624D2950DE0A19E /* Looking For You 4.mp3 in Resources */,
 				A1D2F63A17700D4C0026ECB9 /* Satellite 2.mp3 in Resources */,
 				A1D2F63B17700D4C0026ECB9 /* Mutual.mp3 in Resources */,
 				A100F2A11776775900962A8D /* boostMeter_tip.png in Resources */,
