@@ -3,7 +3,7 @@
 Branch: `iphone-release`. Open `rover.xcodeproj` and select the shared
 `ProjectPeon` scheme. Requires Xcode 27.2 or newer. The app targets iOS 15+,
 supports both landscape orientations, and retains `com.digitalfury.rover`
-for the existing App Store listing. Version 2.0.3, build 214.
+for the existing App Store listing. Version 2.0.4, build 215.
 
 The centered 16:9 game canvas is fitted inside the full screen bounds.
 The window uses UIKit's scene lifecycle, so the Duo's folded and unfolded
