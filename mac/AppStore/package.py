@@ -67,7 +67,9 @@ subprocess.run(['codesign', '--force', '--sign', identity, '--entitlements',
 # Finder/iCloud can attach metadata while a keychain permission dialog is open.
 subprocess.run(['xattr', '-cr', str(app)], check=True)
 subprocess.run(['codesign', '--verify', '--strict', '--deep', str(app)], check=True)
-subprocess.run(['xcrun', 'lipo', str(binary), '-verify_arch', 'arm64', 'x86_64'], check=True)
+architectures = subprocess.check_output(['xcrun', 'lipo', str(binary), '-archs'], text=True).split()
+if not {'arm64', 'x86_64'}.issubset(architectures):
+    raise SystemExit(f'Universal app missing required architectures: {architectures}')
 if all(signing):
     staged_package = pathlib.Path(staging.name) / 'Project Peon.pkg'
     subprocess.run(['productbuild', '--component', str(app), '/Applications',
