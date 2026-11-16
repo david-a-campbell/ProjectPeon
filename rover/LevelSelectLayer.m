@@ -36,6 +36,10 @@
         [self setAccelerometerEnabled:YES];
 #endif
         currentOffset = ccp(0, 0);
+#ifdef PROJECTPEON_IOS
+        parallaxTarget = self.position;
+        [self scheduleUpdate];
+#endif
     }
     return self;
 }
@@ -80,6 +84,15 @@
     CGFloat blend = 1 - expf(-10*dt);
     parallaxNode.position = ccpAdd(parallaxNode.position, ccpMult(ccpSub(parallaxTarget, parallaxNode.position), blend));
 }
+#elif defined(PROJECTPEON_IOS)
+-(void)update:(ccTime)dt
+{
+    // Sensor callbacks can arrive before every frame (or in bursts). Keep the
+    // interpolation clock on the render loop rather than restarting CCMoveTo,
+    // whose first tick always advances by zero.
+    CGFloat blend = 1 - expf(-5 * MAX(0, dt));
+    self.position = ccpAdd(self.position, ccpMult(ccpSub(parallaxTarget, self.position), blend));
+}
 #endif
 
 -(void)dealloc
@@ -110,8 +123,12 @@
     
     CGPoint position = ccp(originalPosition.x + accelerationX*128, originalPosition.y + accelerationY*128 -64 +AdOffset);
     currentOffset = ccp(position.x - originalPosition.x, position.y - originalPosition.y);
+#ifdef PROJECTPEON_IOS
+    parallaxTarget = position;
+#else
     [self stopAllActions];
     [self runAction:[CCMoveTo actionWithDuration:0.2 position:position]];
+#endif
 }
 
 -(void)setupParallaxLayersForPlanet:(int)planetNumber
