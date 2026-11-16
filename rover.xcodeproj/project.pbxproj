@@ -1445,6 +1445,7 @@
 		C3CFBDA9B82E1E70203EEC62 /* jamaica space base riddim.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C3AE7748EB708BA8FC63613F /* jamaica space base riddim.mp3 */; };
 		FB0AA230693DEAB81673B7A9 /* sampledTrack.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CC42F44D8FCDB397D1FA6562 /* sampledTrack.mp3 */; };
 		6DFF5D113ABC68CC957B06A3 /* space tech 1-337.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EA42F997F4A337401FA14708 /* space tech 1-337.mp3 */; };
+		8BABE599F624D2950DE0A19E /* Looking For You 4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 63F019521E8F6180293D59B9 /* Looking For You 4.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -3226,6 +3227,7 @@
 		CC42F44D8FCDB397D1FA6562 /* sampledTrack.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "sampledTrack.mp3"; sourceTree = "<group>"; };
 		EA42F997F4A337401FA14708 /* space tech 1-337.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "space tech 1-337.mp3"; sourceTree = "<group>"; };
 		B0AC00000000000000000002 /* Project Peon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = "Project Peon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		63F019521E8F6180293D59B9 /* Looking For You 4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Looking For You 4.mp3"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -5253,6 +5255,7 @@
 				0A49669BB6AB2E96F4682542 /* Get Enough.mp3 */,
 				487E4787D3C382E4D178E3DC /* Atmosphere.mp3 */,
 				E62AE4A422D561CB9076D52C /* All Time 2.mp3 */,
+				63F019521E8F6180293D59B9 /* Looking For You 4.mp3 */,
 				A1D2F63617700D4C0026ECB9 /* Satellite 2.mp3 */,
 				A1D2F63717700D4C0026ECB9 /* Mutual.mp3 */,
 			);
@@ -6004,6 +6007,7 @@
 				DA9C453FBD5F794E828D349C /* Get Enough.mp3 in Resources */,
 				AC5E582CE98AFBE9B053981E /* Atmosphere.mp3 in Resources */,
 				C2A3FA6CF576DE29A72BC73C /* All Time 2.mp3 in Resources */,
+				8BABE599F624D2950DE0A19E /* Looking For You 4.mp3 in Resources */,
 				A1D2F63A17700D4C0026ECB9 /* Satellite 2.mp3 in Resources */,
 				A1D2F63B17700D4C0026ECB9 /* Mutual.mp3 in Resources */,
 				A100F2A11776775900962A8D /* boostMeter_tip.png in Resources */,
