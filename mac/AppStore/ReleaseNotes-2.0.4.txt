@@ -1,0 +1,1 @@
+Smoother gameplay with fewer pauses during sound effects. Added “Looking For You” to the in-game soundtrack.
